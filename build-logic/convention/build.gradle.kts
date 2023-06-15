@@ -39,7 +39,7 @@ gradlePlugin {
         }
         register("AndroidHiltPlugin") {
             id = "buzzzzing.plugin.hilt"
-            implementationClass = "AndroidHiltConventionPlugin"
+            implementationClass = "AndroidHiltPlugin"
         }
         register("DomainPlugin") {
             id = "buzzzzing.plugin.domain"
