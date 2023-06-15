@@ -18,3 +18,4 @@ dependencyResolutionManagement {
 }
 rootProject.name = "Buzzzzing"
 include(":app")
+include(":data")
