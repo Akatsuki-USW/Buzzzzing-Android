@@ -1,0 +1,27 @@
+[versions]
+androidGradlePlugin = "8.0.2"
+android-core = "1.7.0"
+appcompat = "1.4.2"
+material = "1.6.1"
+junit = "4.13.2"
+espresso = "3.4.0"
+ksp = "1.8.10-1.0.9"
+
+lifecycle = "2.5.1"
+coroutines = "1.5.2"
+
+kotlin = "1.8.22"
+
+[plugins]
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
+android-library = { id = "com.android.library", version.ref = "androidGradlePlugin" }
+
+[libraries]
+# Dependencies of the included build-logic
+android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "androidGradlePlugin" }
+kotlin-gradlePlugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
+ksp-gradlePlugin = { group = "com.google.devtools.ksp", name = "com.google.devtools.ksp.gradle.plugin", version.ref = "ksp" }
+
