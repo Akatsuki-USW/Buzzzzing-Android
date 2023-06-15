@@ -29,12 +29,6 @@ internal class JvmKotlinPlugin : Plugin<Project> {
             {
                 jvmToolchain(17)
             }
-
-            extensions.configure<SourceSetContainer>
-            {
-                getByName("main").java.srcDir("src/main/kotlin")
-                getByName("test").java.srcDir("src/test/kotlin")
-            }
         }
     }
 }
