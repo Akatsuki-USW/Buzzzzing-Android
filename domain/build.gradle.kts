@@ -1,3 +1,3 @@
 plugins {
-    id("buzzzzing.plugin.jvm-kotlin")
+    id("buzzzzing.plugin.domain")
 }

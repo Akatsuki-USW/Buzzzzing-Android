@@ -8,9 +8,9 @@ espresso = "3.4.0"
 ksp = "1.8.10-1.0.9"
 
 lifecycle = "2.5.1"
-coroutines = "1.5.2"
 
 kotlin = "1.8.22"
+kotlinxCoroutines = "1.6.4"
 
 hilt = "2.44.2"
 
@@ -30,4 +30,6 @@ ksp-gradlePlugin = { group = "com.google.devtools.ksp", name = "com.google.devto
 
 hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
 hilt-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "hilt" }
+
+kotlinx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "kotlinxCoroutines" }
 
