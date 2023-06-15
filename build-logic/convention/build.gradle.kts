@@ -34,8 +34,12 @@ dependencies {
 gradlePlugin {
     plugins {
         register("JvmKotlinPlugin") {
-            id = "com.onewx2m.convention.jvm-kotlin"
+            id = "buzzzzing.plugin.jvm-kotlin"
             implementationClass = "JvmKotlinPlugin"
+        }
+        register("AndroidHiltPlugin") {
+            id = "buzzzzing.plugin.hilt"
+            implementationClass = "AndroidHiltConventionPlugin"
         }
     }
 }

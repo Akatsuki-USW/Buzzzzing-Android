@@ -1,3 +1,3 @@
 plugins {
-    id("com.onewx2m.convention.jvm-kotlin")
+    id("buzzzzing.plugin.jvm-kotlin")
 }
