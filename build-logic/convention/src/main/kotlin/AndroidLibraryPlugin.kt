@@ -20,7 +20,16 @@ class AndroidLibraryPlugin : Plugin<Project> {
 
             extensions.configure<LibraryExtension> {
                 configureKotlinAndroid(this)
+
                 defaultConfig.targetSdk = 33
+
+                defaultConfig {
+
+                    testInstrumentationRunner = "android.support.test.runner.AndroidJUnitRunner"
+                    vectorDrawables.useSupportLibrary = true
+                }
+
+                dataBinding.enable = true
 
                 buildTypes {
                     getByName("release") {
