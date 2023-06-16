@@ -11,7 +11,7 @@ lifecycle = "2.5.1"
 
 kotlin = "1.8.22"
 kotlinxCoroutines = "1.6.4"
-kotlinxSerializationJson = "1.5.0"
+kotlinxSerializationJson = "1.5.1"
 
 retrofit = "2.9.0"
 retrofitKotlinxSerializationJson = "1.0.0"
