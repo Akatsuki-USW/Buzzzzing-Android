@@ -1,7 +1,3 @@
-rootProject.name = "Buzzzzing"
-include(":app")
-include(":data")
-include(":domain")
 
 pluginManagement {
     includeBuild("build-logic")
@@ -19,3 +15,9 @@ dependencyResolutionManagement {
         mavenCentral()
     }
 }
+
+rootProject.name = "Buzzzzing"
+include(":app")
+include(":data")
+include(":domain")
+include(":navigation")

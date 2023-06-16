@@ -53,5 +53,9 @@ gradlePlugin {
             id = "buzzzzing.plugin.android-library"
             implementationClass = "AndroidLibraryPlugin"
         }
+        register("NavigationPlugin") {
+            id = "buzzzzing.plugin.navigation"
+            implementationClass = "NavigationPlugin"
+        }
     }
 }
