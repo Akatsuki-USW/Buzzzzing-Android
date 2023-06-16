@@ -15,8 +15,10 @@ buildscript {
         google()
         mavenCentral()
     }
+
     dependencies {
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.8.22")
+        classpath(libs.android.gradlePlugin)
+        classpath(libs.kotlin.gradlePlugin)
     }
 }
 

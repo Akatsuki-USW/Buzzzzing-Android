@@ -5,7 +5,7 @@ appcompat = "1.5.1"
 material = "1.6.1"
 junit = "4.13.2"
 espresso = "3.4.0"
-ksp = "1.8.22-1.0.11"
+ksp = "1.8.21-1.0.11"
 
 
 androidxAppCompat = "1.5.1"
@@ -18,7 +18,7 @@ androidxFragmentKtx = "1.5.2"
 androidxRecyclerView = "1.2.1"
 
 
-kotlin = "1.8.22"
+kotlin = "1.8.21"
 kotlinxCoroutines = "1.7.1"
 kotlinxSerializationJson = "1.5.1"
 
@@ -65,3 +65,5 @@ androidx-lifecycle-viewmodel-ktx = { group = "androidx.lifecycle", name = "lifec
 androidx-activity-ktx = { group = "androidx.activity", name = "activity-ktx", version.ref = "androidxActivityKtx" }
 androidx-fragment-ktx = { group = "androidx.fragment", name = "fragment-ktx", version.ref = "androidxFragmentKtx" }
 androidx-recyclerview = { group = "androidx.recyclerview", name = "recyclerview", version.ref = "androidxRecyclerView" }
+
+google-material = { group = "com.google.android.material", name = "material", version.ref = "material" }
