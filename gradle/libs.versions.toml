@@ -17,7 +17,7 @@ retrofit = "2.9.0"
 retrofitKotlinxSerializationJson = "1.0.0"
 okhttp = "4.10.0"
 
-hilt = "2.44.2"
+hilt = "2.46.1"
 
 navigation = "2.5.1"
 
