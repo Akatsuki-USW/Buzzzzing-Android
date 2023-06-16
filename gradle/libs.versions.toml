@@ -10,7 +10,7 @@ ksp = "1.8.22-1.0.11"
 lifecycle = "2.5.1"
 
 kotlin = "1.8.22"
-kotlinxCoroutines = "1.6.4"
+kotlinxCoroutines = "1.7.1"
 kotlinxSerializationJson = "1.5.1"
 
 retrofit = "2.9.0"
