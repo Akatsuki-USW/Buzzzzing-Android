@@ -19,7 +19,7 @@ okhttp = "4.10.0"
 
 hilt = "2.46.1"
 
-navigation = "2.5.1"
+navigation = "2.6.0"
 
 [plugins]
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
