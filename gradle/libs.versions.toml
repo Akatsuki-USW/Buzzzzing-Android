@@ -18,7 +18,7 @@ androidxFragmentKtx = "1.5.2"
 androidxRecyclerView = "1.2.1"
 
 
-kotlin = "1.8.21"
+kotlin = "1.8.22"
 kotlinxCoroutines = "1.7.1"
 kotlinxSerializationJson = "1.5.1"
 
