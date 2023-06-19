@@ -61,5 +61,9 @@ gradlePlugin {
             id = "buzzzzing.plugin.application"
             implementationClass = "AndroidApplicationPlugin"
         }
+        register("FeaturePlugin") {
+            id = "buzzzzing.plugin.feature"
+            implementationClass = "FeaturePlugin"
+        }
     }
 }
