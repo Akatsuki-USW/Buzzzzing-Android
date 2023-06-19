@@ -8,12 +8,12 @@ espresso = "3.4.0"
 ksp = "1.8.22-1.0.11"
 
 
-androidxAppCompat = "1.5.1"
+androidxAppCompat = "1.6.1"
 androidxCore = "1.10.1"
 androidxLifecycle = "2.6.1"
 androidxNavigation = "2.6.0"
 androidxConstraintLayout = "2.1.4"
-androidxActivityKtx = "1.5.1"
+androidxActivityKtx = "1.7.2"
 androidxFragmentKtx = "1.5.2"
 androidxRecyclerView = "1.2.1"
 
