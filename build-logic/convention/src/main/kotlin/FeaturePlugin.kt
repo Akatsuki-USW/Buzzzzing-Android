@@ -11,9 +11,9 @@ internal class FeaturePlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
             with(pluginManager) {
-                apply("buzzzzing.plugin.hilt")
                 apply("buzzzzing.plugin.android-library")
                 apply("androidx.navigation.safeargs.kotlin")
+                apply("buzzzzing.plugin.hilt")
             }
 
             val libs = extensions.getByType<VersionCatalogsExtension>().named("libs")
@@ -31,7 +31,7 @@ internal class FeaturePlugin : Plugin<Project> {
                 "implementation"(libs.findLibrary("androidx.lifecycle.viewmodel.ktx").get())
                 "implementation"(libs.findLibrary("androidx.activity.ktx").get())
                 "implementation"(libs.findLibrary("androidx.fragment.ktx").get())
-                "implementation"(libs.findLibrary("androidx.recyclerView").get())
+                "implementation"(libs.findLibrary("androidx.recyclerview").get())
                 "implementation"(libs.findLibrary("google.material").get())
 
                 "implementation"(libs.findLibrary("kotlinx.coroutines.android").get())
