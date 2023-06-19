@@ -20,6 +20,7 @@ internal class FeaturePlugin : Plugin<Project> {
             dependencies {
                 "implementation"(project(":domain"))
                 "implementation"(project(":navigation"))
+                "implementation"(project(":design-system"))
 
                 "implementation"(libs.findLibrary("androidx.appcompat").get())
                 "implementation"(libs.findLibrary("androidx.core.ktx").get())

@@ -65,5 +65,9 @@ gradlePlugin {
             id = "buzzzzing.plugin.feature"
             implementationClass = "FeaturePlugin"
         }
+        register("DesignSystemPlugin") {
+            id = "buzzzzing.plugin.design-system"
+            implementationClass = "DesignSystemPlugin"
+        }
     }
 }

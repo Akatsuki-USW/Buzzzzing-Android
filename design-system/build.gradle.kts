@@ -1,5 +1,5 @@
 plugins {
-    id("buzzzzing.plugin.feature")
+    id("buzzzzing.plugin.design-system")
 }
 
 android {
