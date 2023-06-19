@@ -1,3 +1,4 @@
+include(":feature")
 
 pluginManagement {
     includeBuild("build-logic")
@@ -22,3 +23,5 @@ include(":data")
 include(":domain")
 include(":navigation")
 include(":design-system")
+include(":feature")
+include(":feature:feature-home")
