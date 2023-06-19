@@ -3,7 +3,7 @@ androidGradlePlugin = "8.0.2"
 android-core = "1.7.0"
 appcompat = "1.5.1"
 material = "1.6.1"
-junit = "4.13.2"
+junit4 = "4.13.2"
 espresso = "3.4.0"
 ksp = "1.8.21-1.0.11"
 
@@ -67,3 +67,5 @@ androidx-fragment-ktx = { group = "androidx.fragment", name = "fragment-ktx", ve
 androidx-recyclerview = { group = "androidx.recyclerview", name = "recyclerview", version.ref = "androidxRecyclerView" }
 
 google-material = { group = "com.google.android.material", name = "material", version.ref = "material" }
+
+junit4 = { group = "junit", name = "junit", version.ref = "junit4" }
