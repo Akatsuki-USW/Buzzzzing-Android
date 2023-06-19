@@ -13,7 +13,7 @@ androidxCore = "1.9.0"
 androidxLifecycle = "2.6.1"
 androidxNavigation = "2.6.0"
 androidxConstraintLayout = "2.1.4"
-androidxActivityKtx = "1.5.1"
+androidxActivityKtx = "1.7.2"
 androidxFragmentKtx = "1.5.2"
 androidxRecyclerView = "1.2.1"
 
