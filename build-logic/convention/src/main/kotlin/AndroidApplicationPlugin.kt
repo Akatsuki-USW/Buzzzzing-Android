@@ -34,7 +34,14 @@ internal class AndroidApplicationPlugin : Plugin<Project> {
             dependencies {
                 "implementation"(project(":data"))
                 "implementation"(project(":domain"))
-                "implementation"(project(":navigation"))
+                "implementation"(project(":design-system"))
+
+                "implementation"(libs.findLibrary("androidx.appcompat").get())
+                "implementation"(libs.findLibrary("androidx.core.ktx").get())
+                "implementation"(libs.findLibrary("androidx.constraintlayout").get())
+                "implementation"(libs.findLibrary("navigation.fragment.ktx").get())
+                "implementation"(libs.findLibrary("navigation.ui.ktx").get())
+
                 "implementation"(libs.findLibrary("retrofit.core").get())
                 "implementation"(libs.findLibrary("retrofit.kotlin.serialization").get())
                 "implementation"(libs.findLibrary("okhttp.logging").get())

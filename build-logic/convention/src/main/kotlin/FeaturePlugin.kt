@@ -19,7 +19,6 @@ internal class FeaturePlugin : Plugin<Project> {
             val libs = extensions.getByType<VersionCatalogsExtension>().named("libs")
             dependencies {
                 "implementation"(project(":domain"))
-                "implementation"(project(":navigation"))
                 "implementation"(project(":design-system"))
 
                 "implementation"(libs.findLibrary("androidx.appcompat").get())
