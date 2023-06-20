@@ -1,4 +1,5 @@
 import com.android.build.gradle.LibraryExtension
+import com.onewx2m.convention.configureKotlinAndroid
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.artifacts.VersionCatalogsExtension
@@ -14,6 +15,10 @@ internal class FeaturePlugin : Plugin<Project> {
                 apply("buzzzzing.plugin.android-library")
                 apply("androidx.navigation.safeargs.kotlin")
                 apply("buzzzzing.plugin.hilt")
+            }
+
+            extensions.configure<LibraryExtension> {
+                dataBinding.enable = true
             }
 
             val libs = extensions.getByType<VersionCatalogsExtension>().named("libs")
