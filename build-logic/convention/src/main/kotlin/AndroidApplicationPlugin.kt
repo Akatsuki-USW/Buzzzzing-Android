@@ -38,6 +38,7 @@ internal class AndroidApplicationPlugin : Plugin<Project> {
                 "implementation"(project(":domain"))
                 "implementation"(project(":design-system"))
                 "implementation"(project(":feature:feature-home"))
+                "implementation"(project(":feature:feature-login-signup"))
 
                 "implementation"(libs.findLibrary("androidx.appcompat").get())
                 "implementation"(libs.findLibrary("androidx.core.ktx").get())

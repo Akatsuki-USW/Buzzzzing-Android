@@ -1,4 +1,4 @@
 <resources>
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_home_fragment">Hello Home fragment</string>
+    <string name="hello_blank_fragment">Hello login fragment</string>
 </resources>
