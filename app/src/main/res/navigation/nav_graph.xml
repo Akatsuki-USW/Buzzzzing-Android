@@ -1,12 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/nav_graph">
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/home_nav_graph">
 
-    <fragment android:id="@+id/homeFragment" android:name="com.onewx2m.feature_home.ui.HomeFragment"
-        android:label="fragment_home">
-
-
-    </fragment>
+    <include app:graph="@navigation/home_nav_graph" />
 
 </navigation>

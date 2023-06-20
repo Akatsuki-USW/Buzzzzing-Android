@@ -27,6 +27,8 @@ internal class AndroidApplicationPlugin : Plugin<Project> {
                     versionName = "1.0"
                 }
 
+                dataBinding.enable = true
+
                 configureKotlinAndroid(this)
             }
 
@@ -35,6 +37,7 @@ internal class AndroidApplicationPlugin : Plugin<Project> {
                 "implementation"(project(":data"))
                 "implementation"(project(":domain"))
                 "implementation"(project(":design-system"))
+                "implementation"(project(":feature:feature-home"))
 
                 "implementation"(libs.findLibrary("androidx.appcompat").get())
                 "implementation"(libs.findLibrary("androidx.core.ktx").get())
