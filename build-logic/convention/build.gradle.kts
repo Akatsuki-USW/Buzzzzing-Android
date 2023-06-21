@@ -69,5 +69,9 @@ gradlePlugin {
             id = "buzzzzing.plugin.remote"
             implementationClass = "RemotePlugin"
         }
+        register("DiPlugin") {
+            id = "buzzzzing.plugin.di"
+            implementationClass = "DiPlugin"
+        }
     }
 }
