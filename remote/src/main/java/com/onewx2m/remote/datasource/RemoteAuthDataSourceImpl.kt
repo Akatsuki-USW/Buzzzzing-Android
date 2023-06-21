@@ -1,9 +1,8 @@
 package com.onewx2m.remote.datasource
 
 import com.onewx2m.data.datasource.RemoteAuthDataSource
-import com.onewx2m.data.model.BuzzzzingJwtEntity
+import com.onewx2m.data.model.JwtEntity
 import com.onewx2m.domain.Outcome
-import com.onewx2m.domain.exception.HttpException
 import com.onewx2m.remote.api.AuthApi
 import com.onewx2m.remote.wrapOutcomeLoadingFailure
 import com.onewx2m.remote.model.response.toEntity
@@ -19,12 +18,12 @@ class RemoteAuthDataSourceImpl(
     override suspend fun login(
         oauthAccessToken: String,
         socialType: String
-    ): Flow<Outcome<BuzzzzingJwtEntity>> {
+    ): Flow<Outcome<JwtEntity>> {
         TODO("Not yet implemented")
     }
 
     override suspend fun reIssueBuzzzzingJwt(refreshToken: String) =
-        flow<Outcome<BuzzzzingJwtEntity>> {
+        flow<Outcome<JwtEntity>> {
             api.reIssueBuzzzzingJwt()
                 .onSuccess { data ->
                     emit(Outcome.Success(data.toEntity()))
