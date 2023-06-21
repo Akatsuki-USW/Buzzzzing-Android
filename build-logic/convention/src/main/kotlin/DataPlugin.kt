@@ -17,6 +17,7 @@ internal class DataPlugin : Plugin<Project> {
             with(pluginManager) {
                 apply("buzzzzing.plugin.android-library")
                 apply("buzzzzing.plugin.hilt")
+                apply("org.jetbrains.kotlin.plugin.serialization")
             }
 
             val libs = extensions.getByType<VersionCatalogsExtension>().named("libs")
