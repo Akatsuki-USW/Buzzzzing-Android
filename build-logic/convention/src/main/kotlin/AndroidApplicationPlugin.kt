@@ -52,6 +52,8 @@ internal class AndroidApplicationPlugin : Plugin<Project> {
                 "implementation"(libs.findLibrary("kotlinx.coroutines.android").get())
                 "implementation"(libs.findLibrary("kotlinx.coroutines.core").get())
                 "implementation"(libs.findLibrary("kotlinx.serialization.json").get())
+
+                "implementation"(libs.findLibrary("timber").get())
             }
         }
     }

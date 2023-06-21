@@ -30,6 +30,8 @@ internal class RemotePlugin : Plugin<Project> {
                 "implementation"(libs.findLibrary("retrofit.core").get())
                 "implementation"(libs.findLibrary("retrofit.kotlin.serialization").get())
                 "implementation"(libs.findLibrary("okhttp.logging").get())
+
+                "implementation"(libs.findLibrary("timber").get())
             }
         }
     }

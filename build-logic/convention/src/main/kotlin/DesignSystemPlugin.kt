@@ -25,6 +25,8 @@ internal class DesignSystemPlugin : Plugin<Project> {
 
                 "implementation"(libs.findLibrary("kotlinx.coroutines.android").get())
                 "implementation"(libs.findLibrary("kotlinx.coroutines.core").get())
+
+                "implementation"(libs.findLibrary("timber").get())
             }
         }
     }
