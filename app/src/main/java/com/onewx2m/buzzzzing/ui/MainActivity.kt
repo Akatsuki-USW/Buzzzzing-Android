@@ -72,8 +72,8 @@ class MainActivity : AppCompatActivity() {
         navController.addOnDestinationChangedListener(destinationChangedListener)
     }
 
-    override fun onPause() {
-        super.onPause()
+    override fun onStop() {
+        super.onStop()
 
         navController.removeOnDestinationChangedListener(destinationChangedListener)
     }
