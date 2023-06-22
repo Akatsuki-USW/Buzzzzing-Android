@@ -19,6 +19,7 @@ internal class DesignSystemPlugin : Plugin<Project> {
                 "implementation"(libs.findLibrary("androidx.appcompat").get())
                 "implementation"(libs.findLibrary("androidx.core.ktx").get())
                 "implementation"(libs.findLibrary("androidx.constraintlayout").get())
+                "implementation"(libs.findLibrary("androidx.splashscreen").get())
 
                 "implementation"(libs.findLibrary("androidx.recyclerview").get())
                 "implementation"(libs.findLibrary("google.material").get())

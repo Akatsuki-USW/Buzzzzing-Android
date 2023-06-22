@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="Theme.Buzzzzing" parent="Theme.AppCompat.Light.NoActionBar" />
+    <style name="Theme.Buzzzzing" parent="Theme.AppCompat.Light.NoActionBar" >
+        
+    </style>
+
+    <style name="Theme.Buzzzzing.Splash" parent="Theme.SplashScreen" >
+        <item name="windowSplashScreenBackground">@color/black</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_splash</item>
+
+        <item name="postSplashScreenTheme">@style/Theme.Buzzzzing</item>
+    </style>
 </resources>
