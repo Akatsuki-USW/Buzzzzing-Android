@@ -1,4 +1,4 @@
-package com.onewx2m.buzzzzing.ui
+package com.onewx2m.buzzzzing
 
 import android.app.Application
 import dagger.hilt.android.HiltAndroidApp
