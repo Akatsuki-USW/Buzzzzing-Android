@@ -87,10 +87,3 @@ fun ApiResult.Failure.toBuzzzzingException(): RuntimeException {
         is ApiResult.Failure.UnknownApiError -> UnknownException(this.throwable)
     }
 }
-
-@Serializable
-data class ApiResponse<D>(
-    val data : D? = null,
-    val message: String = "",
-    val statusCode: Int = -1,
-)
