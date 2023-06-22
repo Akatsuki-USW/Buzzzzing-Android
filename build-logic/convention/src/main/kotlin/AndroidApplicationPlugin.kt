@@ -35,10 +35,12 @@ internal class AndroidApplicationPlugin : Plugin<Project> {
             val libs = extensions.getByType<VersionCatalogsExtension>().named("libs")
             dependencies {
                 "implementation"(project(":data"))
-                "implementation"(project(":domain"))
                 "implementation"(project(":design-system"))
+                "implementation"(project(":di"))
+                "implementation"(project(":domain"))
                 "implementation"(project(":feature:feature-home"))
                 "implementation"(project(":feature:feature-login-signup"))
+                "implementation"(project(":remote"))
 
                 "implementation"(libs.findLibrary("androidx.appcompat").get())
                 "implementation"(libs.findLibrary("androidx.core.ktx").get())

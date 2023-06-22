@@ -9,8 +9,23 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.onewx2m.buzzzzing.R
 import com.onewx2m.buzzzzing.databinding.ActivityMainBinding
+import com.onewx2m.domain.Outcome
+import com.onewx2m.domain.exception.HttpException
+import com.onewx2m.domain.exception.NetworkException
+import com.onewx2m.domain.exception.UnknownException
+import com.onewx2m.domain.usecase.ReissueJwtUseCase
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
+import timber.log.Timber
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
+
+    @Inject
+    lateinit var reissueJwtUseCase: ReissueJwtUseCase
 
     private val binding : ActivityMainBinding by lazy {
         ActivityMainBinding.inflate(layoutInflater)
@@ -33,6 +48,20 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
+
+        MainScope().launch {
+            val refresh =
+                "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJQK05hNFByby8yZGMrb3dJVldUUzhWY2hISFhIVnNKeEpZMDJmMFhuUy80PSIsImlhdCI6MTY4NzQxMzkyMiwidG9rZW5UeXBlIjoicmVmcmVzaCIsImV4cCI6MTY4ODYyMzUyMn0.nadwkZ7MgDqt7BbiYwiD2qwwBcRSlL2HHZkEwGHtNwqC2MePiUFxh4l5-3tqZzJLuJD-Sq4i4w-oN3kXsipIaQ"
+            reissueJwtUseCase(refresh).collect {
+                Timber.d("$it")
+                if(it is Outcome.Failure) {
+                    Timber.d("${(it.error as? NetworkException)?.message}")
+                    if(it.error is HttpException) {
+                        Timber.d("${(it.error as HttpException).code} ${(it.error as HttpException).body} ${(it.error as HttpException).message}")
+                    }
+                }
+            }
+        }
 
         navController.addOnDestinationChangedListener(destinationChangedListener)
     }

@@ -15,7 +15,7 @@ import kotlinx.serialization.Serializable
  * Failure -> UnknownApiError : 알 수 없는 오류
  */
 sealed interface ApiResult<out T> {
-    data class Success<T>(val data: ApiResponse<T>) : ApiResult<T>
+    data class Success<T>(val body: T) : ApiResult<T>
 
     sealed interface Failure : ApiResult<Nothing> {
         data class HttpError(val code: Int, val message: String, val body: String) : Failure
@@ -37,12 +37,12 @@ sealed interface ApiResult<out T> {
 
     fun getOrThrow(): T {
         throwOnFailure()
-        return (this as Success).data.data!!
+        return (this as Success).body
     }
 
     fun getOrNull(): T? =
         when (this) {
-            is Success -> data.data
+            is Success -> body
             else -> null
         }
 
@@ -58,7 +58,7 @@ sealed interface ApiResult<out T> {
         }
 
     companion object {
-        fun <R> successOf(result: R): ApiResult<R> = Success(ApiResponse(result))
+        fun <R> successOf(result: R): ApiResult<R> = Success(result)
     }
 }
 
@@ -83,8 +83,8 @@ inline fun <T> ApiResult<T>.onSuccess(action: (value: T) -> Unit): ApiResult<T> 
 fun ApiResult.Failure.toBuzzzzingException(): RuntimeException {
     return when (this) {
         is ApiResult.Failure.HttpError -> HttpException(code, message, body)
-        is ApiResult.Failure.NetworkError -> NetworkException()
-        is ApiResult.Failure.UnknownApiError -> UnknownException()
+        is ApiResult.Failure.NetworkError -> NetworkException(this.throwable)
+        is ApiResult.Failure.UnknownApiError -> UnknownException(this.throwable)
     }
 }
 

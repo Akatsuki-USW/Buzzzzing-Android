@@ -1,4 +1,4 @@
 package com.onewx2m.domain.exception
 
 
-class NetworkException() : RuntimeException()
+class NetworkException(throwable: Throwable) : RuntimeException(throwable)

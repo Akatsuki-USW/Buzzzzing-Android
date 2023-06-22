@@ -5,6 +5,7 @@ import com.onewx2m.di.NormalOkHttpClient
 import com.onewx2m.di.NormalRetrofit
 import com.onewx2m.di.isJsonArray
 import com.onewx2m.di.isJsonObject
+import com.onewx2m.remote.ResultCallAdapterFactory
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -22,7 +23,7 @@ import java.util.concurrent.TimeUnit
 @InstallIn(SingletonComponent::class)
 object NormalNetworkModule {
 
-    private const val BASE_URL = "http://api.bokjak.com"
+    private const val BASE_URL = "https://www.plub.co.kr"
     private const val RETROFIT_TAG = "Retrofit2"
 
     @Provides
@@ -71,6 +72,7 @@ object NormalNetworkModule {
         return Retrofit.Builder()
             .baseUrl(BASE_URL)
             .client(okHttpClient)
+            .addCallAdapterFactory(ResultCallAdapterFactory())
             .addConverterFactory(Json.asConverterFactory("application/json".toMediaTypeOrNull()!!))
             .build()
     }

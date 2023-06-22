@@ -1,4 +1,4 @@
 package com.onewx2m.domain.exception
 
 
-class UnknownException() : RuntimeException()
+class UnknownException(throwable: Throwable) : RuntimeException(throwable)
