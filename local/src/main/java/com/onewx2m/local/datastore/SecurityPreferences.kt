@@ -9,13 +9,13 @@ import tech.thdev.useful.encrypted.data.store.preferences.ksp.annotations.value.
 @UsefulPreferences(/* option. Not use security - disableSecurity = true */)
 interface SecurityPreferences {
 
-    @GetValue(KEY_ACCESS_TOKEN, /* option : defaultValue = "message" */)
+    @GetValue(KEY_ACCESS_TOKEN, defaultValue = "")
     fun flowAccessToken(): Flow<String>
 
     @SetValue(KEY_ACCESS_TOKEN)
     suspend fun setAccessToken(value: String)
 
-    @GetValue(KEY_REFRESH_TOKEN, /* option : defaultValue = "message" */)
+    @GetValue(KEY_REFRESH_TOKEN, defaultValue = "")
     fun flowRefreshToken(): Flow<String>
 
     @SetValue(KEY_REFRESH_TOKEN)
