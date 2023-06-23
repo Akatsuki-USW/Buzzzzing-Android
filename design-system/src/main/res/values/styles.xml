@@ -3,7 +3,7 @@
 
     <style name="Header">
         <item name="android:fontFamily">@font/notosanskrmedium</item>
-        <item name="android:textColor">@color/black</item>
+        <item name="android:textColor">@color/black01</item>
         <item name="android:lineSpacingMultiplier">1.5</item>
         <item name="android:letterSpacing">-0.03</item>
         <item name="android:includeFontPadding">false</item>
@@ -11,7 +11,7 @@
 
     <style name="Body">
         <item name="android:fontFamily">@font/notosanskrregular</item>
-        <item name="android:textColor">@color/black</item>
+        <item name="android:textColor">@color/black01</item>
         <item name="android:lineSpacingMultiplier">1.5</item>
         <item name="android:letterSpacing">-0.03</item>
         <item name="android:includeFontPadding">false</item>
@@ -19,7 +19,7 @@
 
     <style name="Label">
         <item name="android:fontFamily">@font/notosanskrregular</item>
-        <item name="android:textColor">@color/black</item>
+        <item name="android:textColor">@color/black01</item>
         <item name="android:lineSpacingMultiplier">1.5</item>
         <item name="android:letterSpacing">-0.03</item>
         <item name="android:includeFontPadding">false</item>

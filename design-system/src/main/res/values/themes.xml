@@ -6,7 +6,7 @@
     </style>
 
     <style name="Theme.Buzzzzing.Splash" parent="Theme.SplashScreen" >
-        <item name="windowSplashScreenBackground">@color/black</item>
+        <item name="windowSplashScreenBackground">@color/black01</item>
         <item name="windowSplashScreenAnimatedIcon">@drawable/ic_splash</item>
 
         <item name="postSplashScreenTheme">@style/Theme.Buzzzzing</item>
