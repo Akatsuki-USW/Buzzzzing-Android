@@ -28,6 +28,7 @@ okhttp = "4.11.0"
 hilt = "2.46.1"
 
 timber = "5.0.1"
+encryptedDataStore = "1.7.21-1.0.8-1.1.0-alpha01"
 
 [plugins]
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
@@ -73,5 +74,8 @@ androidx-splashscreen = { group = "androidx.core", name = "core-splashscreen", v
 google-material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 
 timber = { group = "com.jakewharton.timber", name = "timber", version.ref = "timber" }
+encrypted-datastroe-preference-ksp = { group = "tech.thdev", name = "useful-encrypted-data-store-preferences-ksp", version.ref = "encryptedDataStore" }
+encrypted-datastroe-preference-ksp-annotations = { group = "tech.thdev", name = "useful-encrypted-data-store-preferences-ksp-annotations", version.ref = "encryptedDataStore" }
+encrypted-datastroe-preference-security = { group = "tech.thdev", name = "useful-encrypted-data-store-preferences-security", version.ref = "encryptedDataStore" }
 
 junit4 = { group = "junit", name = "junit", version.ref = "junit4" }

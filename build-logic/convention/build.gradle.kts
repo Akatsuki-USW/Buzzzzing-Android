@@ -69,6 +69,10 @@ gradlePlugin {
             id = "buzzzzing.plugin.remote"
             implementationClass = "RemotePlugin"
         }
+        register("LocalPlugin") {
+            id = "buzzzzing.plugin.local"
+            implementationClass = "LocalPlugin"
+        }
         register("DiPlugin") {
             id = "buzzzzing.plugin.di"
             implementationClass = "DiPlugin"
