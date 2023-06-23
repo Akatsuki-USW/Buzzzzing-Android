@@ -29,6 +29,9 @@ internal class LocalPlugin : Plugin<Project> {
                 "implementation"(libs.findLibrary("kotlinx.coroutines.core").get())
                 "implementation"(libs.findLibrary("kotlinx.serialization.json").get())
 
+                "implementation"(libs.findLibrary("androidx.dataStore.core").get())
+                "implementation"(libs.findLibrary("androidx.dataStore.preferences").get())
+
                 "ksp"(libs.findLibrary("encrypted.datastroe.preference.ksp").get())
                 "implementation"(libs.findLibrary("encrypted.datastroe.preference.ksp.annotations").get())
                 "implementation"(libs.findLibrary("encrypted.datastroe.preference.security").get())

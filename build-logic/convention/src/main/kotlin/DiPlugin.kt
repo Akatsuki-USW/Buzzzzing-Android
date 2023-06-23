@@ -16,10 +16,12 @@ internal class DiPlugin : Plugin<Project> {
         with(target) {
             with(pluginManager) {
                 apply("buzzzzing.plugin.remote")
+                apply("buzzzzing.plugin.local")
             }
 
             dependencies {
                 "implementation"(project(":remote"))
+                "implementation"(project(":local"))
             }
         }
     }
