@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.runningFold
 import kotlinx.coroutines.flow.stateIn
 
-abstract class MviViewModel<VIEW_STATE: ViewState, EVENT: Event>(
+abstract class MviViewModel<VIEW_STATE: ViewState, EVENT: Event, SIDE_EFFECT: SideEffect>(
     initialState: VIEW_STATE
 ) : ViewModel() {
 
@@ -17,6 +17,9 @@ abstract class MviViewModel<VIEW_STATE: ViewState, EVENT: Event>(
     val state = events.receiveAsFlow()
         .runningFold(initialState, ::reduceState)
         .stateIn(viewModelScope, SharingStarted.Eagerly, initialState)
+
+    private val _sideEffects = Channel<SIDE_EFFECT>()
+    val sideEffects = _sideEffects.receiveAsFlow()
 
     /**
      * event에 따른 state를 변경해주는 함수입니다.
@@ -36,7 +39,11 @@ abstract class MviViewModel<VIEW_STATE: ViewState, EVENT: Event>(
      */
     abstract fun reduceState(current: VIEW_STATE, event: EVENT): VIEW_STATE
 
-    suspend fun onEvent(event: EVENT) {
+    protected suspend fun onEvent(event: EVENT) {
         events.send(event)
+    }
+
+    protected suspend fun onSideEffect(sideEffect: SIDE_EFFECT) {
+        _sideEffects.send(sideEffect)
     }
 }
