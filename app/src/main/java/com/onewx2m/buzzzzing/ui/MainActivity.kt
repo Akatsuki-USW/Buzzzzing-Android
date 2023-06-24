@@ -103,7 +103,7 @@ class MainActivity :
 
     private fun goToHomeFragment() {
         val request = NavDeepLinkRequest.Builder
-            .fromUri("android-app://com.onewx2m.feature_home.ui.HomeFragment".toUri())
+            .fromUri(getString(com.onewx2m.core_ui.R.string.deeplink_home_fragment).toUri())
             .build()
 
         val navOptions = NavOptions.Builder()

@@ -12,7 +12,7 @@
         tools:layout="@layout/fragment_home">
 
         <deepLink
-            app:uri="android-app://com.onewx2m.feature_home.ui.HomeFragment" />
+            app:uri="@string/deeplink_home_fragment" />
 
 
     </fragment>

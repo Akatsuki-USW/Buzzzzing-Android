@@ -1,0 +1,4 @@
+<resources>
+    <!-- deeplink -->
+    <string name="deeplink_home_fragment">android-app://com.onewx2m.feature_home.ui.HomeFragment</string>
+</resources>

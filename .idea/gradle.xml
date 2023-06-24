@@ -26,6 +26,8 @@
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/build-logic" />
             <option value="$PROJECT_DIR$/build-logic/convention" />
+            <option value="$PROJECT_DIR$/core" />
+            <option value="$PROJECT_DIR$/core/core-ui" />
             <option value="$PROJECT_DIR$/data" />
             <option value="$PROJECT_DIR$/design-system" />
             <option value="$PROJECT_DIR$/di" />

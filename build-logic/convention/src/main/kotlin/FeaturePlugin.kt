@@ -26,6 +26,7 @@ internal class FeaturePlugin : Plugin<Project> {
                 "implementation"(project(":mvi"))
                 "implementation"(project(":domain"))
                 "implementation"(project(":design-system"))
+                "implementation"(project(":core:core-ui"))
 
                 "implementation"(libs.findLibrary("androidx.appcompat").get())
                 "implementation"(libs.findLibrary("androidx.core.ktx").get())

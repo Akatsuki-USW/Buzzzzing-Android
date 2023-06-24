@@ -42,6 +42,7 @@ internal class AndroidApplicationPlugin : Plugin<Project> {
                 "implementation"(project(":feature:feature-login-signup"))
                 "implementation"(project(":remote"))
                 "implementation"(project(":mvi"))
+                "implementation"(project(":core:core-ui"))
 
                 "implementation"(libs.findLibrary("androidx.appcompat").get())
                 "implementation"(libs.findLibrary("androidx.core.ktx").get())
