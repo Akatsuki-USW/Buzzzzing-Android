@@ -45,7 +45,7 @@ abstract class MviActivity<B : ViewDataBinding, STATE : ViewState, EVENT : Event
         }
     }
 
-    protected open fun render(current: STATE) {
+    protected open fun render(state: STATE) {
 
     }
 

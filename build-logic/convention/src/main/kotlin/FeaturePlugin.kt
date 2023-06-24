@@ -23,6 +23,7 @@ internal class FeaturePlugin : Plugin<Project> {
 
             val libs = extensions.getByType<VersionCatalogsExtension>().named("libs")
             dependencies {
+                "implementation"(project(":mvi"))
                 "implementation"(project(":domain"))
                 "implementation"(project(":design-system"))
 

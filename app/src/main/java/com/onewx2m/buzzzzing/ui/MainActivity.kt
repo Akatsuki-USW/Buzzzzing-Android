@@ -17,6 +17,10 @@ import com.onewx2m.domain.exception.HttpException
 import com.onewx2m.domain.exception.NetworkException
 import com.onewx2m.domain.exception.UnknownException
 import com.onewx2m.domain.usecase.ReissueJwtUseCase
+import com.onewx2m.mvi.Event
+import com.onewx2m.mvi.MviActivity
+import com.onewx2m.mvi.SideEffect
+import com.onewx2m.mvi.ViewState
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.flow.collect
@@ -25,50 +29,44 @@ import timber.log.Timber
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity() {
-
+class MainActivity :
+    MviActivity<ActivityMainBinding, MainViewState, MainEvent, SideEffect.Default, MainViewModel>(
+        ActivityMainBinding::inflate
+    ) {
     private lateinit var splashScreen: SplashScreen
 
-    private val viewModel: MainViewModel by viewModels()
-
-    @Inject
-    lateinit var reissueJwtUseCase: ReissueJwtUseCase
-
-    private val binding : ActivityMainBinding by lazy {
-        ActivityMainBinding.inflate(layoutInflater)
-    }
+    override val viewModel: MainViewModel by viewModels()
 
     private lateinit var navController: NavController
 
-    private val destinationChangedListener = NavController.OnDestinationChangedListener { _, destination, _ ->
-        binding.navBar.visibility = if(destination.id == com.onewx2m.feature_home.R.id.homeFragment) View.VISIBLE else View.GONE
-    }
+    private val bottomNavigationBarInitialFragmentIds = listOf(com.onewx2m.feature_home.R.id.homeFragment)
+
+    private val destinationChangedListener =
+        NavController.OnDestinationChangedListener { _, destination, _ ->
+            viewModel.isDestinationInBottomNavigationBarInitialFragment(destination.id, bottomNavigationBarInitialFragmentIds)
+        }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         splashScreen = installSplashScreen()
-
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
+    }
 
-        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host) as NavHostFragment
+    override fun initView() {
+        val navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.nav_host) as NavHostFragment
         navController = navHostFragment.navController
         binding.navBar.setupWithNavController(navController)
     }
 
+    override fun render(state: MainViewState) {
+        super.render(state)
+
+        binding.navBar.visibility = if(state.isBottomNavigationBarVisible) View.VISIBLE else View.GONE
+    }
+
     override fun onResume() {
         super.onResume()
-
-        MainScope().launch {
-            reissueJwtUseCase().collect {
-                Timber.d("$it")
-                if(it is Outcome.Failure) {
-                    Timber.d("${(it.error as? NetworkException)?.message}")
-                    if(it.error is HttpException) {
-                        Timber.d("${(it.error as HttpException).code} ${(it.error as HttpException).body} ${(it.error as HttpException).message}")
-                    }
-                }
-            }
-        }
 
         navController.addOnDestinationChangedListener(destinationChangedListener)
     }

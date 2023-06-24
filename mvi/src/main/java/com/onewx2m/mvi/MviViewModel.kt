@@ -7,6 +7,7 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.runningFold
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 
 abstract class MviViewModel<VIEW_STATE: ViewState, EVENT: Event, SIDE_EFFECT: SideEffect>(
     initialState: VIEW_STATE
@@ -39,11 +40,11 @@ abstract class MviViewModel<VIEW_STATE: ViewState, EVENT: Event, SIDE_EFFECT: Si
      */
     abstract fun reduceState(current: VIEW_STATE, event: EVENT): VIEW_STATE
 
-    protected suspend fun postEvent(event: EVENT) {
+    protected fun postEvent(event: EVENT) = viewModelScope.launch {
         events.send(event)
     }
 
-    protected suspend fun postSideEffect(sideEffect: SIDE_EFFECT) {
+    protected fun postSideEffect(sideEffect: SIDE_EFFECT) = viewModelScope.launch {
         _sideEffects.send(sideEffect)
     }
 }
