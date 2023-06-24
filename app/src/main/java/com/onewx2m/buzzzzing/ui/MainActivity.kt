@@ -6,10 +6,15 @@ import android.util.Log
 import android.view.View
 import android.view.ViewTreeObserver
 import androidx.activity.viewModels
+import androidx.core.net.toUri
 import androidx.core.splashscreen.SplashScreen
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.navigation.NavController
+import androidx.navigation.NavDeepLinkRequest
+import androidx.navigation.NavOptions
+import androidx.navigation.Navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.navOptions
 import androidx.navigation.ui.setupWithNavController
 import com.onewx2m.buzzzzing.R
 import com.onewx2m.buzzzzing.databinding.ActivityMainBinding
@@ -31,7 +36,7 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity :
-    MviActivity<ActivityMainBinding, MainViewState, MainEvent, SideEffect.Default, MainViewModel>(
+    MviActivity<ActivityMainBinding, MainViewState, MainEvent, MainSideEffect, MainViewModel>(
         ActivityMainBinding::inflate
     ) {
     private lateinit var splashScreen: SplashScreen
@@ -84,6 +89,28 @@ class MainActivity :
 
         binding.navBar.visibility = if(state.isBottomNavigationBarVisible) View.VISIBLE else View.GONE
         viewModel.preDrawRemoveFlag = state.isSplashScreenVisible.not()
+    }
+
+    override fun handleSideEffect(sideEffect: MainSideEffect) {
+        super.handleSideEffect(sideEffect)
+
+        when(sideEffect) {
+            MainSideEffect.GoToHomeFragment -> {
+                goToHomeFragment()
+            }
+        }
+    }
+
+    private fun goToHomeFragment() {
+        val request = NavDeepLinkRequest.Builder
+            .fromUri("android-app://com.onewx2m.feature_home.ui.HomeFragment".toUri())
+            .build()
+
+        val navOptions = NavOptions.Builder()
+            .setPopUpTo(com.onewx2m.feature_login_signup.R.id.loginFragment, true)
+            .build()
+
+        navController.navigate(request, navOptions)
     }
 
     override fun onResume() {

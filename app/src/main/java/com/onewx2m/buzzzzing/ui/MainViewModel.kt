@@ -17,7 +17,7 @@ import javax.inject.Inject
 @HiltViewModel
 class MainViewModel @Inject constructor(
     private val reissueJwtUseCase: ReissueJwtUseCase
-) : MviViewModel<MainViewState, MainEvent, SideEffect.Default>(MainViewState()) {
+) : MviViewModel<MainViewState, MainEvent, MainSideEffect>(MainViewState()) {
 
     var preDrawRemoveFlag = false
 
@@ -25,8 +25,8 @@ class MainViewModel @Inject constructor(
         reissueJwtUseCase().collect { outcome ->
             when(outcome) {
                 is Outcome.Loading -> {  }
-                is Outcome.Success -> { /* TODO 메인 화면 이동 */ }
-                is Outcome.Failure -> { /* TODO 로그인 화면 이동 */ }
+                is Outcome.Success -> { postSideEffect(MainSideEffect.GoToHomeFragment) }
+                is Outcome.Failure -> {  }
             }
         }
         postEvent(MainEvent.HideSplashScreen)

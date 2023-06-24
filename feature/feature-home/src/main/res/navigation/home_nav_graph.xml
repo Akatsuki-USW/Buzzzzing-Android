@@ -11,6 +11,9 @@
         android:label="fragment_home"
         tools:layout="@layout/fragment_home">
 
+        <deepLink
+            app:uri="android-app://com.onewx2m.feature_home.ui.HomeFragment" />
+
 
     </fragment>
 
