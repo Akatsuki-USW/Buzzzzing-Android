@@ -39,11 +39,11 @@ abstract class MviViewModel<VIEW_STATE: ViewState, EVENT: Event, SIDE_EFFECT: Si
      */
     abstract fun reduceState(current: VIEW_STATE, event: EVENT): VIEW_STATE
 
-    protected suspend fun onEvent(event: EVENT) {
+    protected suspend fun postEvent(event: EVENT) {
         events.send(event)
     }
 
-    protected suspend fun onSideEffect(sideEffect: SIDE_EFFECT) {
+    protected suspend fun postSideEffect(sideEffect: SIDE_EFFECT) {
         _sideEffects.send(sideEffect)
     }
 }
