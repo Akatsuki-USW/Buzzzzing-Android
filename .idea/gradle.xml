@@ -34,6 +34,7 @@
             <option value="$PROJECT_DIR$/feature/feature-home" />
             <option value="$PROJECT_DIR$/feature/feature-login-signup" />
             <option value="$PROJECT_DIR$/local" />
+            <option value="$PROJECT_DIR$/mvi" />
             <option value="$PROJECT_DIR$/remote" />
           </set>
         </option>
