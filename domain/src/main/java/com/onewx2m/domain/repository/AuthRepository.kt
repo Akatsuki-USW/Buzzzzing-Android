@@ -6,7 +6,5 @@ import kotlinx.coroutines.flow.Flow
 
 interface AuthRepository {
 
-    suspend fun reIssueBuzzzzingJwt(
-        refreshToken: String
-    ): Flow<Outcome<Jwt>>
+    suspend fun reIssueBuzzzzingJwt(): Flow<Outcome<Unit>>
 }

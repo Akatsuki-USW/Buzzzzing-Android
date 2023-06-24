@@ -59,9 +59,7 @@ class MainActivity : AppCompatActivity() {
         super.onResume()
 
         MainScope().launch {
-            val refresh =
-                "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJQK05hNFByby8yZGMrb3dJVldUUzhWY2hISFhIVnNKeEpZMDJmMFhuUy80PSIsImlhdCI6MTY4NzQxMzkyMiwidG9rZW5UeXBlIjoicmVmcmVzaCIsImV4cCI6MTY4ODYyMzUyMn0.nadwkZ7MgDqt7BbiYwiD2qwwBcRSlL2HHZkEwGHtNwqC2MePiUFxh4l5-3tqZzJLuJD-Sq4i4w-oN3kXsipIaQ"
-            reissueJwtUseCase(refresh).collect {
+            reissueJwtUseCase().collect {
                 Timber.d("$it")
                 if(it is Outcome.Failure) {
                     Timber.d("${(it.error as? NetworkException)?.message}")

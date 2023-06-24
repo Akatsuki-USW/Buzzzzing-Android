@@ -6,6 +6,5 @@ import javax.inject.Inject
 class ReissueJwtUseCase @Inject constructor(
     private val authRepository: AuthRepository
 ) {
-
-    suspend operator fun invoke(request: String) = authRepository.reIssueBuzzzzingJwt(request)
+    suspend operator fun invoke() = authRepository.reIssueBuzzzzingJwt()
 }
