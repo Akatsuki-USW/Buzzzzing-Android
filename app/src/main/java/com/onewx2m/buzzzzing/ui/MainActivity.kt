@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.ViewTreeObserver
 import androidx.activity.viewModels
 import androidx.core.splashscreen.SplashScreen
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
@@ -53,16 +54,36 @@ class MainActivity :
     }
 
     override fun initView() {
+        initSplashScreen()
+        viewModel.reissueJwtAndNavigateFragmentAndHideSplashScreen()
+
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_host) as NavHostFragment
         navController = navHostFragment.navController
         binding.navBar.setupWithNavController(navController)
     }
 
+    private fun initSplashScreen() {
+        val content: View = findViewById(android.R.id.content)
+        content.viewTreeObserver.addOnPreDrawListener(
+            object : ViewTreeObserver.OnPreDrawListener {
+                override fun onPreDraw(): Boolean {
+                    return if (viewModel.preDrawRemoveFlag) {
+                        content.viewTreeObserver.removeOnPreDrawListener(this)
+                        true
+                    } else {
+                        false
+                    }
+                }
+            }
+        )
+    }
+
     override fun render(state: MainViewState) {
         super.render(state)
 
         binding.navBar.visibility = if(state.isBottomNavigationBarVisible) View.VISIBLE else View.GONE
+        viewModel.preDrawRemoveFlag = state.isSplashScreenVisible.not()
     }
 
     override fun onResume() {
