@@ -8,7 +8,6 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import com.onewx2m.core_ui.extensions.onThrottleClick
-import com.onewx2m.core_ui.extensions.setColorFilter
 import com.onewx2m.design_system.R
 import com.onewx2m.design_system.databinding.ButtonSnsLoginBinding
 
