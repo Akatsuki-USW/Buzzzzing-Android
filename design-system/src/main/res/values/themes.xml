@@ -2,7 +2,9 @@
 <resources>
 
     <style name="Theme.Buzzzzing" parent="Theme.AppCompat.Light.NoActionBar" >
-        
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowLightStatusBar">true</item>
     </style>
 
     <style name="Theme.Buzzzzing.Splash" parent="Theme.SplashScreen" >
