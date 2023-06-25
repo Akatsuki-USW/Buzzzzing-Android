@@ -81,5 +81,9 @@ gradlePlugin {
             id = "buzzzzing.plugin.mvi"
             implementationClass = "MviPlugin"
         }
+        register("CoreUiPlugin") {
+            id = "buzzzzing.plugin.core-ui"
+            implementationClass = "CoreUiPlugin"
+        }
     }
 }
