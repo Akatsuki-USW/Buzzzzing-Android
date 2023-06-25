@@ -6,9 +6,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import com.onewx2m.core_ui.extensions.onThrottleClick
 import com.onewx2m.design_system.components.snsLoginButton.SnsLoginButtonState
 import com.onewx2m.feature_login_signup.R
 import com.onewx2m.feature_login_signup.databinding.FragmentLoginBinding
+import timber.log.Timber
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -33,19 +35,27 @@ class LoginFragment : Fragment() {
         }
     }
 
+    lateinit var binding: FragmentLoginBinding
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val binding: FragmentLoginBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_login, container, false)
-        binding.buttonKakao.state = SnsLoginButtonState.Loading
-        binding.buttonKakao.state = SnsLoginButtonState.Enable
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_login, container, false)
+
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        binding.buttonKakao.onThrottleClick {
+            binding.buttonKakao.state = when(binding.buttonKakao.state) {
+                SnsLoginButtonState.Loading -> SnsLoginButtonState.Enable
+                SnsLoginButtonState.Enable -> SnsLoginButtonState.Loading
+            }
+        }
 
     }
 
