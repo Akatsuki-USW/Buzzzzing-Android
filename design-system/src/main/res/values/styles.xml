@@ -93,5 +93,13 @@
         <item name="android:textSize">12sp</item>
     </style>
 
+    <style name="sns_login_button_kakao">
+        <item name="loginButtonBackground">@drawable/ripple_bg_solid_kakao01_rounded_5</item>
+        <item name="loginButtonProgressBarTint">@color/black01</item>
+        <item name="loginButtonSnsLogo">@drawable/ic_kakao</item>
+        <item name="loginButtonTextColor">@color/black01</item>
+
+    </style>
+
 
 </resources>

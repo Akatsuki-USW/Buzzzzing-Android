@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Buzzzzing</string>
+    <string name="content_description_logo">로고</string>
 </resources>

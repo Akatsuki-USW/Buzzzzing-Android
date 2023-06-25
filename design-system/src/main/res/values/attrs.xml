@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="SnsLoginButton">
+        <attr name="loginButtonBackground" format="reference|integer" />
+        <attr name="loginButtonProgressBarTint" format="reference|color" />
+        <attr name="loginButtonSnsLogo" format="reference|integer" />
+        <attr name="loginButtonText" format="reference|string" />
+        <attr name="loginButtonTextColor" format="reference|integer" />
+
+    </declare-styleable>
+</resources>
