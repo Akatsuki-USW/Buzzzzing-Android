@@ -5,3 +5,7 @@ plugins {
 android {
     namespace = "com.onewx2m.feature_login_signup"
 }
+
+dependencies {
+    implementation(libs.kakao.login)
+}

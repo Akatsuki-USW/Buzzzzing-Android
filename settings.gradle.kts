@@ -1,4 +1,3 @@
-include(":remote")
 
 pluginManagement {
     includeBuild("build-logic")
@@ -14,6 +13,7 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+        maven(url = "https://devrepo.kakao.com/nexus/content/groups/public/")
     }
 }
 
@@ -27,6 +27,7 @@ include(":feature:feature-home")
 include(":feature:feature-login-signup")
 include(":di")
 include(":local")
+include(":remote")
 include(":mvi")
 include(":core")
 include(":core:core-ui")
