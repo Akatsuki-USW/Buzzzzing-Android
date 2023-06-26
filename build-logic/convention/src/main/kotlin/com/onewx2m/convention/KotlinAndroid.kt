@@ -1,15 +1,11 @@
 package com.onewx2m.convention
 
 import com.android.build.api.dsl.CommonExtension
+import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
 import org.gradle.api.JavaVersion
 import org.gradle.api.Project
-import org.gradle.api.artifacts.VersionCatalogsExtension
 import org.gradle.api.plugins.ExtensionAware
-import org.gradle.kotlin.dsl.dependencies
-import org.gradle.kotlin.dsl.getByType
-import org.gradle.kotlin.dsl.provideDelegate
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmOptions
-
 
 internal fun Project.configureKotlinAndroid(
     commonExtension: CommonExtension<*, *, *, *>,
@@ -19,6 +15,8 @@ internal fun Project.configureKotlinAndroid(
 
         defaultConfig {
             minSdk = 26
+
+            buildConfigField("String", "KAKAO_NATIVE_APP_KEY", gradleLocalProperties(rootDir).getProperty("KAKAO_NATIVE_APP_KEY"))
 
             testInstrumentationRunner = "android.support.test.runner.AndroidJUnitRunner"
             vectorDrawables.useSupportLibrary = true
