@@ -5,11 +5,10 @@ import com.onewx2m.data.model.JwtEntity
 import com.onewx2m.domain.Outcome
 import com.onewx2m.domain.enums.SnsType
 import com.onewx2m.domain.exception.BuzzzzingHttpException
-import com.onewx2m.domain.exception.SignTokenException
+import com.onewx2m.domain.exception.NeedSignUpException
 import com.onewx2m.remote.KotlinSerializationUtil
 import com.onewx2m.remote.api.AuthApi
 import com.onewx2m.remote.model.ApiResponse
-import com.onewx2m.remote.model.ErrorResponse
 import com.onewx2m.remote.model.request.JwtReIssueRequest
 import com.onewx2m.remote.model.request.LoginRequest
 import com.onewx2m.remote.model.response.SignTokenResponse
@@ -20,7 +19,6 @@ import com.onewx2m.remote.onSuccess
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.flow.flow
-import kotlinx.serialization.json.Json
 import javax.inject.Inject
 
 class RemoteAuthDataSourceImpl @Inject constructor(
@@ -45,7 +43,7 @@ class RemoteAuthDataSourceImpl @Inject constructor(
                 KotlinSerializationUtil.json.decodeFromString<ApiResponse<SignTokenResponse>>(
                     exception.httpBody
                 ).data!!
-            emit(Outcome.Failure(SignTokenException(signTokenResponse.signToken)))
+            emit(Outcome.Failure(NeedSignUpException(signTokenResponse.signToken)))
         } else emit(Outcome.Failure(exception))
     }
 
