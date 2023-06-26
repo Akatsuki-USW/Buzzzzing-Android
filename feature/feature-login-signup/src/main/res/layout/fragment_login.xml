@@ -12,6 +12,38 @@
         android:paddingHorizontal="20dp"
         tools:context="com.onewx2m.login_signup.ui.login.LoginFragment">
 
+        <ImageView
+            android:id="@+id/image_view_logo"
+            android:layout_width="189dp"
+            android:layout_height="189dp"
+            android:layout_marginTop="145dp"
+            android:contentDescription="@string/content_description_logo"
+            android:src="@drawable/ic_login_logo"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/image_view_logo_title"
+            android:layout_width="140dp"
+            android:layout_height="38dp"
+            android:layout_marginTop="326dp"
+            android:contentDescription="@string/content_description_logo"
+            android:src="@drawable/ic_login_app_title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            style="@style/Header.3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/fragment_login_app_introduction"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/image_view_logo_title" />
+
         <com.onewx2m.design_system.components.snsLoginButton.SnsLoginButton
             android:id="@+id/button_kakao"
             style="@style/sns_login_button_kakao"
