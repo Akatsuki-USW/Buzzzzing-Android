@@ -23,7 +23,7 @@ import java.util.concurrent.TimeUnit
 @InstallIn(SingletonComponent::class)
 object NormalNetworkModule {
 
-    private const val BASE_URL = "https://www.plub.co.kr"
+    private const val BASE_URL = "http://3.104.197.181:8080"
     private const val RETROFIT_TAG = "Retrofit2"
 
     @Provides

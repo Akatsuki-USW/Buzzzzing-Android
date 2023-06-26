@@ -9,12 +9,16 @@ import retrofit2.http.Body
 import retrofit2.http.POST
 
 interface AuthApi {
-    @POST("api/auth/login")
+    companion object {
+        private const val AUTH = "api/auth"
+    }
+
+    @POST("$AUTH/login")
     suspend fun login(
         @Body request: LoginRequest
     )
 
-    @POST("api/auth/reissue")
+    @POST("$AUTH/reissue")
     suspend fun reIssueBuzzzzingJwt(
         @Body request: JwtReIssueRequest
     ): ApiResult<ApiResponse<JwtResponse>>
