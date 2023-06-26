@@ -8,7 +8,7 @@
 
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.onewx2m.login_signup.ui.LoginFragment"
+        android:name="com.onewx2m.login_signup.ui.login.LoginFragment"
         android:label="fragment_login"
         tools:layout="@layout/fragment_login" >
 

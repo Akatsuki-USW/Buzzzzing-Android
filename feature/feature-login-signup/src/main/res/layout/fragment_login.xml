@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingHorizontal="20dp"
-        tools:context="com.onewx2m.login_signup.ui.LoginFragment">
+        tools:context="com.onewx2m.login_signup.ui.login.LoginFragment">
 
         <com.onewx2m.design_system.components.snsLoginButton.SnsLoginButton
             android:id="@+id/button_kakao"
