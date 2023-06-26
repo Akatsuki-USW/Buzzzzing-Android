@@ -21,6 +21,14 @@ class AuthRepositoryImpl @Inject constructor(
     private val localAuthDataSource: LocalAuthDataSource
 ) : AuthRepository {
 
+    override suspend fun loginByKakao(oauthAccessToken: String): Flow<Outcome<Unit>> {
+        return remoteAuthDataSource.loginByKakao(oauthAccessToken)
+            .flatMapOutcomeSuccess { dataModel -> dataModel.toDomain() }
+            .flatMapOutcomeSuccess { jwt ->
+                localAuthDataSource.saveToken(jwt)
+            }
+    }
+
     override suspend fun reIssueBuzzzzingJwt(): Flow<Outcome<Unit>> {
         val refreshToken = localAuthDataSource.getRefreshToken().first()
         return remoteAuthDataSource.reIssueBuzzzzingJwt(refreshToken)

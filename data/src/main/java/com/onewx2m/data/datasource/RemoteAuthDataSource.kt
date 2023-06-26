@@ -6,9 +6,8 @@ import kotlinx.coroutines.flow.Flow
 
 interface RemoteAuthDataSource {
 
-    suspend fun login(
-        oauthAccessToken: String,
-        socialType: String
+    suspend fun loginByKakao(
+        oauthAccessToken: String
     ) : Flow<Outcome<JwtEntity>>
 
     suspend fun reIssueBuzzzzingJwt(

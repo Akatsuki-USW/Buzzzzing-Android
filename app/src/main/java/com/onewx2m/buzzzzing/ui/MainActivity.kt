@@ -1,8 +1,6 @@
 package com.onewx2m.buzzzzing.ui
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.view.ViewTreeObserver
 import androidx.activity.viewModels
@@ -12,27 +10,12 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.navigation.NavController
 import androidx.navigation.NavDeepLinkRequest
 import androidx.navigation.NavOptions
-import androidx.navigation.Navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.navOptions
 import androidx.navigation.ui.setupWithNavController
 import com.onewx2m.buzzzzing.R
 import com.onewx2m.buzzzzing.databinding.ActivityMainBinding
-import com.onewx2m.domain.Outcome
-import com.onewx2m.domain.exception.HttpException
-import com.onewx2m.domain.exception.NetworkException
-import com.onewx2m.domain.exception.UnknownException
-import com.onewx2m.domain.usecase.ReissueJwtUseCase
-import com.onewx2m.mvi.Event
 import com.onewx2m.mvi.MviActivity
-import com.onewx2m.mvi.SideEffect
-import com.onewx2m.mvi.ViewState
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
-import timber.log.Timber
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity :

@@ -16,7 +16,7 @@ interface AuthApi {
     @POST("$AUTH/login")
     suspend fun login(
         @Body request: LoginRequest
-    )
+    ): ApiResult<ApiResponse<JwtResponse>>
 
     @POST("$AUTH/reissue")
     suspend fun reIssueBuzzzzingJwt(

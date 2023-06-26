@@ -1,9 +1,10 @@
 package com.onewx2m.remote
 
-import com.onewx2m.domain.exception.HttpException
+import com.onewx2m.domain.exception.BuzzzzingHttpException
 import com.onewx2m.domain.exception.NetworkException
 import com.onewx2m.domain.exception.UnknownException
-import kotlinx.serialization.Serializable
+import com.onewx2m.remote.model.ErrorResponse
+import kotlinx.serialization.json.Json
 
 /**
  * Success : 서버로부터 API 응답 성공
@@ -70,8 +71,8 @@ internal fun ApiResult<*>.throwOnSuccess() {
     if (this is ApiResult.Success) throw IllegalStateException("Cannot be called under Success conditions.")
 }
 
-inline fun <T> ApiResult<T>.onFailure(action: (error: ApiResult.Failure) -> Unit): ApiResult<T> {
-    if (isFailure()) action(failureOrThrow())
+inline fun <T> ApiResult<T>.onFailure(action: (error: RuntimeException) -> Unit): ApiResult<T> {
+    if (isFailure()) action(failureOrThrow().toBuzzzzingException())
     return this
 }
 
@@ -82,7 +83,10 @@ inline fun <T> ApiResult<T>.onSuccess(action: (value: T) -> Unit): ApiResult<T> 
 
 fun ApiResult.Failure.toBuzzzzingException(): RuntimeException {
     return when (this) {
-        is ApiResult.Failure.HttpError -> HttpException(code, message, body)
+        is ApiResult.Failure.HttpError -> {
+            val errorBody = KotlinSerializationUtil.json.decodeFromString<ErrorResponse>(body)
+            BuzzzzingHttpException(code, message, body, errorBody.statusCode, errorBody.message)
+        }
         is ApiResult.Failure.NetworkError -> NetworkException(this.throwable)
         is ApiResult.Failure.UnknownApiError -> UnknownException(this.throwable)
     }
