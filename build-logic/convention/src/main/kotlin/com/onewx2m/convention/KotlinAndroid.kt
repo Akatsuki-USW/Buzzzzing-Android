@@ -16,10 +16,11 @@ internal fun Project.configureKotlinAndroid(
         defaultConfig {
             minSdk = 26
 
-            buildConfigField("String", "KAKAO_NATIVE_APP_KEY", gradleLocalProperties(rootDir).getProperty("KAKAO_NATIVE_APP_KEY"))
-
             testInstrumentationRunner = "android.support.test.runner.AndroidJUnitRunner"
             vectorDrawables.useSupportLibrary = true
+
+            buildConfigField("String", "KAKAO_NATIVE_APP_KEY", gradleLocalProperties(rootDir).getProperty("KAKAO_NATIVE_APP_KEY"))
+            manifestPlaceholders["KAKAO_NATIVE_APP_KEY"] = gradleLocalProperties(rootDir).getProperty("KAKAO_NATIVE_APP_KEY") as String
         }
 
         compileOptions {

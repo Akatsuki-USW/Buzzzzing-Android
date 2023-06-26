@@ -1,5 +1,5 @@
 import com.android.build.api.dsl.ApplicationExtension
-import com.android.build.gradle.LibraryExtension
+import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
 import com.onewx2m.convention.configureKotlinAndroid
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -19,7 +19,6 @@ internal class AndroidApplicationPlugin : Plugin<Project> {
             }
 
             extensions.configure<ApplicationExtension> {
-
                 defaultConfig {
                     applicationId = "com.onewx2m.buzzzzing"
                     targetSdk = 33
