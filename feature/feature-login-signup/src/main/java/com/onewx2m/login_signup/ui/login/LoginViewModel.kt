@@ -4,6 +4,8 @@ import androidx.lifecycle.viewModelScope
 import com.onewx2m.design_system.components.button.SnsLoginButtonState
 import com.onewx2m.domain.Outcome
 import com.onewx2m.domain.exception.NeedSignUpException
+import com.onewx2m.domain.exception.RevokeUntilMonthUserException
+import com.onewx2m.domain.exception.common.CommonException
 import com.onewx2m.domain.usecase.LoginByKakaoUseCase
 import com.onewx2m.mvi.MviViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -24,21 +26,43 @@ class LoginViewModel @Inject constructor(
         loginByKakaoUseCase(kakaoAccessToken).collect {
             when (it) {
                 is Outcome.Loading -> {}
-                is Outcome.Success -> { postSideEffect(LoginSideEffect.GoToHomeFragment) }
-                is Outcome.Failure -> { handleLoginByKakaoUsecaseFail(it.error) }
+                is Outcome.Success -> {
+                    postSideEffect(LoginSideEffect.GoToHomeFragment)
+                }
+
+                is Outcome.Failure -> {
+                    handleError(it.error, ::handleLoginByKakaoUsecaseFail)
+                }
             }
         }
     }
 
+    private fun handleError(
+        error: Throwable?,
+        handleNotCommonException: (error: Throwable?) -> Unit = {},
+    ) {
+        when (error) {
+            is CommonException -> handleCommonError(error)
+            else -> handleNotCommonException(error)
+        }
+
+        postEvent(LoginEvent.KakaoLoginButtonStateToEnable)
+    }
+
+    private fun handleCommonError(error: CommonException) {
+        val errorToastMessage = when (error) {
+            CommonException.NeedLoginException() -> CommonException.UnknownException().snackBarMessage
+            else -> error.snackBarMessage
+        }
+
+        postSideEffect(LoginSideEffect.ShowErrorToast(errorToastMessage))
+    }
+
     private fun handleLoginByKakaoUsecaseFail(error: Throwable?) {
         when (error) {
-            is NeedSignUpException -> {
-                postEvent(LoginEvent.KakaoLoginButtonStateToEnable)
-                postSideEffect(LoginSideEffect.GoToSignUpFragment)
-            }
-            else -> {
-                postEvent(LoginEvent.KakaoLoginButtonStateToEnable)
-            }
+            is NeedSignUpException -> postSideEffect(LoginSideEffect.GoToSignUpFragment)
+            is RevokeUntilMonthUserException -> postSideEffect(LoginSideEffect.ShowErrorToast(error.message))
+            else -> {}
         }
     }
 

@@ -35,6 +35,7 @@ class LoginFragment : MviFragment<FragmentLoginBinding, LoginViewState, LoginEve
         LoginSideEffect.TryLoginByKakao -> kakaoLogin()
         LoginSideEffect.GoToHomeFragment -> goToHomeFragment()
         LoginSideEffect.GoToSignUpFragment -> goToSignUpFragment()
+        is LoginSideEffect.ShowErrorToast -> ErrorToast.make(binding.root, sideEffect.message).show()
     }
 
     private fun kakaoLogin() {

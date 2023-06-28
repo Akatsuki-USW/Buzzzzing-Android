@@ -10,12 +10,12 @@ import com.onewx2m.core_ui.extensions.px
 import com.onewx2m.design_system.R
 import com.onewx2m.design_system.databinding.ToastErrorBinding
 
-class ErrorToast(view: View, @StringRes private val message: Int) {
+class ErrorToast(view: View,private val message: String) {
 
     companion object {
         private const val SNACK_BAR_DURATION = 5000
 
-        fun make(view: View, @StringRes message: Int) = ErrorToast(view, message)
+        fun make(view: View, message: String) = ErrorToast(view, message)
     }
 
     private val context = view.context
@@ -40,7 +40,7 @@ class ErrorToast(view: View, @StringRes private val message: Int) {
     }
 
     private fun initData() {
-        snackbarBinding.textViewToastMessage.setText(message)
+        snackbarBinding.textViewToastMessage.text = message
     }
 
     fun show() {

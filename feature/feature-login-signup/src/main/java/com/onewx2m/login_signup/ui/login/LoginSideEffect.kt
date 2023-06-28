@@ -6,4 +6,5 @@ sealed interface LoginSideEffect : SideEffect {
     object TryLoginByKakao : LoginSideEffect
     object GoToHomeFragment : LoginSideEffect
     object GoToSignUpFragment : LoginSideEffect
+    data class ShowErrorToast(val message: String) : LoginSideEffect
 }

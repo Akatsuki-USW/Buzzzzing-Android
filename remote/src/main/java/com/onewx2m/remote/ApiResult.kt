@@ -86,8 +86,8 @@ fun ApiResult.Failure.toBuzzzzingException(): Exception {
             handleHttpError(this, errorBody)
         }
 
-        is ApiResult.Failure.NetworkError -> CommonException.NetworkException(this.throwable)
-        is ApiResult.Failure.UnknownApiError -> CommonException.UnknownException(this.throwable)
+        is ApiResult.Failure.NetworkError -> CommonException.NetworkException()
+        is ApiResult.Failure.UnknownApiError -> CommonException.UnknownException()
     }
 }
 
@@ -106,20 +106,20 @@ private fun handleHttpError(
     return when (httpError.code) {
         400 -> handle400(buzzzzingHttpException, errorBody)
         403 -> handle403(buzzzzingHttpException, errorBody)
-        500, 501, 502, 503, 504, 505 -> CommonException.ServerException
+        500, 501, 502, 503, 504, 505 -> CommonException.ServerException()
         else -> buzzzzingHttpException
     }
 }
 
 private fun handle400(buzzzzingHttpException: BuzzzzingHttpException, errorBody: ErrorResponse) =
     when (errorBody.statusCode) {
-        1080 -> CommonException.NeedLoginException
+        1080 -> CommonException.NeedLoginException()
         else -> buzzzzingHttpException
     }
 
 private fun handle403(buzzzzingHttpException: BuzzzzingHttpException, errorBody: ErrorResponse) =
     when (errorBody.statusCode) {
-        2020 -> CommonException.BannedUserException
-        2030 -> CommonException.BlackListUserException
+        2020 -> CommonException.BannedUserException()
+        2030 -> CommonException.BlackListUserException()
         else -> buzzzzingHttpException
     }
