@@ -1,6 +1,10 @@
 package com.onewx2m.login_signup.ui.login
 
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
+import com.onewx2m.core_ui.extensions.navigateActionWithDefaultAnim
+import com.onewx2m.core_ui.util.DeepLinkUtil
+import com.onewx2m.feature_login_signup.R
 import com.onewx2m.feature_login_signup.databinding.FragmentLoginBinding
 import com.onewx2m.login_signup.util.KakaoLoginUtil
 import com.onewx2m.mvi.MviFragment
@@ -27,15 +31,26 @@ class LoginFragment : MviFragment<FragmentLoginBinding, LoginViewState, LoginEve
     }
 
     override fun handleSideEffect(sideEffect: LoginSideEffect) = when (sideEffect) {
-        LoginSideEffect.TryLoginByKakao -> {
-            kakaoLoginUtil.kakaoLogin(
-                requireContext(),
-                onSuccess = { token -> viewModel.handleKakaoLoginSuccess(token) },
-                onFail = { error -> viewModel.handleKakaoLoginFail() },
-            )
-        }
+        LoginSideEffect.TryLoginByKakao -> kakaoLogin()
+        LoginSideEffect.GoToHomeFragment -> goToHomeFragment()
+        LoginSideEffect.GoToSignUpFragment -> goToSignUpFragment()
+    }
 
-        LoginSideEffect.GoToHomeFragment -> TODO()
-        LoginSideEffect.GoToSignUpFragment -> TODO()
+    private fun kakaoLogin() {
+        kakaoLoginUtil.kakaoLogin(
+            requireContext(),
+            onSuccess = { token -> viewModel.handleKakaoLoginSuccess(token) },
+            onFail = { error -> viewModel.handleKakaoLoginFail() },
+        )
+    }
+
+    private fun goToHomeFragment() {
+        val (request, navOptions) = DeepLinkUtil.getHomeRequestAndOption(requireContext(), R.id.loginFragment, true)
+        findNavController().navigate(request, navOptions)
+    }
+
+    private fun goToSignUpFragment() {
+        val action = LoginFragmentDirections.actionLoginToSignup()
+        findNavController().navigateActionWithDefaultAnim(action)
     }
 }

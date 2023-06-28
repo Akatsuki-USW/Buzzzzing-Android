@@ -14,6 +14,7 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.onewx2m.buzzzzing.R
 import com.onewx2m.buzzzzing.databinding.ActivityMainBinding
+import com.onewx2m.core_ui.util.DeepLinkUtil
 import com.onewx2m.mvi.MviActivity
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -77,7 +78,7 @@ class MainActivity :
     override fun handleSideEffect(sideEffect: MainSideEffect) {
         super.handleSideEffect(sideEffect)
 
-        when(sideEffect) {
+        when (sideEffect) {
             MainSideEffect.GoToHomeFragment -> {
                 goToHomeFragment()
             }
@@ -85,14 +86,7 @@ class MainActivity :
     }
 
     private fun goToHomeFragment() {
-        val request = NavDeepLinkRequest.Builder
-            .fromUri(getString(com.onewx2m.core_ui.R.string.deeplink_home_fragment).toUri())
-            .build()
-
-        val navOptions = NavOptions.Builder()
-            .setPopUpTo(com.onewx2m.feature_login_signup.R.id.loginFragment, true)
-            .build()
-
+        val (request, navOptions) = DeepLinkUtil.getHomeRequestAndOption(this, com.onewx2m.feature_login_signup.R.id.loginFragment, true)
         navController.navigate(request, navOptions)
     }
 

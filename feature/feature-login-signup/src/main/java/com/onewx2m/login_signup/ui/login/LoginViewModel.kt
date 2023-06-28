@@ -8,7 +8,6 @@ import com.onewx2m.domain.usecase.LoginByKakaoUseCase
 import com.onewx2m.mvi.MviViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -31,9 +30,16 @@ class LoginViewModel @Inject constructor(
         }
     }
 
-    private fun handleLoginByKakaoUsecaseFail(error: Throwable?) = when (error) {
-        is NeedSignUpException -> { Timber.tag("kakao").d("회원가입 필요 ${error.signToken}") }
-        else -> { }
+    private fun handleLoginByKakaoUsecaseFail(error: Throwable?) {
+        when (error) {
+            is NeedSignUpException -> {
+                postEvent(LoginEvent.KakaoLoginButtonStateToEnable)
+                postSideEffect(LoginSideEffect.GoToSignUpFragment)
+            }
+            else -> {
+                postEvent(LoginEvent.KakaoLoginButtonStateToEnable)
+            }
+        }
     }
 
     fun handleKakaoLoginFail() {
