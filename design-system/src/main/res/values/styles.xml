@@ -35,6 +35,7 @@
 
     <style name="Header.3">
         <item name="android:textSize">18sp</item>
+        <item name="android:lineSpacingMultiplier">1.45</item>
     </style>
 
     <style name="Header.4">
@@ -49,6 +50,7 @@
 
     <style name="Header.6">
         <item name="android:textSize">14sp</item>
+        <item name="android:lineSpacingMultiplier">1.6</item>
     </style>
 
     <style name="Body.1">
