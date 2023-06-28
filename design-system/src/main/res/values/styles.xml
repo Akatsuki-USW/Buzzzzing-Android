@@ -4,7 +4,6 @@
     <style name="Header">
         <item name="android:fontFamily">@font/notosanskrmedium</item>
         <item name="android:textColor">@color/black01</item>
-        <item name="android:lineSpacingMultiplier">1.5</item>
         <item name="android:letterSpacing">-0.03</item>
         <item name="android:includeFontPadding">false</item>
     </style>
@@ -12,7 +11,6 @@
     <style name="Body">
         <item name="android:fontFamily">@font/notosanskrregular</item>
         <item name="android:textColor">@color/black01</item>
-        <item name="android:lineSpacingMultiplier">1.5</item>
         <item name="android:letterSpacing">-0.03</item>
         <item name="android:includeFontPadding">false</item>
     </style>
@@ -20,79 +18,86 @@
     <style name="Label">
         <item name="android:fontFamily">@font/notosanskrregular</item>
         <item name="android:textColor">@color/black01</item>
-        <item name="android:lineSpacingMultiplier">1.5</item>
         <item name="android:letterSpacing">-0.03</item>
         <item name="android:includeFontPadding">false</item>
     </style>
 
     <style name="Header.1">
+        <item name="figmaLineHeight">32.0</item>
         <item name="android:textSize">28sp</item>
     </style>
 
     <style name="Header.2">
+        <item name="figmaLineHeight">28.0</item>
         <item name="android:textSize">24sp</item>
     </style>
 
     <style name="Header.3">
+        <item name="figmaLineHeight">22.0</item>
         <item name="android:textSize">18sp</item>
-        <item name="android:lineSpacingMultiplier">1.45</item>
     </style>
 
     <style name="Header.4">
         <item name="android:fontFamily">@font/notosanskrbold</item>
         <item name="android:textSize">16sp</item>
-        <item name="android:lineSpacingMultiplier">1.6</item>
+        <item name="figmaLineHeight">22.0</item>
     </style>
 
     <style name="Header.5">
         <item name="android:textSize">16sp</item>
+        <item name="figmaLineHeight">20.0</item>
     </style>
 
     <style name="Header.6">
         <item name="android:textSize">14sp</item>
-        <item name="android:lineSpacingMultiplier">1.6</item>
+        <item name="figmaLineHeight">20.0</item>
     </style>
 
     <style name="Body.1">
         <item name="android:textSize">16sp</item>
-        <item name="android:lineSpacingMultiplier">1.6</item>
+        <item name="figmaLineHeight">20.0</item>
     </style>
 
     <style name="Body.2">
         <item name="android:textSize">15sp</item>
-        <item name="android:fontFamily">@font/notosanskrmedium</item>
+        <item name="figmaLineHeight">19.0</item>
     </style>
 
     <style name="Body.3">
         <item name="android:textSize">14sp</item>
-        <item name="android:lineSpacingMultiplier">1.6</item>
+        <item name="figmaLineHeight">18.0</item>
     </style>
 
     <style name="Body.4">
         <item name="android:textSize">13sp</item>
+        <item name="figmaLineHeight">14.0</item>
     </style>
 
     <style name="Body.5">
         <item name="android:textSize">10sp</item>
         <item name="android:fontFamily">@font/notosanskrbold</item>
+        <item name="figmaLineHeight">12.0</item>
     </style>
 
     <style name="Body.6">
         <item name="android:textSize">16sp</item>
+        <item name="figmaLineHeight">12.0</item>
     </style>
 
     <style name="Label.1">
         <item name="android:textSize">16sp</item>
-        <item name="android:lineSpacingMultiplier">1.6</item>
+        <item name="figmaLineHeight">20.0</item>
     </style>
 
     <style name="Label.2">
         <item name="android:textSize">14sp</item>
         <item name="android:fontFamily">@font/notosanskrbold</item>
+        <item name="figmaLineHeight">18.0</item>
     </style>
 
     <style name="Label.3">
         <item name="android:textSize">12sp</item>
+        <item name="figmaLineHeight">14.0</item>
     </style>
 
     <style name="sns_login_button_kakao">

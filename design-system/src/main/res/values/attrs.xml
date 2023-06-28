@@ -8,4 +8,8 @@
         <attr name="loginButtonTextColor" format="reference|integer" />
 
     </declare-styleable>
+
+    <declare-styleable name="FigmaTextView">
+        <attr name="figmaLineHeight" format="float" />
+    </declare-styleable>
 </resources>

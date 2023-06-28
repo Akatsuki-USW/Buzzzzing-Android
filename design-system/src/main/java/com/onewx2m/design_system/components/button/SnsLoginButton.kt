@@ -1,28 +1,25 @@
-package com.onewx2m.design_system.components.snsLoginButton
+package com.onewx2m.design_system.components.button
 
 import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.FrameLayout
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import com.onewx2m.core_ui.extensions.onThrottleClick
 import com.onewx2m.design_system.R
 import com.onewx2m.design_system.databinding.ButtonSnsLoginBinding
-import timber.log.Timber
 
 sealed interface SnsLoginButtonState {
     object Enable : SnsLoginButtonState
     object Loading : SnsLoginButtonState
 }
 
-
 class SnsLoginButton @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
-    defStyleAttr: Int = 0
+    defStyleAttr: Int = 0,
 ) :
     FrameLayout(context, attrs, defStyleAttr) {
 
@@ -30,7 +27,6 @@ class SnsLoginButton @JvmOverloads constructor(
         binding.constraintLayoutButton.onThrottleClick {
             onClick()
         }
-
 
     private val binding: ButtonSnsLoginBinding
 
@@ -77,20 +73,20 @@ class SnsLoginButton @JvmOverloads constructor(
 
         val background = typedArray.getResourceId(
             R.styleable.SnsLoginButton_loginButtonBackground,
-            R.drawable.ripple_bg_solid_kakao01_rounded_5
+            R.drawable.ripple_bg_solid_kakao01_rounded_5,
         )
         val progressBarTint = typedArray.getResourceId(
             R.styleable.SnsLoginButton_loginButtonProgressBarTint,
-            R.color.black01
+            R.color.black01,
         )
         val icon = typedArray.getResourceId(
             R.styleable.SnsLoginButton_loginButtonSnsLogo,
-            R.drawable.ic_kakao
+            R.drawable.ic_kakao,
         )
         val text = typedArray.getText(R.styleable.SnsLoginButton_loginButtonText)
         val textColor = typedArray.getColor(
             R.styleable.SnsLoginButton_loginButtonTextColor,
-            ContextCompat.getColor(context, R.color.black01)
+            ContextCompat.getColor(context, R.color.black01),
         )
 
         binding.apply {
@@ -98,8 +94,8 @@ class SnsLoginButton @JvmOverloads constructor(
             progressBarLoadingButton.setIndicatorColor(
                 ContextCompat.getColor(
                     context,
-                    progressBarTint
-                )
+                    progressBarTint,
+                ),
             )
             imageViewSnsLogo.setImageResource(icon)
             textViewContent.text = text

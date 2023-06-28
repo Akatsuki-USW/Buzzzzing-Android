@@ -1,7 +1,7 @@
 package com.onewx2m.login_signup.ui.login
 
 import androidx.lifecycle.viewModelScope
-import com.onewx2m.design_system.components.snsLoginButton.SnsLoginButtonState
+import com.onewx2m.design_system.components.button.SnsLoginButtonState
 import com.onewx2m.domain.Outcome
 import com.onewx2m.domain.exception.NeedSignUpException
 import com.onewx2m.domain.usecase.LoginByKakaoUseCase

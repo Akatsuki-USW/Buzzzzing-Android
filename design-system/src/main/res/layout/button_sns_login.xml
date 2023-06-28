@@ -45,7 +45,7 @@
                 tools:src="@drawable/ic_kakao"
                 tools:visibility="gone" />
 
-            <TextView
+            <com.onewx2m.design_system.components.textview.FigmaTextView
                 android:id="@+id/text_view_content"
                 style="@style/Header.3"
                 android:layout_width="0dp"
