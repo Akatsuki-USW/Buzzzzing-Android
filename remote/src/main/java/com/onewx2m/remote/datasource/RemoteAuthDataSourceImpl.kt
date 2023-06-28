@@ -12,21 +12,21 @@ import com.onewx2m.remote.model.ApiResponse
 import com.onewx2m.remote.model.request.JwtReIssueRequest
 import com.onewx2m.remote.model.request.LoginRequest
 import com.onewx2m.remote.model.response.SignTokenResponse
-import com.onewx2m.remote.wrapOutcomeLoadingFailure
 import com.onewx2m.remote.model.response.toEntity
 import com.onewx2m.remote.onFailure
 import com.onewx2m.remote.onSuccess
+import com.onewx2m.remote.wrapOutcomeLoadingFailure
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 class RemoteAuthDataSourceImpl @Inject constructor(
-    private val api: AuthApi
+    private val api: AuthApi,
 ) : RemoteAuthDataSource {
 
     override suspend fun loginByKakao(oauthAccessToken: String): Flow<Outcome<JwtEntity>> =
-        flow<Outcome<JwtEntity>> {
+        flow {
             api.login(LoginRequest(oauthAccessToken = oauthAccessToken, socialType = SnsType.KAKAO.name))
                 .onSuccess { body ->
                     emit(Outcome.Success(body.data!!.toEntity()))
@@ -36,15 +36,17 @@ class RemoteAuthDataSourceImpl @Inject constructor(
         }.wrapOutcomeLoadingFailure()
 
     private suspend fun FlowCollector<Outcome<JwtEntity>>.handleLoginByKakaoException(
-        exception: RuntimeException
+        exception: Exception,
     ) {
         if (exception is BuzzzzingHttpException && exception.customStatusCode == 1040) {
             val signTokenResponse =
                 KotlinSerializationUtil.json.decodeFromString<ApiResponse<SignTokenResponse>>(
-                    exception.httpBody
+                    exception.httpBody,
                 ).data!!
             emit(Outcome.Failure(NeedSignUpException(signTokenResponse.signToken)))
-        } else emit(Outcome.Failure(exception))
+        } else {
+            emit(Outcome.Failure(exception))
+        }
     }
 
     override suspend fun reIssueBuzzzzingJwt(refreshToken: String) =

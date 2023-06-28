@@ -1,10 +1,13 @@
 package com.onewx2m.remote
 
+import com.onewx2m.domain.exception.BannedUserException
+import com.onewx2m.domain.exception.BlackListUserException
 import com.onewx2m.domain.exception.BuzzzzingHttpException
+import com.onewx2m.domain.exception.NeedLoginException
 import com.onewx2m.domain.exception.NetworkException
+import com.onewx2m.domain.exception.ServerException
 import com.onewx2m.domain.exception.UnknownException
 import com.onewx2m.remote.model.ErrorResponse
-import kotlinx.serialization.json.Json
 
 /**
  * Success : 서버로부터 API 응답 성공
@@ -71,7 +74,7 @@ internal fun ApiResult<*>.throwOnSuccess() {
     if (this is ApiResult.Success) throw IllegalStateException("Cannot be called under Success conditions.")
 }
 
-inline fun <T> ApiResult<T>.onFailure(action: (error: RuntimeException) -> Unit): ApiResult<T> {
+inline fun <T> ApiResult<T>.onFailure(action: (error: Exception) -> Unit): ApiResult<T> {
     if (isFailure()) action(failureOrThrow().toBuzzzzingException())
     return this
 }
@@ -81,13 +84,35 @@ inline fun <T> ApiResult<T>.onSuccess(action: (value: T) -> Unit): ApiResult<T> 
     return this
 }
 
-fun ApiResult.Failure.toBuzzzzingException(): RuntimeException {
+fun ApiResult.Failure.toBuzzzzingException(): Exception {
     return when (this) {
         is ApiResult.Failure.HttpError -> {
             val errorBody = KotlinSerializationUtil.json.decodeFromString<ErrorResponse>(body)
-            BuzzzzingHttpException(code, message, body, errorBody.statusCode, errorBody.message)
+            handleHttpError(this, errorBody)
         }
         is ApiResult.Failure.NetworkError -> NetworkException(this.throwable)
         is ApiResult.Failure.UnknownApiError -> UnknownException(this.throwable)
     }
+}
+
+private fun handleHttpError(httpError: ApiResult.Failure.HttpError, errorBody: ErrorResponse): Exception {
+    val buzzzzingHttpException = BuzzzzingHttpException(httpError.code, httpError.message, httpError.body, errorBody.statusCode, errorBody.message)
+
+    return when (httpError.code) {
+        400 -> handle400(buzzzzingHttpException, errorBody)
+        403 -> handle403(buzzzzingHttpException, errorBody)
+        500, 501, 502, 503, 504, 505 -> ServerException()
+        else -> buzzzzingHttpException
+    }
+}
+
+private fun handle400(buzzzzingHttpException: BuzzzzingHttpException, errorBody: ErrorResponse) = when (errorBody.statusCode) {
+    1080 -> NeedLoginException()
+    else -> buzzzzingHttpException
+}
+
+private fun handle403(buzzzzingHttpException: BuzzzzingHttpException, errorBody: ErrorResponse) = when (errorBody.statusCode) {
+    2020 -> BannedUserException()
+    2030 -> BlackListUserException()
+    else -> buzzzzingHttpException
 }
