@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Buzzzzing</string>
     <string name="content_description_logo">로고</string>
+    <string name="content_description_error_icon">에러 아이콘</string>
 </resources>
