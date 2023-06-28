@@ -13,5 +13,15 @@
         tools:layout="@layout/fragment_login" >
 
 
+        <action
+            android:id="@+id/action_login_to_signup"
+            app:destination="@id/signUpFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:popExitAnim="@anim/nav_default_exit_anim"/>
     </fragment>
+    <fragment
+        android:id="@+id/signUpFragment"
+        android:name="com.onewx2m.login_signup.ui.signup.SignUpFragment"
+        android:label="fragment_terms_and_conditions"
+        tools:layout="@layout/fragment_sign_up" />
 </navigation>

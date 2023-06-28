@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/pink"
-    tools:context="com.onewx2m.login_signup.ui.signup.termsandconditions.TermsAndConditionsFragment">
+    tools:context="com.onewx2m.login_signup.ui.signup.SignUpFragment">
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
