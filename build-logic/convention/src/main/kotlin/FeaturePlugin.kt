@@ -18,7 +18,7 @@ internal class FeaturePlugin : Plugin<Project> {
             }
 
             extensions.configure<LibraryExtension> {
-                dataBinding.enable = true
+                viewBinding.enable = true
             }
 
             val libs = extensions.getByType<VersionCatalogsExtension>().named("libs")

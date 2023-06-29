@@ -2,15 +2,12 @@ package com.onewx2m.design_system.components.toast
 
 import android.view.LayoutInflater
 import android.view.View
-import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
-import androidx.databinding.DataBindingUtil
 import com.google.android.material.snackbar.Snackbar
-import com.onewx2m.core_ui.extensions.px
 import com.onewx2m.design_system.R
 import com.onewx2m.design_system.databinding.ToastErrorBinding
 
-class ErrorToast(view: View,private val message: String) {
+class ErrorToast(view: View, private val message: String) {
 
     companion object {
         private const val SNACK_BAR_DURATION = 5000
@@ -23,7 +20,7 @@ class ErrorToast(view: View,private val message: String) {
     private val snackbarLayout = snackbar.view as Snackbar.SnackbarLayout
 
     private val inflater = LayoutInflater.from(context)
-    private val snackbarBinding: ToastErrorBinding = DataBindingUtil.inflate(inflater, R.layout.toast_error, null, false)
+    private val snackbarBinding: ToastErrorBinding = ToastErrorBinding.inflate(inflater, null, false)
 
     init {
         initView()

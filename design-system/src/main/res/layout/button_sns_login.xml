@@ -1,75 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout android:layout_height="50dp"
+    android:layout_width="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <data>
-
-    </data>
-
-    <FrameLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:clickable="true"
+        android:focusable="true"
+        android:id="@+id/constraint_layout_button"
+        android:layout_height="50dp"
         android:layout_width="match_parent"
-        android:layout_height="50dp">
+        android:paddingHorizontal="24dp"
+        tools:background="@drawable/ripple_gray01_bg_solid_kakao01_rounded_5">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/constraint_layout_button"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:clickable="true"
-            android:focusable="true"
-            android:paddingHorizontal="24dp"
-            tools:background="@drawable/ripple_gray01_bg_solid_kakao01_rounded_5">
-
-            <com.google.android.material.progressindicator.CircularProgressIndicator
-                android:id="@+id/progress_bar_loading_button"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:indeterminate="true"
-                android:visibility="invisible"
-                app:indicatorColor="@color/black01"
-                app:indicatorSize="24dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:trackThickness="4dp"
-                tools:visibility="visible" />
-
-            <ImageView
-                android:id="@+id/image_view_sns_logo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:contentDescription="@string/content_description_logo"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:src="@drawable/ic_kakao"
-                tools:visibility="gone" />
-
-            <com.onewx2m.design_system.components.textview.FigmaTextView
-                android:id="@+id/text_view_content"
-                style="@style/Header.3"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
-                android:gravity="center_horizontal"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/image_view_sns_logo"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:text="카카오톡으로 로그인" />
-
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <View
-            android:id="@+id/view_loading"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:background="@drawable/bg_solid_white02_rounded_5"
+        <com.google.android.material.progressindicator.CircularProgressIndicator
+            android:id="@+id/progress_bar_loading_button"
+            android:indeterminate="true"
+            android:layout_height="24dp"
+            android:layout_width="24dp"
             android:visibility="invisible"
+            app:indicatorColor="@color/black01"
+            app:indicatorSize="24dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:trackThickness="4dp"
+            tools:visibility="visible" />
+
+        <ImageView
+            android:contentDescription="@string/content_description_logo"
+            android:id="@+id/image_view_sns_logo"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@drawable/ic_kakao"
+            tools:visibility="gone" />
+
+        <com.onewx2m.design_system.components.textview.FigmaTextView
+            style="@style/Header.3"
+            android:gravity="center_horizontal"
+            android:id="@+id/text_view_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_width="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/image_view_sns_logo"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="카카오톡으로 로그인" />
 
 
-    </FrameLayout>
-</layout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <View
+        android:background="@drawable/bg_solid_white02_rounded_5"
+        android:id="@+id/view_loading"
+        android:layout_height="50dp"
+        android:layout_width="match_parent"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+</FrameLayout>

@@ -26,7 +26,7 @@ internal class AndroidApplicationPlugin : Plugin<Project> {
                     versionName = "1.0"
                 }
 
-                dataBinding.enable = true
+                viewBinding.enable = true
 
                 configureKotlinAndroid(this)
             }

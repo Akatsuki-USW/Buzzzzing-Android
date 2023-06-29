@@ -4,19 +4,18 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
-import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.viewbinding.ViewBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
-abstract class MviBottomSheetFragment<B : ViewDataBinding, STATE : ViewState, EVENT : Event, SIDE_EFFECT: SideEffect ,VM : MviViewModel<STATE, EVENT, SIDE_EFFECT>>(
+abstract class MviBottomSheetFragment<B : ViewBinding, STATE : ViewState, EVENT : Event, SIDE_EFFECT : SideEffect, VM : MviViewModel<STATE, EVENT, SIDE_EFFECT>>(
     private val inflater: (LayoutInflater, ViewGroup?, Boolean) -> B,
 ) : Fragment() {
     private var _binding: B? = null
@@ -37,8 +36,7 @@ abstract class MviBottomSheetFragment<B : ViewDataBinding, STATE : ViewState, EV
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.lifecycleOwner = viewLifecycleOwner
-
+        // ViewBinding을 사용했기 때문에 binding.lifecycleOwner = viewLifecycleOwner 하지 않음.
         initView()
         observeState(::render, ::handleSideEffect)
     }
@@ -58,11 +56,9 @@ abstract class MviBottomSheetFragment<B : ViewDataBinding, STATE : ViewState, EV
     }
 
     protected open fun render(current: STATE) {
-
     }
 
     protected open fun handleSideEffect(sideEffect: SIDE_EFFECT) {
-
     }
 
     protected fun LifecycleOwner.repeatOnStarted(viewLifecycleOwner: LifecycleOwner, block: suspend CoroutineScope.() -> Unit) {
@@ -75,5 +71,4 @@ abstract class MviBottomSheetFragment<B : ViewDataBinding, STATE : ViewState, EV
         _binding = null
         super.onDestroyView()
     }
-
 }

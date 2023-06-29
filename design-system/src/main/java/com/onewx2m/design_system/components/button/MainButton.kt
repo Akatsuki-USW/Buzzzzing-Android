@@ -5,7 +5,6 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.FrameLayout
-import androidx.databinding.DataBindingUtil
 import com.onewx2m.core_ui.extensions.onThrottleClick
 import com.onewx2m.design_system.R
 import com.onewx2m.design_system.databinding.ButtonMainBinding
@@ -93,6 +92,6 @@ class MainButton @JvmOverloads constructor(
 
     init {
         val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        binding = DataBindingUtil.inflate(inflater, R.layout.button_main, this, true)
+        binding = ButtonMainBinding.inflate(inflater, this, true)
     }
 }
