@@ -73,7 +73,7 @@ class SnsLoginButton @JvmOverloads constructor(
 
         val background = typedArray.getResourceId(
             R.styleable.SnsLoginButton_loginButtonBackground,
-            R.drawable.ripple_bg_solid_kakao01_rounded_5,
+            R.drawable.ripple_gray01_bg_solid_kakao01_rounded_5,
         )
         val progressBarTint = typedArray.getResourceId(
             R.styleable.SnsLoginButton_loginButtonProgressBarTint,

@@ -17,46 +17,38 @@
             android:layout_height="50dp"
             android:clickable="true"
             android:focusable="true"
-            android:paddingHorizontal="24dp"
-            tools:background="@drawable/ripple_gray01_bg_solid_kakao01_rounded_5">
+            android:paddingHorizontal="15dp"
+            tools:background="@drawable/ripple_gray01_bg_solid_blue_rounded_5">
 
             <com.google.android.material.progressindicator.CircularProgressIndicator
                 android:id="@+id/progress_bar_loading_button"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
                 android:indeterminate="true"
                 android:visibility="invisible"
-                app:indicatorColor="@color/black01"
-                app:indicatorSize="24dp"
+                app:indicatorColor="@color/white01"
+                app:indicatorSize="16dp"
                 app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/text_view_content"
+                app:layout_constraintHorizontal_chainStyle="packed"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:trackThickness="4dp"
+                app:trackThickness="2dp"
                 tools:visibility="visible" />
-
-            <ImageView
-                android:id="@+id/image_view_sns_logo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:contentDescription="@string/content_description_logo"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:src="@drawable/ic_kakao"
-                tools:visibility="gone" />
 
             <com.onewx2m.design_system.components.textview.FigmaTextView
                 android:id="@+id/text_view_content"
                 style="@style/Header.3"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
+                android:layout_marginStart="10dp"
                 android:gravity="center_horizontal"
+                android:textColor="@color/white01"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/image_view_sns_logo"
+                app:layout_constraintStart_toEndOf="@id/progress_bar_loading_button"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:text="카카오톡으로 로그인" />
+                tools:text="확인" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
