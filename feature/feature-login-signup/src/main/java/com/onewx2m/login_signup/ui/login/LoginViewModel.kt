@@ -72,7 +72,7 @@ class LoginViewModel @Inject constructor(
 
     override fun reduceState(current: LoginViewState, event: LoginEvent): LoginViewState =
         when (event) {
-            LoginEvent.KakaoLoginButtonStateToEnable -> current.copy(kakaoLoginButtonState = SnsLoginButtonState.Enable)
-            LoginEvent.KakaoLoginButtonStateToLoading -> current.copy(kakaoLoginButtonState = SnsLoginButtonState.Loading)
+            LoginEvent.KakaoLoginButtonStateToEnable -> current.copy(kakaoLoginButtonState = SnsLoginButtonState.ENABLE)
+            LoginEvent.KakaoLoginButtonStateToLoading -> current.copy(kakaoLoginButtonState = SnsLoginButtonState.LOADING)
         }
 }

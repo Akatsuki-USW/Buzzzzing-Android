@@ -10,9 +10,8 @@ import com.onewx2m.core_ui.extensions.onThrottleClick
 import com.onewx2m.design_system.R
 import com.onewx2m.design_system.databinding.ButtonSnsLoginBinding
 
-sealed interface SnsLoginButtonState {
-    object Enable : SnsLoginButtonState
-    object Loading : SnsLoginButtonState
+enum class SnsLoginButtonState {
+    ENABLE, LOADING
 }
 
 class SnsLoginButton @JvmOverloads constructor(
@@ -29,15 +28,15 @@ class SnsLoginButton @JvmOverloads constructor(
 
     private val binding: ButtonSnsLoginBinding
 
-    var state: SnsLoginButtonState = SnsLoginButtonState.Enable
+    var state: SnsLoginButtonState = SnsLoginButtonState.ENABLE
         set(value) {
             field = value
             when (field) {
-                SnsLoginButtonState.Enable -> {
+                SnsLoginButtonState.ENABLE -> {
                     changeStateToEnable()
                 }
 
-                SnsLoginButtonState.Loading -> {
+                SnsLoginButtonState.LOADING -> {
                     changeStateToLoading()
                 }
             }

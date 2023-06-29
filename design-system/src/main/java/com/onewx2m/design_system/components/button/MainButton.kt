@@ -9,11 +9,8 @@ import com.onewx2m.core_ui.extensions.onThrottleClick
 import com.onewx2m.design_system.R
 import com.onewx2m.design_system.databinding.ButtonMainBinding
 
-sealed interface MainButtonState {
-    object Positive : MainButtonState
-    object Negative : MainButtonState
-    object Loading : MainButtonState
-    object Disable : MainButtonState
+enum class MainButtonState {
+    POSITIVE, NEGATIVE, LOADING, DISABLE
 }
 
 class MainButton @JvmOverloads constructor(
@@ -30,14 +27,14 @@ class MainButton @JvmOverloads constructor(
 
     private val binding: ButtonMainBinding
 
-    var state: MainButtonState = MainButtonState.Positive
+    var state: MainButtonState = MainButtonState.POSITIVE
         set(value) {
             field = value
             when (field) {
-                MainButtonState.Positive -> changeStateToPositive()
-                MainButtonState.Negative -> changeStateToNegative()
-                MainButtonState.Loading -> changeStateToLoading()
-                MainButtonState.Disable -> changeStateToDisable()
+                MainButtonState.POSITIVE -> changeStateToPositive()
+                MainButtonState.NEGATIVE -> changeStateToNegative()
+                MainButtonState.LOADING -> changeStateToLoading()
+                MainButtonState.DISABLE -> changeStateToDisable()
             }
         }
 
