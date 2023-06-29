@@ -6,6 +6,8 @@ import org.gradle.api.JavaVersion
 import org.gradle.api.Project
 import org.gradle.api.plugins.ExtensionAware
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmOptions
+import java.io.FileInputStream
+import java.util.*
 
 internal fun Project.configureKotlinAndroid(
     commonExtension: CommonExtension<*, *, *, *>,
@@ -20,7 +22,11 @@ internal fun Project.configureKotlinAndroid(
             vectorDrawables.useSupportLibrary = true
 
             buildConfigField("String", "KAKAO_NATIVE_APP_KEY", gradleLocalProperties(rootDir).getProperty("KAKAO_NATIVE_APP_KEY"))
-            manifestPlaceholders["KAKAO_NATIVE_APP_KEY"] = gradleLocalProperties(rootDir).getProperty("KAKAO_NATIVE_APP_KEY") as String
+
+            val properties = Properties().apply {
+                load(FileInputStream(rootProject.file("local.properties")))
+            }
+            manifestPlaceholders["KAKAO_MANIFEST_APP_KEY"] = properties["KAKAO_MANIFEST_APP_KEY"] as String
         }
 
         compileOptions {
