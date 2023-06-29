@@ -91,7 +91,6 @@
 
     <style name="Label.2">
         <item name="android:textSize">14sp</item>
-        <item name="android:fontFamily">@font/notosanskrbold</item>
         <item name="figmaLineHeight">18.0</item>
     </style>
 
