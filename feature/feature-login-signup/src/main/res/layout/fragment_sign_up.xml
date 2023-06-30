@@ -1,14 +1,32 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/pink"
+    android:paddingHorizontal="20dp"
+    android:paddingTop="16dp"
+    android:paddingBottom="32dp"
     tools:context="com.onewx2m.login_signup.ui.signup.SignUpFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="약관 동의 화면" />
+    <ImageButton
+        android:id="@+id/image_button_back"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:background="@drawable/ic_back"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-</FrameLayout>
+
+    <com.onewx2m.design_system.components.button.MainButton
+        android:id="@+id/button_sign_up"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <include layout="@layout/button_main" />
+
+    </com.onewx2m.design_system.components.button.MainButton>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

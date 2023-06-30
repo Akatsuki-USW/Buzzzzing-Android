@@ -41,7 +41,7 @@ class MainButton @JvmOverloads constructor(
     private fun changeStateToPositive() {
         setButtonClickFocus(true)
         binding.apply {
-            constraintLayoutButton.setBackgroundResource(R.drawable.ripple_gray01_bg_solid_blue_rounded_5)
+            constraintLayoutButton.setBackgroundResource(R.drawable.ripple_black01_bg_solid_blue_rounded_5)
             textViewContent.setTextColor(context.getColor(R.color.white01))
         }
         hideLoading()

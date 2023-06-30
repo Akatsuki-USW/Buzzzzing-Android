@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout android:layout_height="50dp"
-    android:layout_width="match_parent"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="50dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraint_layout_button"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
         android:clickable="true"
         android:focusable="true"
-        android:id="@+id/constraint_layout_button"
-        android:layout_height="50dp"
-        android:layout_width="match_parent"
         android:paddingHorizontal="24dp"
         tools:background="@drawable/ripple_gray01_bg_solid_kakao01_rounded_5">
 
         <com.google.android.material.progressindicator.CircularProgressIndicator
             android:id="@+id/progress_bar_loading_button"
-            android:indeterminate="true"
-            android:layout_height="24dp"
             android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:indeterminate="true"
             android:visibility="invisible"
             app:indicatorColor="@color/black01"
             app:indicatorSize="24dp"
@@ -29,10 +29,10 @@
             tools:visibility="visible" />
 
         <ImageView
-            android:contentDescription="@string/content_description_logo"
             android:id="@+id/image_view_sns_logo"
-            android:layout_height="wrap_content"
             android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/content_description_logo"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -40,12 +40,12 @@
             tools:visibility="gone" />
 
         <com.onewx2m.design_system.components.textview.FigmaTextView
-            style="@style/Header.3"
-            android:gravity="center_horizontal"
             android:id="@+id/text_view_content"
+            style="@style/Header.3"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
-            android:layout_width="0dp"
+            android:gravity="center_horizontal"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/image_view_sns_logo"
@@ -56,10 +56,10 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <View
-        android:background="@drawable/bg_solid_white02_rounded_5"
         android:id="@+id/view_loading"
-        android:layout_height="50dp"
         android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@drawable/bg_solid_white02_rounded_5"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
