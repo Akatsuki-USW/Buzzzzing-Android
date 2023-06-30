@@ -110,5 +110,22 @@ class TextInputLayout @JvmOverloads constructor(
             if (!hasFocus && state == TextInputLayoutState.FOCUSED) changeStateToInactive()
             if (hasFocus && state == TextInputLayoutState.INACTIVE) changeStateToFocused()
         }
+
+        val typedArray =
+            context.obtainStyledAttributes(attrs, R.styleable.TextInputLayout, defStyleAttr, 0)
+
+        val label = typedArray.getText(R.styleable.TextInputLayout_label)
+        val isHideLabel = typedArray.getBoolean(R.styleable.TextInputLayout_hideLabel, false)
+
+        val helperText = typedArray.getText(R.styleable.TextInputLayout_helperTextContent)
+        val isHideHelperText = typedArray.getBoolean(R.styleable.TextInputLayout_hideHelperTextContent, false)
+
+        binding.label.text = label
+        binding.label.visibility = if (isHideLabel) View.GONE else View.VISIBLE
+
+        binding.helperText.text = helperText
+        binding.helperText.visibility = if (isHideHelperText) View.GONE else View.VISIBLE
+
+        typedArray.recycle()
     }
 }

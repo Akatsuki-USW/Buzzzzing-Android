@@ -12,4 +12,11 @@
     <declare-styleable name="FigmaTextView">
         <attr name="figmaLineHeight" format="float" />
     </declare-styleable>
+
+    <declare-styleable name="TextInputLayout">
+        <attr name="label" format="reference|string" />
+        <attr name="hideLabel" format="boolean" />
+        <attr name="helperTextContent" format="reference|string" />
+        <attr name="hideHelperTextContent" format="boolean" />
+    </declare-styleable>
 </resources>
