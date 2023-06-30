@@ -15,7 +15,7 @@ enum class TextInputLayoutState {
 }
 
 class TextInputLayout @JvmOverloads constructor(
-    val context: Context,
+    context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0,
 ) : ConstraintLayout(context, attrs, defStyleAttr) {
