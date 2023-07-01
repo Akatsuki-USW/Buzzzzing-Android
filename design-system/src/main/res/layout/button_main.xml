@@ -42,7 +42,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/progress_bar_loading_button"
             app:layout_constraintTop_toTopOf="parent"
-            android:text="확인~~~~~~~"
             tools:text="확인" />
 
 

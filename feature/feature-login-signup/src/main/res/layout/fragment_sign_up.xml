@@ -5,7 +5,6 @@
     android:layout_height="match_parent"
     android:paddingHorizontal="20dp"
     android:paddingTop="16dp"
-    android:paddingBottom="32dp"
     tools:context="com.onewx2m.login_signup.ui.signup.SignUpFragment">
 
     <ImageButton
@@ -16,11 +15,39 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <com.willy.ratingbar.ScaleRatingBar
+        android:id="@+id/view_pager_indicator"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_width="wrap_content"
+        android:layout_height="24dp"
+        app:srb_numStars="3"
+        app:srb_minimumStars="1"
+        app:srb_rating="2"
+        app:srb_starWidth="24dp"
+        app:srb_starHeight="24dp"
+        app:srb_starPadding="2dp"
+        app:srb_stepSize="1.0"
+        app:srb_isIndicator="true"
+        app:srb_clickable="false"
+        app:srb_scrollable="false"
+        app:srb_clearRatingEnabled="false"
+        app:srb_drawableEmpty="@drawable/ic_airplane_blue_light"
+        app:srb_drawableFilled="@drawable/ic_airplane_blue"/>
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/view_pager_sing_up"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/image_button_back" />
+
 
     <com.onewx2m.design_system.components.button.MainButton
         android:id="@+id/button_sign_up"
         android:layout_width="match_parent"
         android:layout_height="50dp"
+        android:layout_marginBottom="32dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
