@@ -50,4 +50,12 @@ class TermsAndConditionsViewModel @Inject constructor() :
     fun changeTermsAndConditionsCheckboxState(isChecked: Boolean) {
         postEvent(TermsAndConditionsEvent.ChangeTermsAndConditionsCheckboxState(isChecked))
     }
+
+    fun goToPersonalInformationHandlingPolicyWebSite() {
+        postSideEffect(TermsAndConditionsSideEffect.GoToPersonalInformationHandlingPolicyWebSite)
+    }
+
+    fun goToTermsAndConditionsWebSite() {
+        postSideEffect(TermsAndConditionsSideEffect.GoToTermsAndConditionsWebSite)
+    }
 }

@@ -2,4 +2,7 @@
     <!-- deeplink -->
     <string name="deeplink_home_fragment">android-app://com.onewx2m.feature_home.ui.HomeFragment</string>
 
+    <!-- url -->
+    <string name="url_personal_information_handling_policy">https://policy.naver.com/policy/privacy.html</string>
+    <string name="url_terms_and_conditions">https://policy.naver.com/policy/service.html</string>
 </resources>

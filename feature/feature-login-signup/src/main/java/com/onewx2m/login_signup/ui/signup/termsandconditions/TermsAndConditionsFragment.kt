@@ -1,6 +1,9 @@
 package com.onewx2m.login_signup.ui.signup.termsandconditions
 
+import android.content.Intent
+import android.net.Uri
 import androidx.fragment.app.viewModels
+import com.onewx2m.feature_login_signup.R
 import com.onewx2m.feature_login_signup.databinding.FragmentTermsAndConditionsBinding
 import com.onewx2m.mvi.MviFragment
 import dagger.hilt.android.AndroidEntryPoint
@@ -18,16 +21,28 @@ class TermsAndConditionsFragment :
                 viewModel.changeAgreeAllCheckboxState(isChecked)
             }
 
-            layoutPersonalInformationAgree.checkboxChangeListener {
-                viewModel.changePersonalHandlingPolicyState(it)
+            layoutPersonalInformationAgree.apply {
+                onThrottleClick {
+                    viewModel.goToPersonalInformationHandlingPolicyWebSite()
+                }
+                checkboxChangeListener {
+                    viewModel.changePersonalHandlingPolicyState(it)
+                }
             }
 
-            layoutOver14Agree.checkboxChangeListener {
-                viewModel.changeOver14CheckboxState(it)
+            layoutTermsAndConditionsAgree.apply {
+                onThrottleClick {
+                    viewModel.goToTermsAndConditionsWebSite()
+                }
+                checkboxChangeListener {
+                    viewModel.changeTermsAndConditionsCheckboxState(it)
+                }
             }
 
-            layoutTermsAndConditionsAgree.checkboxChangeListener {
-                viewModel.changeTermsAndConditionsCheckboxState(it)
+            layoutOver14Agree.apply {
+                checkboxChangeListener {
+                    viewModel.changeOver14CheckboxState(it)
+                }
             }
         }
     }
@@ -39,5 +54,20 @@ class TermsAndConditionsFragment :
         binding.layoutPersonalInformationAgree.isChecked = current.isPersonalHandlingPolicyChecked
         binding.layoutTermsAndConditionsAgree.isChecked = current.isTermsAndConditionsChecked
         binding.layoutOver14Agree.isChecked = current.isOver14Checked
+    }
+
+    override fun handleSideEffect(sideEffect: TermsAndConditionsSideEffect) {
+        super.handleSideEffect(sideEffect)
+
+        when (sideEffect) {
+            TermsAndConditionsSideEffect.GoToPersonalInformationHandlingPolicyWebSite -> {
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(getString(com.onewx2m.core_ui.R.string.url_personal_information_handling_policy)))
+                startActivity(intent)
+            }
+            TermsAndConditionsSideEffect.GoToTermsAndConditionsWebSite -> {
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(getString(com.onewx2m.core_ui.R.string.url_terms_and_conditions)))
+                startActivity(intent)
+            }
+        }
     }
 }
