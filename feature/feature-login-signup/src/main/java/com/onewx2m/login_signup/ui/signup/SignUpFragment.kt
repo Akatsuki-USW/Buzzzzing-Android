@@ -33,6 +33,12 @@ class SignUpFragment :
         }
     }
 
+    override fun render(current: SignUpViewState) {
+        super.render(current)
+
+        binding.buttonSignUp.state = current.mainButtonState
+    }
+
     override fun onResume() {
         super.onResume()
 

@@ -5,6 +5,7 @@ import android.net.Uri
 import androidx.fragment.app.viewModels
 import com.onewx2m.feature_login_signup.R
 import com.onewx2m.feature_login_signup.databinding.FragmentTermsAndConditionsBinding
+import com.onewx2m.login_signup.ui.signup.SignUpViewModel
 import com.onewx2m.mvi.MviFragment
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -14,6 +15,7 @@ class TermsAndConditionsFragment :
         FragmentTermsAndConditionsBinding::inflate,
     ) {
     override val viewModel: TermsAndConditionsViewModel by viewModels()
+    private val parentViewModel: SignUpViewModel by viewModels({ requireParentFragment() })
 
     override fun initView() {
         binding.apply {
@@ -54,6 +56,8 @@ class TermsAndConditionsFragment :
         binding.layoutPersonalInformationAgree.isChecked = current.isPersonalHandlingPolicyChecked
         binding.layoutTermsAndConditionsAgree.isChecked = current.isTermsAndConditionsChecked
         binding.layoutOver14Agree.isChecked = current.isOver14Checked
+
+        viewModel.changeSignUpButtonState(current)
     }
 
     override fun handleSideEffect(sideEffect: TermsAndConditionsSideEffect) {
@@ -67,6 +71,10 @@ class TermsAndConditionsFragment :
             TermsAndConditionsSideEffect.GoToTermsAndConditionsWebSite -> {
                 val intent = Intent(Intent.ACTION_VIEW, Uri.parse(getString(com.onewx2m.core_ui.R.string.url_terms_and_conditions)))
                 startActivity(intent)
+            }
+
+            is TermsAndConditionsSideEffect.ChangeSignUpButtonState -> {
+                parentViewModel.postChangeMainButtonStateEvent(sideEffect.signUpButtonState)
             }
         }
     }
