@@ -1,13 +1,73 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.onewx2m.login_signup.ui.signup.termsandconditions.TermsAndConditionsFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+    <com.onewx2m.design_system.components.textview.FigmaTextView
+        android:id="@+id/text_view_title"
+        style="@style/Header.2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/terms_and_conditions_title"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-</FrameLayout>
+    <com.onewx2m.design_system.components.textview.FigmaTextView
+        android:id="@+id/text_view_agree_all"
+        style="@style/Header.3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="57dp"
+        android:text="@string/word_agree_all"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/text_view_title" />
+
+    <CheckBox
+        android:id="@+id/check_box_agree_all"
+        android:layout_width="29dp"
+        android:layout_height="28dp"
+        android:background="@drawable/selector_check_box"
+        android:button="@null"
+        app:layout_constraintBottom_toBottomOf="@id/text_view_agree_all"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/text_view_agree_all" />
+
+    <View
+        android:id="@+id/view_divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="16dp"
+        android:background="@color/black01"
+        app:layout_constraintTop_toBottomOf="@id/check_box_agree_all" />
+
+    <com.onewx2m.design_system.components.checkbox.CheckboxAgreementText
+        android:id="@+id/layout_personal_information_agree"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        app:checkboxAgreementTextContent="@string/word_personal_information_handling_policy"
+        app:layout_constraintTop_toBottomOf="@id/view_divider"
+        tools:layout_height="24dp" />
+
+    <com.onewx2m.design_system.components.checkbox.CheckboxAgreementText
+        android:id="@+id/layout_terms_and_conditions_agree"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="22dp"
+        app:checkboxAgreementTextContent="@string/word_terms_and_conditions"
+        app:layout_constraintTop_toBottomOf="@id/layout_personal_information_agree"
+        tools:layout_height="24dp" />
+
+    <com.onewx2m.design_system.components.checkbox.CheckboxAgreementText
+        android:id="@+id/layout_over_14_agree"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="22dp"
+        app:checkboxAgreementTextContent="@string/terms_and_conditions_over_14"
+        app:hideRightArrow="true"
+        app:layout_constraintTop_toBottomOf="@id/layout_terms_and_conditions_agree"
+        tools:layout_height="24dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

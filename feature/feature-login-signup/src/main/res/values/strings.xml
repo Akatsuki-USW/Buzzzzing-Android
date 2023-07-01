@@ -3,4 +3,6 @@
     <string name="hello_blank_fragment">Hello login fragment</string>
     <string name="fragment_login_login_to_kakao">카카오톡으로 로그인</string>
     <string name="fragment_login_app_introduction">혼잡도 기반 장소 추천 서비스</string>
+    <string name="terms_and_conditions_title">가입을 위한\n약관 동의가 필요해요!</string>
+    <string name="terms_and_conditions_over_14">만 14세 이상입니다.</string>
 </resources>
