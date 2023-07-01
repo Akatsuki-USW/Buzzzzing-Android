@@ -28,7 +28,7 @@
         app:srb_isIndicator="true"
         app:srb_minimumStars="1"
         app:srb_numStars="3"
-        app:srb_rating="2"
+        app:srb_rating="1"
         app:srb_scrollable="false"
         app:srb_starHeight="24dp"
         app:srb_starPadding="2dp"
