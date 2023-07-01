@@ -88,7 +88,7 @@ class MainButton @JvmOverloads constructor(
 
     private fun hideLoading() {
         binding.apply {
-            progressBarLoadingButton.visibility = View.INVISIBLE
+            progressBarLoadingButton.visibility = View.GONE
             viewLoading.visibility = View.GONE
         }
     }
