@@ -16,6 +16,12 @@ class CheckboxAgreementText @JvmOverloads constructor(
 ) : ConstraintLayout(context, attrs, defStyleAttr) {
     private val binding: CheckboxAgreementTextBinding
 
+    var isChecked: Boolean = false
+        set(value) {
+            field = value
+            binding.checkBox.isChecked = field
+        }
+
     fun onThrottleClick(onClick: () -> Unit) =
         binding.root.onThrottleClick {
             onClick()
