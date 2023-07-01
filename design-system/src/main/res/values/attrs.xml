@@ -23,4 +23,9 @@
     <declare-styleable name="MainButton">
         <attr name="mainButtonText" format="reference|string" />
     </declare-styleable>
+
+    <declare-styleable name="CheckboxAgreementText">
+        <attr name="checkboxAgreementTextContent" format="reference|string" />
+        <attr name="hideRightArrow" format="boolean" />
+    </declare-styleable>
 </resources>

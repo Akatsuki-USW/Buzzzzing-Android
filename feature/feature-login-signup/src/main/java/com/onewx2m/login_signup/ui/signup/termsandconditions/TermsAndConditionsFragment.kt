@@ -13,6 +13,5 @@ class TermsAndConditionsFragment :
     override val viewModel: TermsAndConditionsViewModel by viewModels()
 
     override fun initView() {
-        TODO("Not yet implemented")
     }
 }
