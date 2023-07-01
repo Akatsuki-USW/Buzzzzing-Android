@@ -17,28 +17,29 @@
 
     <com.willy.ratingbar.ScaleRatingBar
         android:id="@+id/view_pager_indicator"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         android:layout_width="wrap_content"
         android:layout_height="24dp"
-        app:srb_numStars="3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srb_clearRatingEnabled="false"
+        app:srb_clickable="false"
+        app:srb_drawableEmpty="@drawable/ic_airplane_blue_light"
+        app:srb_drawableFilled="@drawable/ic_airplane_blue"
+        app:srb_isIndicator="true"
         app:srb_minimumStars="1"
+        app:srb_numStars="3"
         app:srb_rating="2"
-        app:srb_starWidth="24dp"
+        app:srb_scrollable="false"
         app:srb_starHeight="24dp"
         app:srb_starPadding="2dp"
-        app:srb_stepSize="1.0"
-        app:srb_isIndicator="true"
-        app:srb_clickable="false"
-        app:srb_scrollable="false"
-        app:srb_clearRatingEnabled="false"
-        app:srb_drawableEmpty="@drawable/ic_airplane_blue_light"
-        app:srb_drawableFilled="@drawable/ic_airplane_blue"/>
+        app:srb_starWidth="24dp"
+        app:srb_stepSize="1.0" />
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/view_pager_sing_up"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginTop="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/image_button_back" />
 
@@ -50,10 +51,7 @@
         android:layout_marginBottom="32dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
-
-        <include layout="@layout/button_main" />
-
-    </com.onewx2m.design_system.components.button.MainButton>
+        app:layout_constraintStart_toStartOf="parent"
+        app:mainButtonText="@string/word_next"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

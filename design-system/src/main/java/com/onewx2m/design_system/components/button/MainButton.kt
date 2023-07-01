@@ -27,6 +27,12 @@ class MainButton @JvmOverloads constructor(
 
     private val binding: ButtonMainBinding
 
+    var text: String = ""
+        set(value) {
+            field = value
+            binding.textViewContent.text = field
+        }
+
     var state: MainButtonState = MainButtonState.POSITIVE
         set(value) {
             field = value
@@ -90,5 +96,13 @@ class MainButton @JvmOverloads constructor(
     init {
         val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         binding = ButtonMainBinding.inflate(inflater, this, true)
+
+        val typedArray =
+            context.obtainStyledAttributes(attrs, R.styleable.MainButton, defStyleAttr, 0)
+
+        val text = typedArray.getText(R.styleable.MainButton_mainButtonText)
+        binding.textViewContent.text = text
+
+        typedArray.recycle()
     }
 }

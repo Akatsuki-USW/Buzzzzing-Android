@@ -27,7 +27,7 @@ class SignUpFragment :
     override fun initView() {
         binding.apply {
             viewPagerSingUp.apply {
-                isUserInputEnabled = true
+                isUserInputEnabled = false
                 adapter = pagerAdapter
             }
         }

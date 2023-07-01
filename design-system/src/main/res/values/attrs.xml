@@ -19,4 +19,8 @@
         <attr name="helperTextContent" format="reference|string" />
         <attr name="hideHelperTextContent" format="boolean" />
     </declare-styleable>
+
+    <declare-styleable name="MainButton">
+        <attr name="mainButtonText" format="reference|string" />
+    </declare-styleable>
 </resources>

@@ -19,7 +19,7 @@
             android:layout_width="16dp"
             android:layout_height="16dp"
             android:indeterminate="true"
-            android:visibility="invisible"
+            android:visibility="gone"
             app:indicatorColor="@color/white01"
             app:indicatorSize="16dp"
             app:layout_constraintBottom_toBottomOf="parent"
