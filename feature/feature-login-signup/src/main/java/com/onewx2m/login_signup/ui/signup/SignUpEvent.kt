@@ -5,4 +5,5 @@ import com.onewx2m.mvi.Event
 
 sealed interface SignUpEvent : Event {
     data class ChangeMainButtonState(val mainButtonState: MainButtonState) : SignUpEvent
+    data class ChangeViewPagerPosition(val position: Int) : SignUpEvent
 }
