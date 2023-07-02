@@ -15,4 +15,8 @@ class ProfileAndNicknameViewModel @Inject constructor() :
     ): ProfileAndNicknameViewState {
         TODO("Not yet implemented")
     }
+
+    fun postScrollToKeyboardHeightSideEffect() {
+        postSideEffect(ProfileAndNicknameSideEffect.ScrollToKeyBoardHeight)
+    }
 }
