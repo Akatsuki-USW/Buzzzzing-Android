@@ -64,4 +64,8 @@ class TermsAndConditionsViewModel @Inject constructor() :
         val buttonState = if (viewState.isChildrenItemsAllChecked) MainButtonState.POSITIVE else MainButtonState.DISABLE
         postSideEffect(TermsAndConditionsSideEffect.ChangeSignUpButtonState(buttonState))
     }
+
+    fun postReRenderSideEvent() {
+        postSideEffect(TermsAndConditionsSideEffect.DoReRender)
+    }
 }

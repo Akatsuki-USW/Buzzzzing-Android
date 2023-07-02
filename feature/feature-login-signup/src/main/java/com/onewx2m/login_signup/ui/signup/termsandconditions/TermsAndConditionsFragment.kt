@@ -3,7 +3,6 @@ package com.onewx2m.login_signup.ui.signup.termsandconditions
 import android.content.Intent
 import android.net.Uri
 import androidx.fragment.app.viewModels
-import com.onewx2m.feature_login_signup.R
 import com.onewx2m.feature_login_signup.databinding.FragmentTermsAndConditionsBinding
 import com.onewx2m.login_signup.ui.signup.SignUpViewModel
 import com.onewx2m.mvi.MviFragment
@@ -16,6 +15,15 @@ class TermsAndConditionsFragment :
     ) {
     override val viewModel: TermsAndConditionsViewModel by viewModels()
     private val parentViewModel: SignUpViewModel by viewModels({ requireParentFragment() })
+
+    private var isOnResumed: Boolean = false
+
+    override fun onResume() {
+        super.onResume()
+
+        if (isOnResumed) viewModel.postReRenderSideEvent()
+        isOnResumed = true
+    }
 
     override fun initView() {
         binding.apply {
@@ -76,6 +84,8 @@ class TermsAndConditionsFragment :
             is TermsAndConditionsSideEffect.ChangeSignUpButtonState -> {
                 parentViewModel.postChangeMainButtonStateEvent(sideEffect.signUpButtonState)
             }
+
+            TermsAndConditionsSideEffect.DoReRender -> render(viewModel.state.value)
         }
     }
 }

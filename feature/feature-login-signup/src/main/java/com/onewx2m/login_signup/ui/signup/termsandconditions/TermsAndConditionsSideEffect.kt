@@ -7,4 +7,5 @@ sealed interface TermsAndConditionsSideEffect : SideEffect {
     object GoToPersonalInformationHandlingPolicyWebSite : TermsAndConditionsSideEffect
     object GoToTermsAndConditionsWebSite : TermsAndConditionsSideEffect
     data class ChangeSignUpButtonState(val signUpButtonState: MainButtonState) : TermsAndConditionsSideEffect
+    object DoReRender : TermsAndConditionsSideEffect
 }
