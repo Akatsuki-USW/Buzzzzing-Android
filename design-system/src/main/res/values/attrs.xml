@@ -18,6 +18,7 @@
         <attr name="hideLabel" format="boolean" />
         <attr name="helperTextContent" format="reference|string" />
         <attr name="hideHelperTextContent" format="boolean" />
+        <attr name="textInputLayoutHint" format="reference|string" />
     </declare-styleable>
 
     <declare-styleable name="MainButton">

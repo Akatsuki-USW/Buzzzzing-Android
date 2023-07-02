@@ -120,11 +120,15 @@ class TextInputLayout @JvmOverloads constructor(
         val helperText = typedArray.getText(R.styleable.TextInputLayout_helperTextContent)
         val isHideHelperText = typedArray.getBoolean(R.styleable.TextInputLayout_hideHelperTextContent, false)
 
+        val hint = typedArray.getText(R.styleable.TextInputLayout_textInputLayoutHint)
+
         binding.label.text = label
         binding.label.visibility = if (isHideLabel) View.GONE else View.VISIBLE
 
         binding.helperText.text = helperText
         binding.helperText.visibility = if (isHideHelperText) View.GONE else View.VISIBLE
+
+        binding.editText.hint = hint
 
         typedArray.recycle()
     }
