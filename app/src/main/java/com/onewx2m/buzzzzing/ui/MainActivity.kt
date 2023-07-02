@@ -1,15 +1,17 @@
 package com.onewx2m.buzzzzing.ui
 
+import android.content.Context
+import android.graphics.Rect
 import android.os.Bundle
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewTreeObserver
+import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
 import androidx.activity.viewModels
-import androidx.core.net.toUri
 import androidx.core.splashscreen.SplashScreen
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.navigation.NavController
-import androidx.navigation.NavDeepLinkRequest
-import androidx.navigation.NavOptions
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.onewx2m.buzzzzing.R
@@ -21,7 +23,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class MainActivity :
     MviActivity<ActivityMainBinding, MainViewState, MainEvent, MainSideEffect, MainViewModel>(
-        ActivityMainBinding::inflate
+        ActivityMainBinding::inflate,
     ) {
     private lateinit var splashScreen: SplashScreen
 
@@ -29,12 +31,19 @@ class MainActivity :
 
     private lateinit var navController: NavController
 
-    private val bottomNavigationBarInitialFragmentIds = listOf(com.onewx2m.feature_home.R.id.homeFragment)
+    private val bottomNavigationBarInitialFragmentIds =
+        listOf(com.onewx2m.feature_home.R.id.homeFragment)
 
     private val destinationChangedListener =
         NavController.OnDestinationChangedListener { _, destination, _ ->
-            viewModel.isDestinationInBottomNavigationBarInitialFragment(destination.id, bottomNavigationBarInitialFragmentIds)
+            viewModel.isDestinationInBottomNavigationBarInitialFragment(
+                destination.id,
+                bottomNavigationBarInitialFragmentIds,
+            )
         }
+
+    private val inputMethodManager: InputMethodManager
+        get() = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         splashScreen = installSplashScreen()
@@ -64,14 +73,15 @@ class MainActivity :
                         false
                     }
                 }
-            }
+            },
         )
     }
 
     override fun render(state: MainViewState) {
         super.render(state)
 
-        binding.navBar.visibility = if(state.isBottomNavigationBarVisible) View.VISIBLE else View.GONE
+        binding.navBar.visibility =
+            if (state.isBottomNavigationBarVisible) View.VISIBLE else View.GONE
         viewModel.preDrawRemoveFlag = state.isSplashScreenVisible.not()
     }
 
@@ -86,7 +96,11 @@ class MainActivity :
     }
 
     private fun goToHomeFragment() {
-        val (request, navOptions) = DeepLinkUtil.getHomeRequestAndOption(this, com.onewx2m.feature_login_signup.R.id.loginFragment, true)
+        val (request, navOptions) = DeepLinkUtil.getHomeRequestAndOption(
+            this,
+            com.onewx2m.feature_login_signup.R.id.loginFragment,
+            true,
+        )
         navController.navigate(request, navOptions)
     }
 
@@ -100,5 +114,29 @@ class MainActivity :
         super.onStop()
 
         navController.removeOnDestinationChangedListener(destinationChangedListener)
+    }
+
+    override fun dispatchTouchEvent(event: MotionEvent): Boolean {
+        if (event.action == MotionEvent.ACTION_DOWN) {
+            val currentFocusView = currentFocus
+            if (currentFocusView is EditText) {
+                val outRect = getGlobalVisibleRect(currentFocusView)
+                if (isTouchEventCoordinatesInOutRect(event, outRect).not()) {
+                    currentFocusView.clearFocus()
+                    inputMethodManager.hideSoftInputFromWindow(currentFocusView.getWindowToken(), 0)
+                }
+            }
+        }
+        return super.dispatchTouchEvent(event)
+    }
+
+    private fun getGlobalVisibleRect(view: View): Rect {
+        val outRect = Rect()
+        view.getGlobalVisibleRect(outRect)
+        return outRect
+    }
+
+    private fun isTouchEventCoordinatesInOutRect(event: MotionEvent, outRect: Rect): Boolean {
+        return outRect.contains(event.rawX.toInt(), event.rawY.toInt())
     }
 }
