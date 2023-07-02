@@ -102,11 +102,14 @@ class TextInputLayout @JvmOverloads constructor(
         }
     }
 
+    var doGetFocus: () -> Unit = {}
+
     init {
         val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         binding = TextInputLayoutBinding.inflate(inflater, this, true)
 
         binding.editText.setOnFocusChangeListener { _, hasFocus ->
+            if (hasFocus) doGetFocus()
             if (!hasFocus && state == TextInputLayoutState.FOCUSED) changeStateToInactive()
             if (hasFocus && state == TextInputLayoutState.INACTIVE) changeStateToFocused()
         }
@@ -118,7 +121,8 @@ class TextInputLayout @JvmOverloads constructor(
         val isHideLabel = typedArray.getBoolean(R.styleable.TextInputLayout_hideLabel, false)
 
         val helperText = typedArray.getText(R.styleable.TextInputLayout_helperTextContent)
-        val isHideHelperText = typedArray.getBoolean(R.styleable.TextInputLayout_hideHelperTextContent, false)
+        val isHideHelperText =
+            typedArray.getBoolean(R.styleable.TextInputLayout_hideHelperTextContent, false)
 
         val hint = typedArray.getText(R.styleable.TextInputLayout_textInputLayoutHint)
 

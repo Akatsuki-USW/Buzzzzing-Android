@@ -5,14 +5,20 @@ import com.onewx2m.feature_login_signup.databinding.FragmentProfileAndNicknameBi
 import com.onewx2m.mvi.MviFragment
 import dagger.hilt.android.AndroidEntryPoint
 
-
 @AndroidEntryPoint
-class ProfileAndNicknameFragment : MviFragment<FragmentProfileAndNicknameBinding, ProfileAndNicknameViewState, ProfileAndNicknameEvent, ProfileAndNicknameSideEffect, ProfileAndNicknameViewModel>(
-    FragmentProfileAndNicknameBinding::inflate
-) {
+class ProfileAndNicknameFragment :
+    MviFragment<FragmentProfileAndNicknameBinding, ProfileAndNicknameViewState, ProfileAndNicknameEvent, ProfileAndNicknameSideEffect, ProfileAndNicknameViewModel>(
+        FragmentProfileAndNicknameBinding::inflate,
+    ) {
     override val viewModel: ProfileAndNicknameViewModel by viewModels()
 
     override fun initView() {
-
+        binding.apply {
+            textInputLayoutNickname.apply {
+                doGetFocus = {
+                    scrollView.smoothScrollTo(scrollView.scrollX, binding.imageViewProfile.top)
+                }
+            }
+        }
     }
 }

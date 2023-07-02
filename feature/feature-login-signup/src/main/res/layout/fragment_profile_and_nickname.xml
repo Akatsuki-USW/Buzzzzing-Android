@@ -1,13 +1,57 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/scroll_view"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:scrollbars="none"
     tools:context="com.onewx2m.login_signup.ui.signup.profileandnickname.ProfileAndNicknameFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content"
+        android:paddingBottom="500dp">
 
-</FrameLayout>
+        <com.onewx2m.design_system.components.textview.FigmaTextView
+            android:id="@+id/text_view_title"
+            style="@style/Header.2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/profile_and_nickname_title"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/image_view_profile"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_marginTop="73dp"
+            android:src="@drawable/ic_profile"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/text_view_title" />
+
+        <ImageView
+            android:id="@+id/image_view_edit_profile"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_marginEnd="-3dp"
+            android:layout_marginBottom="-3dp"
+            android:src="@drawable/ic_edit"
+            app:layout_constraintBottom_toBottomOf="@id/image_view_profile"
+            app:layout_constraintEnd_toEndOf="@id/image_view_profile" />
+
+        <com.onewx2m.design_system.components.textinputlayout.TextInputLayout
+            android:id="@+id/text_input_layout_nickname"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="48dp"
+            app:helperTextContent="@string/text_input_layout_nickname_helper_hint"
+            app:hideLabel="true"
+            app:layout_constraintTop_toBottomOf="@id/image_view_profile"
+            app:textInputLayoutHint="@string/text_input_layout_nickname_hint"
+            tools:layout="@layout/text_input_layout"
+            tools:layout_height="100dp" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>
