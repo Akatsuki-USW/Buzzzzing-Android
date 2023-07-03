@@ -129,12 +129,12 @@ class TextInputLayout @JvmOverloads constructor(
     }
 
     private fun preventFocusClearedByAdjustResize() {
-        val losingFocusDelay = 200L
+        val losingFocusDelay = 250L
 
         binding.editText.postDelayed({
             binding.editText.run {
                 if (isFocused.not()) {
-                    state = TextInputLayoutState.FOCUSED
+                    if(state == TextInputLayoutState.INACTIVE) state = TextInputLayoutState.FOCUSED
                     requestFocus()
                 }
             }
