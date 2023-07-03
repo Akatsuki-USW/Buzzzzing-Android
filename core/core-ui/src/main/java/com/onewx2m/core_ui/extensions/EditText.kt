@@ -11,7 +11,10 @@ import kotlinx.coroutines.flow.onStart
 @ExperimentalCoroutinesApi
 fun EditText.textChangesToFlow(): Flow<CharSequence?> {
     return callbackFlow {
-        val listener = doOnTextChanged { text, _, _, _ -> trySend(text) }
+        val listener = doOnTextChanged { text, _, _, _ ->
+            this@textChangesToFlow.requestFocus() // Focus가 사라지는 현상 방지
+            trySend(text)
+        }
         awaitClose { removeTextChangedListener(listener) }
     }.onStart { emit(text) }
 }
