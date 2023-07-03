@@ -28,7 +28,7 @@ class ProfileAndNicknameFragment :
 
     private val visibleFrameSize = Rect()
     private var rootHeight by Delegates.notNull<Int>()
-    private val parentBottomToSignUpButtonTopHeight = 150.px
+    private val scrollFroNicknameCorrectionValue = 180.px
     private val minKeyboardHeight = 150.px
     private lateinit var viewTreeObserver: ViewTreeObserver
     private lateinit var globalLayoutListener: OnGlobalLayoutListener
@@ -71,9 +71,10 @@ class ProfileAndNicknameFragment :
 
             // 키보드를 제외한 높이가 디바이스 root_view보다 높거나 같다면, 키보드가 올라왔을 때가 아니므로 거른다.
             if (heightExceptKeyboard < rootHeight - minKeyboardHeight) {
+                val keyboardHeight = rootHeight - heightExceptKeyboard
                 viewModel.doWhenKeyboardShow(
                     binding.scrollView.scrollY,
-                    parentBottomToSignUpButtonTopHeight,
+                    keyboardHeight - scrollFroNicknameCorrectionValue,
                 )
             }
         }
