@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import androidx.annotation.ColorRes
 import androidx.constraintlayout.widget.ConstraintLayout
-import com.onewx2m.core_ui.extensions.afterTextChanged
 import com.onewx2m.design_system.R
 import com.onewx2m.design_system.databinding.TextInputLayoutBinding
 
@@ -27,14 +26,8 @@ class TextInputLayout @JvmOverloads constructor(
             binding.helperText.text = field
         }
 
-    val text: String
-        get() = binding.editText.text.toString()
-
-    fun afterTextChanged(method: (text: String) -> Unit) {
-        binding.editText.afterTextChanged {
-            method(it.toString())
-        }
-    }
+    val editText
+        get() = binding.editText
 
     var state: TextInputLayoutState = TextInputLayoutState.INACTIVE
         set(value) {
@@ -110,7 +103,7 @@ class TextInputLayout @JvmOverloads constructor(
 
         binding.editText.setOnFocusChangeListener { _, hasFocus ->
             if (hasFocus) doGetFocus()
-            if (!hasFocus && state == TextInputLayoutState.FOCUSED) changeStateToInactive()
+            if (!hasFocus && state == TextInputLayoutState.FOCUSED || state == TextInputLayoutState.INACTIVE) changeStateToInactive()
             if (hasFocus && state == TextInputLayoutState.INACTIVE) changeStateToFocused()
         }
 
