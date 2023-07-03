@@ -2,7 +2,6 @@ package com.onewx2m.login_signup.ui.signup.profileandnickname
 
 import com.onewx2m.core_ui.util.Regex
 import com.onewx2m.design_system.components.textinputlayout.TextInputLayoutState
-import com.onewx2m.feature_login_signup.R
 import com.onewx2m.mvi.MviViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -67,7 +66,7 @@ class ProfileAndNicknameViewModel @Inject constructor() :
         return true
     }
 
-    fun postScrollToKeyboardHeightSideEffect() {
-        postSideEffect(ProfileAndNicknameSideEffect.ScrollToKeyBoardHeight)
+    fun doWhenKeyboardShow(currentScrollY: Int, additionalScroll: Int) {
+        if (currentScrollY < additionalScroll) postSideEffect(ProfileAndNicknameSideEffect.MoreScroll(additionalScroll - currentScrollY))
     }
 }
