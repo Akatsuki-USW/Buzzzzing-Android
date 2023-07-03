@@ -134,7 +134,7 @@ class TextInputLayout @JvmOverloads constructor(
         binding.editText.postDelayed({
             binding.editText.run {
                 if (isFocused.not()) {
-                    if(state == TextInputLayoutState.INACTIVE) state = TextInputLayoutState.FOCUSED
+                    if (state == TextInputLayoutState.INACTIVE || state == TextInputLayoutState.FOCUSED) state = TextInputLayoutState.FOCUSED
                     requestFocus()
                 }
             }
