@@ -100,9 +100,10 @@ class TextInputLayout @JvmOverloads constructor(
         binding = TextInputLayoutBinding.inflate(inflater, this, true)
 
         binding.editText.setOnFocusChangeListener { _, hasFocus ->
+            if (isPreventLosingFocus) return@setOnFocusChangeListener
             if (hasFocus) preventFocusClearedByAdjustResize()
-            if (!hasFocus && state == TextInputLayoutState.FOCUSED || state == TextInputLayoutState.INACTIVE) changeStateToInactive()
-            if (hasFocus && state == TextInputLayoutState.INACTIVE) changeStateToFocused()
+            if (!hasFocus && state == TextInputLayoutState.FOCUSED) state = TextInputLayoutState.INACTIVE
+            if (hasFocus && state == TextInputLayoutState.INACTIVE) state = TextInputLayoutState.FOCUSED
         }
 
         val typedArray =
@@ -128,16 +129,19 @@ class TextInputLayout @JvmOverloads constructor(
         typedArray.recycle()
     }
 
+    private var isPreventLosingFocus = false
+
     private fun preventFocusClearedByAdjustResize() {
+        isPreventLosingFocus = true
         val losingFocusDelay = 250L
 
         binding.editText.postDelayed({
             binding.editText.run {
                 if (isFocused.not()) {
-                    if (state == TextInputLayoutState.INACTIVE || state == TextInputLayoutState.FOCUSED) state = TextInputLayoutState.FOCUSED
                     requestFocus()
                 }
             }
+            isPreventLosingFocus = false
         }, losingFocusDelay)
     }
 }
