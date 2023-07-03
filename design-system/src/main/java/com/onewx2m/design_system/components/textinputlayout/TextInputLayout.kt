@@ -95,14 +95,12 @@ class TextInputLayout @JvmOverloads constructor(
         }
     }
 
-    var doGetFocus: () -> Unit = {}
-
     init {
         val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         binding = TextInputLayoutBinding.inflate(inflater, this, true)
 
         binding.editText.setOnFocusChangeListener { _, hasFocus ->
-            if (hasFocus) doGetFocus()
+            if (hasFocus) preventFocusClearedByAdjustResize()
             if (!hasFocus && state == TextInputLayoutState.FOCUSED || state == TextInputLayoutState.INACTIVE) changeStateToInactive()
             if (hasFocus && state == TextInputLayoutState.INACTIVE) changeStateToFocused()
         }
@@ -128,5 +126,18 @@ class TextInputLayout @JvmOverloads constructor(
         binding.editText.hint = hint
 
         typedArray.recycle()
+    }
+
+    private fun preventFocusClearedByAdjustResize() {
+        val losingFocusDelay = 200L
+
+        binding.editText.postDelayed({
+            binding.editText.run {
+                if (isFocused.not()) {
+                    state = TextInputLayoutState.FOCUSED
+                    requestFocus()
+                }
+            }
+        }, losingFocusDelay)
     }
 }
