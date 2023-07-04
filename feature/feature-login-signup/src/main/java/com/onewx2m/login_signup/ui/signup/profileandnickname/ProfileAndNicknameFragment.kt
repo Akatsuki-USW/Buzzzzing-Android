@@ -12,6 +12,7 @@ import com.onewx2m.core_ui.extensions.textChangesToFlow
 import com.onewx2m.core_ui.util.Constants
 import com.onewx2m.design_system.components.toast.ErrorToast
 import com.onewx2m.feature_login_signup.databinding.FragmentProfileAndNicknameBinding
+import com.onewx2m.login_signup.ui.signup.SignUpViewModel
 import com.onewx2m.mvi.MviFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -21,9 +22,7 @@ import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.flow.transform
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import kotlin.properties.Delegates
 
 @AndroidEntryPoint
@@ -32,6 +31,7 @@ class ProfileAndNicknameFragment :
         FragmentProfileAndNicknameBinding::inflate,
     ) {
     override val viewModel: ProfileAndNicknameViewModel by viewModels()
+    private val parentViewModel: SignUpViewModel by viewModels({ requireParentFragment() })
 
     private val visibleFrameSize = Rect()
     private var rootHeight by Delegates.notNull<Int>()
@@ -56,7 +56,8 @@ class ProfileAndNicknameFragment :
             lifecycle.repeatOnLifecycle(Lifecycle.State.RESUMED) {
                 binding.textInputLayoutNickname.editText.textChangesToFlow()
                     .map { nickname ->
-                        viewModel.postNicknameStateNormalEvent()
+                        viewModel.postNicknameStateNormalOrInactiveEvent(binding.textInputLayoutNickname.editText.isFocused)
+                        viewModel.postSignUpButtonStateDisableSideEffect()
                         nickname
                     }
                     .debounce(Constants.NICKNAME_INPUT_DEBOUNCE)
@@ -123,6 +124,7 @@ class ProfileAndNicknameFragment :
             }
 
             is ProfileAndNicknameSideEffect.ShowErrorToast -> ErrorToast.make(binding.root, sideEffect.message).show()
+            is ProfileAndNicknameSideEffect.ChangeSignUpButtonState -> parentViewModel.postChangeMainButtonStateEvent(sideEffect.buttonState)
         }
     }
 

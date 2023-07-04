@@ -3,6 +3,7 @@ package com.onewx2m.login_signup.ui.signup.profileandnickname
 import androidx.lifecycle.viewModelScope
 import com.onewx2m.core_ui.R
 import com.onewx2m.core_ui.util.Regex
+import com.onewx2m.design_system.components.button.MainButtonState
 import com.onewx2m.design_system.components.textinputlayout.TextInputLayoutState
 import com.onewx2m.domain.Outcome
 import com.onewx2m.domain.exception.common.CommonException
@@ -70,36 +71,39 @@ class ProfileAndNicknameViewModel @Inject constructor(
         )
     }
 
-    suspend fun checkNicknameRegexAndUpdateUi(nickname: CharSequence?, isFocused: Boolean) = viewModelScope.async {
-        if (verifyNicknameFromServerJob.isActive) {
-            verifyNicknameFromServerJob.cancelAndJoin()
-        }
-
-        if (nickname.isNullOrBlank()) {
-            if (isFocused) {
-                postEvent(ProfileAndNicknameEvent.ChangeNicknameLayoutStateNormal)
-            } else {
-                postEvent(ProfileAndNicknameEvent.ChangeNicknameLayoutStateInactive)
+    suspend fun checkNicknameRegexAndUpdateUi(nickname: CharSequence?, isFocused: Boolean) =
+        viewModelScope.async {
+            if (verifyNicknameFromServerJob.isActive) {
+                verifyNicknameFromServerJob.cancelAndJoin()
             }
-            return@async false
-        }
 
-        if (Regex.NICKNAME_LENGTH.toRegex().matches(nickname).not()) {
-            postEvent(ProfileAndNicknameEvent.ChangeNicknameLayoutStateLengthError)
-            return@async false
-        }
+            if (nickname.isNullOrBlank()) {
+                postNicknameStateNormalOrInactiveEvent(isFocused)
+                return@async false
+            }
 
-        if (Regex.NICKNAME_CHAR.toRegex().matches(nickname).not()) {
-            postEvent(ProfileAndNicknameEvent.ChangeNicknameLayoutStateCharError)
-            return@async false
-        }
+            if (Regex.NICKNAME_LENGTH.toRegex().matches(nickname).not()) {
+                postEvent(ProfileAndNicknameEvent.ChangeNicknameLayoutStateLengthError)
+                return@async false
+            }
 
-        postEvent(ProfileAndNicknameEvent.ChangeNicknameLayoutStateNormal)
-        true
-    }.await()
+            if (Regex.NICKNAME_CHAR.toRegex().matches(nickname).not()) {
+                postEvent(ProfileAndNicknameEvent.ChangeNicknameLayoutStateCharError)
+                return@async false
+            }
+
+            postEvent(ProfileAndNicknameEvent.ChangeNicknameLayoutStateNormal)
+            true
+        }.await()
 
     fun doWhenKeyboardShow(currentScrollY: Int, additionalScroll: Int) {
-        if (currentScrollY < additionalScroll) postSideEffect(ProfileAndNicknameSideEffect.MoreScroll(additionalScroll - currentScrollY))
+        if (currentScrollY < additionalScroll) {
+            postSideEffect(
+                ProfileAndNicknameSideEffect.MoreScroll(
+                    additionalScroll - currentScrollY,
+                ),
+            )
+        }
     }
 
     fun verifyNicknameFromServer(nickname: String) {
@@ -107,14 +111,23 @@ class ProfileAndNicknameViewModel @Inject constructor(
             verifyNicknameUseCase(nickname).collect { outcome ->
                 if (isActive.not()) return@collect
                 when (outcome) {
-                    Outcome.Loading -> { postEvent(ProfileAndNicknameEvent.ChangeNicknameLayoutStateLoading) }
+                    Outcome.Loading -> {
+                        postEvent(ProfileAndNicknameEvent.ChangeNicknameLayoutStateLoading)
+                    }
+
                     is Outcome.Success -> {
                         if (outcome.data.isAvailable) {
                             postEvent(ProfileAndNicknameEvent.ChangeNicknameLayoutStateSuccess)
+                            postSideEffect(
+                                ProfileAndNicknameSideEffect.ChangeSignUpButtonState(
+                                    MainButtonState.POSITIVE,
+                                ),
+                            )
                         } else {
                             postEvent(ProfileAndNicknameEvent.ChangeNicknameLayoutStateOverlap)
                         }
                     }
+
                     is Outcome.Failure -> {
                         handleError(outcome.error)
                         postEvent(ProfileAndNicknameEvent.ChangeNicknameLayoutStateUnavailable)
@@ -143,7 +156,15 @@ class ProfileAndNicknameViewModel @Inject constructor(
         postSideEffect(ProfileAndNicknameSideEffect.ShowErrorToast(errorToastMessage))
     }
 
-    fun postNicknameStateNormalEvent() {
-        postEvent(ProfileAndNicknameEvent.ChangeNicknameLayoutStateNormal)
+    fun postNicknameStateNormalOrInactiveEvent(isFocused: Boolean) {
+        if (isFocused) {
+            postEvent(ProfileAndNicknameEvent.ChangeNicknameLayoutStateNormal)
+        } else {
+            postEvent(ProfileAndNicknameEvent.ChangeNicknameLayoutStateInactive)
+        }
+    }
+
+    fun postSignUpButtonStateDisableSideEffect() {
+        postSideEffect(ProfileAndNicknameSideEffect.ChangeSignUpButtonState(MainButtonState.DISABLE))
     }
 }
