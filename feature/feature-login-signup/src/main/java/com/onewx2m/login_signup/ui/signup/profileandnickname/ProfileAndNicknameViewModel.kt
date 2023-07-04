@@ -142,4 +142,8 @@ class ProfileAndNicknameViewModel @Inject constructor(
 
         postSideEffect(ProfileAndNicknameSideEffect.ShowErrorToast(errorToastMessage))
     }
+
+    fun postNicknameStateNormalEvent() {
+        postEvent(ProfileAndNicknameEvent.ChangeNicknameLayoutStateNormal)
+    }
 }

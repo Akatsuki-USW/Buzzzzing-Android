@@ -4,6 +4,9 @@ import android.graphics.Rect
 import android.view.ViewTreeObserver
 import android.view.ViewTreeObserver.OnGlobalLayoutListener
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.onewx2m.core_ui.extensions.px
 import com.onewx2m.core_ui.extensions.textChangesToFlow
 import com.onewx2m.core_ui.util.Constants
@@ -16,8 +19,10 @@ import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.transform
+import kotlinx.coroutines.launch
 import timber.log.Timber
 import kotlin.properties.Delegates
 
@@ -43,16 +48,26 @@ class ProfileAndNicknameFragment :
 
     @OptIn(ExperimentalCoroutinesApi::class, FlowPreview::class)
     override fun initView() {
-        repeatOnStarted(viewLifecycleOwner) {
-            binding.textInputLayoutNickname.editText.textChangesToFlow()
-                .debounce(Constants.NICKNAME_INPUT_DEBOUNCE)
-                .filter { nickname ->
-                    viewModel.checkNicknameRegexAndUpdateUi(nickname, binding.textInputLayoutNickname.editText.isFocused)
-                }
-                .onEach { nickname ->
-                    viewModel.verifyNicknameFromServer(nickname.toString())
-                }
-                .launchIn(this)
+        /**
+         *
+         * ViewPager2에서 사용자가 다른 화면에 진입했다가 다시 돌아오는 경우 닉네임 중복 검사를 다시 실행하기 위해 repeatOnStarted를 사용하지 않음
+         */
+        viewLifecycleOwner.lifecycleScope.launch {
+            lifecycle.repeatOnLifecycle(Lifecycle.State.RESUMED) {
+                binding.textInputLayoutNickname.editText.textChangesToFlow()
+                    .map { nickname ->
+                        viewModel.postNicknameStateNormalEvent()
+                        nickname
+                    }
+                    .debounce(Constants.NICKNAME_INPUT_DEBOUNCE)
+                    .filter { nickname ->
+                        viewModel.checkNicknameRegexAndUpdateUi(nickname, binding.textInputLayoutNickname.editText.isFocused)
+                    }
+                    .onEach { nickname ->
+                        viewModel.verifyNicknameFromServer(nickname.toString())
+                    }
+                    .launchIn(this)
+            }
         }
     }
 
