@@ -69,7 +69,7 @@ class TextInputLayout @JvmOverloads constructor(
     }
 
     private fun changeStateToLoading() {
-        changeLabelUnderlineHelperTextColor(R.color.gray01)
+        changeLabelUnderlineHelperTextColor(R.color.mint)
         binding.apply {
             imageViewError.visibility = View.INVISIBLE
             imageViewSuccess.visibility = View.INVISIBLE

@@ -9,4 +9,6 @@ sealed interface ProfileAndNicknameEvent : Event {
     object ChangeNicknameLayoutStateInactive : ProfileAndNicknameEvent
     object ChangeNicknameLayoutStateLoading : ProfileAndNicknameEvent
     object ChangeNicknameLayoutStateSuccess : ProfileAndNicknameEvent
+    object ChangeNicknameLayoutStateOverlap : ProfileAndNicknameEvent
+    object ChangeNicknameLayoutStateUnavailable : ProfileAndNicknameEvent
 }

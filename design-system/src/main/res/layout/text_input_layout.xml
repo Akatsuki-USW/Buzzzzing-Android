@@ -36,12 +36,12 @@
         android:layout_marginEnd="4dp"
         android:indeterminate="true"
         android:visibility="invisible"
-        app:indicatorColor="@color/white01"
-        app:indicatorSize="20dp"
+        app:indicatorColor="@color/mint"
+        app:indicatorSize="16dp"
         app:layout_constraintBottom_toBottomOf="@id/edit_text"
         app:layout_constraintEnd_toEndOf="@id/edit_text"
         app:layout_constraintTop_toTopOf="@id/edit_text"
-        app:trackThickness="4dp"
+        app:trackThickness="2dp"
         tools:visibility="visible" />
 
     <ImageView

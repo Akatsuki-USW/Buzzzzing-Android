@@ -23,7 +23,7 @@ class RemoteOtherDataSourceImpl @Inject constructor(
                 emit(Outcome.Success(body.data!!.toEntity()))
             }.onFailure { exception ->
                 when (exception) {
-                    is BuzzzzingHttpException -> handleVerifyNicknameException(exception)
+                    is BuzzzzingHttpException -> emit(handleVerifyNicknameException(exception))
                     else -> emit(Outcome.Failure(exception))
                 }
             }

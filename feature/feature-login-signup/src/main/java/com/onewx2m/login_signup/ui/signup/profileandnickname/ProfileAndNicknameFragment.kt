@@ -7,6 +7,7 @@ import androidx.fragment.app.viewModels
 import com.onewx2m.core_ui.extensions.px
 import com.onewx2m.core_ui.extensions.textChangesToFlow
 import com.onewx2m.core_ui.util.Constants
+import com.onewx2m.design_system.components.toast.ErrorToast
 import com.onewx2m.feature_login_signup.databinding.FragmentProfileAndNicknameBinding
 import com.onewx2m.mvi.MviFragment
 import dagger.hilt.android.AndroidEntryPoint
@@ -16,6 +17,7 @@ import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.transform
 import timber.log.Timber
 import kotlin.properties.Delegates
 
@@ -43,11 +45,12 @@ class ProfileAndNicknameFragment :
     override fun initView() {
         repeatOnStarted(viewLifecycleOwner) {
             binding.textInputLayoutNickname.editText.textChangesToFlow()
+                .debounce(Constants.NICKNAME_INPUT_DEBOUNCE)
                 .filter { nickname ->
-                    viewModel.checkNicknameRegexAndUpdateUi(nickname)
-                }.debounce(Constants.NICKNAME_INPUT_DEBOUNCE)
-                .onEach {
-                    Timber.d("$it")
+                    viewModel.checkNicknameRegexAndUpdateUi(nickname, binding.textInputLayoutNickname.editText.isFocused)
+                }
+                .onEach { nickname ->
+                    viewModel.verifyNicknameFromServer(nickname.toString())
                 }
                 .launchIn(this)
         }
@@ -103,6 +106,8 @@ class ProfileAndNicknameFragment :
                     smoothScrollTo(scrollX, scrollY + sideEffect.scrollY)
                 }
             }
+
+            is ProfileAndNicknameSideEffect.ShowErrorToast -> ErrorToast.make(binding.root, sideEffect.message).show()
         }
     }
 
