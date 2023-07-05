@@ -5,3 +5,7 @@ plugins {
 android {
     namespace = "com.onewx2m.core_ui"
 }
+
+dependencies {
+    implementation(libs.ted.permission)
+}
