@@ -4,6 +4,7 @@ import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.onewx2m.core_ui.extensions.onThrottleClick
+import com.onewx2m.feature_login_signup.R
 import com.onewx2m.feature_login_signup.databinding.FragmentSignUpBinding
 import com.onewx2m.login_signup.ui.signup.adapter.SignUpFragmentStateAdapter
 import com.onewx2m.mvi.MviFragment
@@ -50,6 +51,7 @@ class SignUpFragment :
         binding.buttonSignUp.state = current.mainButtonState
         binding.viewPagerSingUp.setCurrentItem(current.viewPagerPosition, true)
         binding.viewPagerIndicator.rating = current.viewPagerPosition.toFloat() + 1
+        binding.buttonSignUp.text = getString(current.buttonTextRes)
     }
 
     override fun handleSideEffect(sideEffect: SignUpSideEffect) {
