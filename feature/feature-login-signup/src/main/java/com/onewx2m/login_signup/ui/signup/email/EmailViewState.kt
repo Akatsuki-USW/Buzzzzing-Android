@@ -5,7 +5,6 @@ import com.onewx2m.design_system.components.textinputlayout.TextInputLayoutState
 import com.onewx2m.mvi.ViewState
 
 data class EmailViewState(
-    val email: String = "",
     val emailLayoutState: TextInputLayoutState = TextInputLayoutState.INACTIVE,
     val emailLayoutHelperTextResId: Int = R.string.word_space,
 ) : ViewState

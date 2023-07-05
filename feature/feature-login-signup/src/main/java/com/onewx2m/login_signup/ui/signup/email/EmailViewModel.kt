@@ -1,6 +1,9 @@
 package com.onewx2m.login_signup.ui.signup.email
 
+import com.onewx2m.core_ui.util.Regex
 import com.onewx2m.design_system.components.button.MainButtonState
+import com.onewx2m.design_system.components.textinputlayout.TextInputLayoutState
+import com.onewx2m.feature_login_signup.R
 import com.onewx2m.mvi.MviViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -15,42 +18,48 @@ class EmailViewModel @Inject constructor() :
         current: EmailViewState,
         event: EmailEvent,
     ): EmailViewState = when (event) {
-        EmailEvent.ChangeEmailLayoutStateInactive -> TODO()
-        EmailEvent.ChangeEmailLayoutStateNormal -> TODO()
-        EmailEvent.ChangeEmailLayoutStateSuccess -> TODO()
-        EmailEvent.ChangeEmailLayoutStateUnavailable -> TODO()
+        EmailEvent.ChangeEmailLayoutStateInactive -> current.copy(
+            emailLayoutState = TextInputLayoutState.INACTIVE,
+            emailLayoutHelperTextResId = com.onewx2m.design_system.R.string.word_space,
+        )
+
+        EmailEvent.ChangeEmailLayoutStateNormal -> current.copy(
+            emailLayoutState = TextInputLayoutState.FOCUSED,
+            emailLayoutHelperTextResId = com.onewx2m.design_system.R.string.word_space,
+        )
+
+        EmailEvent.ChangeEmailLayoutStateSuccess -> current.copy(
+            emailLayoutState = TextInputLayoutState.SUCCESS,
+            emailLayoutHelperTextResId = com.onewx2m.core_ui.R.string.text_input_layout_email_available_email,
+        )
+
+        EmailEvent.ChangeEmailLayoutStateUnavailable -> current.copy(
+            emailLayoutState = TextInputLayoutState.ERROR,
+            emailLayoutHelperTextResId = com.onewx2m.core_ui.R.string.text_input_layout_email_unavailable_email,
+        )
     }
 
-    suspend fun checkEmailRegexAndUpdateUi(Email: CharSequence?, isFocused: Boolean): Boolean {
-        if (Email.isNullOrEmpty()) {
+    fun checkEmailRegexAndUpdateUi(email: CharSequence?, isFocused: Boolean) {
+        if (email.isNullOrEmpty()) {
             postEmailStateNormalOrInactiveEvent(isFocused)
-            return false
+            return
         }
 
-//            if (Regex.Email_LENGTH.toRegex().matches(Email).not()) {
-//                postEvent(EmailEvent.ChangeEmailLayoutStateUnavailable)
-//                return false
-//            }
+        if (Regex.EMAIL.toRegex().matches(email).not()) {
+            postEvent(EmailEvent.ChangeEmailLayoutStateUnavailable)
+            return
+        }
 
-        postEvent(EmailEvent.ChangeEmailLayoutStateNormal)
-        return true
+        postEvent(EmailEvent.ChangeEmailLayoutStateSuccess)
+        postSideEffect(EmailSideEffect.ChangeSignUpButtonState(MainButtonState.POSITIVE))
+        return
     }
 
-    private fun postEmailStateNormalOrInactiveEvent(isFocused: Boolean) {
+    fun postEmailStateNormalOrInactiveEvent(isFocused: Boolean) {
         if (isFocused) {
             postEvent(EmailEvent.ChangeEmailLayoutStateNormal)
         } else {
             postEvent(EmailEvent.ChangeEmailLayoutStateInactive)
-        }
-    }
-
-    fun doWhenKeyboardShow(currentScrollY: Int, additionalScroll: Int) {
-        if (currentScrollY < additionalScroll) {
-            postSideEffect(
-                EmailSideEffect.MoreScroll(
-                    additionalScroll - currentScrollY,
-                ),
-            )
         }
     }
 

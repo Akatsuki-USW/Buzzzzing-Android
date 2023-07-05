@@ -17,6 +17,6 @@
     <string name="text_input_layout_nickname_error_form">한글, 숫자, 영문만 입력해주세요.</string>
 
     <string name="text_input_layout_email_hint">example@buzzzzing.com</string>
-    <string name="text_input_layout_email_available_nickname">example@buzzzzing.com 형식으로 입력해주세요.</string>
-    <string name="text_input_layout_email_unavailable_nickname">사용가능한 이메일 주소입니다.</string>
+    <string name="text_input_layout_email_available_email">사용가능한 이메일 주소입니다.</string>
+    <string name="text_input_layout_email_unavailable_email">example@buzzzzing.com 형식으로 입력해주세요.</string>
 </resources>
