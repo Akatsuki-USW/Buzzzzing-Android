@@ -7,8 +7,6 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import coil.load
-import coil.transform.RoundedCornersTransformation
 import com.onewx2m.core_ui.extensions.loadProfileUri
 import com.onewx2m.core_ui.extensions.onThrottleClick
 import com.onewx2m.core_ui.extensions.px
@@ -47,7 +45,6 @@ class ProfileAndNicknameFragment :
     private lateinit var viewTreeObserver: ViewTreeObserver
     private lateinit var globalLayoutListener: OnGlobalLayoutListener
 
-    @OptIn(ExperimentalCoroutinesApi::class, FlowPreview::class)
     override fun initView() {
         observeTextInputLayoutNickname()
 
@@ -93,7 +90,10 @@ class ProfileAndNicknameFragment :
             helperText = getString(current.nicknameLayoutHelperTextResId)
         }
 
-        binding.imageViewProfile.loadProfileUri(current.profileUri, com.onewx2m.design_system.R.drawable.ic_profile)
+        binding.imageViewProfile.loadProfileUri(
+            current.profileUri,
+            com.onewx2m.design_system.R.drawable.ic_profile,
+        )
     }
 
     override fun handleSideEffect(sideEffect: ProfileAndNicknameSideEffect) {
