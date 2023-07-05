@@ -4,9 +4,12 @@ plugins {
 
 android {
     namespace = "com.onewx2m.feature_login_signup"
+
+    dataBinding.enable = true
 }
 
 dependencies {
     implementation(libs.kakao.login)
-    implementation(libs.simple.rating.bar)
+    implementation(libs.simpleRatingBar)
+    implementation(libs.ted.imagePicker)
 }
