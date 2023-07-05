@@ -78,9 +78,7 @@ class ImageUtil @Inject constructor(
             inSampleSize = calculateInSampleSize(this)
             inJustDecodeBounds = false
 
-            bitmap = BitmapFactory.decodeStream(input, null, this)?.apply {
-                rotateImageIfRequired(context, this, uri)
-            }
+            bitmap = rotateImageIfRequired(context, BitmapFactory.decodeStream(input, null, this)!!, uri)
         }
 
         input.close()
@@ -111,19 +109,45 @@ class ImageUtil @Inject constructor(
             ExifInterface(input)
 
         val orientation =
-            exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL)
+            exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_UNDEFINED)
 
-        return when (orientation) {
-            ExifInterface.ORIENTATION_ROTATE_90 -> rotateImage(bitmap, 90)
-            ExifInterface.ORIENTATION_ROTATE_180 -> rotateImage(bitmap, 180)
-            ExifInterface.ORIENTATION_ROTATE_270 -> rotateImage(bitmap, 270)
-            else -> bitmap
-        }
+        return rotateBitmap(bitmap, orientation)
     }
 
-    private fun rotateImage(bitmap: Bitmap, degree: Int): Bitmap? {
+    private fun rotateBitmap(bitmap: Bitmap, orientation: Int): Bitmap? {
         val matrix = Matrix()
-        matrix.postRotate(degree.toFloat())
-        return Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, matrix, true)
+        when (orientation) {
+            ExifInterface.ORIENTATION_NORMAL -> return bitmap
+            ExifInterface.ORIENTATION_FLIP_HORIZONTAL -> matrix.setScale(-1f, 1f)
+            ExifInterface.ORIENTATION_ROTATE_180 -> matrix.setRotate(180f)
+            ExifInterface.ORIENTATION_FLIP_VERTICAL -> {
+                matrix.setRotate(180f)
+                matrix.postScale(-1f, 1f)
+            }
+
+            ExifInterface.ORIENTATION_TRANSPOSE -> {
+                matrix.setRotate(90f)
+                matrix.postScale(-1f, 1f)
+            }
+
+            ExifInterface.ORIENTATION_ROTATE_90 -> matrix.setRotate(90f)
+            ExifInterface.ORIENTATION_TRANSVERSE -> {
+                matrix.setRotate(-90f)
+                matrix.postScale(-1f, 1f)
+            }
+
+            ExifInterface.ORIENTATION_ROTATE_270 -> matrix.setRotate(-90f)
+            else -> return bitmap
+        }
+
+        return try {
+            val bmRotated =
+                Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, matrix, true)
+            bitmap.recycle()
+            bmRotated
+        } catch (e: OutOfMemoryError) {
+            e.printStackTrace()
+            null
+        }
     }
 }
