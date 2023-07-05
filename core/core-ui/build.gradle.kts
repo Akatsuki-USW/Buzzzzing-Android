@@ -1,5 +1,6 @@
 plugins {
     id("buzzzzing.plugin.core-ui")
+    id("buzzzzing.plugin.hilt")
 }
 
 android {
