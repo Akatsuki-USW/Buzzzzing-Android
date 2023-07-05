@@ -13,4 +13,5 @@ dependencies {
     implementation(libs.simpleRatingBar)
     implementation(libs.ted.imagePicker)
     implementation(libs.ted.permission)
+    implementation(libs.coil)
 }
