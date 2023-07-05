@@ -131,9 +131,13 @@ class MainActivity :
     }
 
     private fun getGlobalVisibleRect(view: View): Rect {
-        val outRect = Rect()
-        view.getGlobalVisibleRect(outRect)
-        return outRect
+        val viewOutRect = Rect()
+        view.getGlobalVisibleRect(viewOutRect)
+
+        val rootOutRect = Rect()
+        binding.root.getGlobalVisibleRect(rootOutRect)
+        viewOutRect.bottom = rootOutRect.bottom
+        return viewOutRect
     }
 
     private fun isTouchEventCoordinatesInOutRect(event: MotionEvent, outRect: Rect): Boolean {
