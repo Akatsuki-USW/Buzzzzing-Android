@@ -123,6 +123,7 @@ class ProfileAndNicknameViewModel @Inject constructor(
                                     MainButtonState.POSITIVE,
                                 ),
                             )
+                            postSideEffect(ProfileAndNicknameSideEffect.UpdateSignUpNickname(nickname))
                         } else {
                             postEvent(ProfileAndNicknameEvent.ChangeNicknameLayoutStateOverlap)
                         }

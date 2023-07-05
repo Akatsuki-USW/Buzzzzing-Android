@@ -40,12 +40,6 @@ class ProfileAndNicknameFragment :
     private lateinit var viewTreeObserver: ViewTreeObserver
     private lateinit var globalLayoutListener: OnGlobalLayoutListener
 
-    override fun onStart() {
-        super.onStart()
-        // TODO onStart에서 실행하지 않으면 크래시 발생
-        initKeyboardObserve()
-    }
-
     @OptIn(ExperimentalCoroutinesApi::class, FlowPreview::class)
     override fun initView() {
         /**
@@ -62,7 +56,10 @@ class ProfileAndNicknameFragment :
                     }
                     .debounce(Constants.NICKNAME_INPUT_DEBOUNCE)
                     .filter { nickname ->
-                        viewModel.checkNicknameRegexAndUpdateUi(nickname, binding.textInputLayoutNickname.editText.isFocused)
+                        viewModel.checkNicknameRegexAndUpdateUi(
+                            nickname,
+                            binding.textInputLayoutNickname.editText.isFocused,
+                        )
                     }
                     .onEach { nickname ->
                         viewModel.verifyNicknameFromServer(nickname.toString())
@@ -70,6 +67,45 @@ class ProfileAndNicknameFragment :
                     .launchIn(this)
             }
         }
+    }
+
+    override fun render(current: ProfileAndNicknameViewState) {
+        super.render(current)
+
+        binding.textInputLayoutNickname.apply {
+            state = current.nicknameLayoutState
+            helperText = getString(current.nicknameLayoutHelperTextResId)
+        }
+    }
+
+    override fun handleSideEffect(sideEffect: ProfileAndNicknameSideEffect) {
+        super.handleSideEffect(sideEffect)
+
+        when (sideEffect) {
+            is ProfileAndNicknameSideEffect.MoreScroll -> {
+                binding.scrollView.run {
+                    smoothScrollTo(scrollX, scrollY + sideEffect.scrollY)
+                }
+            }
+
+            is ProfileAndNicknameSideEffect.ShowErrorToast -> ErrorToast.make(
+                binding.root,
+                sideEffect.message,
+            ).show()
+
+            is ProfileAndNicknameSideEffect.ChangeSignUpButtonState -> parentViewModel.postChangeMainButtonStateEvent(
+                sideEffect.buttonState,
+            )
+
+            is ProfileAndNicknameSideEffect.UpdateSignUpNickname -> parentViewModel.availableNickname = sideEffect.nickname
+            is ProfileAndNicknameSideEffect.UpdateSignUpProfileUri -> parentViewModel.profileUri = sideEffect.profileUri
+        }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        // TODO onStart에서 실행하지 않으면 크래시 발생
+        initKeyboardObserve()
     }
 
     private fun initKeyboardObserve() {
@@ -102,30 +138,6 @@ class ProfileAndNicknameFragment :
     private fun addOnGlobalListener() {
         viewTreeObserver = binding.root.viewTreeObserver
         viewTreeObserver.addOnGlobalLayoutListener(globalLayoutListener)
-    }
-
-    override fun render(current: ProfileAndNicknameViewState) {
-        super.render(current)
-
-        binding.textInputLayoutNickname.apply {
-            state = current.nicknameLayoutState
-            helperText = getString(current.nicknameLayoutHelperTextResId)
-        }
-    }
-
-    override fun handleSideEffect(sideEffect: ProfileAndNicknameSideEffect) {
-        super.handleSideEffect(sideEffect)
-
-        when (sideEffect) {
-            is ProfileAndNicknameSideEffect.MoreScroll -> {
-                binding.scrollView.run {
-                    smoothScrollTo(scrollX, scrollY + sideEffect.scrollY)
-                }
-            }
-
-            is ProfileAndNicknameSideEffect.ShowErrorToast -> ErrorToast.make(binding.root, sideEffect.message).show()
-            is ProfileAndNicknameSideEffect.ChangeSignUpButtonState -> parentViewModel.postChangeMainButtonStateEvent(sideEffect.buttonState)
-        }
     }
 
     override fun onStop() {
