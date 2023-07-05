@@ -11,5 +11,5 @@ interface OtherRepository {
 
     suspend fun verifyNickname(nickname: String): Flow<Outcome<VerifyNickname>>
 
-    suspend fun uploadImage(s3Type: S3Type, file: File): Flow<Outcome<FileNameAndUrl>>
+    suspend fun uploadImage(s3Type: S3Type, file: File): Flow<Outcome<List<FileNameAndUrl>>>
 }
