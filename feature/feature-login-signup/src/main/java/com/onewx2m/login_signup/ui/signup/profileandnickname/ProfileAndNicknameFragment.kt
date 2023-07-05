@@ -7,14 +7,21 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import coil.load
+import coil.transform.RoundedCornersTransformation
+import com.onewx2m.core_ui.extensions.loadProfileUri
+import com.onewx2m.core_ui.extensions.onThrottleClick
 import com.onewx2m.core_ui.extensions.px
 import com.onewx2m.core_ui.extensions.textChangesToFlow
 import com.onewx2m.core_ui.util.Constants
+import com.onewx2m.core_ui.util.PermissionManager
 import com.onewx2m.design_system.components.toast.ErrorToast
+import com.onewx2m.feature_login_signup.R
 import com.onewx2m.feature_login_signup.databinding.FragmentProfileAndNicknameBinding
 import com.onewx2m.login_signup.ui.signup.SignUpViewModel
 import com.onewx2m.mvi.MviFragment
 import dagger.hilt.android.AndroidEntryPoint
+import gun0912.tedimagepicker.builder.TedImagePicker
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.debounce
@@ -67,6 +74,10 @@ class ProfileAndNicknameFragment :
                     .launchIn(this)
             }
         }
+
+        binding.imageViewEditProfile.onThrottleClick {
+            viewModel.postGetPermissionAndShowImagePickerSideEffect()
+        }
     }
 
     override fun render(current: ProfileAndNicknameViewState) {
@@ -76,6 +87,8 @@ class ProfileAndNicknameFragment :
             state = current.nicknameLayoutState
             helperText = getString(current.nicknameLayoutHelperTextResId)
         }
+
+        binding.imageViewProfile.loadProfileUri(current.profileUri, com.onewx2m.design_system.R.drawable.ic_profile)
     }
 
     override fun handleSideEffect(sideEffect: ProfileAndNicknameSideEffect) {
@@ -97,8 +110,23 @@ class ProfileAndNicknameFragment :
                 sideEffect.buttonState,
             )
 
-            is ProfileAndNicknameSideEffect.UpdateSignUpNickname -> parentViewModel.availableNickname = sideEffect.nickname
-            is ProfileAndNicknameSideEffect.UpdateSignUpProfileUri -> parentViewModel.profileUri = sideEffect.profileUri
+            is ProfileAndNicknameSideEffect.UpdateSignUpNickname ->
+                parentViewModel.availableNickname =
+                    sideEffect.nickname
+
+            is ProfileAndNicknameSideEffect.UpdateSignUpProfileUri ->
+                parentViewModel.profileUri =
+                    sideEffect.profileUri
+
+            ProfileAndNicknameSideEffect.GetPermissionAndShowImagePicker -> {
+                PermissionManager.createGetImageAndCameraPermission {
+                    TedImagePicker.with(requireContext())
+                        .start { uri ->
+                            viewModel.updateProfileUri(uri)
+                            viewModel.updateSignUpProfileUri(uri)
+                        }
+                }
+            }
         }
     }
 

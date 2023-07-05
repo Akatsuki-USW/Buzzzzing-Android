@@ -1,5 +1,6 @@
 package com.onewx2m.login_signup.ui.signup.profileandnickname
 
+import android.net.Uri
 import androidx.lifecycle.viewModelScope
 import com.onewx2m.core_ui.R
 import com.onewx2m.core_ui.util.Regex
@@ -68,6 +69,10 @@ class ProfileAndNicknameViewModel @Inject constructor(
         ProfileAndNicknameEvent.ChangeNicknameLayoutStateUnavailable -> current.copy(
             nicknameLayoutState = TextInputLayoutState.ERROR,
             nicknameLayoutHelperTextResId = R.string.text_input_layout_nickname_unavailable_nickname,
+        )
+
+        is ProfileAndNicknameEvent.UpdateProfileUri -> current.copy(
+            profileUri = event.uri
         )
     }
 
@@ -167,5 +172,17 @@ class ProfileAndNicknameViewModel @Inject constructor(
 
     fun postSignUpButtonStateDisableSideEffect() {
         postSideEffect(ProfileAndNicknameSideEffect.ChangeSignUpButtonState(MainButtonState.DISABLE))
+    }
+
+    fun postGetPermissionAndShowImagePickerSideEffect() {
+        postSideEffect(ProfileAndNicknameSideEffect.GetPermissionAndShowImagePicker)
+    }
+
+    fun updateProfileUri(uri: Uri) {
+        postEvent(ProfileAndNicknameEvent.UpdateProfileUri(uri))
+    }
+
+    fun updateSignUpProfileUri(uri: Uri) {
+        postSideEffect(ProfileAndNicknameSideEffect.UpdateSignUpProfileUri(uri))
     }
 }

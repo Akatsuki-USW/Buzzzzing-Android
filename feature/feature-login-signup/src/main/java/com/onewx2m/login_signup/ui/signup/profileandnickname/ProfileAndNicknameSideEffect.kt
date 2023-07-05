@@ -10,4 +10,5 @@ sealed interface ProfileAndNicknameSideEffect : SideEffect {
     data class ChangeSignUpButtonState(val buttonState: MainButtonState) : ProfileAndNicknameSideEffect
     data class UpdateSignUpNickname(val nickname: String) : ProfileAndNicknameSideEffect
     data class UpdateSignUpProfileUri(val profileUri: Uri) : ProfileAndNicknameSideEffect
+    object GetPermissionAndShowImagePicker : ProfileAndNicknameSideEffect
 }

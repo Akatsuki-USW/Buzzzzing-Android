@@ -8,4 +8,5 @@ android {
 
 dependencies {
     implementation(libs.ted.permission)
+    implementation(libs.coil)
 }
