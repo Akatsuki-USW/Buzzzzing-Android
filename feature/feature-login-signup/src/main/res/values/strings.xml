@@ -7,4 +7,7 @@
     <string name="terms_and_conditions_over_14">만 14세 이상입니다.</string>
 
     <string name="profile_and_nickname_title">프로필과 닉네임을\n설정해주세요.</string>
+    
+    <string name="email_title">이메일을\n입력해주세요.</string>
+    <string name="sign_up_button_finish">가입 완료</string>
 </resources>

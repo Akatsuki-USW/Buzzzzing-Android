@@ -6,4 +6,5 @@
     <string name="word_agree_all">전체 동의</string>
     <string name="word_personal_information_handling_policy">개인정보 취급 방침</string>
     <string name="word_terms_and_conditions">이용 약관</string>
+    <string name="word_space"> </string>
 </resources>
