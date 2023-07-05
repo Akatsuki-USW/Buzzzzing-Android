@@ -49,6 +49,15 @@ class ProfileAndNicknameFragment :
 
     @OptIn(ExperimentalCoroutinesApi::class, FlowPreview::class)
     override fun initView() {
+        observeTextInputLayoutNickname()
+
+        binding.imageViewEditProfile.onThrottleClick {
+            viewModel.postGetPermissionAndShowImagePickerSideEffect()
+        }
+    }
+
+    @OptIn(ExperimentalCoroutinesApi::class, FlowPreview::class)
+    private fun observeTextInputLayoutNickname() {
         /**
          *
          * ViewPager2에서 사용자가 다른 화면에 진입했다가 다시 돌아오는 경우 닉네임 중복 검사를 다시 실행하기 위해 repeatOnStarted를 사용하지 않음
@@ -73,10 +82,6 @@ class ProfileAndNicknameFragment :
                     }
                     .launchIn(this)
             }
-        }
-
-        binding.imageViewEditProfile.onThrottleClick {
-            viewModel.postGetPermissionAndShowImagePickerSideEffect()
         }
     }
 
