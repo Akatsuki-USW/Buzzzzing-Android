@@ -14,4 +14,5 @@ dependencies {
     implementation(libs.ted.imagePicker)
     implementation(libs.ted.permission)
     implementation(libs.coil)
+    implementation(libs.lottie)
 }

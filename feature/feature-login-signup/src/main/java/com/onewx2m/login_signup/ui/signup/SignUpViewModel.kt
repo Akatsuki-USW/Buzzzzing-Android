@@ -19,6 +19,8 @@ class SignUpViewModel @Inject constructor() :
     var profileUri: Uri? = null
     var email: String = ""
 
+    private var isSigningUp = false
+
     override fun reduceState(current: SignUpViewState, event: SignUpEvent): SignUpViewState =
         when (event) {
             is SignUpEvent.ChangeMainButtonState -> current.copy(mainButtonState = event.mainButtonState)
@@ -35,16 +37,33 @@ class SignUpViewModel @Inject constructor() :
         }
 
     fun postChangeMainButtonStateEvent(mainButtonState: MainButtonState) {
+        if (isSigningUp && mainButtonState != MainButtonState.LOADING) return
         postEvent(SignUpEvent.ChangeMainButtonState(mainButtonState))
     }
 
     fun onClickMainButton() {
         val currentPosition = state.value.viewPagerPosition
+        if (currentPosition == viewPagerLastPosition) {
+            trySignUp()
+        } else {
+            goToNextPage(currentPosition)
+        }
+    }
+
+    private fun trySignUp() {
+        isSigningUp = true
+        postSideEffect(SignUpSideEffect.HideViewPagerAndShowSignUpLottie)
+        postSideEffect(SignUpSideEffect.HideKeyboard)
+        postChangeMainButtonStateEvent(MainButtonState.LOADING)
+    }
+
+    private fun goToNextPage(currentPosition: Int) {
         postChangeMainButtonStateEvent(MainButtonState.DISABLE)
         postEvent(SignUpEvent.ChangeViewPagerPosition(currentPosition + 1))
     }
 
     fun onBackPressed() {
+        if (isSigningUp) return
         val currentPosition = state.value.viewPagerPosition
         if (currentPosition == viewPagerFirstPosition) {
             postSideEffect(SignUpSideEffect.GoToPrevPage)

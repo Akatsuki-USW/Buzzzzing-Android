@@ -35,6 +35,7 @@ simpleRatingBar = "1.5.1"
 tedImagePicker = "1.4.2"
 tedPermission = "3.3.0"
 coil = "2.4.0"
+lottie = "5.0.2"
 
 [plugins]
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
@@ -91,5 +92,6 @@ simpleRatingBar = { group = "com.github.ome450901", name = "SimpleRatingBar", ve
 ted-imagePicker = { group = "io.github.ParkSangGwon", name = "tedimagepicker", version.ref = "tedImagePicker" }
 ted-permission = { group = "io.github.ParkSangGwon", name = "tedpermission-normal", version.ref = "tedPermission" }
 coil = { group = "io.coil-kt", name = "coil" , version.ref = "coil" }
+lottie = { group = "com.airbnb.android", name = "lottie", version.ref = "lottie" }
 
 junit4 = { group = "junit", name = "junit", version.ref = "junit4" }

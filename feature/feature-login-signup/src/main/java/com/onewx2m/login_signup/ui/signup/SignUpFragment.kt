@@ -1,8 +1,10 @@
 package com.onewx2m.login_signup.ui.signup
 
+import android.view.View
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.onewx2m.core_ui.extensions.hideKeyboard
 import com.onewx2m.core_ui.extensions.onThrottleClick
 import com.onewx2m.feature_login_signup.R
 import com.onewx2m.feature_login_signup.databinding.FragmentSignUpBinding
@@ -28,7 +30,7 @@ class SignUpFragment :
 
     override fun initView() {
         binding.apply {
-            viewPagerSingUp.apply {
+            viewPagerSignUp.apply {
                 isUserInputEnabled = false
                 adapter = pagerAdapter
             }
@@ -49,7 +51,7 @@ class SignUpFragment :
         super.render(current)
 
         binding.buttonSignUp.state = current.mainButtonState
-        binding.viewPagerSingUp.setCurrentItem(current.viewPagerPosition, true)
+        binding.viewPagerSignUp.setCurrentItem(current.viewPagerPosition, true)
         binding.viewPagerIndicator.rating = current.viewPagerPosition.toFloat() + 1
         binding.buttonSignUp.text = getString(current.buttonTextRes)
     }
@@ -60,6 +62,15 @@ class SignUpFragment :
         when (sideEffect) {
             SignUpSideEffect.GoToPrevPage -> {
                 findNavController().popBackStack()
+            }
+
+            SignUpSideEffect.HideKeyboard -> hideKeyboard()
+            SignUpSideEffect.HideViewPagerAndShowSignUpLottie -> {
+                binding.apply {
+                    viewPagerSignUp.visibility = View.INVISIBLE
+                    lottieSigningUp.visibility = View.VISIBLE
+                    lottieSigningUp.playAnimation()
+                }
             }
         }
     }

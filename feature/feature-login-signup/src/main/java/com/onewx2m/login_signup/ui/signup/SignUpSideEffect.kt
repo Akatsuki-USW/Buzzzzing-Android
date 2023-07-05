@@ -4,4 +4,6 @@ import com.onewx2m.mvi.SideEffect
 
 sealed interface SignUpSideEffect : SideEffect {
     object GoToPrevPage : SignUpSideEffect
+    object HideKeyboard : SignUpSideEffect
+    object HideViewPagerAndShowSignUpLottie : SignUpSideEffect
 }
