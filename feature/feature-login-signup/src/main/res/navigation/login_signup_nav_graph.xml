@@ -23,5 +23,9 @@
         android:id="@+id/signUpFragment"
         android:name="com.onewx2m.login_signup.ui.signup.SignUpFragment"
         android:label="fragment_terms_and_conditions"
-        tools:layout="@layout/fragment_sign_up" />
+        tools:layout="@layout/fragment_sign_up" >
+        <argument
+            android:name="signToken"
+            app:argType="string" />
+    </fragment>
 </navigation>

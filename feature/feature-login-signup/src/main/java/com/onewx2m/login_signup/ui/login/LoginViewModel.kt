@@ -60,7 +60,7 @@ class LoginViewModel @Inject constructor(
 
     private fun handleLoginByKakaoUsecaseFail(error: Throwable?) {
         when (error) {
-            is NeedSignUpException -> postSideEffect(LoginSideEffect.GoToSignUpFragment)
+            is NeedSignUpException -> postSideEffect(LoginSideEffect.GoToSignUpFragment(error.signToken))
             is RevokeUntilMonthUserException -> postSideEffect(LoginSideEffect.ShowErrorToast(error.message))
             else -> postSideEffect(LoginSideEffect.ShowErrorToast(CommonException.UnknownException().snackBarMessage))
         }

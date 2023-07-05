@@ -34,7 +34,7 @@ class LoginFragment : MviFragment<FragmentLoginBinding, LoginViewState, LoginEve
     override fun handleSideEffect(sideEffect: LoginSideEffect) = when (sideEffect) {
         LoginSideEffect.TryLoginByKakao -> kakaoLogin()
         LoginSideEffect.GoToHomeFragment -> goToHomeFragment()
-        LoginSideEffect.GoToSignUpFragment -> goToSignUpFragment()
+        is LoginSideEffect.GoToSignUpFragment -> goToSignUpFragment(sideEffect.signToken)
         is LoginSideEffect.ShowErrorToast -> ErrorToast.make(binding.root, sideEffect.message).show()
     }
 
@@ -51,8 +51,8 @@ class LoginFragment : MviFragment<FragmentLoginBinding, LoginViewState, LoginEve
         findNavController().navigate(request, navOptions)
     }
 
-    private fun goToSignUpFragment() {
-        val action = LoginFragmentDirections.actionLoginToSignup()
+    private fun goToSignUpFragment(signToken: String) {
+        val action = LoginFragmentDirections.actionLoginToSignup(signToken)
         findNavController().navigateActionWithDefaultAnim(action)
     }
 }

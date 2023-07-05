@@ -4,6 +4,7 @@ import android.view.View
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.onewx2m.core_ui.extensions.hideKeyboard
 import com.onewx2m.core_ui.extensions.onThrottleClick
 import com.onewx2m.design_system.components.toast.ErrorToast
@@ -18,6 +19,7 @@ class SignUpFragment :
         FragmentSignUpBinding::inflate,
     ) {
     override val viewModel: SignUpViewModel by viewModels()
+    private val navArgs by navArgs<SignUpFragmentArgs>()
     private val pagerAdapter: SignUpFragmentStateAdapter by lazy {
         SignUpFragmentStateAdapter(this)
     }
@@ -29,6 +31,8 @@ class SignUpFragment :
     }
 
     override fun initView() {
+        viewModel.signToken = navArgs.signToken
+
         binding.apply {
             viewPagerSignUp.apply {
                 isUserInputEnabled = false

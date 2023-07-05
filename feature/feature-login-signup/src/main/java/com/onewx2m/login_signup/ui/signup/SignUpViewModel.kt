@@ -26,6 +26,7 @@ class SignUpViewModel @Inject constructor(
     private val viewPagerFirstPosition = 0
     private val viewPagerLastPosition = SignUpFragmentType.values().size - 1
 
+    var signToken: String = ""
     var availableNickname: String = ""
     var profileUri: Uri? = null
     var email: String = ""

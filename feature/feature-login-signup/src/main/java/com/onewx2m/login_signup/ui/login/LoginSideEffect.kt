@@ -5,6 +5,6 @@ import com.onewx2m.mvi.SideEffect
 sealed interface LoginSideEffect : SideEffect {
     object TryLoginByKakao : LoginSideEffect
     object GoToHomeFragment : LoginSideEffect
-    object GoToSignUpFragment : LoginSideEffect
+    data class GoToSignUpFragment(val signToken: String) : LoginSideEffect
     data class ShowErrorToast(val message: String) : LoginSideEffect
 }
