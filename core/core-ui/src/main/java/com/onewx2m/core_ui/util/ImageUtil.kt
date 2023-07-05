@@ -21,13 +21,13 @@ class ImageUtil @Inject constructor(
 ) {
 
     companion object {
-        private const val MAX_IMAGE_WIDTH = 1280
-        private const val MAX_IMAGE_HEIGHT = 1280
+        private const val MAX_IMAGE_WIDTH = 1440
+        private const val MAX_IMAGE_HEIGHT = 1440
     }
 
     /**
-     * 이미지 최대 사이즈 : 1280 * 1280
-     * 이미지 최대 용량 : 6.25MB
+     * 이미지 최대 사이즈 : 1440 * 1440
+     * 이미지 최대 용량 : 1440 * 1440 / 1024 / 1024 = 7.91MB
      * 로 이미지 최적화한다.
      */
     fun uriToOptimizeImageFile(uri: Uri): File? {
