@@ -33,6 +33,7 @@ encryptedDataStore = "1.7.21-1.0.8-1.1.0-alpha01"
 kakao = "2.14.0"
 simpleRatingBar = "1.5.1"
 tedImagePicker = "1.4.2"
+tedPermission = "3.3.0"
 
 [plugins]
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
@@ -87,5 +88,6 @@ encrypted-datastroe-preference-security = { group = "tech.thdev", name = "useful
 kakao-login = { group = "com.kakao.sdk", name = "v2-user", version.ref = "kakao" }
 simpleRatingBar = { group = "com.github.ome450901", name = "SimpleRatingBar", version.ref = "simpleRatingBar" }
 ted-imagePicker = { group = "io.github.ParkSangGwon", name = "tedimagepicker", version.ref = "tedImagePicker" }
+ted-permission = { group = "io.github.ParkSangGwon", name = "tedpermission-normal", version.ref = "tedPermission" }
 
 junit4 = { group = "junit", name = "junit", version.ref = "junit4" }
