@@ -1,15 +1,26 @@
 package com.onewx2m.login_signup.ui.signup
 
 import android.net.Uri
+import androidx.lifecycle.viewModelScope
+import com.onewx2m.core_ui.util.ImageUtil
 import com.onewx2m.design_system.components.button.MainButtonState
+import com.onewx2m.domain.Outcome
+import com.onewx2m.domain.enums.S3Type
+import com.onewx2m.domain.exception.common.CommonException
+import com.onewx2m.domain.usecase.UploadImageUseCase
 import com.onewx2m.feature_login_signup.R
 import com.onewx2m.login_signup.ui.signup.adapter.SignUpFragmentType
 import com.onewx2m.mvi.MviViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
-class SignUpViewModel @Inject constructor() :
+class SignUpViewModel @Inject constructor(
+    private val uploadImageUseCase: UploadImageUseCase,
+    private val imageUtil: ImageUtil,
+) :
     MviViewModel<SignUpViewState, SignUpEvent, SignUpSideEffect>(SignUpViewState()) {
 
     private val viewPagerFirstPosition = 0
@@ -34,6 +45,16 @@ class SignUpViewModel @Inject constructor() :
                     current
                 }
             }
+
+            SignUpEvent.HideViewPagerAndShowLottie -> current.copy(
+                isViewPagerVisible = false,
+                isLottieVisible = true,
+            )
+
+            SignUpEvent.ShowViewPagerAndHideLottie -> current.copy(
+                isViewPagerVisible = true,
+                isLottieVisible = false,
+            )
         }
 
     fun postChangeMainButtonStateEvent(mainButtonState: MainButtonState) {
@@ -52,9 +73,43 @@ class SignUpViewModel @Inject constructor() :
 
     private fun trySignUp() {
         isSigningUp = true
-        postSideEffect(SignUpSideEffect.HideViewPagerAndShowSignUpLottie)
+        postEvent(SignUpEvent.HideViewPagerAndShowLottie)
+        postSideEffect(SignUpSideEffect.PlayLottie)
         postSideEffect(SignUpSideEffect.HideKeyboard)
         postChangeMainButtonStateEvent(MainButtonState.LOADING)
+        uploadImage()
+    }
+
+    private fun uploadImage() = viewModelScope.launch {
+        if (profileUri == null) return@launch
+
+        val file = imageUtil.uriToOptimizeImageFile(profileUri!!)
+        if (file == null) {
+            handleUploadImageFail()
+            return@launch
+        }
+
+        uploadImageUseCase(S3Type.PROFILE, listOf(file)).collect { outcome ->
+            when (outcome) {
+                Outcome.Loading -> {}
+                is Outcome.Success -> {
+                    Timber.d("이미지 업로드 성공! ${outcome.data[0].fileUrl}")
+                    postEvent(SignUpEvent.ChangeMainButtonState(MainButtonState.POSITIVE))
+                }
+                is Outcome.Failure -> handleUploadImageFail(outcome.error)
+            }
+        }
+    }
+
+    private fun handleUploadImageFail(error: Throwable? = null) {
+        postEvent(SignUpEvent.ChangeMainButtonState(MainButtonState.POSITIVE))
+        postEvent(SignUpEvent.ShowViewPagerAndHideLottie)
+        postSideEffect(
+            SignUpSideEffect.ShowErrorToast(
+                error?.message
+                    ?: CommonException.UnknownException().snackBarMessage,
+            ),
+        )
     }
 
     private fun goToNextPage(currentPosition: Int) {

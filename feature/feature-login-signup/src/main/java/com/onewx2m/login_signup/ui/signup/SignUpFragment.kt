@@ -6,7 +6,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.onewx2m.core_ui.extensions.hideKeyboard
 import com.onewx2m.core_ui.extensions.onThrottleClick
-import com.onewx2m.feature_login_signup.R
+import com.onewx2m.design_system.components.toast.ErrorToast
 import com.onewx2m.feature_login_signup.databinding.FragmentSignUpBinding
 import com.onewx2m.login_signup.ui.signup.adapter.SignUpFragmentStateAdapter
 import com.onewx2m.mvi.MviFragment
@@ -50,28 +50,29 @@ class SignUpFragment :
     override fun render(current: SignUpViewState) {
         super.render(current)
 
-        binding.buttonSignUp.state = current.mainButtonState
-        binding.viewPagerSignUp.setCurrentItem(current.viewPagerPosition, true)
+        binding.buttonSignUp.apply {
+            state = current.mainButtonState
+            text = getString(current.buttonTextRes)
+        }
+        binding.viewPagerSignUp.apply {
+            setCurrentItem(current.viewPagerPosition, true)
+            visibility = if (current.isViewPagerVisible) View.VISIBLE else View.INVISIBLE
+        }
+        binding.lottieSigningUp.visibility =
+            if (current.isLottieVisible) View.VISIBLE else View.INVISIBLE
+
         binding.viewPagerIndicator.rating = current.viewPagerPosition.toFloat() + 1
-        binding.buttonSignUp.text = getString(current.buttonTextRes)
     }
 
     override fun handleSideEffect(sideEffect: SignUpSideEffect) {
         super.handleSideEffect(sideEffect)
 
         when (sideEffect) {
-            SignUpSideEffect.GoToPrevPage -> {
-                findNavController().popBackStack()
-            }
-
+            SignUpSideEffect.GoToPrevPage -> findNavController().popBackStack()
             SignUpSideEffect.HideKeyboard -> hideKeyboard()
-            SignUpSideEffect.HideViewPagerAndShowSignUpLottie -> {
-                binding.apply {
-                    viewPagerSignUp.visibility = View.INVISIBLE
-                    lottieSigningUp.visibility = View.VISIBLE
-                    lottieSigningUp.playAnimation()
-                }
-            }
+            SignUpSideEffect.PlayLottie -> binding.lottieSigningUp.playAnimation()
+            SignUpSideEffect.StopLottie -> binding.lottieSigningUp.cancelAnimation()
+            is SignUpSideEffect.ShowErrorToast -> ErrorToast.make(binding.root, sideEffect.msg).show()
         }
     }
 }

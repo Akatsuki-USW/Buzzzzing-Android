@@ -8,6 +8,6 @@ import javax.inject.Inject
 class UploadImageUseCase @Inject constructor(
     private val otherRepository: OtherRepository,
 ) {
-    suspend operator fun invoke(s3Type: S3Type, file: File) =
-        otherRepository.uploadImage(s3Type, file)
+    suspend operator fun invoke(s3Type: S3Type, fileList: List<File>) =
+        otherRepository.uploadImage(s3Type, fileList)
 }

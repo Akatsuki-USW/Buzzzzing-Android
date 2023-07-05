@@ -5,5 +5,7 @@ import com.onewx2m.mvi.SideEffect
 sealed interface SignUpSideEffect : SideEffect {
     object GoToPrevPage : SignUpSideEffect
     object HideKeyboard : SignUpSideEffect
-    object HideViewPagerAndShowSignUpLottie : SignUpSideEffect
+    object PlayLottie : SignUpSideEffect
+    object StopLottie : SignUpSideEffect
+    data class ShowErrorToast(val msg: String) : SignUpSideEffect
 }

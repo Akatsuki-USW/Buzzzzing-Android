@@ -15,6 +15,6 @@ interface RemoteOtherDataSource {
 
     suspend fun uploadImage(
         s3Type: S3Type,
-        file: File,
+        fileList: List<File>,
     ): Flow<Outcome<List<FileNameAndUrlEntity>>>
 }

@@ -62,7 +62,7 @@ class LoginViewModel @Inject constructor(
         when (error) {
             is NeedSignUpException -> postSideEffect(LoginSideEffect.GoToSignUpFragment)
             is RevokeUntilMonthUserException -> postSideEffect(LoginSideEffect.ShowErrorToast(error.message))
-            else -> {}
+            else -> postSideEffect(LoginSideEffect.ShowErrorToast(CommonException.UnknownException().snackBarMessage))
         }
     }
 

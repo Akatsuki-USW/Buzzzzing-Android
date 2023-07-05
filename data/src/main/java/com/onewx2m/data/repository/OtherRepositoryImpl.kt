@@ -24,9 +24,9 @@ class OtherRepositoryImpl @Inject constructor(
 
     override suspend fun uploadImage(
         s3Type: S3Type,
-        file: File,
+        fileList: List<File>,
     ): Flow<Outcome<List<FileNameAndUrl>>> {
-        return remoteOtherDataSource.uploadImage(s3Type, file).flatMapOutcomeSuccess { dataModel ->
+        return remoteOtherDataSource.uploadImage(s3Type, fileList).flatMapOutcomeSuccess { dataModel ->
             dataModel.map { it.toDomain() }
         }
     }
