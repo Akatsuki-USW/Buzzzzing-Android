@@ -7,7 +7,7 @@ import com.onewx2m.design_system.components.button.MainButtonState
 import com.onewx2m.domain.Outcome
 import com.onewx2m.domain.enums.S3Type
 import com.onewx2m.domain.exception.common.CommonException
-import com.onewx2m.domain.usecase.UploadImageUseCase
+import com.onewx2m.domain.usecase.SignUpUseCase
 import com.onewx2m.feature_login_signup.R
 import com.onewx2m.login_signup.ui.signup.adapter.SignUpFragmentType
 import com.onewx2m.mvi.MviViewModel
@@ -18,7 +18,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SignUpViewModel @Inject constructor(
-    private val uploadImageUseCase: UploadImageUseCase,
+    private val signUpUsecase: SignUpUseCase,
     private val imageUtil: ImageUtil,
 ) :
     MviViewModel<SignUpViewState, SignUpEvent, SignUpSideEffect>(SignUpViewState()) {
@@ -90,13 +90,10 @@ class SignUpViewModel @Inject constructor(
             return@launch
         }
 
-        uploadImageUseCase(S3Type.PROFILE, listOf(file)).collect { outcome ->
+        signUpUsecase(file = file, signToken = signToken, nickname = availableNickname, email = email).collect { outcome ->
             when (outcome) {
                 Outcome.Loading -> {}
-                is Outcome.Success -> {
-                    Timber.d("이미지 업로드 성공! ${outcome.data[0].fileUrl}")
-                    postEvent(SignUpEvent.ChangeMainButtonState(MainButtonState.POSITIVE))
-                }
+                is Outcome.Success -> postSideEffect(SignUpSideEffect.GoToHomeFragment)
                 is Outcome.Failure -> handleUploadImageFail(outcome.error)
             }
         }

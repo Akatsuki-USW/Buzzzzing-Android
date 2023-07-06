@@ -7,7 +7,9 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.onewx2m.core_ui.extensions.hideKeyboard
 import com.onewx2m.core_ui.extensions.onThrottleClick
+import com.onewx2m.core_ui.util.DeepLinkUtil
 import com.onewx2m.design_system.components.toast.ErrorToast
+import com.onewx2m.feature_login_signup.R
 import com.onewx2m.feature_login_signup.databinding.FragmentSignUpBinding
 import com.onewx2m.login_signup.ui.signup.adapter.SignUpFragmentStateAdapter
 import com.onewx2m.mvi.MviFragment
@@ -77,6 +79,12 @@ class SignUpFragment :
             SignUpSideEffect.PlayLottie -> binding.lottieSigningUp.playAnimation()
             SignUpSideEffect.StopLottie -> binding.lottieSigningUp.cancelAnimation()
             is SignUpSideEffect.ShowErrorToast -> ErrorToast.make(binding.root, sideEffect.msg).show()
+            SignUpSideEffect.GoToHomeFragment -> goToHomeFragment()
         }
+    }
+
+    private fun goToHomeFragment() {
+        val (request, navOptions) = DeepLinkUtil.getHomeRequestAndOption(requireContext(), R.id.loginFragment, true)
+        findNavController().navigate(request, navOptions)
     }
 }

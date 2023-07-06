@@ -7,6 +7,7 @@ import com.onewx2m.domain.enums.SnsType
 import com.onewx2m.domain.exception.BuzzzzingHttpException
 import com.onewx2m.domain.exception.NeedSignUpException
 import com.onewx2m.domain.exception.RevokeUntilMonthUserException
+import com.onewx2m.domain.exception.common.CommonException
 import com.onewx2m.remote.KotlinSerializationUtil
 import com.onewx2m.remote.api.AuthApi
 import com.onewx2m.remote.model.ApiResponse
@@ -44,7 +45,7 @@ class RemoteAuthDataSourceImpl @Inject constructor(
     ): Outcome<JwtEntity> = when (exception.customStatusCode) {
         1040 -> Outcome.Failure(NeedSignUpException(getSignToken(exception.httpBody)))
         2050 -> Outcome.Failure(RevokeUntilMonthUserException())
-        else -> Outcome.Failure(exception)
+        else -> Outcome.Failure(CommonException.UnknownException())
     }
 
     private fun getSignToken(httpBody: String) =

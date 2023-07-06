@@ -51,6 +51,7 @@ class EmailViewModel @Inject constructor() :
         }
 
         postEvent(EmailEvent.ChangeEmailLayoutStateSuccess)
+        postSideEffect(EmailSideEffect.UpdateSignUpEmail(email.toString()))
         postSideEffect(EmailSideEffect.ChangeSignUpButtonState(MainButtonState.POSITIVE))
         return
     }

@@ -1,6 +1,7 @@
 package com.onewx2m.data.datasource
 
 import com.onewx2m.data.model.FileNameAndUrlEntity
+import com.onewx2m.data.model.JwtEntity
 import com.onewx2m.data.model.VerifyNicknameEntity
 import com.onewx2m.domain.Outcome
 import com.onewx2m.domain.enums.S3Type
@@ -17,4 +18,11 @@ interface RemoteOtherDataSource {
         s3Type: S3Type,
         fileList: List<File>,
     ): Flow<Outcome<List<FileNameAndUrlEntity>>>
+
+    suspend fun signUp(
+        signToken: String,
+        nickname: String,
+        email: String,
+        profileImageUrl: String,
+    ): Flow<Outcome<JwtEntity>>
 }

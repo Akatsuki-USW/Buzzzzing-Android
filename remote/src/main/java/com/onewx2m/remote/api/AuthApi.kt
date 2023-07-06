@@ -10,7 +10,7 @@ import retrofit2.http.POST
 
 interface AuthApi {
     companion object {
-        private const val AUTH = "auth"
+        const val AUTH = "auth"
     }
 
     @POST("$AUTH/login")

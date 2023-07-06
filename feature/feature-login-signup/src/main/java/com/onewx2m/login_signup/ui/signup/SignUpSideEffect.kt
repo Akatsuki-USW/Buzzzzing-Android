@@ -8,4 +8,5 @@ sealed interface SignUpSideEffect : SideEffect {
     object PlayLottie : SignUpSideEffect
     object StopLottie : SignUpSideEffect
     data class ShowErrorToast(val msg: String) : SignUpSideEffect
+    object GoToHomeFragment : SignUpSideEffect
 }
