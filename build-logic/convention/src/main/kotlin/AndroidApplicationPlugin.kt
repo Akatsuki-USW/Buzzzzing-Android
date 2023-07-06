@@ -15,6 +15,7 @@ internal class AndroidApplicationPlugin : Plugin<Project> {
             with(pluginManager) {
                 apply("com.android.application")
                 apply("org.jetbrains.kotlin.android")
+                apply("com.google.gms.google-services")
                 apply("buzzzzing.plugin.hilt")
             }
 
@@ -57,6 +58,10 @@ internal class AndroidApplicationPlugin : Plugin<Project> {
                 "implementation"(libs.findLibrary("kotlinx.coroutines.android").get())
                 "implementation"(libs.findLibrary("kotlinx.coroutines.core").get())
                 "implementation"(libs.findLibrary("kotlinx.serialization.json").get())
+
+                val bom = libs.findLibrary("firebase-bom").get()
+                add("implementation", platform(bom))
+                "implementation"(libs.findBundle("firebase").get())
 
                 "implementation"(libs.findLibrary("timber").get())
             }
