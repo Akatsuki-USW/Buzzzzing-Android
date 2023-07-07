@@ -31,4 +31,8 @@ class AuthRepositoryImpl @Inject constructor(
                 localAuthDataSource.saveToken(jwt)
             }
     }
+
+    override suspend fun getAccessToken() = localAuthDataSource.getAccessToken()
+
+    override suspend fun getRefreshToken() = localAuthDataSource.getRefreshToken()
 }
