@@ -4,8 +4,10 @@ package com.onewx2m.di.network
 
 import com.onewx2m.data.datasource.RemoteAuthDataSource
 import com.onewx2m.data.datasource.RemoteOtherDataSource
+import com.onewx2m.data.datasource.RemoteUserDataSource
 import com.onewx2m.remote.datasource.RemoteAuthDataSourceImpl
 import com.onewx2m.remote.datasource.RemoteOtherDataSourceImpl
+import com.onewx2m.remote.datasource.RemoteUserDataSourceImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -24,4 +26,9 @@ abstract class RemoteDataSourceModule {
     abstract fun bindRemoteOtherDatasource(
         remoteOtherDataSourceImpl: RemoteOtherDataSourceImpl,
     ): RemoteOtherDataSource
+
+    @Binds
+    abstract fun bindRemoteUserDatasource(
+        remoteUserDataSourceImpl: RemoteUserDataSourceImpl,
+    ): RemoteUserDataSource
 }

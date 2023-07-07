@@ -32,7 +32,7 @@ object NetworkModule {
 
     @Provides
     @NormalOkHttpClient
-    fun provideHttpClient(
+    fun provideNormalHttpClient(
         loggingInterceptor: HttpLoggingInterceptor,
     ): OkHttpClient {
         return OkHttpClient.Builder()
@@ -84,7 +84,7 @@ object NetworkModule {
 
     @Provides
     @AuthOkHttpClient
-    fun provideHttpClient(
+    fun provideAuthHttpClient(
         authenticator: TokenAuthenticator,
         authenticationInterceptor: AuthenticationInterceptor,
         loggingInterceptor: HttpLoggingInterceptor,
