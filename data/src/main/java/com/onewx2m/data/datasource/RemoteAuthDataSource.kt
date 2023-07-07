@@ -7,10 +7,10 @@ import kotlinx.coroutines.flow.Flow
 interface RemoteAuthDataSource {
 
     suspend fun loginByKakao(
-        oauthAccessToken: String
-    ) : Flow<Outcome<JwtEntity>>
+        oauthAccessToken: String,
+    ): Flow<Outcome<JwtEntity>>
 
     suspend fun reIssueBuzzzzingJwt(
-        refreshToken: String
-    ) : Flow<Outcome<JwtEntity>>
+        refreshToken: String,
+    ): Flow<Outcome<JwtEntity>>
 }
