@@ -29,6 +29,7 @@ retrofitKotlinxSerializationJson = "1.0.0"
 okhttp = "4.11.0"
 
 hilt = "2.46.1"
+room = "2.5.2"
 
 timber = "5.0.1"
 encryptedDataStore = "1.7.21-1.0.8-1.1.0-alpha01"
@@ -100,6 +101,10 @@ ted-imagePicker = { group = "io.github.ParkSangGwon", name = "tedimagepicker", v
 ted-permission = { group = "io.github.ParkSangGwon", name = "tedpermission-normal", version.ref = "tedPermission" }
 coil = { group = "io.coil-kt", name = "coil", version.ref = "coil" }
 lottie = { group = "com.airbnb.android", name = "lottie", version.ref = "lottie" }
+
+room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
+room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
+room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
 
 junit4 = { group = "junit", name = "junit", version.ref = "junit4" }
 

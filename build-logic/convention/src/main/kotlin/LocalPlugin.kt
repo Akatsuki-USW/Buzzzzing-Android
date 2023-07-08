@@ -1,14 +1,9 @@
-import org.gradle.api.JavaVersion
+
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.artifacts.VersionCatalogsExtension
-import org.gradle.api.plugins.JavaPluginExtension
-import org.gradle.api.tasks.SourceSetContainer
-import org.jetbrains.kotlin.gradle.dsl.KotlinProjectExtension
-import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.dependencies
 import org.gradle.kotlin.dsl.getByType
-import org.gradle.kotlin.dsl.kotlin
 
 internal class LocalPlugin : Plugin<Project> {
 
@@ -33,8 +28,14 @@ internal class LocalPlugin : Plugin<Project> {
                 "implementation"(libs.findLibrary("androidx.dataStore.preferences").get())
 
                 "ksp"(libs.findLibrary("encrypted.datastroe.preference.ksp").get())
-                "implementation"(libs.findLibrary("encrypted.datastroe.preference.ksp.annotations").get())
+                "implementation"(
+                    libs.findLibrary("encrypted.datastroe.preference.ksp.annotations").get(),
+                )
                 "implementation"(libs.findLibrary("encrypted.datastroe.preference.security").get())
+
+                "implementation"(libs.findLibrary("room.runtime").get())
+                "implementation"(libs.findLibrary("room.ktx").get())
+                "ksp"(libs.findLibrary("room.compiler").get())
 
                 "implementation"(libs.findLibrary("timber").get())
             }
