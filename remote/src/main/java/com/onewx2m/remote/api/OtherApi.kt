@@ -8,6 +8,7 @@ import com.onewx2m.remote.model.request.SignUpRequest
 import com.onewx2m.remote.model.response.JwtResponse
 import com.onewx2m.remote.model.response.UploadFileListResponse
 import com.onewx2m.remote.model.response.VerifyNicknameResponse
+import com.onewx2m.remote.model.response.category.EntireCategoryResponse
 import okhttp3.MultipartBody
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -19,6 +20,7 @@ import retrofit2.http.Path
 interface OtherApi {
     companion object {
         const val FILE = "files"
+        const val CATEGORY = "categories"
     }
 
     @GET("$USER/check/nickname/{nickname}")
@@ -37,4 +39,7 @@ interface OtherApi {
     suspend fun signUp(
         @Body request: SignUpRequest,
     ): ApiResult<ApiResponse<JwtResponse>>
+
+    @GET(CATEGORY)
+    suspend fun getEntireCategory(): ApiResult<ApiResponse<EntireCategoryResponse>>
 }
