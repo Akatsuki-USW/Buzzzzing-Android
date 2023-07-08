@@ -13,16 +13,16 @@ import com.onewx2m.local.model.SpotCategoryPref
 @Dao
 interface CategoryDao {
     @Insert(onConflict = REPLACE)
-    suspend fun insertOrUpdateCongestionHistoricalDateCategory(vararg data: List<CongestionHistoricalDateCategoryPref>)
+    suspend fun insertOrUpdateCongestionHistoricalDateCategory(data: List<CongestionHistoricalDateCategoryPref>)
 
     @Insert(onConflict = REPLACE)
-    suspend fun insertOrUpdateCongestionLevelCategory(vararg data: List<CongestionLevelCategoryPref>)
+    suspend fun insertOrUpdateCongestionLevelCategory(data: List<CongestionLevelCategoryPref>)
 
     @Insert(onConflict = REPLACE)
     suspend fun insertOrUpdateLocationCategory(data: List<LocationCategoryPref>)
 
     @Insert(onConflict = REPLACE)
-    suspend fun insertOrUpdateSpotCategory(vararg data: List<SpotCategoryPref>)
+    suspend fun insertOrUpdateSpotCategory(data: List<SpotCategoryPref>)
 
     @Query("SELECT * FROM ${TableName.CONGESTION_HISTORICAL_DATE_CATEGORY}")
     fun getCongestionHistoricalDateCategoryList(): List<CongestionHistoricalDateCategoryPref>
