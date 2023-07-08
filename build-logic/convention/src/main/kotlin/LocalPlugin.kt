@@ -1,4 +1,3 @@
-
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.artifacts.VersionCatalogsExtension
@@ -33,9 +32,9 @@ internal class LocalPlugin : Plugin<Project> {
                 )
                 "implementation"(libs.findLibrary("encrypted.datastroe.preference.security").get())
 
+                "ksp"(libs.findLibrary("room.compiler").get())
                 "implementation"(libs.findLibrary("room.runtime").get())
                 "implementation"(libs.findLibrary("room.ktx").get())
-                "ksp"(libs.findLibrary("room.compiler").get())
 
                 "implementation"(libs.findLibrary("timber").get())
             }

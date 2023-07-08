@@ -14,5 +14,5 @@ interface LocalCategoryDataSource {
     fun getCongestionLevelCategoryList(): Flow<List<CongestionLevelCategoryEntity>>
     fun getCongestionHistoricalDateCategoryList(): Flow<List<CongestionHistoricalDateCategoryEntity>>
 
-    suspend fun saveEntireCategory(entireCategoryEntity: EntireCategoryEntity): Flow<Unit>
+    suspend fun saveEntireCategory(entireCategoryEntity: EntireCategoryEntity)
 }
