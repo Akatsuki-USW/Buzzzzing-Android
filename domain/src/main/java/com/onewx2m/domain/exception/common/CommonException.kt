@@ -7,5 +7,5 @@ sealed class CommonException(val snackBarMessage: String) : RuntimeException() {
     class NeedLoginException(override val message: String = "자동 로그인 기간이 끝났어요. 다시 로그인 해주세요.") : CommonException(message)
     class NetworkException(override val message: String = "네트워크 연결 상태가 불안정해요.") : CommonException(message)
     class ServerException(override val message: String = "복쟉복쟉 서버에서 동작을 수행할 수 없습니다.") : CommonException(message)
-    class UnknownException(override val message: String = "알 수 없는 에러가 발생했어요.") : CommonException(message)
+    class UnknownException(override val message: String = "알 수 없는 에러가 발생했어요.", val throwable: Throwable? = null) : CommonException(message)
 }

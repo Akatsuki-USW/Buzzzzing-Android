@@ -87,7 +87,7 @@ fun ApiResult.Failure.toBuzzzzingException(): Exception {
         }
 
         is ApiResult.Failure.NetworkError -> CommonException.NetworkException()
-        is ApiResult.Failure.UnknownApiError -> CommonException.UnknownException()
+        is ApiResult.Failure.UnknownApiError -> CommonException.UnknownException(throwable = this.throwable)
     }
 }
 
