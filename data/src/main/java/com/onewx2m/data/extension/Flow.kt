@@ -18,3 +18,12 @@ fun <T, R> Flow<Outcome<T>>.flatMapOutcomeSuccess(domainMapper: suspend (T) -> R
         }
     }
 }
+
+@OptIn(ExperimentalCoroutinesApi::class)
+fun <T, R> Flow<T>.flatMapDomain(domainMapper: suspend (T) -> R): Flow<R> {
+    return this.flatMapConcat { data ->
+        flow {
+            emit(domainMapper(data))
+        }
+    }
+}

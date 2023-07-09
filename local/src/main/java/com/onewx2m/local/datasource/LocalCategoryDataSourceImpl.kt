@@ -1,11 +1,11 @@
 package com.onewx2m.local.datasource
 
 import com.onewx2m.data.datasource.LocalCategoryDataSource
-import com.onewx2m.data.model.CongestionHistoricalDateCategoryEntity
-import com.onewx2m.data.model.CongestionLevelCategoryEntity
-import com.onewx2m.data.model.EntireCategoryEntity
-import com.onewx2m.data.model.LocationCategoryEntity
-import com.onewx2m.data.model.SpotCategoryEntity
+import com.onewx2m.data.model.category.CongestionHistoricalDateCategoryEntity
+import com.onewx2m.data.model.category.CongestionLevelCategoryEntity
+import com.onewx2m.data.model.category.EntireCategoryEntity
+import com.onewx2m.data.model.category.LocationCategoryEntity
+import com.onewx2m.data.model.category.SpotCategoryEntity
 import com.onewx2m.local.dao.CategoryDao
 import com.onewx2m.local.model.toEntity
 import com.onewx2m.local.model.toPref

@@ -1,10 +1,10 @@
 package com.onewx2m.data.datasource
 
-import com.onewx2m.data.model.CongestionHistoricalDateCategoryEntity
-import com.onewx2m.data.model.CongestionLevelCategoryEntity
-import com.onewx2m.data.model.EntireCategoryEntity
-import com.onewx2m.data.model.LocationCategoryEntity
-import com.onewx2m.data.model.SpotCategoryEntity
+import com.onewx2m.data.model.category.CongestionHistoricalDateCategoryEntity
+import com.onewx2m.data.model.category.CongestionLevelCategoryEntity
+import com.onewx2m.data.model.category.EntireCategoryEntity
+import com.onewx2m.data.model.category.LocationCategoryEntity
+import com.onewx2m.data.model.category.SpotCategoryEntity
 import kotlinx.coroutines.flow.Flow
 
 interface LocalCategoryDataSource {

@@ -17,6 +17,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.onewx2m.buzzzzing.R
 import com.onewx2m.buzzzzing.databinding.ActivityMainBinding
 import com.onewx2m.core_ui.util.DeepLinkUtil
+import com.onewx2m.design_system.components.toast.ErrorToast
 import com.onewx2m.mvi.MviActivity
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -92,6 +93,9 @@ class MainActivity :
             MainSideEffect.GoToHomeFragment -> {
                 goToHomeFragment()
             }
+
+            MainSideEffect.FinishActivity -> finish()
+            is MainSideEffect.ShowErrorToast -> ErrorToast.make(binding.root, sideEffect.msg).show()
         }
     }
 

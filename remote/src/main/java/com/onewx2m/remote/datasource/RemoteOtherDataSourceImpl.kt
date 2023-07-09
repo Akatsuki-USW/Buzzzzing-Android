@@ -4,16 +4,16 @@ import com.onewx2m.data.datasource.RemoteOtherDataSource
 import com.onewx2m.data.model.FileNameAndUrlEntity
 import com.onewx2m.data.model.JwtEntity
 import com.onewx2m.data.model.VerifyNicknameEntity
+import com.onewx2m.data.model.category.EntireCategoryEntity
 import com.onewx2m.domain.Outcome
 import com.onewx2m.domain.enums.S3Type
 import com.onewx2m.domain.exception.BuzzzzingHttpException
 import com.onewx2m.domain.exception.DuplicateNicknameException
-import com.onewx2m.domain.exception.NeedSignUpException
-import com.onewx2m.domain.exception.RevokeUntilMonthUserException
 import com.onewx2m.domain.exception.S3UploadException
 import com.onewx2m.domain.exception.common.CommonException
 import com.onewx2m.remote.api.OtherApi
 import com.onewx2m.remote.model.request.SignUpRequest
+import com.onewx2m.remote.model.response.category.toEntity
 import com.onewx2m.remote.model.response.toEntity
 import com.onewx2m.remote.onFailure
 import com.onewx2m.remote.onSuccess
@@ -87,8 +87,11 @@ class RemoteOtherDataSourceImpl @Inject constructor(
         api.signUp(request).onSuccess { body ->
             emit(Outcome.Success(body.data!!.toEntity()))
         }.onFailure { exception ->
-            if(exception is BuzzzzingHttpException) emit(handleSignUpException(exception))
-            else emit(Outcome.Failure(exception))
+            if (exception is BuzzzzingHttpException) {
+                emit(handleSignUpException(exception))
+            } else {
+                emit(Outcome.Failure(exception))
+            }
         }
     }.wrapOutcomeLoadingFailure()
 
@@ -98,4 +101,13 @@ class RemoteOtherDataSourceImpl @Inject constructor(
         2010 -> Outcome.Failure(DuplicateNicknameException("회원님이 입력하신 닉네임이 그새 사용 중인 닉네임으로 변경되었어요."))
         else -> Outcome.Failure(CommonException.UnknownException())
     }
+
+    override suspend fun getEntireCategory(): Flow<Outcome<EntireCategoryEntity>> =
+        flow<Outcome<EntireCategoryEntity>> {
+            api.getEntireCategory().onSuccess { body ->
+                emit(Outcome.Success(body.data!!.toEntity()))
+            }.onFailure {
+                emit(Outcome.Failure(it))
+            }
+        }.wrapOutcomeLoadingFailure()
 }
