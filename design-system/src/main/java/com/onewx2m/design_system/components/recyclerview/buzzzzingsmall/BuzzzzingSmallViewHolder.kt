@@ -1,4 +1,4 @@
-package com.onewx2m.design_system.components.recyclerview.buzzzzingshort
+package com.onewx2m.design_system.components.recyclerview.buzzzzingsmall
 
 import androidx.recyclerview.widget.RecyclerView
 import com.onewx2m.core_ui.extensions.onThrottleClick
@@ -6,7 +6,7 @@ import com.onewx2m.design_system.R
 import com.onewx2m.design_system.databinding.RecyclerViewBuzzzzingShortBinding
 import com.onewx2m.design_system.enum.Congestion
 
-class BuzzzzingShortViewHolder(
+class BuzzzzingSmallViewHolder(
     private val binding: RecyclerViewBuzzzzingShortBinding,
     private val onItemClick: (locationId: Int) -> Unit = {},
     private val onBookmarkClick: (locationId: Int) -> Unit = {},
@@ -25,7 +25,7 @@ class BuzzzzingShortViewHolder(
         }
     }
 
-    fun bind(data: BuzzzzingShortItem) {
+    fun bind(data: BuzzzzingSmallItem) {
         val (highlightColor, normalColor, backgroundResId, kor) = getColorResId(data.congestionSymbol)
 
         binding.apply {

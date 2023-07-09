@@ -1,6 +1,6 @@
-package com.onewx2m.design_system.components.recyclerview.buzzzzingshort
+package com.onewx2m.design_system.components.recyclerview.buzzzzingsmall
 
-data class BuzzzzingShortItem(
+data class BuzzzzingSmallItem(
     val id: Int,
     val isBookmarked: Boolean,
     val locationCategory: String,

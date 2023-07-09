@@ -1,4 +1,4 @@
-package com.onewx2m.design_system.components.recyclerview.buzzzzingshort
+package com.onewx2m.design_system.components.recyclerview.buzzzzingsmall
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -6,35 +6,35 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import com.onewx2m.design_system.databinding.RecyclerViewBuzzzzingShortBinding
 
-class BuzzzzingShortAdapter(
+class BuzzzzingSmallAdapter(
     private val onItemClick: (locationId: Int) -> Unit = {},
     private val onBookmarkClick: (locationId: Int) -> Unit = {},
-) : ListAdapter<BuzzzzingShortItem, BuzzzzingShortViewHolder>(DiffCallback) {
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BuzzzzingShortViewHolder {
+) : ListAdapter<BuzzzzingSmallItem, BuzzzzingSmallViewHolder>(DiffCallback) {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BuzzzzingSmallViewHolder {
         val binding = RecyclerViewBuzzzzingShortBinding.inflate(
             LayoutInflater.from(parent.context),
             parent,
             false,
         )
-        return BuzzzzingShortViewHolder(binding, onItemClick, onBookmarkClick)
+        return BuzzzzingSmallViewHolder(binding, onItemClick, onBookmarkClick)
     }
 
-    override fun onBindViewHolder(holder: BuzzzzingShortViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: BuzzzzingSmallViewHolder, position: Int) {
         holder.bind(currentList[position])
     }
 
     companion object {
-        val DiffCallback = object : DiffUtil.ItemCallback<BuzzzzingShortItem>() {
+        val DiffCallback = object : DiffUtil.ItemCallback<BuzzzzingSmallItem>() {
             override fun areItemsTheSame(
-                oldItem: BuzzzzingShortItem,
-                newItem: BuzzzzingShortItem,
+                oldItem: BuzzzzingSmallItem,
+                newItem: BuzzzzingSmallItem,
             ): Boolean {
                 return oldItem.id == newItem.id
             }
 
             override fun areContentsTheSame(
-                oldItem: BuzzzzingShortItem,
-                newItem: BuzzzzingShortItem,
+                oldItem: BuzzzzingSmallItem,
+                newItem: BuzzzzingSmallItem,
             ): Boolean {
                 return oldItem == newItem
             }
