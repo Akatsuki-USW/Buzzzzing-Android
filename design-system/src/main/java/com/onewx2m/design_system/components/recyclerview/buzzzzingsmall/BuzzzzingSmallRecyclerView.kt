@@ -14,20 +14,17 @@ class BuzzzzingSmallRecyclerView @JvmOverloads constructor(
     defStyleAttr: Int = 0,
 ) : ConstraintLayout(context, attrs, defStyleAttr) {
     private val binding: RecyclerViewBuzzzzingSmallBinding
-    private val buzzzzingSmallAdapter: BuzzzzingSmallAdapter
-
-    var onItemClick: (Int) -> Unit = {}
-    var onBookmarkClick: (Int) -> Unit = {}
-    var infiniteScrolls: () -> Unit = {}
+    private var buzzzzingSmallAdapter: BuzzzzingSmallAdapter? = null
 
     fun submitList(data: List<BuzzzzingSmallItem>) {
-        buzzzzingSmallAdapter.submitList(data)
+        buzzzzingSmallAdapter?.submitList(data)
     }
 
-    init {
-        val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        binding = RecyclerViewBuzzzzingSmallBinding.inflate(inflater, this, true)
-
+    fun initAdapter(
+        onItemClick: (Int) -> Unit = {},
+        onBookmarkClick: (Int) -> Unit = {},
+        infiniteScrolls: () -> Unit = {},
+    ) {
         buzzzzingSmallAdapter = BuzzzzingSmallAdapter(onItemClick, onBookmarkClick)
 
         binding.recyclerView.apply {
@@ -37,5 +34,10 @@ class BuzzzzingSmallRecyclerView @JvmOverloads constructor(
                 infiniteScrolls()
             }
         }
+    }
+
+    init {
+        val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        binding = RecyclerViewBuzzzzingSmallBinding.inflate(inflater, this, true)
     }
 }

@@ -1,5 +1,6 @@
 package com.onewx2m.design_system.components.recyclerview.buzzzzingsmall
 
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.onewx2m.core_ui.extensions.onThrottleClick
 import com.onewx2m.design_system.R
@@ -14,26 +15,34 @@ class BuzzzzingSmallViewHolder(
     private var locationId: Int? = null
 
     init {
-        locationId?.let { locationId ->
-            binding.root.onThrottleClick {
-                onItemClick(locationId)
+        binding.root.onThrottleClick {
+            locationId?.let {
+                onItemClick(it)
             }
 
             binding.imageViewBookmark.onThrottleClick {
-                onBookmarkClick(locationId)
+                locationId?.let {
+                    onBookmarkClick(it)
+                }
             }
         }
     }
 
     fun bind(data: BuzzzzingSmallItem) {
+        locationId = data.id
         val (highlightColor, normalColor, backgroundResId, kor) = getColorResId(data.congestionSymbol)
 
         binding.apply {
             textViewLocationName.text = data.locationName
             linearLayoutCongestion.setBackgroundResource(backgroundResId)
             textViewCongestionType.text = kor
-            textViewLocationName.text = data.locationName
-            imageViewBookmark.setColorFilter(if (data.isBookmarked) highlightColor else normalColor)
+            textViewLocationType.text = data.locationCategory
+            imageViewBookmark.setColorFilter(
+                ContextCompat.getColor(
+                    binding.root.context,
+                    if (data.isBookmarked) highlightColor else normalColor,
+                ),
+            )
         }
     }
 
