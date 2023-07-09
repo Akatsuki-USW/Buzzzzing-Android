@@ -1,4 +1,4 @@
-package com.onewx2m.data.model
+package com.onewx2m.data.model.category
 
 data class EntireCategoryEntity(
     val locationCategoryList: List<LocationCategoryEntity>,

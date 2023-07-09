@@ -1,6 +1,6 @@
 package com.onewx2m.local.model
 
-import com.onewx2m.data.model.EntireCategoryEntity
+import com.onewx2m.data.model.category.EntireCategoryEntity
 
 data class EntireCategoryPref(
     val locationCategoryList: List<LocationCategoryPref>,
