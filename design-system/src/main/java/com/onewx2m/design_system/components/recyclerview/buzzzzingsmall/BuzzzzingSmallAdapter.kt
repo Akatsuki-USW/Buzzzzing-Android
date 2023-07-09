@@ -4,14 +4,14 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
-import com.onewx2m.design_system.databinding.RecyclerViewBuzzzzingShortBinding
+import com.onewx2m.design_system.databinding.ItemRecyclerViewBuzzzzingSmallBinding
 
 class BuzzzzingSmallAdapter(
     private val onItemClick: (locationId: Int) -> Unit = {},
     private val onBookmarkClick: (locationId: Int) -> Unit = {},
 ) : ListAdapter<BuzzzzingSmallItem, BuzzzzingSmallViewHolder>(DiffCallback) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BuzzzzingSmallViewHolder {
-        val binding = RecyclerViewBuzzzzingShortBinding.inflate(
+        val binding = ItemRecyclerViewBuzzzzingSmallBinding.inflate(
             LayoutInflater.from(parent.context),
             parent,
             false,

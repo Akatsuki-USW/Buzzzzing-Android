@@ -3,14 +3,14 @@ package com.onewx2m.design_system.components.recyclerview.buzzzzingsmall
 import androidx.recyclerview.widget.RecyclerView
 import com.onewx2m.core_ui.extensions.onThrottleClick
 import com.onewx2m.design_system.R
-import com.onewx2m.design_system.databinding.RecyclerViewBuzzzzingShortBinding
+import com.onewx2m.design_system.databinding.ItemRecyclerViewBuzzzzingSmallBinding
 import com.onewx2m.design_system.enum.Congestion
 
 class BuzzzzingSmallViewHolder(
-    private val binding: RecyclerViewBuzzzzingShortBinding,
+    private val binding: ItemRecyclerViewBuzzzzingSmallBinding,
     private val onItemClick: (locationId: Int) -> Unit = {},
     private val onBookmarkClick: (locationId: Int) -> Unit = {},
-): RecyclerView.ViewHolder(binding.root) {
+) : RecyclerView.ViewHolder(binding.root) {
     private var locationId: Int? = null
 
     init {
