@@ -1,5 +1,6 @@
 package com.onewx2m.design_system.components.recyclerview.buzzzzingshort
 
+import androidx.recyclerview.widget.RecyclerView
 import com.onewx2m.core_ui.extensions.onThrottleClick
 import com.onewx2m.design_system.R
 import com.onewx2m.design_system.databinding.RecyclerViewBuzzzzingShortBinding
@@ -9,7 +10,7 @@ class BuzzzzingShortViewHolder(
     private val binding: RecyclerViewBuzzzzingShortBinding,
     private val onItemClick: (locationId: Int) -> Unit = {},
     private val onBookmarkClick: (locationId: Int) -> Unit = {},
-) {
+): RecyclerView.ViewHolder(binding.root) {
     private var locationId: Int? = null
 
     init {
