@@ -33,4 +33,8 @@
     <declare-styleable name="EditTextSearch">
         <attr name="editTextSearchHint" format="reference|string" />
     </declare-styleable>
+
+    <declare-styleable name="SpinnerSmall">
+        <attr name="spinnerText" format="reference|string" />
+    </declare-styleable>
 </resources>
