@@ -15,15 +15,15 @@ class BuzzzzingSmallViewHolder(
     private var locationId: Int? = null
 
     init {
+        binding.imageViewBookmark.onThrottleClick {
+            locationId?.let {
+                onBookmarkClick(it)
+            }
+        }
+
         binding.root.onThrottleClick {
             locationId?.let {
                 onItemClick(it)
-            }
-
-            binding.imageViewBookmark.onThrottleClick {
-                locationId?.let {
-                    onBookmarkClick(it)
-                }
             }
         }
     }

@@ -16,15 +16,15 @@ class BuzzzzingMediumViewHolder(
     private var locationId: Int? = null
 
     init {
-        binding.root.onThrottleClick {
+        binding.imageViewBookmark.onThrottleClick {
+            locationId?.let {
+                onBookmarkClick(it)
+            }
+        }
+
+        binding.constraintLayoutItem.onThrottleClick {
             locationId?.let {
                 onItemClick(it)
-            }
-
-            binding.imageViewBookmark.onThrottleClick {
-                locationId?.let {
-                    onBookmarkClick(it)
-                }
             }
         }
     }
