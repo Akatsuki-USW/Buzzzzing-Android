@@ -7,6 +7,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.onewx2m.core_ui.extensions.infiniteScrolls
 import com.onewx2m.design_system.databinding.RecyclerViewBuzzzzingMediumBinding
+import timber.log.Timber
 
 class BuzzzzingMediumRecyclerView @JvmOverloads constructor(
     context: Context,
@@ -25,6 +26,7 @@ class BuzzzzingMediumRecyclerView @JvmOverloads constructor(
         onBookmarkClick: (Int) -> Unit = {},
         infiniteScrolls: () -> Unit = {},
     ) {
+        if (buzzzzingMediumAdapter != null) return
         buzzzzingMediumAdapter = BuzzzzingMediumAdapter(onItemClick, onBookmarkClick)
 
         binding.recyclerView.apply {

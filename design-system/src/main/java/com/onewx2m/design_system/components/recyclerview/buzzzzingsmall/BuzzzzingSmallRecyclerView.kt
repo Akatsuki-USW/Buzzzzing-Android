@@ -7,6 +7,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.onewx2m.core_ui.extensions.infiniteScrolls
 import com.onewx2m.design_system.databinding.RecyclerViewBuzzzzingSmallBinding
+import timber.log.Timber
 
 class BuzzzzingSmallRecyclerView @JvmOverloads constructor(
     context: Context,
@@ -17,6 +18,7 @@ class BuzzzzingSmallRecyclerView @JvmOverloads constructor(
     private var buzzzzingSmallAdapter: BuzzzzingSmallAdapter? = null
 
     fun submitList(data: List<BuzzzzingSmallItem>) {
+        Timber.d("submit $data")
         buzzzzingSmallAdapter?.submitList(data)
     }
 
@@ -25,6 +27,8 @@ class BuzzzzingSmallRecyclerView @JvmOverloads constructor(
         onBookmarkClick: (Int) -> Unit = {},
         infiniteScrolls: () -> Unit = {},
     ) {
+        if (buzzzzingSmallAdapter != null) return
+
         buzzzzingSmallAdapter = BuzzzzingSmallAdapter(onItemClick, onBookmarkClick)
 
         binding.recyclerView.apply {

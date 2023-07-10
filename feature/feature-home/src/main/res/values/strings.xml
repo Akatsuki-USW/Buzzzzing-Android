@@ -1,4 +1,11 @@
 <resources>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_home_fragment">Hello Home fragment</string>
+    <string name="home_title">지난 한 주간\n가장 한가했던 장소</string>
+    <string name="home_title_highlight">한가</string>
+    <string name="home_congestion_info">혼잡도 정보</string>
+    <string name="home_spinner_relax">여유순</string>
+    <string name="home_spinner_congestion">복쟉순</string>
+    <string name="home_spinner_all_location">모든 장소</string>
+    <string name="home_spinner_clear_search">검색 내용 초기화</string>
 </resources>

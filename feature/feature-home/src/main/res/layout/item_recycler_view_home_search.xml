@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingHorizontal="20dp"
+    android:paddingBottom="16dp">
+
+    <com.onewx2m.design_system.components.textview.FigmaTextView
+        android:id="@+id/text_view"
+        style="@style/Header.2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="@string/home_congestion_info"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.onewx2m.design_system.components.edittext.EditTextSearch
+        android:id="@+id/edit_text_search"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        app:editTextSearchHint="@string/edit_text_search_location_hint"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/text_view" />
+
+    <com.onewx2m.design_system.components.spinner.SpinnerSmall
+        android:id="@+id/spinner_small_congestion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/edit_text_search"
+        app:spinnerText="@string/home_spinner_relax"
+        tools:layout_height="12dp"
+        tools:layout_width="40dp" />
+
+    <com.onewx2m.design_system.components.spinner.SpinnerSmall
+        android:id="@+id/spinner_small_location"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
+        android:paddingTop="8dp"
+        app:layout_constraintEnd_toStartOf="@id/spinner_small_congestion"
+        app:layout_constraintTop_toBottomOf="@id/edit_text_search"
+        app:spinnerText="@string/home_spinner_all_location"
+        tools:layout_height="12dp"
+        tools:layout_width="40dp" />
+
+    <com.onewx2m.design_system.components.textview.FigmaTextView
+        android:id="@+id/text_view_clear"
+        style="@style/Body.5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="10dp"
+        android:text="@string/home_spinner_clear_search"
+        android:textColor="@color/gray05"
+        app:layout_constraintEnd_toStartOf="@id/spinner_small_location"
+        app:layout_constraintTop_toBottomOf="@id/edit_text_search" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

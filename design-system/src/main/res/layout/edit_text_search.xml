@@ -24,6 +24,7 @@
         android:layout_marginHorizontal="8dp"
         android:background="@null"
         android:imeOptions="actionSearch"
+        android:inputType="text"
         android:maxLines="1"
         android:textColor="@color/gray01"
         android:textColorHint="@color/gray05"
