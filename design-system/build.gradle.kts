@@ -5,3 +5,7 @@ plugins {
 android {
     namespace = "com.onewx2m.design_system"
 }
+
+dependencies {
+    implementation(libs.coil)
+}
