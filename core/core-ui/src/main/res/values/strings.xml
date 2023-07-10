@@ -19,4 +19,7 @@
     <string name="text_input_layout_email_hint">example@buzzzzing.com</string>
     <string name="text_input_layout_email_available_email">사용가능한 이메일 주소입니다.</string>
     <string name="text_input_layout_email_unavailable_email">example@buzzzzing.com 형식으로 입력해주세요.</string>
+
+    <!-- edittextsearch -->
+    <string name="edit_text_search_location_hint">장소를 검색해보세요!</string>
 </resources>
