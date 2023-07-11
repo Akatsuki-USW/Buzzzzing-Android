@@ -1,6 +1,7 @@
 package com.onewx2m.buzzzzing.ui
 
 import androidx.lifecycle.viewModelScope
+import com.onewx2m.buzzzzing.R
 import com.onewx2m.core_ui.util.BuzzzzingUser
 import com.onewx2m.domain.Outcome
 import com.onewx2m.domain.exception.common.CommonException
@@ -26,7 +27,10 @@ class MainViewModel @Inject constructor(
     }
 
     private val bottomNavigationBarInitialFragmentIds =
-        listOf(com.onewx2m.feature_home.R.id.homeFragment)
+        listOf(
+            com.onewx2m.feature_home.R.id.homeFragment,
+            com.onewx2m.feature_myinfo.R.id.myInfoFragment,
+        )
 
     var preDrawRemoveFlag = false
 

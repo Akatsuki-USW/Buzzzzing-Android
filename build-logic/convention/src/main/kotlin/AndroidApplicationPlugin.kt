@@ -1,5 +1,4 @@
 import com.android.build.api.dsl.ApplicationExtension
-import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
 import com.onewx2m.convention.configureKotlinAndroid
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -40,6 +39,7 @@ internal class AndroidApplicationPlugin : Plugin<Project> {
                 "implementation"(project(":domain"))
                 "implementation"(project(":feature:feature-home"))
                 "implementation"(project(":feature:feature-login-signup"))
+                "implementation"(project(":feature:feature-myinfo"))
                 "implementation"(project(":remote"))
                 "implementation"(project(":mvi"))
                 "implementation"(project(":core:core-ui"))

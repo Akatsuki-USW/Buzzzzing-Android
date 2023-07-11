@@ -18,7 +18,7 @@
         android:title="@string/nav_menu_bookmark" />
 
     <item
-        android:id="@+id/my_info_nav_graph"
+        android:id="@+id/myinfo_nav_graph"
         android:icon="@drawable/selector_my_info"
         android:title="@string/nav_menu_my_info" />
 

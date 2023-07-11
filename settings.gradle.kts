@@ -1,5 +1,3 @@
-include(":feature:feature-myinfo")
-
 pluginManagement {
     includeBuild("build-logic")
     repositories {
@@ -33,3 +31,4 @@ include(":remote")
 include(":mvi")
 include(":core")
 include(":core:core-ui")
+include(":feature:feature-myinfo")

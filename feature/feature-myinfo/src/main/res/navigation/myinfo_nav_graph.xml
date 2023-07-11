@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/myinfo_nav_graph"
+    app:startDestination="@id/myInfoFragment">
+
+
+    <fragment
+        android:id="@+id/myInfoFragment"
+        android:name="com.onewx2m.feature_myinfo.ui.myinfo.MyInfoFragment"
+        android:label="fragment_login"
+        tools:layout="@layout/fragment_my_info" >
+
+
+    </fragment>
+</navigation>
