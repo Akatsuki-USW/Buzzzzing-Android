@@ -18,3 +18,16 @@ fun ImageView.loadProfileUri(uri: Uri?, @DrawableRes defaultDrawable: Int) {
         )
     }
 }
+
+fun ImageView.loadProfileUrl(url: String, @DrawableRes defaultDrawable: Int) {
+    load(url.ifBlank { defaultDrawable }) {
+        transformations(
+            RoundedCornersTransformation(
+                8.px.toFloat(),
+                8.px.toFloat(),
+                8.px.toFloat(),
+                8.px.toFloat(),
+            ),
+        )
+    }
+}
