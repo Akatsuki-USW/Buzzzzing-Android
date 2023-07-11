@@ -1,11 +1,13 @@
 package com.onewx2m.login_signup.ui.login
 
 import androidx.lifecycle.viewModelScope
+import com.onewx2m.core_ui.util.BuzzzzingUser
 import com.onewx2m.design_system.components.button.SnsLoginButtonState
 import com.onewx2m.domain.Outcome
 import com.onewx2m.domain.exception.NeedSignUpException
 import com.onewx2m.domain.exception.RevokeUntilMonthUserException
 import com.onewx2m.domain.exception.common.CommonException
+import com.onewx2m.domain.usecase.GetMyInfoUseCase
 import com.onewx2m.domain.usecase.LoginByKakaoUseCase
 import com.onewx2m.mvi.MviViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -15,6 +17,7 @@ import javax.inject.Inject
 @HiltViewModel
 class LoginViewModel @Inject constructor(
     private val loginByKakaoUseCase: LoginByKakaoUseCase,
+    private val getMyInfoUseCase: GetMyInfoUseCase,
 ) : MviViewModel<LoginViewState, LoginEvent, LoginSideEffect>(LoginViewState()) {
 
     fun onClickKakaoLoginButton() {
@@ -27,11 +30,35 @@ class LoginViewModel @Inject constructor(
             when (it) {
                 is Outcome.Loading -> {}
                 is Outcome.Success -> {
-                    postSideEffect(LoginSideEffect.GoToHomeFragment)
+                    getMyInfoAndSave()
                 }
 
                 is Outcome.Failure -> {
                     handleError(it.error, ::handleLoginByKakaoUsecaseFail)
+                }
+            }
+        }
+    }
+
+    private fun getMyInfoAndSave() = viewModelScope.launch {
+        getMyInfoUseCase().collect {
+            when (it) {
+                is Outcome.Loading -> {}
+                is Outcome.Success -> {
+                    BuzzzzingUser.setInfo(
+                        email = it.data.email,
+                        nickname = it.data.nickname,
+                        profileImageUrl = it.data.profileImageUrl,
+                    )
+                    postSideEffect(LoginSideEffect.GoToHomeFragment)
+                }
+
+                is Outcome.Failure -> {
+                    postSideEffect(
+                        LoginSideEffect.ShowErrorToast(
+                            it.error?.message ?: CommonException.UnknownException().snackBarMessage,
+                        ),
+                    )
                 }
             }
         }
