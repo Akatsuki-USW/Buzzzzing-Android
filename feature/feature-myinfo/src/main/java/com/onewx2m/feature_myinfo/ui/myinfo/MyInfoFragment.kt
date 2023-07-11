@@ -1,24 +1,16 @@
 package com.onewx2m.feature_myinfo.ui.myinfo
 
-import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.fragment.app.Fragment
-import com.onewx2m.feature_myinfo.R
+import androidx.fragment.app.viewModels
+import com.onewx2m.feature_myinfo.databinding.FragmentMyInfoBinding
+import com.onewx2m.mvi.MviFragment
 
-class MyInfoFragment : Fragment() {
+class MyInfoFragment :
+    MviFragment<FragmentMyInfoBinding, MyInfoViewState, MyInfoEvent, MyInfoSideEffect, MyInfoViewModel>(
+        FragmentMyInfoBinding::inflate,
+    ) {
+    override val viewModel: MyInfoViewModel by viewModels()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
+    override fun initView() {
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?,
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_my_info, container, false)
     }
 }
