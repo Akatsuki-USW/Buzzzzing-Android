@@ -24,6 +24,9 @@ class MainViewModel @Inject constructor(
         private const val SHOW_ERROR_BEFORE_FINISH_DELAY = 3000L
     }
 
+    private val bottomNavigationBarInitialFragmentIds =
+        listOf(com.onewx2m.feature_home.R.id.homeFragment)
+
     var preDrawRemoveFlag = false
 
     fun reissueJwtAndNavigateFragmentAndHideSplashScreen() = viewModelScope.launch {
@@ -59,12 +62,19 @@ class MainViewModel @Inject constructor(
 
     fun isDestinationInBottomNavigationBarInitialFragment(
         destinationId: Int,
-        bottomNavigationBarInitialFragmentIds: List<Int>,
     ) {
         if (destinationId in bottomNavigationBarInitialFragmentIds) {
             postEvent(MainEvent.ShowBottomNavigationBar)
         } else {
             postEvent(MainEvent.HideBottomNavigationBar)
+        }
+    }
+
+    fun doWhenKeyboardVisibilityChange(imeVisible: Boolean, currentId: Int?) {
+        if (imeVisible) {
+            postEvent(MainEvent.HideBottomNavigationBar)
+        } else {
+            isDestinationInBottomNavigationBarInitialFragment(currentId ?: -1)
         }
     }
 

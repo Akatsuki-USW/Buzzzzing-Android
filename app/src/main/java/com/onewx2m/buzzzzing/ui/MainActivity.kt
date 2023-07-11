@@ -11,6 +11,8 @@ import android.widget.EditText
 import androidx.activity.viewModels
 import androidx.core.splashscreen.SplashScreen
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
@@ -32,14 +34,10 @@ class MainActivity :
 
     private lateinit var navController: NavController
 
-    private val bottomNavigationBarInitialFragmentIds =
-        listOf(com.onewx2m.feature_home.R.id.homeFragment)
-
     private val destinationChangedListener =
         NavController.OnDestinationChangedListener { _, destination, _ ->
             viewModel.isDestinationInBottomNavigationBarInitialFragment(
                 destination.id,
-                bottomNavigationBarInitialFragmentIds,
             )
         }
 
@@ -60,6 +58,15 @@ class MainActivity :
             supportFragmentManager.findFragmentById(R.id.nav_host) as NavHostFragment
         navController = navHostFragment.navController
         binding.navBar.setupWithNavController(navController)
+
+        ViewCompat.setOnApplyWindowInsetsListener(window.decorView.rootView) { _, insets ->
+            val imeVisible = insets.isVisible(WindowInsetsCompat.Type.ime())
+            viewModel.doWhenKeyboardVisibilityChange(
+                imeVisible,
+                navController.currentDestination?.id,
+            )
+            insets
+        }
     }
 
     private fun initSplashScreen() {
