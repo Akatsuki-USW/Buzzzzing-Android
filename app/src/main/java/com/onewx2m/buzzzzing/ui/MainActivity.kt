@@ -8,6 +8,8 @@ import android.view.View
 import android.view.ViewTreeObserver
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
+import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.viewModels
 import androidx.core.splashscreen.SplashScreen
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
@@ -56,6 +58,7 @@ class MainActivity :
 
         initNavBar()
         setOnApplyWindowInsetsListener()
+        this.onBackPressedDispatcher.addCallback(this, onBackPressedCallback)
     }
 
     private fun initNavBar() {
@@ -162,5 +165,22 @@ class MainActivity :
 
     private fun isTouchEventCoordinatesInOutRect(event: MotionEvent, outRect: Rect): Boolean {
         return outRect.contains(event.rawX.toInt(), event.rawY.toInt())
+    }
+
+    private var waitTime = 0L
+
+    private val onBackPressedCallback = object : OnBackPressedCallback(true) {
+        override fun handleOnBackPressed() {
+            doDelayFinish()
+        }
+    }
+
+    fun doDelayFinish() {
+        if (System.currentTimeMillis() - waitTime >= 1500) {
+            waitTime = System.currentTimeMillis()
+            Toast.makeText(this, getString(R.string.on_back_pressed_msg), Toast.LENGTH_SHORT).show()
+        } else {
+            finish()
+        }
     }
 }
