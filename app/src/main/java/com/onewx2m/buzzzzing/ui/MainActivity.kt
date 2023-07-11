@@ -54,11 +54,20 @@ class MainActivity :
         initSplashScreen()
         viewModel.reissueJwtAndNavigateFragmentAndHideSplashScreen()
 
+        initNavBar()
+        setOnApplyWindowInsetsListener()
+    }
+
+    private fun initNavBar() {
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_host) as NavHostFragment
         navController = navHostFragment.navController
+        binding.navBar.itemIconTintList = null
         binding.navBar.setupWithNavController(navController)
+        binding.navBar.setOnItemReselectedListener { }
+    }
 
+    private fun setOnApplyWindowInsetsListener() {
         ViewCompat.setOnApplyWindowInsetsListener(window.decorView.rootView) { _, insets ->
             val imeVisible = insets.isVisible(WindowInsetsCompat.Type.ime())
             viewModel.doWhenKeyboardVisibilityChange(

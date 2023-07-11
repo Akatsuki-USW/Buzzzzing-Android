@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">복쟉복쟉</string>
+    <string name="nav_menu_home">홈</string>
+    <string name="nav_menu_recommend">장소 추천</string>
+    <string name="nav_menu_bookmark">북마크</string>
+    <string name="nav_menu_my_info">내 정보</string>
 </resources>

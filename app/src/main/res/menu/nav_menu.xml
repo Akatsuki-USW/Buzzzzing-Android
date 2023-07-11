@@ -3,9 +3,23 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@id/home_nav_graph"
-        android:icon="@drawable/ic_home"
-        android:title="Home"
-        app:showAsAction="ifRoom"/>
+        android:id="@+id/home_nav_graph"
+        android:icon="@drawable/selector_home"
+        android:title="@string/nav_menu_home" />
+
+    <item
+        android:id="@+id/recommend_nav_graph"
+        android:icon="@drawable/selector_recommend"
+        android:title="@string/nav_menu_recommend" />
+
+    <item
+        android:id="@+id/bookmark_nav_graph"
+        android:icon="@drawable/selector_bookmark"
+        android:title="@string/nav_menu_bookmark" />
+
+    <item
+        android:id="@+id/my_info_nav_graph"
+        android:icon="@drawable/selector_my_info"
+        android:title="@string/nav_menu_my_info" />
 
 </menu>

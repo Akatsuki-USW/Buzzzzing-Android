@@ -107,5 +107,15 @@
 
     </style>
 
+    <style name="bottom_navigation_text_inactive" parent="@android:style/TextAppearance">
+        <item name="fontFamily">@font/notosanskrmedium</item>
+        <item name="android:textSize">10sp</item>
+    </style>
+
+    <style name="bottom_navigation_text_active" parent="@android:style/TextAppearance">
+        <item name="fontFamily">@font/notosanskrmedium</item>
+        <item name="android:textSize">10sp</item>
+    </style>
+
 
 </resources>
