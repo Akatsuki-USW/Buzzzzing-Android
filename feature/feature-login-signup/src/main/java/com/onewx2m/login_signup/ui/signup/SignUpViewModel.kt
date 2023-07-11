@@ -5,7 +5,6 @@ import androidx.lifecycle.viewModelScope
 import com.onewx2m.core_ui.util.ImageUtil
 import com.onewx2m.design_system.components.button.MainButtonState
 import com.onewx2m.domain.Outcome
-import com.onewx2m.domain.enums.S3Type
 import com.onewx2m.domain.exception.common.CommonException
 import com.onewx2m.domain.usecase.SignUpUseCase
 import com.onewx2m.feature_login_signup.R
@@ -13,7 +12,6 @@ import com.onewx2m.login_signup.ui.signup.adapter.SignUpFragmentType
 import com.onewx2m.mvi.MviViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -78,19 +76,25 @@ class SignUpViewModel @Inject constructor(
         postSideEffect(SignUpSideEffect.PlayLottie)
         postSideEffect(SignUpSideEffect.HideKeyboard)
         postChangeMainButtonStateEvent(MainButtonState.LOADING)
-        uploadImage()
+        signUp()
     }
 
-    private fun uploadImage() = viewModelScope.launch {
-        if (profileUri == null) return@launch
-
-        val file = imageUtil.uriToOptimizeImageFile(profileUri!!)
-        if (file == null) {
-            handleUploadImageFail()
-            return@launch
+    private fun signUp() = viewModelScope.launch {
+        val file = profileUri?.let {
+            val nullableFile = imageUtil.uriToOptimizeImageFile(it)
+            if (nullableFile == null) {
+                handleUploadImageFail()
+                return@let null
+            }
+            nullableFile
         }
 
-        signUpUsecase(file = file, signToken = signToken, nickname = availableNickname, email = email).collect { outcome ->
+        signUpUsecase(
+            file = file,
+            signToken = signToken,
+            nickname = availableNickname,
+            email = email,
+        ).collect { outcome ->
             when (outcome) {
                 Outcome.Loading -> {}
                 is Outcome.Success -> postSideEffect(SignUpSideEffect.GoToHomeFragment)
