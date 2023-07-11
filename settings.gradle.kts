@@ -1,3 +1,4 @@
+include(":feature:feature-myinfo")
 
 pluginManagement {
     includeBuild("build-logic")
