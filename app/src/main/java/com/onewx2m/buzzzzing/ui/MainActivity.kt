@@ -115,6 +115,8 @@ class MainActivity :
 
             MainSideEffect.FinishActivity -> finish()
             is MainSideEffect.ShowErrorToast -> ErrorToast.make(binding.root, sideEffect.msg).show()
+            is MainSideEffect.ChangeBackPressedCallbackEnable -> onBackPressedCallback.isEnabled = sideEffect.isEnable
+            MainSideEffect.ShowBackPressedMsg -> Toast.makeText(this, getString(R.string.on_back_pressed_msg), Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -167,20 +169,9 @@ class MainActivity :
         return outRect.contains(event.rawX.toInt(), event.rawY.toInt())
     }
 
-    private var waitTime = 0L
-
     private val onBackPressedCallback = object : OnBackPressedCallback(true) {
         override fun handleOnBackPressed() {
-            doDelayFinish()
-        }
-    }
-
-    fun doDelayFinish() {
-        if (System.currentTimeMillis() - waitTime >= 1500) {
-            waitTime = System.currentTimeMillis()
-            Toast.makeText(this, getString(R.string.on_back_pressed_msg), Toast.LENGTH_SHORT).show()
-        } else {
-            finish()
+            viewModel.doDelayFinish()
         }
     }
 }

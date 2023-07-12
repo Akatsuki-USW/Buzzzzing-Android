@@ -33,6 +33,7 @@ class MainViewModel @Inject constructor(
         )
 
     var preDrawRemoveFlag = false
+    private var waitTime = 0L
 
     fun reissueJwtAndNavigateFragmentAndHideSplashScreen() = viewModelScope.launch {
         getMyInfoUseCase().combine(saveEntireCategoryUseCase()) { myInfoOutcome, categoryOutcome ->
@@ -80,8 +81,10 @@ class MainViewModel @Inject constructor(
     ) {
         if (destinationId in bottomNavigationBarInitialFragmentIds) {
             postEvent(MainEvent.ShowBottomNavigationBar)
+            postSideEffect(MainSideEffect.ChangeBackPressedCallbackEnable(true))
         } else {
             postEvent(MainEvent.HideBottomNavigationBar)
+            postSideEffect(MainSideEffect.ChangeBackPressedCallbackEnable(false))
         }
     }
 
@@ -99,4 +102,13 @@ class MainViewModel @Inject constructor(
             is MainEvent.ShowBottomNavigationBar -> current.copy(isBottomNavigationBarVisible = true)
             is MainEvent.HideSplashScreen -> current.copy(isSplashScreenVisible = false)
         }
+
+    fun doDelayFinish() {
+        if (System.currentTimeMillis() - waitTime >= 1500) {
+            waitTime = System.currentTimeMillis()
+            postSideEffect(MainSideEffect.ShowBackPressedMsg)
+        } else {
+            postSideEffect(MainSideEffect.FinishActivity)
+        }
+    }
 }
