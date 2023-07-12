@@ -9,10 +9,10 @@
         android:id="@+id/constraint_layout_button"
         android:layout_width="match_parent"
         android:layout_height="50dp"
+        android:background="@drawable/ripple_black01_bg_solid_blue_rounded_5"
         android:clickable="true"
         android:focusable="true"
-        android:paddingHorizontal="15dp"
-        android:background="@drawable/ripple_black01_bg_solid_blue_rounded_5">
+        android:paddingHorizontal="15dp">
 
         <com.google.android.material.progressindicator.CircularProgressIndicator
             android:id="@+id/progress_bar_loading_button"
@@ -36,6 +36,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
             android:gravity="center_horizontal"
             android:textColor="@color/white01"
             app:layout_constraintBottom_toBottomOf="parent"
