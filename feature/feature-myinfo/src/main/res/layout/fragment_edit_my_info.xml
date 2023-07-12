@@ -1,14 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingHorizontal="20dp"
+    android:scrollbars="none"
+    android:fillViewport="true"
     tools:context=".ui.editmyinfo.EditMyInfoFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content">
 
-</FrameLayout>
+        <ImageView
+            android:id="@+id/image_view_back"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginTop="17dp"
+            android:src="@drawable/ic_back"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.onewx2m.design_system.components.textview.FigmaTextView
+            android:id="@+id/text_view_title"
+            style="@style/Header.3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/edit_my_info_title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/image_view_profile"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_marginTop="41dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_profile"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/text_view_title" />
+
+        <ImageView
+            android:id="@+id/image_view_edit_profile"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_marginEnd="-3dp"
+            android:layout_marginBottom="-3dp"
+            android:src="@drawable/ic_edit"
+            app:layout_constraintBottom_toBottomOf="@id/image_view_profile"
+            app:layout_constraintEnd_toEndOf="@id/image_view_profile" />
+
+        <com.onewx2m.design_system.components.textinputlayout.TextInputLayout
+            android:id="@+id/text_input_layout_nickname"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="48dp"
+            app:helperTextContent="@string/text_input_layout_nickname_helper_hint"
+            app:hideLabel="true"
+            app:layout_constraintTop_toBottomOf="@id/image_view_profile"
+            app:textInputLayoutHint="@string/text_input_layout_nickname_hint"
+            tools:layout="@layout/text_input_layout"
+            tools:layout_height="100dp" />
+
+        <com.onewx2m.design_system.components.textinputlayout.TextInputLayout
+            android:id="@+id/text_input_layout_email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="36dp"
+            app:hideLabel="true"
+            app:layout_constraintTop_toBottomOf="@id/text_input_layout_nickname"
+            app:textInputLayoutHint="@string/text_input_layout_email_hint" />
+
+        <com.onewx2m.design_system.components.button.MainButton
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginBottom="32dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:mainButtonText="@string/word_confirm" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</ScrollView>

@@ -13,4 +13,5 @@
     <string name="my_info_menu_community_rule">커뮤니티 이용 수칙</string>
     <string name="my_info_menu_logout">로그 아웃</string>
     <string name="my_info_menu_quit">회원 탈퇴</string>
+    <string name="edit_my_info_title">내 정보 수정</string>
 </resources>
