@@ -14,6 +14,10 @@ class MyInfoFragment :
     MviFragment<FragmentMyInfoBinding, MyInfoViewState, MyInfoEvent, MyInfoSideEffect, MyInfoViewModel>(
         FragmentMyInfoBinding::inflate,
     ) {
+    companion object {
+        private const val PROFILE_RADIUS = 8
+    }
+
     override val viewModel: MyInfoViewModel by viewModels()
     private val listAdapter by lazy {
         MenuAdapter(::onMenuClick)
@@ -77,6 +81,7 @@ class MyInfoFragment :
             imageViewProfile.loadProfileUrl(
                 current.profileUrl,
                 com.onewx2m.design_system.R.drawable.ic_profile,
+                PROFILE_RADIUS,
             )
             textViewNickname.text = current.nickname
         }

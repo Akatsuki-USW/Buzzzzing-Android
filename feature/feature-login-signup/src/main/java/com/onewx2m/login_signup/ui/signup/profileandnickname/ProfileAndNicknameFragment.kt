@@ -35,13 +35,18 @@ class ProfileAndNicknameFragment :
     MviFragment<FragmentProfileAndNicknameBinding, ProfileAndNicknameViewState, ProfileAndNicknameEvent, ProfileAndNicknameSideEffect, ProfileAndNicknameViewModel>(
         FragmentProfileAndNicknameBinding::inflate,
     ) {
+
+    companion object {
+        private const val PROFILE_RADIUS = 20
+        private const val SCROLL_FOR_NICKNAME_Y_AXIS = 180
+        private const val MIN_KEY_BOARD_HEIGHT = 150
+    }
+
     override val viewModel: ProfileAndNicknameViewModel by viewModels()
     private val parentViewModel: SignUpViewModel by viewModels({ requireParentFragment() })
 
     private val visibleFrameSize = Rect()
     private var rootHeight by Delegates.notNull<Int>()
-    private val scrollFroNicknameCorrectionValue = 180.px
-    private val minKeyboardHeight = 150.px
     private lateinit var viewTreeObserver: ViewTreeObserver
     private lateinit var globalLayoutListener: OnGlobalLayoutListener
 
@@ -93,6 +98,7 @@ class ProfileAndNicknameFragment :
         binding.imageViewProfile.loadProfileUri(
             current.profileUri,
             com.onewx2m.design_system.R.drawable.ic_profile,
+            PROFILE_RADIUS
         )
     }
 
@@ -158,11 +164,11 @@ class ProfileAndNicknameFragment :
             val heightExceptKeyboard = visibleFrameSize.bottom - visibleFrameSize.top
 
             // 키보드를 제외한 높이가 디바이스 root_view보다 높거나 같다면, 키보드가 올라왔을 때가 아니므로 거른다.
-            if (heightExceptKeyboard < rootHeight - minKeyboardHeight) {
+            if (heightExceptKeyboard < rootHeight - MIN_KEY_BOARD_HEIGHT.px) {
                 val keyboardHeight = rootHeight - heightExceptKeyboard
                 viewModel.doWhenKeyboardShow(
                     binding.scrollView.scrollY,
-                    keyboardHeight - scrollFroNicknameCorrectionValue,
+                    keyboardHeight - SCROLL_FOR_NICKNAME_Y_AXIS.px,
                 )
             }
         }
