@@ -59,6 +59,9 @@ class EditMyInfoFragment :
             imageViewBack.onThrottleClick {
                 viewModel.goToPrev()
             }
+            buttonMain.onThrottleClick {
+                viewModel.editMyInfo()
+            }
         }
 
         observeTextInputLayout()

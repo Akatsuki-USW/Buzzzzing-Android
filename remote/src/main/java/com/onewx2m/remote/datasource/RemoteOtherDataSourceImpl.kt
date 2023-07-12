@@ -32,7 +32,7 @@ class RemoteOtherDataSourceImpl @Inject constructor(
         private const val KEY_TYPE = "type"
         private const val KEY_FILES = "files"
         private const val KEY_NEW_FILES = "newFiles"
-        private const val TO_DELETE_URLS = "toDeleteUrls"
+        private const val TO_DELETE_URLS = "urlsToDelete"
     }
 
     override suspend fun verifyNickname(nickname: String): Flow<Outcome<VerifyNicknameEntity>> =

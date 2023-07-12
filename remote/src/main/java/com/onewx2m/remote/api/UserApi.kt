@@ -4,6 +4,7 @@ import com.onewx2m.remote.ApiResult
 import com.onewx2m.remote.model.ApiResponse
 import com.onewx2m.remote.model.request.UserInfoRequest
 import com.onewx2m.remote.model.response.UserInfoResponse
+import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
 
@@ -16,5 +17,5 @@ interface UserApi {
     suspend fun getMyInfo(): ApiResult<ApiResponse<UserInfoResponse>>
 
     @POST("$USER/me/profile")
-    suspend fun editMyInfo(userInfoRequest: UserInfoRequest): ApiResult<ApiResponse<UserInfoResponse>>
+    suspend fun editMyInfo(@Body userInfoRequest: UserInfoRequest): ApiResult<ApiResponse<UserInfoResponse>>
 }

@@ -3,6 +3,7 @@ package com.onewx2m.di.network
 import com.onewx2m.di.AuthRetrofit
 import com.onewx2m.di.NormalRetrofit
 import com.onewx2m.remote.api.AuthApi
+import com.onewx2m.remote.api.MediaApi
 import com.onewx2m.remote.api.OtherApi
 import com.onewx2m.remote.api.UserApi
 import dagger.Module
@@ -29,5 +30,10 @@ object ApiModule {
     @Provides
     fun provideUserApi(@AuthRetrofit retrofit: Retrofit): UserApi {
         return retrofit.create(UserApi::class.java)
+    }
+
+    @Provides
+    fun provideMediaApi(@AuthRetrofit retrofit: Retrofit): MediaApi {
+        return retrofit.create(MediaApi::class.java)
     }
 }

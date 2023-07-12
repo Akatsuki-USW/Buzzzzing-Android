@@ -10,7 +10,7 @@ interface RemoteMediaDataSource {
 
     suspend fun changeImage(
         s3Type: S3Type,
-        toDeleteUrls: String,
+        urlsToDelete: List<String>,
         newFiles: List<File>,
     ): Flow<Outcome<List<FileNameAndUrlEntity>>>
 }

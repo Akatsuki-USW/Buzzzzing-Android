@@ -17,7 +17,7 @@ interface MediaApi {
     @POST("$FILE/change")
     suspend fun changeImage(
         @Part type: MultipartBody.Part,
-        @Part toDeleteUrls: MultipartBody.Part,
+        @Part urlsToDelete: List<MultipartBody.Part>,
         @Part files: List<MultipartBody.Part>,
     ): ApiResult<ApiResponse<UploadFileListResponse>>
 }

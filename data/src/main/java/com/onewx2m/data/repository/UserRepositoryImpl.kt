@@ -34,7 +34,7 @@ class UserRepositoryImpl @Inject constructor(
 
         var isUploadFileFail = false
         profileFile?.let {
-            remoteMediaDataSource.changeImage(S3Type.PROFILE, profileImageUrl, listOf(it))
+            remoteMediaDataSource.changeImage(S3Type.PROFILE, listOf(profileImageUrl), listOf(it))
                 .collect { outcome ->
                     when (outcome) {
                         Outcome.Loading -> {}

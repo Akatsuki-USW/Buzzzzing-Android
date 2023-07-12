@@ -3,9 +3,11 @@
 package com.onewx2m.di.network
 
 import com.onewx2m.data.datasource.RemoteAuthDataSource
+import com.onewx2m.data.datasource.RemoteMediaDataSource
 import com.onewx2m.data.datasource.RemoteOtherDataSource
 import com.onewx2m.data.datasource.RemoteUserDataSource
 import com.onewx2m.remote.datasource.RemoteAuthDataSourceImpl
+import com.onewx2m.remote.datasource.RemoteMediaDataSourceImpl
 import com.onewx2m.remote.datasource.RemoteOtherDataSourceImpl
 import com.onewx2m.remote.datasource.RemoteUserDataSourceImpl
 import dagger.Binds
@@ -31,4 +33,9 @@ abstract class RemoteDataSourceModule {
     abstract fun bindRemoteUserDatasource(
         remoteUserDataSourceImpl: RemoteUserDataSourceImpl,
     ): RemoteUserDataSource
+
+    @Binds
+    abstract fun bindRemoteMediaDatasource(
+        remoteMediaDataSourceImpl: RemoteMediaDataSourceImpl,
+    ): RemoteMediaDataSource
 }

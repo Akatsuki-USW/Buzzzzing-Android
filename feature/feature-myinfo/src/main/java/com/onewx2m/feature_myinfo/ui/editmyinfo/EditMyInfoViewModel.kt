@@ -4,17 +4,20 @@ import android.net.Uri
 import androidx.lifecycle.viewModelScope
 import com.onewx2m.core_ui.R
 import com.onewx2m.core_ui.util.BuzzzzingUser
+import com.onewx2m.core_ui.util.ImageUtil
 import com.onewx2m.core_ui.util.Regex
 import com.onewx2m.design_system.components.button.MainButtonState
 import com.onewx2m.design_system.components.textinputlayout.TextInputLayoutState
 import com.onewx2m.domain.Outcome
 import com.onewx2m.domain.exception.common.CommonException
+import com.onewx2m.domain.usecase.EditMyInfoUseCase
 import com.onewx2m.domain.usecase.VerifyNicknameUseCase
 import com.onewx2m.mvi.MviViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.async
 import kotlinx.coroutines.cancelAndJoin
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -22,6 +25,8 @@ import javax.inject.Inject
 @HiltViewModel
 class EditMyInfoViewModel @Inject constructor(
     private val verifyNicknameUseCase: VerifyNicknameUseCase,
+    private val editMyInfoUseCase: EditMyInfoUseCase,
+    private val imageUtil: ImageUtil,
 ) :
     MviViewModel<EditMyInfoViewState, EditMyInfoEvent, EditMyInfoSideEffect>(
         EditMyInfoViewState(),
@@ -252,5 +257,40 @@ class EditMyInfoViewModel @Inject constructor(
                 ),
             )
         }
+    }
+
+    fun editMyInfo() = viewModelScope.launch {
+        val file = profileUri?.let {
+            val nullableFile = imageUtil.uriToOptimizeImageFile(it)
+            if (nullableFile == null) {
+                handleEditMyInfoFail()
+                return@let null
+            }
+            nullableFile
+        }
+
+        editMyInfoUseCase(
+            nickname = nickname,
+            email = email,
+            profileImageUrl = BuzzzzingUser.profileImageUrl,
+            profileFile = file,
+        ).collect { outcome ->
+            when (outcome) {
+                Outcome.Loading -> {}
+                is Outcome.Success -> postSideEffect(EditMyInfoSideEffect.GoToPrev)
+                is Outcome.Failure -> handleEditMyInfoFail(outcome.error)
+            }
+        }
+    }
+
+    private fun handleEditMyInfoFail(error: Throwable? = null) {
+        postEvent(EditMyInfoEvent.ChangeMainButtonState(MainButtonState.POSITIVE))
+        // postEvent(EditMyInfoEvent.ShowViewPagerAndHideLottie)
+        postSideEffect(
+            EditMyInfoSideEffect.ShowErrorToast(
+                error?.message
+                    ?: CommonException.UnknownException().snackBarMessage,
+            ),
+        )
     }
 }
