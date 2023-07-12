@@ -2,10 +2,12 @@ package com.onewx2m.login_signup.ui.signup
 
 import android.net.Uri
 import androidx.lifecycle.viewModelScope
+import com.onewx2m.core_ui.util.BuzzzzingUser
 import com.onewx2m.core_ui.util.ImageUtil
 import com.onewx2m.design_system.components.button.MainButtonState
 import com.onewx2m.domain.Outcome
 import com.onewx2m.domain.exception.common.CommonException
+import com.onewx2m.domain.usecase.GetMyInfoUseCase
 import com.onewx2m.domain.usecase.SignUpUseCase
 import com.onewx2m.feature_login_signup.R
 import com.onewx2m.login_signup.ui.signup.adapter.SignUpFragmentType
@@ -18,6 +20,7 @@ import javax.inject.Inject
 class SignUpViewModel @Inject constructor(
     private val signUpUsecase: SignUpUseCase,
     private val imageUtil: ImageUtil,
+    private val getMyInfoUseCase: GetMyInfoUseCase,
 ) :
     MviViewModel<SignUpViewState, SignUpEvent, SignUpSideEffect>(SignUpViewState()) {
 
@@ -83,7 +86,7 @@ class SignUpViewModel @Inject constructor(
         val file = profileUri?.let {
             val nullableFile = imageUtil.uriToOptimizeImageFile(it)
             if (nullableFile == null) {
-                handleUploadImageFail()
+                handleSignUpFail()
                 return@let null
             }
             nullableFile
@@ -97,13 +100,33 @@ class SignUpViewModel @Inject constructor(
         ).collect { outcome ->
             when (outcome) {
                 Outcome.Loading -> {}
-                is Outcome.Success -> postSideEffect(SignUpSideEffect.GoToHomeFragment)
-                is Outcome.Failure -> handleUploadImageFail(outcome.error)
+                is Outcome.Success -> getMyInfoAndSave()
+                is Outcome.Failure -> handleSignUpFail(outcome.error)
             }
         }
     }
 
-    private fun handleUploadImageFail(error: Throwable? = null) {
+    private fun getMyInfoAndSave() = viewModelScope.launch {
+        getMyInfoUseCase().collect {
+            when (it) {
+                is Outcome.Loading -> {}
+                is Outcome.Success -> {
+                    BuzzzzingUser.setInfo(
+                        email = it.data.email,
+                        nickname = it.data.nickname,
+                        profileImageUrl = it.data.profileImageUrl,
+                    )
+                    postSideEffect(SignUpSideEffect.GoToHomeFragment)
+                }
+
+                is Outcome.Failure -> {
+                    handleSignUpFail(it.error)
+                }
+            }
+        }
+    }
+
+    private fun handleSignUpFail(error: Throwable? = null) {
         postEvent(SignUpEvent.ChangeMainButtonState(MainButtonState.POSITIVE))
         postEvent(SignUpEvent.ShowViewPagerAndHideLottie)
         postSideEffect(
