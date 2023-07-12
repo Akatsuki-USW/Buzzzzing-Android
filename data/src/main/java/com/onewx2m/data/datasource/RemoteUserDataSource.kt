@@ -7,4 +7,10 @@ import kotlinx.coroutines.flow.Flow
 interface RemoteUserDataSource {
 
     suspend fun getUserInfo(): Flow<Outcome<UserInfoEntity>>
+
+    suspend fun editMyInfo(
+        nickname: String,
+        email: String,
+        profileImageUrl: String,
+    ): Flow<Outcome<UserInfoEntity>>
 }
