@@ -9,4 +9,8 @@ class MyInfoViewModel @Inject constructor() : MviViewModel<MyInfoViewState, MyIn
     override fun reduceState(current: MyInfoViewState, event: MyInfoEvent): MyInfoViewState {
         TODO("Not yet implemented")
     }
+
+    fun goToEdit() {
+        postSideEffect(MyInfoSideEffect.GoToEdit)
+    }
 }

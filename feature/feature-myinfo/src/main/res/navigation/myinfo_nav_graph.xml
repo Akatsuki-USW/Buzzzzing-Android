@@ -10,8 +10,17 @@
         android:id="@+id/myInfoFragment"
         android:name="com.onewx2m.feature_myinfo.ui.myinfo.MyInfoFragment"
         android:label="fragment_login"
-        tools:layout="@layout/fragment_my_info" >
-
-
+        tools:layout="@layout/fragment_my_info">
+        <action
+            android:id="@+id/action_myInfo_to_editMyInfo"
+            app:destination="@id/editMyInfoFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:popExitAnim="@anim/nav_default_exit_anim" />
     </fragment>
+
+    <fragment
+        android:id="@+id/editMyInfoFragment"
+        android:name="com.onewx2m.feature_myinfo.ui.editmyinfo.EditMyInfoFragment"
+        android:label="fragment_edit_my_info"
+        tools:layout="@layout/fragment_edit_my_info" />
 </navigation>

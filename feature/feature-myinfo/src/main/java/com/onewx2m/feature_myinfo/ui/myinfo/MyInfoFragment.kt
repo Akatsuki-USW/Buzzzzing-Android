@@ -1,8 +1,10 @@
 package com.onewx2m.feature_myinfo.ui.myinfo
 
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.onewx2m.core_ui.extensions.loadProfileUrl
+import com.onewx2m.core_ui.extensions.onThrottleClick
 import com.onewx2m.design_system.components.toast.ErrorToast
 import com.onewx2m.feature_myinfo.R
 import com.onewx2m.feature_myinfo.databinding.FragmentMyInfoBinding
@@ -29,6 +31,10 @@ class MyInfoFragment :
             adapter = listAdapter
         }
         listAdapter.submitList(MyInfoMenu.values().toList())
+
+        binding.constraintLayoutEdit.onThrottleClick {
+            viewModel.goToEdit()
+        }
     }
 
     private fun onMenuClick(item: MyInfoMenu) = when (item) {
@@ -84,6 +90,17 @@ class MyInfoFragment :
                 PROFILE_RADIUS,
             )
             textViewNickname.text = current.nickname
+        }
+    }
+
+    override fun handleSideEffect(sideEffect: MyInfoSideEffect) {
+        super.handleSideEffect(sideEffect)
+
+        when (sideEffect) {
+            MyInfoSideEffect.GoToEdit -> {
+                val action = MyInfoFragmentDirections.actionMyInfoToEditMyInfo()
+                findNavController().navigate(action)
+            }
         }
     }
 }
