@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import androidx.annotation.ColorRes
 import androidx.constraintlayout.widget.ConstraintLayout
+import com.onewx2m.core_ui.extensions.px
 import com.onewx2m.design_system.R
 import com.onewx2m.design_system.databinding.TextInputLayoutBinding
 
@@ -18,6 +19,12 @@ class TextInputLayout @JvmOverloads constructor(
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0,
 ) : ConstraintLayout(context, attrs, defStyleAttr) {
+
+    companion object {
+        private const val MIN_EDIT_TEXT_HEIGHT = 29
+        private const val LOSING_FOCUS_DELAY = 250L
+    }
+
     private val binding: TextInputLayoutBinding
 
     var helperText: String = ""
@@ -102,8 +109,14 @@ class TextInputLayout @JvmOverloads constructor(
         binding.editText.setOnFocusChangeListener { _, hasFocus ->
             if (isPreventLosingFocus) return@setOnFocusChangeListener
             if (hasFocus) preventFocusClearedByAdjustResize()
-            if (!hasFocus && state == TextInputLayoutState.FOCUSED) state = TextInputLayoutState.INACTIVE
-            if (hasFocus && state == TextInputLayoutState.INACTIVE) state = TextInputLayoutState.FOCUSED
+            if (!hasFocus && state == TextInputLayoutState.FOCUSED) {
+                state =
+                    TextInputLayoutState.INACTIVE
+            }
+            if (hasFocus && state == TextInputLayoutState.INACTIVE) {
+                state =
+                    TextInputLayoutState.FOCUSED
+            }
         }
 
         val typedArray =
@@ -117,6 +130,13 @@ class TextInputLayout @JvmOverloads constructor(
             typedArray.getBoolean(R.styleable.TextInputLayout_hideHelperTextContent, false)
 
         val hint = typedArray.getText(R.styleable.TextInputLayout_textInputLayoutHint)
+
+        val editTextHeight = typedArray.getDimension(
+            R.styleable.TextInputLayout_textInputEditTextHeight,
+            MIN_EDIT_TEXT_HEIGHT.px.toFloat(),
+        )
+
+        binding.editText.layoutParams.height = editTextHeight.toInt()
 
         binding.label.text = label
         binding.label.visibility = if (isHideLabel) View.GONE else View.VISIBLE
@@ -133,7 +153,6 @@ class TextInputLayout @JvmOverloads constructor(
 
     private fun preventFocusClearedByAdjustResize() {
         isPreventLosingFocus = true
-        val losingFocusDelay = 250L
 
         binding.editText.postDelayed({
             binding.editText.run {
@@ -142,6 +161,6 @@ class TextInputLayout @JvmOverloads constructor(
                 }
             }
             isPreventLosingFocus = false
-        }, losingFocusDelay)
+        }, LOSING_FOCUS_DELAY)
     }
 }
