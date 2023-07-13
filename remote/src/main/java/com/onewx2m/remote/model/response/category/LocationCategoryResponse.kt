@@ -7,7 +7,7 @@ import kotlinx.serialization.Serializable
 data class LocationCategoryResponse(
     val id: Int,
     val name: String,
-    val iconImageUrl: String,
+    val iconImageUrl: String = "",
 )
 
 fun LocationCategoryResponse.toEntity() = LocationCategoryEntity(
