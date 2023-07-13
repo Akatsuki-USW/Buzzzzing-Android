@@ -17,10 +17,6 @@ internal class FeaturePlugin : Plugin<Project> {
                 apply("buzzzzing.plugin.hilt")
             }
 
-            extensions.configure<LibraryExtension> {
-                viewBinding.enable = true
-            }
-
             val libs = extensions.getByType<VersionCatalogsExtension>().named("libs")
             dependencies {
                 "implementation"(project(":mvi"))

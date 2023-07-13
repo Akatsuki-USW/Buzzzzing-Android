@@ -53,9 +53,5 @@ gradlePlugin {
             id = "buzzzzing.plugin.di"
             implementationClass = "DiPlugin"
         }
-        register("MviPlugin") {
-            id = "buzzzzing.plugin.mvi"
-            implementationClass = "MviPlugin"
-        }
     }
 }

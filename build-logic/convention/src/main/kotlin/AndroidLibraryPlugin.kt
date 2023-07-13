@@ -26,6 +26,8 @@ class AndroidLibraryPlugin : Plugin<Project> {
                     vectorDrawables.useSupportLibrary = true
                 }
 
+                viewBinding.enable = true
+
                 buildTypes {
                     getByName("release") {
                         isMinifyEnabled = false
