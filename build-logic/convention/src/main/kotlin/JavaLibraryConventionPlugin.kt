@@ -2,8 +2,8 @@ import org.gradle.api.JavaVersion
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.plugins.JavaPluginExtension
-import org.jetbrains.kotlin.gradle.dsl.KotlinProjectExtension
 import org.gradle.kotlin.dsl.configure
+import org.jetbrains.kotlin.gradle.dsl.KotlinProjectExtension
 
 internal class JavaLibraryConventionPlugin : Plugin<Project> {
 
@@ -15,15 +15,15 @@ internal class JavaLibraryConventionPlugin : Plugin<Project> {
             }
 
             extensions.configure<JavaPluginExtension>
-            {
-                sourceCompatibility = JavaVersion.VERSION_17
-                targetCompatibility = JavaVersion.VERSION_17
-            }
+                {
+                    sourceCompatibility = JavaVersion.VERSION_17
+                    targetCompatibility = JavaVersion.VERSION_17
+                }
 
             extensions.configure<KotlinProjectExtension>
-            {
-                jvmToolchain(17)
-            }
+                {
+                    jvmToolchain(17)
+                }
         }
     }
 }

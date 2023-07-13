@@ -23,19 +23,19 @@ gradlePlugin {
         }
         register("AndroidHiltPlugin") {
             id = "buzzzzing.plugin.hilt"
-            implementationClass = "AndroidHiltPlugin"
+            implementationClass = "AndroidHiltConventionPlugin"
         }
         register("AndroidLibraryPlugin") {
             id = "buzzzzing.plugin.android-library"
-            implementationClass = "AndroidLibraryPlugin"
+            implementationClass = "AndroidLibraryConventionPlugin"
         }
         register("AndroidApplicationPlugin") {
             id = "buzzzzing.plugin.application"
-            implementationClass = "AndroidApplicationPlugin"
+            implementationClass = "AndroidApplicationConventionPlugin"
         }
         register("FeaturePlugin") {
             id = "buzzzzing.plugin.feature"
-            implementationClass = "FeaturePlugin"
+            implementationClass = "FeatureConventionPlugin"
         }
     }
 }
