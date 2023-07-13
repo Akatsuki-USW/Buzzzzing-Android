@@ -45,7 +45,10 @@ object NetworkModule {
 
     @Provides
     fun provideJsonForLog(): Json {
-        return Json { prettyPrint = true }
+        return Json {
+            prettyPrint = true
+            coerceInputValues = true
+        }
     }
 
     @Provides
@@ -73,12 +76,13 @@ object NetworkModule {
     @NormalRetrofit
     fun provideNormalRetrofit(
         @NormalOkHttpClient okHttpClient: OkHttpClient,
+        json: Json,
     ): Retrofit {
         return Retrofit.Builder()
             .baseUrl(BASE_URL)
             .client(okHttpClient)
             .addCallAdapterFactory(ResultCallAdapterFactory())
-            .addConverterFactory(Json.asConverterFactory("application/json".toMediaTypeOrNull()!!))
+            .addConverterFactory(json.asConverterFactory("application/json".toMediaTypeOrNull()!!))
             .build()
     }
 
@@ -103,12 +107,13 @@ object NetworkModule {
     @AuthRetrofit
     fun provideAuthRetrofit(
         @AuthOkHttpClient okHttpClient: OkHttpClient,
+        json: Json,
     ): Retrofit {
         return Retrofit.Builder()
             .baseUrl(BASE_URL)
             .client(okHttpClient)
             .addCallAdapterFactory(ResultCallAdapterFactory())
-            .addConverterFactory(Json.asConverterFactory("application/json".toMediaTypeOrNull()!!))
+            .addConverterFactory(json.asConverterFactory("application/json".toMediaTypeOrNull()!!))
             .build()
     }
 }
