@@ -33,9 +33,9 @@ dependencies {
 
 gradlePlugin {
     plugins {
-        register("JvmKotlinPlugin") {
-            id = "buzzzzing.plugin.jvm-kotlin"
-            implementationClass = "JvmKotlinPlugin"
+        register("JavaLibrary") {
+            id = "buzzzzing.plugin.java.library"
+            implementationClass = "JavaLibraryConventionPlugin"
         }
         register("AndroidHiltPlugin") {
             id = "buzzzzing.plugin.hilt"
