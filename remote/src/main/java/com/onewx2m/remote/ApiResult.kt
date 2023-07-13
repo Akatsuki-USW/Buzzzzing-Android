@@ -3,6 +3,7 @@ package com.onewx2m.remote
 import com.onewx2m.domain.exception.BuzzzzingHttpException
 import com.onewx2m.domain.exception.common.CommonException
 import com.onewx2m.remote.model.ErrorResponse
+import timber.log.Timber
 
 /**
  * Success : 서버로부터 API 응답 성공
@@ -80,6 +81,7 @@ inline fun <T> ApiResult<T>.onSuccess(action: (value: T) -> Unit): ApiResult<T> 
 }
 
 fun ApiResult.Failure.toBuzzzzingException(): Exception {
+    Timber.e(this.exceptionOrNull())
     return when (this) {
         is ApiResult.Failure.HttpError -> {
             val errorBody = KotlinSerializationUtil.json.decodeFromString<ErrorResponse>(body)
