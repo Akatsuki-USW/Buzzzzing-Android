@@ -17,7 +17,7 @@ dependencies {
 
 gradlePlugin {
     plugins {
-        register("JavaLibrary") {
+        register("JavaLibraryPlugin") {
             id = "buzzzzing.plugin.java.library"
             implementationClass = "JavaLibraryConventionPlugin"
         }
@@ -36,10 +36,6 @@ gradlePlugin {
         register("FeaturePlugin") {
             id = "buzzzzing.plugin.feature"
             implementationClass = "FeaturePlugin"
-        }
-        register("DesignSystemPlugin") {
-            id = "buzzzzing.plugin.design-system"
-            implementationClass = "DesignSystemPlugin"
         }
     }
 }
