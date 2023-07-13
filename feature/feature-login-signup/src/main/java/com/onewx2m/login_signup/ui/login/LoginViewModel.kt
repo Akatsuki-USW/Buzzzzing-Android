@@ -28,7 +28,6 @@ class LoginViewModel @Inject constructor(
     fun handleKakaoLoginSuccess(kakaoAccessToken: String) = viewModelScope.launch {
         loginByKakaoUseCase(kakaoAccessToken).collect {
             when (it) {
-                is Outcome.Loading -> {}
                 is Outcome.Success -> {
                     getMyInfoAndSave()
                 }
@@ -43,7 +42,6 @@ class LoginViewModel @Inject constructor(
     private fun getMyInfoAndSave() = viewModelScope.launch {
         getMyInfoUseCase().collect {
             when (it) {
-                is Outcome.Loading -> {}
                 is Outcome.Success -> {
                     BuzzzzingUser.setInfo(
                         email = it.data.email,

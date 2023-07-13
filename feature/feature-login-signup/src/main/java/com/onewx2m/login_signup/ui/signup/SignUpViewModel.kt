@@ -99,7 +99,6 @@ class SignUpViewModel @Inject constructor(
             email = email,
         ).collect { outcome ->
             when (outcome) {
-                Outcome.Loading -> {}
                 is Outcome.Success -> getMyInfoAndSave()
                 is Outcome.Failure -> handleSignUpFail(outcome.error)
             }
@@ -109,7 +108,6 @@ class SignUpViewModel @Inject constructor(
     private fun getMyInfoAndSave() = viewModelScope.launch {
         getMyInfoUseCase().collect {
             when (it) {
-                is Outcome.Loading -> {}
                 is Outcome.Success -> {
                     BuzzzzingUser.setInfo(
                         email = it.data.email,

@@ -18,7 +18,6 @@ import com.onewx2m.remote.model.response.toEntity
 import com.onewx2m.remote.onFailure
 import com.onewx2m.remote.onSuccess
 import com.onewx2m.remote.util.FormDataUtil
-import com.onewx2m.remote.wrapOutcomeLoadingFailure
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import java.io.File
@@ -29,14 +28,12 @@ class RemoteOtherDataSourceImpl @Inject constructor(
 ) : RemoteOtherDataSource {
 
     companion object {
-        private const val KEY_TYPE = "type"
-        private const val KEY_FILES = "files"
-        private const val KEY_NEW_FILES = "newFiles"
-        private const val TO_DELETE_URLS = "urlsToDelete"
+        const val KEY_TYPE = "type"
+        const val KEY_FILES = "files"
     }
 
     override suspend fun verifyNickname(nickname: String): Flow<Outcome<VerifyNicknameEntity>> =
-        flow<Outcome<VerifyNicknameEntity>> {
+        flow {
             api.verifyNickname(nickname).onSuccess { body ->
                 emit(Outcome.Success(body.data!!.toEntity()))
             }.onFailure { exception ->
@@ -45,7 +42,7 @@ class RemoteOtherDataSourceImpl @Inject constructor(
                     else -> emit(Outcome.Failure(exception))
                 }
             }
-        }.wrapOutcomeLoadingFailure()
+        }
 
     private fun handleVerifyNicknameException(
         exception: BuzzzzingHttpException,
@@ -57,7 +54,7 @@ class RemoteOtherDataSourceImpl @Inject constructor(
     override suspend fun uploadImage(
         s3Type: S3Type,
         fileList: List<File>,
-    ): Flow<Outcome<List<FileNameAndUrlEntity>>> = flow<Outcome<List<FileNameAndUrlEntity>>> {
+    ): Flow<Outcome<List<FileNameAndUrlEntity>>> = flow {
         val typeBody = FormDataUtil.getBody(KEY_TYPE, s3Type.value)
         val fileListBody = fileList.map { file -> FormDataUtil.getImageBody(KEY_FILES, file) }
 
@@ -69,7 +66,7 @@ class RemoteOtherDataSourceImpl @Inject constructor(
                 else -> emit(Outcome.Failure(exception))
             }
         }
-    }.wrapOutcomeLoadingFailure()
+    }
 
     override suspend fun signUp(
         signToken: String,
@@ -93,7 +90,7 @@ class RemoteOtherDataSourceImpl @Inject constructor(
                 emit(Outcome.Failure(exception))
             }
         }
-    }.wrapOutcomeLoadingFailure()
+    }
 
     private fun handleSignUpException(
         exception: BuzzzzingHttpException,
@@ -109,5 +106,5 @@ class RemoteOtherDataSourceImpl @Inject constructor(
             }.onFailure {
                 emit(Outcome.Failure(it))
             }
-        }.wrapOutcomeLoadingFailure()
+        }
 }

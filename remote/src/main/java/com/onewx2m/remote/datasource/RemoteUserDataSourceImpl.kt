@@ -8,7 +8,6 @@ import com.onewx2m.remote.model.request.UserInfoRequest
 import com.onewx2m.remote.model.response.toEntity
 import com.onewx2m.remote.onFailure
 import com.onewx2m.remote.onSuccess
-import com.onewx2m.remote.wrapOutcomeLoadingFailure
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
@@ -18,19 +17,19 @@ class RemoteUserDataSourceImpl @Inject constructor(
 ) : RemoteUserDataSource {
 
     override suspend fun getUserInfo(): Flow<Outcome<UserInfoEntity>> =
-        flow<Outcome<UserInfoEntity>> {
+        flow {
             api.getMyInfo().onSuccess { body ->
                 emit(Outcome.Success(body.data!!.toEntity()))
             }.onFailure { exception ->
                 emit(Outcome.Failure(exception))
             }
-        }.wrapOutcomeLoadingFailure()
+        }
 
     override suspend fun editMyInfo(
         nickname: String,
         email: String,
         profileImageUrl: String,
-    ): Flow<Outcome<UserInfoEntity>> = flow<Outcome<UserInfoEntity>> {
+    ): Flow<Outcome<UserInfoEntity>> = flow {
         api.editMyInfo(
             UserInfoRequest(
                 nickname = nickname,
@@ -42,5 +41,5 @@ class RemoteUserDataSourceImpl @Inject constructor(
         }.onFailure { exception ->
             emit(Outcome.Failure(exception))
         }
-    }.wrapOutcomeLoadingFailure()
+    }
 }

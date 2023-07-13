@@ -145,13 +145,11 @@ class EditMyInfoViewModel @Inject constructor(
         }
 
         verifyNicknameFromServerJob = viewModelScope.launch {
+            postEvent(EditMyInfoEvent.ChangeNicknameLayoutStateLoading)
+
             verifyNicknameUseCase(nickname).collect { outcome ->
                 if (isActive.not()) return@collect
                 when (outcome) {
-                    Outcome.Loading -> {
-                        postEvent(EditMyInfoEvent.ChangeNicknameLayoutStateLoading)
-                    }
-
                     is Outcome.Success -> {
                         if (outcome.data.isAvailable) {
                             this@EditMyInfoViewModel.nickname = nickname
@@ -276,7 +274,6 @@ class EditMyInfoViewModel @Inject constructor(
             profileFile = file,
         ).collect { outcome ->
             when (outcome) {
-                Outcome.Loading -> {}
                 is Outcome.Success -> postSideEffect(EditMyInfoSideEffect.GoToPrev)
                 is Outcome.Failure -> handleEditMyInfoFail(outcome.error)
             }

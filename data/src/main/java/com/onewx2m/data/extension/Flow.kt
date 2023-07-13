@@ -11,7 +11,6 @@ fun <T, R> Flow<Outcome<T>>.flatMapOutcomeSuccess(domainMapper: suspend (T) -> R
     return this.flatMapConcat { outcome ->
         flow {
             when (outcome) {
-                is Outcome.Loading -> emit(Outcome.Loading)
                 is Outcome.Success -> emit(Outcome.Success(domainMapper(outcome.data)))
                 is Outcome.Failure -> emit(Outcome.Failure(outcome.error))
             }

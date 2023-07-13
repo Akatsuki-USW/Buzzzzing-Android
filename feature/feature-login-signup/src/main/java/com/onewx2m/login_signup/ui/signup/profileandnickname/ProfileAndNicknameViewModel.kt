@@ -113,13 +113,10 @@ class ProfileAndNicknameViewModel @Inject constructor(
 
     fun verifyNicknameFromServer(nickname: String) {
         verifyNicknameFromServerJob = viewModelScope.launch {
+            postEvent(ProfileAndNicknameEvent.ChangeNicknameLayoutStateLoading)
             verifyNicknameUseCase(nickname).collect { outcome ->
                 if (isActive.not()) return@collect
                 when (outcome) {
-                    Outcome.Loading -> {
-                        postEvent(ProfileAndNicknameEvent.ChangeNicknameLayoutStateLoading)
-                    }
-
                     is Outcome.Success -> {
                         if (outcome.data.isAvailable) {
                             postEvent(ProfileAndNicknameEvent.ChangeNicknameLayoutStateSuccess)

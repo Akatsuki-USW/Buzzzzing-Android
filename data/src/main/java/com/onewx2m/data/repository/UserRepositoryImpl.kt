@@ -37,7 +37,6 @@ class UserRepositoryImpl @Inject constructor(
             remoteMediaDataSource.changeImage(S3Type.PROFILE, listOf(profileImageUrl), listOf(it))
                 .collect { outcome ->
                     when (outcome) {
-                        Outcome.Loading -> {}
                         is Outcome.Success -> {
                             newProfileUrl = outcome.data[0].fileUrl
                         }

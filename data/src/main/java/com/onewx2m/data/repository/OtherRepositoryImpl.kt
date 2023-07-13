@@ -38,7 +38,6 @@ class OtherRepositoryImpl @Inject constructor(
             remoteOtherDataSource.uploadImage(S3Type.PROFILE, listOf(it))
                 .collect { outcome ->
                     when (outcome) {
-                        Outcome.Loading -> {}
                         is Outcome.Success -> {
                             profileImageUrl = outcome.data[0].fileUrl
                         }
@@ -60,7 +59,6 @@ class OtherRepositoryImpl @Inject constructor(
             profileImageUrl = profileImageUrl,
         ).collect { outcome ->
             when (outcome) {
-                Outcome.Loading -> {}
                 is Outcome.Success -> {
                     localAuthDataSource.saveToken(outcome.data.toDomain())
                     emit(Outcome.Success(Unit))

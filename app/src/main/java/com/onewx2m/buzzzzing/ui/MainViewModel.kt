@@ -5,6 +5,7 @@ import com.onewx2m.buzzzzing.R
 import com.onewx2m.core_ui.util.BuzzzzingUser
 import com.onewx2m.domain.Outcome
 import com.onewx2m.domain.exception.common.CommonException
+import com.onewx2m.domain.model.UserInfo
 import com.onewx2m.domain.usecase.GetMyInfoUseCase
 import com.onewx2m.domain.usecase.SaveEntireCategoryUseCase
 import com.onewx2m.mvi.MviViewModel
@@ -38,16 +39,15 @@ class MainViewModel @Inject constructor(
     fun reissueJwtAndNavigateFragmentAndHideSplashScreen() = viewModelScope.launch {
         getMyInfoUseCase().combine(saveEntireCategoryUseCase()) { myInfoOutcome, categoryOutcome ->
             when {
-                myInfoOutcome is Outcome.Success && categoryOutcome is Outcome.Success -> Outcome.Success(
+                myInfoOutcome is Outcome.Success && categoryOutcome is Outcome.Success -> Outcome.Success<UserInfo>(
                     myInfoOutcome.data,
                 )
 
-                categoryOutcome is Outcome.Failure -> Outcome.Failure(categoryOutcome.error)
-                else -> Outcome.Loading
+                categoryOutcome is Outcome.Failure -> Outcome.Failure<UserInfo>(categoryOutcome.error)
+                else -> null
             }
         }.collect { combineOutcome ->
             when (combineOutcome) {
-                is Outcome.Loading -> {}
                 is Outcome.Success -> {
                     with(combineOutcome.data) {
                         BuzzzzingUser.setInfo(
@@ -70,6 +70,8 @@ class MainViewModel @Inject constructor(
                     delay(SHOW_ERROR_BEFORE_FINISH_DELAY)
                     postSideEffect(MainSideEffect.FinishActivity)
                 }
+
+                else -> {}
             }
         }
         delay(HIDE_SPLASH_DELAY)
