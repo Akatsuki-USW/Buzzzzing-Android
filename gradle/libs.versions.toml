@@ -87,9 +87,9 @@ google-material = { group = "com.google.android.material", name = "material", ve
 timber = { group = "com.jakewharton.timber", name = "timber", version.ref = "timber" }
 androidx-dataStore-core = { group = "androidx.datastore", name = "datastore", version.ref = "androidxDataStore" }
 androidx-dataStore-preferences = { group = "androidx.datastore", name = "datastore-preferences", version.ref = "androidxDataStore" }
-encrypted-datastroe-preference-ksp = { group = "tech.thdev", name = "useful-encrypted-data-store-preferences-ksp", version.ref = "encryptedDataStore" }
-encrypted-datastroe-preference-ksp-annotations = { group = "tech.thdev", name = "useful-encrypted-data-store-preferences-ksp-annotations", version.ref = "encryptedDataStore" }
-encrypted-datastroe-preference-security = { group = "tech.thdev", name = "useful-encrypted-data-store-preferences-security", version.ref = "encryptedDataStore" }
+encrypted-datastore-preference-ksp = { group = "tech.thdev", name = "useful-encrypted-data-store-preferences-ksp", version.ref = "encryptedDataStore" }
+encrypted-datastore-preference-ksp-annotations = { group = "tech.thdev", name = "useful-encrypted-data-store-preferences-ksp-annotations", version.ref = "encryptedDataStore" }
+encrypted-datastore-preference-security = { group = "tech.thdev", name = "useful-encrypted-data-store-preferences-security", version.ref = "encryptedDataStore" }
 
 firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version.ref = "firebaseBom" }
 firebase-analytics = { group = "com.google.firebase", name = "firebase-analytics-ktx" }
