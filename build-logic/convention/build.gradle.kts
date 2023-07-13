@@ -25,10 +25,6 @@ gradlePlugin {
             id = "buzzzzing.plugin.hilt"
             implementationClass = "AndroidHiltPlugin"
         }
-        register("DataPlugin") {
-            id = "buzzzzing.plugin.data"
-            implementationClass = "DataPlugin"
-        }
         register("AndroidLibraryPlugin") {
             id = "buzzzzing.plugin.android-library"
             implementationClass = "AndroidLibraryPlugin"

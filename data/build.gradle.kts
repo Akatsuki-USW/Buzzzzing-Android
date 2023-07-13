@@ -1,7 +1,9 @@
 plugins {
-    id("buzzzzing.plugin.data")
+    id("buzzzzing.plugin.java.library")
 }
 
-android {
-    namespace = "com.onewx2m.data"
+dependencies {
+    implementation(project(":domain"))
+    implementation(libs.kotlinx.coroutines.core)
+    implementation(libs.hilt.core)
 }

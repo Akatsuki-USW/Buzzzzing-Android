@@ -13,7 +13,6 @@ import com.onewx2m.domain.model.category.SpotCategory
 import com.onewx2m.domain.repository.CategoryRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import timber.log.Timber
 import javax.inject.Inject
 
 class CategoryRepositoryImpl @Inject constructor(
