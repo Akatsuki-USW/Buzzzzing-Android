@@ -1,5 +1,5 @@
 plugins {
-    id("buzzzzing.plugin.core-ui")
+    id("buzzzzing.plugin.android-library")
     id("buzzzzing.plugin.hilt")
 }
 
@@ -8,6 +8,20 @@ android {
 }
 
 dependencies {
+    implementation(libs.androidx.appcompat)
+    implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.constraintlayout)
+    implementation(libs.androidx.activity.ktx)
+    implementation(libs.androidx.fragment.ktx)
+    implementation(libs.androidx.recyclerview)
+
+    implementation(libs.google.material)
+
+    implementation(libs.timber)
     implementation(libs.ted.permission)
     implementation(libs.coil)
+
+    implementation(libs.bundles.androidx.navigation)
+    implementation(libs.bundles.androidx.lifecycle)
+    implementation(libs.bundles.coroutine)
 }
