@@ -1,6 +1,7 @@
 package com.onewx2m.feature_myinfo.ui.editmyinfo
 
 import android.graphics.Rect
+import android.view.View
 import android.view.ViewTreeObserver
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -115,6 +116,10 @@ class EditMyInfoFragment :
         super.render(current)
 
         binding.apply {
+            scrollView.visibility =
+                if (current.isScrollViewVisible) View.VISIBLE else View.INVISIBLE
+            lottieLoading.visibility = if (current.isLottieVisible) View.VISIBLE else View.INVISIBLE
+
             buttonMain.state = current.mainButtonState
 
             textInputLayoutNickname.apply {
@@ -168,6 +173,9 @@ class EditMyInfoFragment :
             EditMyInfoSideEffect.GoToPrev -> {
                 findNavController().popBackStack()
             }
+
+            EditMyInfoSideEffect.PlayLottie -> binding.lottieLoading.playAnimation()
+            EditMyInfoSideEffect.StopLottie -> binding.lottieLoading.cancelAnimation()
         }
     }
 

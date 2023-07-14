@@ -9,7 +9,10 @@ import com.onewx2m.core_ui.util.Regex
 import com.onewx2m.design_system.components.button.MainButtonState
 import com.onewx2m.design_system.components.textinputlayout.TextInputLayoutState
 import com.onewx2m.domain.Outcome
+import com.onewx2m.domain.collectOutcome
 import com.onewx2m.domain.exception.common.CommonException
+import com.onewx2m.domain.model.UserInfo
+import com.onewx2m.domain.model.VerifyNickname
 import com.onewx2m.domain.usecase.EditMyInfoUseCase
 import com.onewx2m.domain.usecase.VerifyNicknameUseCase
 import com.onewx2m.mvi.MviViewModel
@@ -17,8 +20,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.async
 import kotlinx.coroutines.cancelAndJoin
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -110,6 +111,16 @@ class EditMyInfoViewModel @Inject constructor(
         is EditMyInfoEvent.ChangeMainButtonState -> current.copy(
             mainButtonState = event.state,
         )
+
+        EditMyInfoEvent.ShowScrollViewAndHideLottie -> current.copy(
+            isScrollViewVisible = true,
+            isLottieVisible = false,
+        )
+
+        EditMyInfoEvent.HideScrollViewAndShowLottie -> current.copy(
+            isScrollViewVisible = false,
+            isLottieVisible = true,
+        )
     }
 
     suspend fun checkNicknameRegexAndUpdateUi(nickname: CharSequence?, isFocused: Boolean) =
@@ -147,30 +158,42 @@ class EditMyInfoViewModel @Inject constructor(
         verifyNicknameFromServerJob = viewModelScope.launch {
             postEvent(EditMyInfoEvent.ChangeNicknameLayoutStateLoading)
 
-            verifyNicknameUseCase(nickname).collect { outcome ->
-                if (isActive.not()) return@collect
-                when (outcome) {
-                    is Outcome.Success -> {
-                        if (outcome.data.isAvailable) {
-                            this@EditMyInfoViewModel.nickname = nickname
-                            if (state.value.emailLayoutState == TextInputLayoutState.SUCCESS) {
-                                postChangeMainButtonStateEvent(
-                                    MainButtonState.POSITIVE,
-                                )
-                            }
-                            postEvent(EditMyInfoEvent.ChangeNicknameLayoutStateSuccess)
-                        } else {
-                            postEvent(EditMyInfoEvent.ChangeNicknameLayoutStateOverlap)
-                        }
-                    }
-
-                    is Outcome.Failure -> {
-                        handleError(outcome.error)
-                        postEvent(EditMyInfoEvent.ChangeNicknameLayoutStateUnavailable)
-                    }
-                }
-            }
+            verifyNicknameUseCase(nickname).collectOutcome(
+                beforeHandle = { beforeHandleVerifyNickname() },
+                handleSuccess = { handleVerifyNicknameSuccess(it, nickname) },
+                handleFail = { handleVerifyNicknameFail(it) },
+            )
         }
+    }
+
+    private fun beforeHandleVerifyNickname() {
+        if (verifyNicknameFromServerJob.isActive.not()) return
+    }
+
+    private fun handleVerifyNicknameSuccess(
+        outcome: Outcome.Success<VerifyNickname>,
+        nickname: String,
+    ) {
+        if (outcome.data.isAvailable) {
+            handleNicknameIsAvailable(nickname)
+        } else {
+            postEvent(EditMyInfoEvent.ChangeNicknameLayoutStateOverlap)
+        }
+    }
+
+    private fun handleNicknameIsAvailable(nickname: String) {
+        this.nickname = nickname
+        if (state.value.emailLayoutState == TextInputLayoutState.SUCCESS) {
+            postChangeMainButtonStateEvent(
+                MainButtonState.POSITIVE,
+            )
+        }
+        postEvent(EditMyInfoEvent.ChangeNicknameLayoutStateSuccess)
+    }
+
+    private fun handleVerifyNicknameFail(outcome: Outcome.Failure<VerifyNickname>) {
+        handleError(outcome.error)
+        postEvent(EditMyInfoEvent.ChangeNicknameLayoutStateUnavailable)
     }
 
     private fun handleError(
@@ -258,10 +281,14 @@ class EditMyInfoViewModel @Inject constructor(
     }
 
     fun editMyInfo() = viewModelScope.launch {
+        postEvent(EditMyInfoEvent.ChangeMainButtonState(MainButtonState.LOADING))
+        postEvent(EditMyInfoEvent.HideScrollViewAndShowLottie)
+        postSideEffect(EditMyInfoSideEffect.PlayLottie)
+
         val file = profileUri?.let {
             val nullableFile = imageUtil.uriToOptimizeImageFile(it)
             if (nullableFile == null) {
-                handleEditMyInfoFail()
+                handleEditMyInfoFail(Outcome.Failure(CommonException.UnknownException()))
                 return@let null
             }
             nullableFile
@@ -272,20 +299,30 @@ class EditMyInfoViewModel @Inject constructor(
             email = email,
             profileImageUrl = BuzzzzingUser.profileImageUrl,
             profileFile = file,
-        ).collect { outcome ->
-            when (outcome) {
-                is Outcome.Success -> postSideEffect(EditMyInfoSideEffect.GoToPrev)
-                is Outcome.Failure -> handleEditMyInfoFail(outcome.error)
-            }
+        ).collectOutcome(
+            handleSuccess = ::handleEditMyInfoSuccess,
+            handleFail = ::handleEditMyInfoFail,
+        )
+    }
+
+    private fun handleEditMyInfoSuccess(outcome: Outcome.Success<UserInfo>) {
+        postSideEffect(EditMyInfoSideEffect.GoToPrev)
+        outcome.data.also {
+            BuzzzzingUser.setInfo(
+                email = it.email,
+                nickname = it.nickname,
+                profileImageUrl = it.profileImageUrl,
+            )
         }
     }
 
-    private fun handleEditMyInfoFail(error: Throwable? = null) {
+    private fun handleEditMyInfoFail(outcome: Outcome.Failure<UserInfo>) {
         postEvent(EditMyInfoEvent.ChangeMainButtonState(MainButtonState.POSITIVE))
-        // postEvent(EditMyInfoEvent.ShowViewPagerAndHideLottie)
+        postEvent(EditMyInfoEvent.ShowScrollViewAndHideLottie)
+        postSideEffect(EditMyInfoSideEffect.StopLottie)
         postSideEffect(
             EditMyInfoSideEffect.ShowErrorToast(
-                error?.message
+                outcome.error?.message
                     ?: CommonException.UnknownException().snackBarMessage,
             ),
         )

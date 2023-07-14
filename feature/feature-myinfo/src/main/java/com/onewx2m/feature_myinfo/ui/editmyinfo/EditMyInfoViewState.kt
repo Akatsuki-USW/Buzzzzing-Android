@@ -1,7 +1,6 @@
 package com.onewx2m.feature_myinfo.ui.editmyinfo
 
 import android.net.Uri
-import com.onewx2m.core_ui.util.BuzzzzingUser
 import com.onewx2m.design_system.R
 import com.onewx2m.design_system.components.button.MainButtonState
 import com.onewx2m.design_system.components.textinputlayout.TextInputLayoutState
@@ -13,5 +12,7 @@ data class EditMyInfoViewState(
     val profileUri: Uri? = null,
     val emailLayoutState: TextInputLayoutState = TextInputLayoutState.INACTIVE,
     val emailLayoutHelperTextResId: Int = R.string.word_space,
-    val mainButtonState: MainButtonState = MainButtonState.DISABLE
+    val mainButtonState: MainButtonState = MainButtonState.DISABLE,
+    val isScrollViewVisible: Boolean = true,
+    val isLottieVisible: Boolean = false,
 ) : ViewState

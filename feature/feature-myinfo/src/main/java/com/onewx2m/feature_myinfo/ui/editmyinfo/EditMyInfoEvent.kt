@@ -20,5 +20,8 @@ sealed interface EditMyInfoEvent : Event {
     object ChangeEmailLayoutStateSuccess : EditMyInfoEvent
     object ChangeEmailLayoutStateUnavailable : EditMyInfoEvent
 
+    object ShowScrollViewAndHideLottie : EditMyInfoEvent
+    object HideScrollViewAndShowLottie : EditMyInfoEvent
+
     data class ChangeMainButtonState(val state: MainButtonState) : EditMyInfoEvent
 }

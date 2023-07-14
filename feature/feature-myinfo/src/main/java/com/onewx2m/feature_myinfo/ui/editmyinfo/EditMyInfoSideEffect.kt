@@ -1,7 +1,5 @@
 package com.onewx2m.feature_myinfo.ui.editmyinfo
 
-import android.net.Uri
-import com.onewx2m.design_system.components.button.MainButtonState
 import com.onewx2m.mvi.SideEffect
 
 sealed interface EditMyInfoSideEffect : SideEffect {
@@ -9,4 +7,6 @@ sealed interface EditMyInfoSideEffect : SideEffect {
     data class ShowErrorToast(val message: String) : EditMyInfoSideEffect
     object GetPermissionAndShowImagePicker : EditMyInfoSideEffect
     object GoToPrev : EditMyInfoSideEffect
+    object PlayLottie : EditMyInfoSideEffect
+    object StopLottie : EditMyInfoSideEffect
 }

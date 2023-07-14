@@ -67,6 +67,12 @@ abstract class MviFragment<B : ViewBinding, STATE : ViewState, EVENT : Event, SI
         }
     }
 
+    protected fun LifecycleOwner.repeatOnResumed(viewLifecycleOwner: LifecycleOwner, block: suspend CoroutineScope.() -> Unit) {
+        viewLifecycleOwner.lifecycleScope.launch {
+            lifecycle.repeatOnLifecycle(Lifecycle.State.RESUMED, block)
+        }
+    }
+
     override fun onDestroyView() {
         _binding = null
         super.onDestroyView()

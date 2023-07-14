@@ -5,7 +5,8 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class MyInfoViewModel @Inject constructor() : MviViewModel<MyInfoViewState, MyInfoEvent, MyInfoSideEffect>(MyInfoViewState()) {
+class MyInfoViewModel @Inject constructor() :
+    MviViewModel<MyInfoViewState, MyInfoEvent, MyInfoSideEffect>(MyInfoViewState.Default) {
     override fun reduceState(current: MyInfoViewState, event: MyInfoEvent): MyInfoViewState {
         TODO("Not yet implemented")
     }

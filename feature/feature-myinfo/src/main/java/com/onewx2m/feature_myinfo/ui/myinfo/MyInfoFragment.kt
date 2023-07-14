@@ -5,6 +5,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.onewx2m.core_ui.extensions.loadProfileUrl
 import com.onewx2m.core_ui.extensions.onThrottleClick
+import com.onewx2m.core_ui.util.BuzzzzingUser
 import com.onewx2m.design_system.components.toast.ErrorToast
 import com.onewx2m.feature_myinfo.R
 import com.onewx2m.feature_myinfo.databinding.FragmentMyInfoBinding
@@ -85,11 +86,11 @@ class MyInfoFragment :
 
         binding.apply {
             imageViewProfile.loadProfileUrl(
-                current.profileUrl,
+                BuzzzzingUser.profileImageUrl,
                 com.onewx2m.design_system.R.drawable.ic_profile,
                 PROFILE_RADIUS,
             )
-            textViewNickname.text = current.nickname
+            textViewNickname.text = BuzzzzingUser.nickname
         }
     }
 
