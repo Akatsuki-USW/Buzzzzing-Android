@@ -284,6 +284,7 @@ class EditMyInfoViewModel @Inject constructor(
         postEvent(EditMyInfoEvent.ChangeMainButtonState(MainButtonState.LOADING))
         postEvent(EditMyInfoEvent.HideScrollViewAndShowLottie)
         postSideEffect(EditMyInfoSideEffect.PlayLottie)
+        postSideEffect(EditMyInfoSideEffect.HideKeyboard)
 
         val file = profileUri?.let {
             val nullableFile = imageUtil.uriToOptimizeImageFile(it)

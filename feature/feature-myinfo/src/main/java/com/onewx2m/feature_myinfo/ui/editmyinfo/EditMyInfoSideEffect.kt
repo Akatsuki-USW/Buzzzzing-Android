@@ -9,4 +9,5 @@ sealed interface EditMyInfoSideEffect : SideEffect {
     object GoToPrev : EditMyInfoSideEffect
     object PlayLottie : EditMyInfoSideEffect
     object StopLottie : EditMyInfoSideEffect
+    object HideKeyboard : EditMyInfoSideEffect
 }
