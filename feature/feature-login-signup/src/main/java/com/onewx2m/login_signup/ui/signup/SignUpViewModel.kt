@@ -6,7 +6,9 @@ import com.onewx2m.core_ui.util.BuzzzzingUser
 import com.onewx2m.core_ui.util.ImageUtil
 import com.onewx2m.design_system.components.button.MainButtonState
 import com.onewx2m.domain.Outcome
+import com.onewx2m.domain.collectOutcome
 import com.onewx2m.domain.exception.common.CommonException
+import com.onewx2m.domain.model.UserInfo
 import com.onewx2m.domain.usecase.GetMyInfoUseCase
 import com.onewx2m.domain.usecase.SignUpUseCase
 import com.onewx2m.feature_login_signup.R
@@ -86,7 +88,7 @@ class SignUpViewModel @Inject constructor(
         val file = profileUri?.let {
             val nullableFile = imageUtil.uriToOptimizeImageFile(it)
             if (nullableFile == null) {
-                handleSignUpFail()
+                handleSignUpFail(Outcome.Failure<Unit>(CommonException.UnknownException()))
                 return@let null
             }
             nullableFile
@@ -97,39 +99,34 @@ class SignUpViewModel @Inject constructor(
             signToken = signToken,
             nickname = availableNickname,
             email = email,
-        ).collect { outcome ->
-            when (outcome) {
-                is Outcome.Success -> getMyInfoAndSave()
-                is Outcome.Failure -> handleSignUpFail(outcome.error)
-            }
-        }
+        ).collectOutcome(
+            handleSuccess = { getMyInfoAndSave() },
+            handleFail = ::handleSignUpFail,
+        )
     }
 
     private fun getMyInfoAndSave() = viewModelScope.launch {
-        getMyInfoUseCase().collect {
-            when (it) {
-                is Outcome.Success -> {
-                    BuzzzzingUser.setInfo(
-                        email = it.data.email,
-                        nickname = it.data.nickname,
-                        profileImageUrl = it.data.profileImageUrl,
-                    )
-                    postSideEffect(SignUpSideEffect.GoToHomeFragment)
-                }
-
-                is Outcome.Failure -> {
-                    handleSignUpFail(it.error)
-                }
-            }
-        }
+        getMyInfoUseCase().collectOutcome(
+            handleSuccess = ::handleGetMyInfoSuccess,
+            handleFail = ::handleSignUpFail,
+        )
     }
 
-    private fun handleSignUpFail(error: Throwable? = null) {
+    private fun handleGetMyInfoSuccess(outcome: Outcome.Success<UserInfo>) {
+        BuzzzzingUser.setInfo(
+            email = outcome.data.email,
+            nickname = outcome.data.nickname,
+            profileImageUrl = outcome.data.profileImageUrl,
+        )
+        postSideEffect(SignUpSideEffect.GoToHomeFragment)
+    }
+
+    private fun <T> handleSignUpFail(outcome: Outcome.Failure<T>) {
         postEvent(SignUpEvent.ChangeMainButtonState(MainButtonState.POSITIVE))
         postEvent(SignUpEvent.ShowViewPagerAndHideLottie)
         postSideEffect(
             SignUpSideEffect.ShowErrorToast(
-                error?.message
+                outcome.error?.message
                     ?: CommonException.UnknownException().snackBarMessage,
             ),
         )

@@ -7,7 +7,9 @@ import com.onewx2m.core_ui.util.Regex
 import com.onewx2m.design_system.components.button.MainButtonState
 import com.onewx2m.design_system.components.textinputlayout.TextInputLayoutState
 import com.onewx2m.domain.Outcome
+import com.onewx2m.domain.collectOutcome
 import com.onewx2m.domain.exception.common.CommonException
+import com.onewx2m.domain.model.VerifyNickname
 import com.onewx2m.domain.usecase.VerifyNicknameUseCase
 import com.onewx2m.mvi.MviViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -72,7 +74,7 @@ class ProfileAndNicknameViewModel @Inject constructor(
         )
 
         is ProfileAndNicknameEvent.UpdateProfileUri -> current.copy(
-            profileUri = event.uri
+            profileUri = event.uri,
         )
     }
 
@@ -114,30 +116,42 @@ class ProfileAndNicknameViewModel @Inject constructor(
     fun verifyNicknameFromServer(nickname: String) {
         verifyNicknameFromServerJob = viewModelScope.launch {
             postEvent(ProfileAndNicknameEvent.ChangeNicknameLayoutStateLoading)
-            verifyNicknameUseCase(nickname).collect { outcome ->
-                if (isActive.not()) return@collect
-                when (outcome) {
-                    is Outcome.Success -> {
-                        if (outcome.data.isAvailable) {
-                            postEvent(ProfileAndNicknameEvent.ChangeNicknameLayoutStateSuccess)
-                            postSideEffect(
-                                ProfileAndNicknameSideEffect.ChangeSignUpButtonState(
-                                    MainButtonState.POSITIVE,
-                                ),
-                            )
-                            postSideEffect(ProfileAndNicknameSideEffect.UpdateSignUpNickname(nickname))
-                        } else {
-                            postEvent(ProfileAndNicknameEvent.ChangeNicknameLayoutStateOverlap)
-                        }
-                    }
-
-                    is Outcome.Failure -> {
-                        handleError(outcome.error)
-                        postEvent(ProfileAndNicknameEvent.ChangeNicknameLayoutStateUnavailable)
-                    }
-                }
-            }
+            verifyNicknameUseCase(nickname).collectOutcome(
+                beforeHandle = { beforeHandleVerifyNickname() },
+                handleSuccess = { handleVerifyNicknameSuccess(it, nickname) },
+                handleFail = { handleVerifyNicknameFail(it) },
+            )
         }
+    }
+
+    private fun beforeHandleVerifyNickname() {
+        if (verifyNicknameFromServerJob.isActive.not()) return
+    }
+
+    private fun handleVerifyNicknameSuccess(
+        outcome: Outcome.Success<VerifyNickname>,
+        nickname: String,
+    ) {
+        if (outcome.data.isAvailable) {
+            handleNicknameIsAvailable(nickname)
+        } else {
+            postEvent(ProfileAndNicknameEvent.ChangeNicknameLayoutStateOverlap)
+        }
+    }
+
+    private fun handleNicknameIsAvailable(nickname: String) {
+        postEvent(ProfileAndNicknameEvent.ChangeNicknameLayoutStateSuccess)
+        postSideEffect(
+            ProfileAndNicknameSideEffect.ChangeSignUpButtonState(
+                MainButtonState.POSITIVE,
+            ),
+        )
+        postSideEffect(ProfileAndNicknameSideEffect.UpdateSignUpNickname(nickname))
+    }
+
+    private fun handleVerifyNicknameFail(outcome: Outcome.Failure<VerifyNickname>) {
+        handleError(outcome.error)
+        postEvent(ProfileAndNicknameEvent.ChangeNicknameLayoutStateUnavailable)
     }
 
     private fun handleError(
