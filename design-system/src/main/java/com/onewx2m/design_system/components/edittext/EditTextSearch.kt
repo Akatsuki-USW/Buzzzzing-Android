@@ -25,9 +25,6 @@ class EditTextSearch @JvmOverloads constructor(
             if (isPreventLosingFocus) return@setOnFocusChangeListener
             if (hasFocus) {
                 preventFocusClearedByAdjustResize()
-                binding.root.setBackgroundResource(R.drawable.bg_solid_empty_rounded_10_gray01)
-            } else {
-                binding.root.setBackgroundResource(R.drawable.bg_solid_empty_rounded_10_gray05)
             }
         }
 

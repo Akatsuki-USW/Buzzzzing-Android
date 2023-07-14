@@ -43,7 +43,7 @@ class BuzzzzingMediumViewHolder(
         binding.apply {
             textViewLocationName.text = data.locationName
             textViewCongestion.setTextColor(highlightColor)
-            textViewCongestion.text = kor
+            textViewCongestion.text = binding.root.context.getString(R.string.word_tag, kor)
             imageViewBookmark.setColorFilter(bookmarkColor)
             imageViewIcon.load(data.iconUrl)
         }
