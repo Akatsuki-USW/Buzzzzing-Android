@@ -44,6 +44,7 @@ dependencies {
     implementation(project(":feature:feature-home"))
     implementation(project(":feature:feature-login-signup"))
     implementation(project(":feature:feature-myinfo"))
+    implementation(project(":feature:feature-recommend-place"))
     implementation(project(":remote"))
     implementation(project(":mvi"))
     implementation(project(":core:core-ui"))

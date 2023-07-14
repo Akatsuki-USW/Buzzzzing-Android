@@ -8,7 +8,7 @@
         android:title="@string/nav_menu_home" />
 
     <item
-        android:id="@+id/recommend_nav_graph"
+        android:id="@+id/recommend_place_nav_graph"
         android:icon="@drawable/selector_recommend"
         android:title="@string/nav_menu_recommend" />
 

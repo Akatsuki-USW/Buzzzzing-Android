@@ -31,6 +31,7 @@ class MainViewModel @Inject constructor(
         listOf(
             com.onewx2m.feature_home.R.id.homeFragment,
             com.onewx2m.feature_myinfo.R.id.myInfoFragment,
+            com.onewx2m.recommend_place.R.id.recommendPlaceFragment,
         )
 
     var preDrawRemoveFlag = false
