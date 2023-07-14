@@ -6,4 +6,5 @@
     <string name="nav_menu_my_info">내 정보</string>
 
     <string name="on_back_pressed_msg">뒤로가기 버튼을 한번 더 누르면 종료됩니다.</string>
+    <string name="notification_channel_name">알림</string>
 </resources>

@@ -18,12 +18,14 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
+import com.google.firebase.messaging.FirebaseMessaging
 import com.onewx2m.buzzzzing.R
 import com.onewx2m.buzzzzing.databinding.ActivityMainBinding
 import com.onewx2m.core_ui.util.DeepLinkUtil
 import com.onewx2m.design_system.components.toast.ErrorToast
 import com.onewx2m.mvi.MviActivity
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 
 @AndroidEntryPoint
 class MainActivity :
@@ -59,6 +61,11 @@ class MainActivity :
         initNavBar()
         setOnApplyWindowInsetsListener()
         this.onBackPressedDispatcher.addCallback(this, onBackPressedCallback)
+
+        // TODO REMOVE
+        FirebaseMessaging.getInstance().token.addOnSuccessListener { token ->
+            Timber.tag("FCM_TOKEN").d(token)
+        }
     }
 
     private fun initNavBar() {
