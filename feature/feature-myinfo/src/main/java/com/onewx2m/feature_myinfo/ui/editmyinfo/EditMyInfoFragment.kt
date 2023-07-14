@@ -4,9 +4,6 @@ import android.graphics.Rect
 import android.view.View
 import android.view.ViewTreeObserver
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.onewx2m.core_ui.extensions.hideKeyboard
 import com.onewx2m.core_ui.extensions.loadProfileUri
@@ -23,6 +20,7 @@ import com.onewx2m.feature_myinfo.databinding.FragmentEditMyInfoBinding
 import com.onewx2m.mvi.MviFragment
 import dagger.hilt.android.AndroidEntryPoint
 import gun0912.tedimagepicker.builder.TedImagePicker
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.debounce
@@ -30,7 +28,6 @@ import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.launch
 import kotlin.properties.Delegates
 
 @AndroidEntryPoint
@@ -66,51 +63,49 @@ class EditMyInfoFragment :
             }
         }
 
-        observeTextInputLayout()
+        repeatOnResumed(viewLifecycleOwner) {
+            observeNicknameInputLayout(this)
+            observeEmailInputLayout(this)
+        }
     }
 
     @OptIn(ExperimentalCoroutinesApi::class, FlowPreview::class)
-    private fun observeTextInputLayout() {
-        /**
-         *
-         * ViewPager2에서 사용자가 다른 화면에 진입했다가 다시 돌아오는 경우 닉네임 중복 검사를 다시 실행하기 위해 repeatOnStarted를 사용하지 않음
-         */
-        viewLifecycleOwner.lifecycleScope.launch {
-            lifecycle.repeatOnLifecycle(Lifecycle.State.RESUMED) {
-                binding.textInputLayoutNickname.editText.textChangesToFlow()
-                    .map { nickname ->
-                        viewModel.postNicknameStateNormalOrInactiveEvent(binding.textInputLayoutNickname.editText.isFocused)
-                        viewModel.postChangeMainButtonStateEvent(MainButtonState.DISABLE)
-                        nickname
-                    }
-                    .debounce(Constants.NICKNAME_INPUT_DEBOUNCE)
-                    .filter { nickname ->
-                        viewModel.checkNicknameRegexAndUpdateUi(
-                            nickname,
-                            binding.textInputLayoutNickname.editText.isFocused,
-                        )
-                    }
-                    .onEach { nickname ->
-                        viewModel.verifyNicknameFromServer(nickname.toString())
-                    }
-                    .launchIn(this)
-
-                binding.textInputLayoutEmail.editText.textChangesToFlow()
-                    .map { email ->
-                        viewModel.postEmailStateNormalOrInactiveEvent(binding.textInputLayoutEmail.editText.isFocused)
-                        viewModel.postChangeMainButtonStateEvent(MainButtonState.DISABLE)
-                        email
-                    }
-                    .debounce(Constants.EMAIL_INPUT_DEBOUNCE)
-                    .onEach { email ->
-                        viewModel.checkEmailRegexAndUpdateUi(
-                            email,
-                            binding.textInputLayoutEmail.editText.isFocused,
-                        )
-                    }
-                    .launchIn(this)
+    private suspend fun observeNicknameInputLayout(coroutineScope: CoroutineScope) {
+        binding.textInputLayoutNickname.editText.textChangesToFlow()
+            .map { nickname ->
+                viewModel.postNicknameStateNormalOrInactiveEvent(binding.textInputLayoutNickname.editText.isFocused)
+                viewModel.postChangeMainButtonStateEvent(MainButtonState.DISABLE)
+                nickname
             }
-        }
+            .debounce(Constants.NICKNAME_INPUT_DEBOUNCE)
+            .filter { nickname ->
+                viewModel.checkNicknameRegexAndUpdateUi(
+                    nickname,
+                    binding.textInputLayoutNickname.editText.isFocused,
+                )
+            }
+            .onEach { nickname ->
+                viewModel.verifyNicknameFromServer(nickname.toString())
+            }
+            .launchIn(coroutineScope)
+    }
+
+    @OptIn(ExperimentalCoroutinesApi::class, FlowPreview::class)
+    private fun observeEmailInputLayout(coroutineScope: CoroutineScope) {
+        binding.textInputLayoutEmail.editText.textChangesToFlow()
+            .map { email ->
+                viewModel.postEmailStateNormalOrInactiveEvent(binding.textInputLayoutEmail.editText.isFocused)
+                viewModel.postChangeMainButtonStateEvent(MainButtonState.DISABLE)
+                email
+            }
+            .debounce(Constants.EMAIL_INPUT_DEBOUNCE)
+            .onEach { email ->
+                viewModel.checkEmailRegexAndUpdateUi(
+                    email,
+                    binding.textInputLayoutEmail.editText.isFocused,
+                )
+            }
+            .launchIn(coroutineScope)
     }
 
     override fun render(current: EditMyInfoViewState) {
