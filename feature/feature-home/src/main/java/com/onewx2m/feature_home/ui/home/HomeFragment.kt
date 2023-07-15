@@ -9,10 +9,10 @@ import com.onewx2m.design_system.components.recyclerview.buzzzzingmedium.Buzzzzi
 import com.onewx2m.design_system.components.recyclerview.buzzzzingsmall.BuzzzzingSmallItem
 import com.onewx2m.design_system.components.toast.ErrorToast
 import com.onewx2m.feature_home.databinding.FragmentHomeBinding
-import com.onewx2m.feature_home.ui.home.adapter.HomeBuzzzzingMediumAdapter
 import com.onewx2m.feature_home.ui.home.adapter.HomeBuzzzzingSmallAdapter
 import com.onewx2m.feature_home.ui.home.adapter.HomeHeaderAdapter
 import com.onewx2m.feature_home.ui.home.adapter.HomeSearchAdapter
+import com.onewx2m.feature_home.ui.home.bottomsheet.SimpleSelectorBottomSheet
 import com.onewx2m.mvi.MviFragment
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.delay
@@ -69,7 +69,13 @@ class HomeFragment :
             "NORMAL",
             "https://buz-s3.s3.ap-southeast-2.amazonaws.com/constant/subway.png",
         ),
-        BuzzzzingMediumItem(3, true, "놀이공원", "RELAX", "https://buz-s3.s3.ap-southeast-2.amazonaws.com/constant/park.png"),
+        BuzzzzingMediumItem(
+            3,
+            true,
+            "놀이공원",
+            "RELAX",
+            "https://buz-s3.s3.ap-southeast-2.amazonaws.com/constant/park.png",
+        ),
         BuzzzzingMediumItem(
             4,
             false,
@@ -119,6 +125,13 @@ class HomeFragment :
                 list = list.plus(add)
             }
         }
+
+        SimpleSelectorBottomSheet.newInstance(
+            "123",
+            listOf("123", "456", "789", "34", "12423425", "asd", "12314", "adsgr", "qwr", "zxcf"),
+        ) {
+            ErrorToast.make(binding.root, "$it 아이템 클릭").show()
+        }.show(parentFragmentManager, "")
 
         MainScope().launch {
             delay(200L)

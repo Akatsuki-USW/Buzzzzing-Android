@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="70dp"
     android:paddingHorizontal="20dp"
-    android:background="@drawable/ripple_gray01_bg_solid_white01">
+    android:background="@drawable/ripple_gray03_bg_solid_white01">
 
 
     <ImageView
