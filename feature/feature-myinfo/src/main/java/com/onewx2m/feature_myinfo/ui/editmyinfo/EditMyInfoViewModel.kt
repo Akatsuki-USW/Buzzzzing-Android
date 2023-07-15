@@ -20,6 +20,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.async
 import kotlinx.coroutines.cancelAndJoin
+import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -156,13 +157,15 @@ class EditMyInfoViewModel @Inject constructor(
         }
 
         verifyNicknameFromServerJob = viewModelScope.launch {
-            postEvent(EditMyInfoEvent.ChangeNicknameLayoutStateLoading)
-
-            verifyNicknameUseCase(nickname).collectOutcome(
-                beforeHandle = { beforeHandleVerifyNickname() },
-                handleSuccess = { handleVerifyNicknameSuccess(it, nickname) },
-                handleFail = { handleVerifyNicknameFail(it) },
-            )
+            verifyNicknameUseCase(nickname)
+                .onStart {
+                    postEvent(EditMyInfoEvent.ChangeNicknameLayoutStateLoading)
+                    beforeHandleVerifyNickname()
+                }
+                .collectOutcome(
+                    handleSuccess = { handleVerifyNicknameSuccess(it, nickname) },
+                    handleFail = { handleVerifyNicknameFail(it) },
+                )
         }
     }
 

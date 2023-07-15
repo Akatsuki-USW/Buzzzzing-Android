@@ -8,12 +8,10 @@ sealed class Outcome<out T> {
 }
 
 suspend fun <T> Flow<Outcome<T>>.collectOutcome(
-    beforeHandle: () -> Unit = {},
     handleSuccess: (Outcome.Success<T>) -> Unit = {},
     handleFail: (Outcome.Failure<T>) -> Unit = {},
 ) {
     collect { outcome ->
-        beforeHandle()
         when (outcome) {
             is Outcome.Success -> handleSuccess(outcome)
             is Outcome.Failure -> handleFail(outcome)

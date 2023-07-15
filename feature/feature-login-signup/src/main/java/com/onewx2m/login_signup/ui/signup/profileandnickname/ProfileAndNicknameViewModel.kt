@@ -16,6 +16,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.async
 import kotlinx.coroutines.cancelAndJoin
+import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -115,12 +116,14 @@ class ProfileAndNicknameViewModel @Inject constructor(
 
     fun verifyNicknameFromServer(nickname: String) {
         verifyNicknameFromServerJob = viewModelScope.launch {
-            postEvent(ProfileAndNicknameEvent.ChangeNicknameLayoutStateLoading)
-            verifyNicknameUseCase(nickname).collectOutcome(
-                beforeHandle = { beforeHandleVerifyNickname() },
-                handleSuccess = { handleVerifyNicknameSuccess(it, nickname) },
-                handleFail = { handleVerifyNicknameFail(it) },
-            )
+            verifyNicknameUseCase(nickname)
+                .onStart {
+                    postEvent(ProfileAndNicknameEvent.ChangeNicknameLayoutStateLoading)
+                    beforeHandleVerifyNickname()
+                }.collectOutcome(
+                    handleSuccess = { handleVerifyNicknameSuccess(it, nickname) },
+                    handleFail = { handleVerifyNicknameFail(it) },
+                )
         }
     }
 
