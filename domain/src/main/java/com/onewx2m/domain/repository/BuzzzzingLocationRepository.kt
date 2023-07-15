@@ -8,9 +8,9 @@ interface BuzzzzingLocationRepository {
 
     suspend fun getBuzzzzingLocation(
         cursorId: Int,
-        keyword: String? = null,
-        categoryId: Long? = null,
+        keyword: String?,
+        categoryId: Long?,
         congestionSort: String,
-        cursorCongestionLevel: Int,
+        cursorCongestionLevel: Int?,
     ): Flow<Outcome<BuzzzzingLocation>>
 }

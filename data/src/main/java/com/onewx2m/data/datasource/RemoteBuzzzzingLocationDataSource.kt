@@ -12,6 +12,6 @@ interface RemoteBuzzzzingLocationDataSource {
         keyword: String? = null,
         categoryId: Long? = null,
         congestionSort: String,
-        cursorCongestionLevel: Int,
+        cursorCongestionLevel: Int?,
     ): Flow<Outcome<BuzzzzingLocationEntity>>
 }

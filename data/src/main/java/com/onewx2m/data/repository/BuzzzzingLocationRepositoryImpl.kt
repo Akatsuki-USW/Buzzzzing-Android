@@ -17,7 +17,7 @@ class BuzzzzingLocationRepositoryImpl @Inject constructor(
         keyword: String?,
         categoryId: Long?,
         congestionSort: String,
-        cursorCongestionLevel: Int,
+        cursorCongestionLevel: Int?,
     ): Flow<Outcome<BuzzzzingLocation>> {
         return remoteBuzzzzingLocationDataSource.getBuzzzzingLocation(
             cursorId = cursorId,
