@@ -62,11 +62,11 @@ class BuzzzzingSmallViewHolder(
                 Congestion.NORMAL.kor,
             )
 
-            Congestion.CONGESTION -> CongestionAdditionalInfo(
+            Congestion.BUZZING -> CongestionAdditionalInfo(
                 R.color.pink,
                 R.color.pink_light,
                 R.drawable.bg_solid_pink_rounded_10,
-                Congestion.CONGESTION.kor,
+                Congestion.BUZZING.kor,
             )
         }
     } catch (e: IllegalArgumentException) {

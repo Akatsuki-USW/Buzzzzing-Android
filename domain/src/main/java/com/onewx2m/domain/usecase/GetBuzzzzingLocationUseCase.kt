@@ -11,7 +11,7 @@ class GetBuzzzzingLocationUseCase @Inject constructor(
         keyword: String? = null,
         categoryId: Long? = null,
         congestionSort: String,
-        cursorCongestionLevel: Int,
+        cursorCongestionLevel: Int?,
     ) = buzzzzingLocationRepository.getBuzzzzingLocation(
         cursorId = cursorId,
         keyword = keyword,

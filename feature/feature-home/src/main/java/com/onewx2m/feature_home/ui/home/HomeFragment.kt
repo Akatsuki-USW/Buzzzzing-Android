@@ -1,11 +1,11 @@
 package com.onewx2m.feature_home.ui.home
 
+import android.os.Bundle
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.onewx2m.core_ui.extensions.infiniteScrolls
 import com.onewx2m.design_system.components.recyclerview.buzzzzingmedium.BuzzzzingMediumAdapter
-import com.onewx2m.design_system.components.recyclerview.buzzzzingmedium.BuzzzzingMediumItem
 import com.onewx2m.design_system.components.recyclerview.buzzzzingsmall.BuzzzzingSmallItem
 import com.onewx2m.design_system.components.toast.ErrorToast
 import com.onewx2m.feature_home.databinding.FragmentHomeBinding
@@ -14,10 +14,12 @@ import com.onewx2m.feature_home.ui.home.adapter.HomeHeaderAdapter
 import com.onewx2m.feature_home.ui.home.adapter.HomeSearchAdapter
 import com.onewx2m.feature_home.ui.home.bottomsheet.SimpleSelectorBottomSheet
 import com.onewx2m.mvi.MviFragment
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class HomeFragment :
     MviFragment<FragmentHomeBinding, HomeViewState, HomeEvent, HomeSideEffect, HomeViewModel>(
         FragmentHomeBinding::inflate,
@@ -54,56 +56,10 @@ class HomeFragment :
         )
     }
 
-    var list = listOf(
-        BuzzzzingMediumItem(
-            1,
-            false,
-            "지하철",
-            "RELAX",
-            "https://buz-s3.s3.ap-southeast-2.amazonaws.com/constant/amusement.png",
-        ),
-        BuzzzzingMediumItem(
-            2,
-            false,
-            "지하철",
-            "NORMAL",
-            "https://buz-s3.s3.ap-southeast-2.amazonaws.com/constant/subway.png",
-        ),
-        BuzzzzingMediumItem(
-            3,
-            true,
-            "놀이공원",
-            "RELAX",
-            "https://buz-s3.s3.ap-southeast-2.amazonaws.com/constant/park.png",
-        ),
-        BuzzzzingMediumItem(
-            4,
-            false,
-            "도서관",
-            "CONGESTION",
-            "https://buz-s3.s3.ap-southeast-2.amazonaws.com/constant/amusement.png",
-        ),
-        BuzzzzingMediumItem(5, false, "지하철", "RELAX", "RELAX"),
-    )
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
 
-    var lastKey = 5
-    fun load(): List<BuzzzzingMediumItem> {
-        lastKey += 5
-        val temp = mutableListOf<BuzzzzingMediumItem>()
-
-        repeat(5) {
-            temp.add(
-                BuzzzzingMediumItem(
-                    lastKey + it + 1,
-                    false,
-                    "테스트 ${lastKey + it + 1}",
-                    "CONGESTION",
-                    "",
-                ),
-            )
-        }
-
-        return temp.toList()
+        viewModel.getBuzzzzingLocation()
     }
 
     override fun initView() {
@@ -118,11 +74,6 @@ class HomeFragment :
             adapter = concatAdapter
             layoutManager = LinearLayoutManager(requireContext())
             infiniteScrolls {
-                val add = load()
-                buzzzzingMediumAdapter.submitList(
-                    list + add,
-                )
-                list = list.plus(add)
             }
         }
 
@@ -144,10 +95,12 @@ class HomeFragment :
                     BuzzzzingSmallItem(5, false, "지하철", "테스트5", "RELAX"),
                 ),
             )
-
-            buzzzzingMediumAdapter.submitList(
-                list.toList(),
-            )
         }
+    }
+
+    override fun render(current: HomeViewState) {
+        super.render(current)
+
+        buzzzzingMediumAdapter.submitList(current.buzzzzingMediumItem)
     }
 }

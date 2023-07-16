@@ -3,6 +3,7 @@ package com.onewx2m.di.network
 import com.onewx2m.di.AuthRetrofit
 import com.onewx2m.di.NormalRetrofit
 import com.onewx2m.remote.api.AuthApi
+import com.onewx2m.remote.api.BuzzzzingLocationApi
 import com.onewx2m.remote.api.MediaApi
 import com.onewx2m.remote.api.OtherApi
 import com.onewx2m.remote.api.UserApi
@@ -35,5 +36,10 @@ object ApiModule {
     @Provides
     fun provideMediaApi(@AuthRetrofit retrofit: Retrofit): MediaApi {
         return retrofit.create(MediaApi::class.java)
+    }
+
+    @Provides
+    fun provideBuzzzzingLocationApi(@AuthRetrofit retrofit: Retrofit): BuzzzzingLocationApi {
+        return retrofit.create(BuzzzzingLocationApi::class.java)
     }
 }

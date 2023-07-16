@@ -3,10 +3,12 @@
 package com.onewx2m.di
 
 import com.onewx2m.data.repository.AuthRepositoryImpl
+import com.onewx2m.data.repository.BuzzzzingLocationRepositoryImpl
 import com.onewx2m.data.repository.CategoryRepositoryImpl
 import com.onewx2m.data.repository.OtherRepositoryImpl
 import com.onewx2m.data.repository.UserRepositoryImpl
 import com.onewx2m.domain.repository.AuthRepository
+import com.onewx2m.domain.repository.BuzzzzingLocationRepository
 import com.onewx2m.domain.repository.CategoryRepository
 import com.onewx2m.domain.repository.OtherRepository
 import com.onewx2m.domain.repository.UserRepository
@@ -38,4 +40,9 @@ abstract class RepositoryModule {
     abstract fun bindCategoryRepository(
         categoryRepositoryImpl: CategoryRepositoryImpl,
     ): CategoryRepository
+
+    @Binds
+    abstract fun bindBuzzzzingLocationRepository(
+        buzzzzingLocationRepositoryImpl: BuzzzzingLocationRepositoryImpl,
+    ): BuzzzzingLocationRepository
 }

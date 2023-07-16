@@ -63,10 +63,10 @@ class BuzzzzingMediumViewHolder(
                 Congestion.NORMAL.kor,
             )
 
-            Congestion.CONGESTION -> Triple(
+            Congestion.BUZZING -> Triple(
                 R.color.pink,
                 R.color.pink_light,
-                Congestion.CONGESTION.kor,
+                Congestion.BUZZING.kor,
             )
         }
     } catch (e: IllegalArgumentException) {
