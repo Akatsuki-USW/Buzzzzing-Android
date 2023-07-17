@@ -6,6 +6,7 @@ import com.onewx2m.design_system.components.recyclerview.buzzzzingsmall.Buzzzzin
 import com.onewx2m.design_system.enum.ItemViewType
 import com.onewx2m.domain.Outcome
 import com.onewx2m.domain.collectOutcome
+import com.onewx2m.domain.exception.common.CommonException
 import com.onewx2m.domain.model.BuzzzzingContent
 import com.onewx2m.domain.model.BuzzzzingLocation
 import com.onewx2m.domain.model.BuzzzzingLocationBookmark
@@ -117,6 +118,7 @@ class HomeViewModel @Inject constructor(
             cursorCongestionLevel = cursorCongestionLevel,
         ).collectOutcome(
             handleSuccess = ::handleGetLocationSuccess,
+            handleFail = { handleError(it.error) },
         )
     }
 
@@ -173,6 +175,7 @@ class HomeViewModel @Inject constructor(
     private fun getBuzzzzingLocationTop5() = viewModelScope.launch {
         getBuzzzzingLocationTop5UseCase().collectOutcome(
             handleSuccess = ::handleGetBuzzzzingLocationTop5Success,
+            handleFail = { handleError(it.error) },
         )
     }
 
@@ -203,10 +206,30 @@ class HomeViewModel @Inject constructor(
         onSearch("")
     }
 
-    fun bookmarkMedium(locationId: Int) = viewModelScope.launch {
+    fun bookmark(locationId: Int) = viewModelScope.launch {
         bookmarkBuzzzzingLocationUseCase(locationId).collectOutcome(
-            handleSuccess = ::handleBookmarkMediumSuccess,
+            handleSuccess = ::handleBookmarkSuccess,
+            handleFail = { handleError(it.error) },
         )
+    }
+
+    private fun handleBookmarkSuccess(outcome: Outcome.Success<BuzzzzingLocationBookmark>) {
+        handleBookmarkSmallSuccess(outcome)
+        handleBookmarkMediumSuccess(outcome)
+    }
+
+    private fun handleBookmarkSmallSuccess(
+        outcome: Outcome.Success<BuzzzzingLocationBookmark>,
+    ) {
+        val bookmarkUpdatedItem = state.value.buzzzzingSmallItem.map {
+            if (it.id == outcome.data.locationId) {
+                it.copy(isBookmarked = outcome.data.isBookmarked)
+            } else {
+                it
+            }
+        }
+
+        postEvent(HomeEvent.UpdateBuzzzzingSmallItem(bookmarkUpdatedItem))
     }
 
     private fun handleBookmarkMediumSuccess(
@@ -223,24 +246,19 @@ class HomeViewModel @Inject constructor(
         postEvent(HomeEvent.UpdateBuzzzzingMediumItem(bookmarkUpdatedItem))
     }
 
-    fun bookmarkSmall(locationId: Int) = viewModelScope.launch {
-        bookmarkBuzzzzingLocationUseCase(locationId).collectOutcome(
-            handleSuccess = ::handleBookmarkSmallSuccess,
-        )
-    }
-
-    private fun handleBookmarkSmallSuccess(
-        outcome: Outcome.Success<BuzzzzingLocationBookmark>,
-    ) {
-        val bookmarkUpdatedItem = state.value.buzzzzingSmallItem.map {
-            if (it.id == outcome.data.locationId) {
-                it.copy(isBookmarked = outcome.data.isBookmarked)
-            } else {
-                it
+    private fun handleError(error: Throwable?) {
+        when (error) {
+            is CommonException.NeedLoginException -> {
+                postSideEffect(HomeSideEffect.ShowErrorToast(error.snackBarMessage))
+                postSideEffect(HomeSideEffect.GoToLoginFragment)
             }
-        }
 
-        postEvent(HomeEvent.UpdateBuzzzzingSmallItem(bookmarkUpdatedItem))
+            else -> postSideEffect(
+                HomeSideEffect.ShowErrorToast(
+                    error?.message ?: CommonException.UnknownException().snackBarMessage,
+                ),
+            )
+        }
     }
 
     override fun reduceState(current: HomeViewState, event: HomeEvent): HomeViewState =

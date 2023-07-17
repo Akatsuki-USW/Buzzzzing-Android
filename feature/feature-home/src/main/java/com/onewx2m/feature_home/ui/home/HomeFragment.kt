@@ -2,11 +2,14 @@ package com.onewx2m.feature_home.ui.home
 
 import android.os.Bundle
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.onewx2m.core_ui.extensions.infiniteScrolls
+import com.onewx2m.core_ui.util.DeepLinkUtil
 import com.onewx2m.design_system.components.recyclerview.buzzzzingmedium.BuzzzzingMediumAdapter
 import com.onewx2m.design_system.components.toast.ErrorToast
+import com.onewx2m.feature_home.R
 import com.onewx2m.feature_home.databinding.FragmentHomeBinding
 import com.onewx2m.feature_home.ui.home.adapter.HomeBuzzzzingSmallAdapter
 import com.onewx2m.feature_home.ui.home.adapter.HomeHeaderAdapter
@@ -29,7 +32,7 @@ class HomeFragment :
     private val homeBuzzzzingSmallAdapter: HomeBuzzzzingSmallAdapter by lazy {
         HomeBuzzzzingSmallAdapter(
             onBookmarkClick = {
-                viewModel.bookmarkSmall(it)
+                viewModel.bookmark(it)
             },
             onItemClick = {
                 ErrorToast.make(binding.root, "$it 아이템 클릭").show()
@@ -49,7 +52,7 @@ class HomeFragment :
     private val buzzzzingMediumAdapter: BuzzzzingMediumAdapter by lazy {
         BuzzzzingMediumAdapter(
             onBookmarkClick = {
-                viewModel.bookmarkMedium(it)
+                viewModel.bookmark(it)
             },
             onItemClick = {
                 ErrorToast.make(binding.root, "$it 아이템 클릭").show()
@@ -98,6 +101,8 @@ class HomeFragment :
         when (sideEffect) {
             HomeSideEffect.ShowCongestionBottomSheet -> showCongestionBottomSheet()
             HomeSideEffect.ShowLocationBottomSheet -> showLocationBottomSheet()
+            is HomeSideEffect.ShowErrorToast -> ErrorToast.make(binding.root, sideEffect.msg).show()
+            HomeSideEffect.GoToLoginFragment -> goToLoginFragment()
         }
     }
 
@@ -117,5 +122,10 @@ class HomeFragment :
         ) {
             viewModel.onClickCongestionFilterItemClick(it)
         }.show(parentFragmentManager, "")
+    }
+
+    private fun goToLoginFragment() {
+        val (request, navOptions) = DeepLinkUtil.getLoginRequestAndOption(requireContext(), R.id.homeFragment, true)
+        findNavController().navigate(request, navOptions)
     }
 }
