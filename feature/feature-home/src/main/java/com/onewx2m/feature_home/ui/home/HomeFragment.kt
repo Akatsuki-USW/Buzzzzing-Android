@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.onewx2m.core_ui.extensions.infiniteScrolls
 import com.onewx2m.design_system.components.recyclerview.buzzzzingmedium.BuzzzzingMediumAdapter
+import com.onewx2m.design_system.components.recyclerview.buzzzzingsmall.BuzzzzingSmallAdapter
 import com.onewx2m.design_system.components.recyclerview.buzzzzingsmall.BuzzzzingSmallItem
 import com.onewx2m.design_system.components.toast.ErrorToast
 import com.onewx2m.feature_home.databinding.FragmentHomeBinding
@@ -82,19 +83,6 @@ class HomeFragment :
                 viewModel.getBuzzzzingLocation()
             }
         }
-
-        MainScope().launch {
-            delay(200L)
-            homeBuzzzzingSmallAdapter.submitList(
-                listOf(
-                    BuzzzzingSmallItem(1, false, "지하철", "테스트1", "RELAX"),
-                    BuzzzzingSmallItem(2, false, "지하철", "테스트2", "NORMAL"),
-                    BuzzzzingSmallItem(3, true, "놀이공원", "테스트3", "RELAX"),
-                    BuzzzzingSmallItem(4, false, "도서관", "테스트4", "CONGESTION"),
-                    BuzzzzingSmallItem(5, false, "지하철", "테스트5", "RELAX"),
-                ),
-            )
-        }
     }
 
     override fun render(current: HomeViewState) {
@@ -105,6 +93,8 @@ class HomeFragment :
         homeSearchAdapter.congestionLevelSpinnerText = current.congestionFilter
         homeSearchAdapter.keyword = current.keyword
         homeSearchAdapter.notifyItemChanged(0)
+
+        homeBuzzzzingSmallAdapter.submitList(current.buzzzzingSmallItem)
     }
 
     override fun handleSideEffect(sideEffect: HomeSideEffect) {

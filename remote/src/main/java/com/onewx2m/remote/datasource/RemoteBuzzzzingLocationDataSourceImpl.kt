@@ -34,4 +34,14 @@ class RemoteBuzzzzingLocationDataSourceImpl @Inject constructor(
             emit(Outcome.Failure(it))
         }
     }
+
+    override suspend fun getBuzzzzingLocationTop5(): Flow<Outcome<BuzzzzingLocationEntity>> = flow {
+        api.getBuzzzzingLocationTop5()
+            .onSuccess { body ->
+                emit(Outcome.Success(body.data!!.toEntity()))
+            }
+            .onFailure {
+                emit(Outcome.Failure(it))
+            }
+    }
 }

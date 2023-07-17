@@ -27,4 +27,8 @@ class BuzzzzingLocationRepositoryImpl @Inject constructor(
             cursorCongestionLevel = cursorCongestionLevel,
         ).flatMapOutcomeSuccess { data -> data.toDomain() }
     }
+
+    override suspend fun getBuzzzzingLocationTop5(): Flow<Outcome<BuzzzzingLocation>> {
+        return remoteBuzzzzingLocationDataSource.getBuzzzzingLocationTop5().flatMapOutcomeSuccess { data -> data.toDomain() }
+    }
 }

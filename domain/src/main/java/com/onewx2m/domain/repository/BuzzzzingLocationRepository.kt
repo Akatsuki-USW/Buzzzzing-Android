@@ -13,4 +13,6 @@ interface BuzzzzingLocationRepository {
         congestionSort: String,
         cursorCongestionLevel: Int?,
     ): Flow<Outcome<BuzzzzingLocation>>
+
+    suspend fun getBuzzzzingLocationTop5(): Flow<Outcome<BuzzzzingLocation>>
 }

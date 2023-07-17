@@ -1,7 +1,6 @@
 package com.onewx2m.data.datasource
 
 import com.onewx2m.data.model.BuzzzzingLocationEntity
-import com.onewx2m.data.model.UserInfoEntity
 import com.onewx2m.domain.Outcome
 import kotlinx.coroutines.flow.Flow
 
@@ -14,4 +13,6 @@ interface RemoteBuzzzzingLocationDataSource {
         congestionSort: String,
         cursorCongestionLevel: Int?,
     ): Flow<Outcome<BuzzzzingLocationEntity>>
+
+    suspend fun getBuzzzzingLocationTop5(): Flow<Outcome<BuzzzzingLocationEntity>>
 }

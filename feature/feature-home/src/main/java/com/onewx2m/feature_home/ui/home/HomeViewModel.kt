@@ -2,6 +2,7 @@ package com.onewx2m.feature_home.ui.home
 
 import androidx.lifecycle.viewModelScope
 import com.onewx2m.design_system.components.recyclerview.buzzzzingmedium.BuzzzzingMediumItem
+import com.onewx2m.design_system.components.recyclerview.buzzzzingsmall.BuzzzzingSmallItem
 import com.onewx2m.design_system.enum.ItemViewType
 import com.onewx2m.domain.Outcome
 import com.onewx2m.domain.collectOutcome
@@ -9,6 +10,7 @@ import com.onewx2m.domain.model.BuzzzzingContent
 import com.onewx2m.domain.model.BuzzzzingLocation
 import com.onewx2m.domain.model.category.CongestionLevelCategory
 import com.onewx2m.domain.model.category.LocationCategory
+import com.onewx2m.domain.usecase.GetBuzzzzingLocationTop5UseCase
 import com.onewx2m.domain.usecase.GetBuzzzzingLocationUseCase
 import com.onewx2m.domain.usecase.GetCongestionLevelCategoryUseCase
 import com.onewx2m.domain.usecase.GetLocationCategoryUseCase
@@ -25,6 +27,7 @@ class HomeViewModel @Inject constructor(
     private val getCongestionLevelCategoryUseCase: GetCongestionLevelCategoryUseCase,
     private val getLocationCategoryUseCase: GetLocationCategoryUseCase,
     private val getBuzzzzingLocationUseCase: GetBuzzzzingLocationUseCase,
+    private val getBuzzzzingLocationTop5UseCase: GetBuzzzzingLocationTop5UseCase,
 ) : MviViewModel<HomeViewState, HomeEvent, HomeSideEffect>(
     HomeViewState(),
 ) {
@@ -43,6 +46,7 @@ class HomeViewModel @Inject constructor(
 
     fun initData() = viewModelScope.launch {
         initCategory().join()
+        getBuzzzzingLocationTop5()
         getBuzzzzingLocation()
     }
 
@@ -159,6 +163,28 @@ class HomeViewModel @Inject constructor(
         postEvent(HomeEvent.UpdateBuzzzzingMediumItem(emptyList()))
     }
 
+    private fun getBuzzzzingLocationTop5() = viewModelScope.launch {
+        getBuzzzzingLocationTop5UseCase().collectOutcome(
+            handleSuccess = ::handleGetBuzzzzingLocationTop5Success,
+        )
+    }
+
+    private fun handleGetBuzzzzingLocationTop5Success(outcome: Outcome.Success<BuzzzzingLocation>) {
+        postEvent(
+            HomeEvent.UpdateBuzzzzingSmallItem(
+                outcome.data.content.map {
+                    BuzzzzingSmallItem(
+                        id = it.id,
+                        isBookmarked = it.isBookmarked,
+                        locationCategory = it.categoryName,
+                        locationName = it.name,
+                        congestionSymbol = it.congestionSymbol,
+                    )
+                },
+            ),
+        )
+    }
+
     fun onSearch(keyword: String) {
         this.keyword = keyword
         postEvent(HomeEvent.UpdateKeyword(keyword))
@@ -171,5 +197,6 @@ class HomeViewModel @Inject constructor(
             is HomeEvent.UpdateCongestionFilter -> current.copy(congestionFilter = event.congestionFilter)
             is HomeEvent.UpdateLocationFilter -> current.copy(locationFilter = event.locationFilter)
             is HomeEvent.UpdateKeyword -> current.copy(keyword = event.keyword)
+            is HomeEvent.UpdateBuzzzzingSmallItem -> current.copy(buzzzzingSmallItem = event.buzzzzingSmallItem)
         }
 }

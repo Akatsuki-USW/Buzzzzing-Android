@@ -19,4 +19,7 @@ interface BuzzzzingLocationApi {
         @Query("congestionSort") congestionSort: String,
         @Query("cursorCongestionLevel") cursorCongestionLevel: Int?,
     ): ApiResult<ApiResponse<BuzzzzingLocationResponse>>
+
+    @GET("$LOCATION/top")
+    suspend fun getBuzzzzingLocationTop5(): ApiResult<ApiResponse<BuzzzzingLocationResponse>>
 }
