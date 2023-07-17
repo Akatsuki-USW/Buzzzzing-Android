@@ -41,7 +41,10 @@ class SimpleSelectorBottomSheet : BottomSheetDialogFragment() {
         get() = arguments?.getStringArray(DATA_LIST) ?: emptyArray()
 
     private val simpleSelectorAdapter: SimpleSelectorAdapter by lazy {
-        SimpleSelectorAdapter(alreadySelectedData, dataList.toList()) { onItemClick(it) }
+        SimpleSelectorAdapter(alreadySelectedData, dataList.toList()) {
+            onItemClick(it)
+            dismiss()
+        }
     }
 
     private var onItemClick: (String) -> Unit = {}

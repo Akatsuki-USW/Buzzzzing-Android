@@ -33,7 +33,6 @@
         android:paddingTop="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/edit_text_search"
-        app:spinnerText="@string/home_spinner_relax"
         tools:layout_height="12dp"
         tools:layout_width="40dp" />
 
@@ -45,7 +44,6 @@
         android:paddingTop="8dp"
         app:layout_constraintEnd_toStartOf="@id/spinner_small_congestion"
         app:layout_constraintTop_toBottomOf="@id/edit_text_search"
-        app:spinnerText="@string/home_spinner_all_location"
         tools:layout_height="12dp"
         tools:layout_width="40dp" />
 

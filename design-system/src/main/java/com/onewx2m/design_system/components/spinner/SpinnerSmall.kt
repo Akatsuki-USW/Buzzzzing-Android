@@ -14,8 +14,12 @@ class SpinnerSmall @JvmOverloads constructor(
 ) : ConstraintLayout(context, attrs, defStyleAttr) {
     private val binding: SpinnerSmallBinding
 
-    val text
-        get() = binding.textView
+    var text = ""
+        get() = binding.textView.text.toString()
+        set(value) {
+            field = value
+            binding.textView.text = field
+        }
 
     init {
         val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater

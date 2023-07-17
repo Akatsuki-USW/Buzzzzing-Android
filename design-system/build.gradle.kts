@@ -19,4 +19,5 @@ dependencies {
 
     implementation(libs.coil)
     implementation(libs.timber)
+    implementation(libs.lottie)
 }

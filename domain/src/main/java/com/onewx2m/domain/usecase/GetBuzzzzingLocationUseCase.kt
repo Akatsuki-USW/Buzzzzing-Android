@@ -9,7 +9,7 @@ class GetBuzzzzingLocationUseCase @Inject constructor(
     suspend operator fun invoke(
         cursorId: Int,
         keyword: String? = null,
-        categoryId: Long? = null,
+        categoryId: Int? = null,
         congestionSort: String,
         cursorCongestionLevel: Int?,
     ) = buzzzzingLocationRepository.getBuzzzzingLocation(

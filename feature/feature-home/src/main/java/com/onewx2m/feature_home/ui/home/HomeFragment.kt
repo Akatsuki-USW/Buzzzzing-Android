@@ -42,7 +42,10 @@ class HomeFragment :
     }
 
     private val homeSearchAdapter: HomeSearchAdapter by lazy {
-        HomeSearchAdapter()
+        HomeSearchAdapter(
+            onLocationFilterClick = { viewModel.postShowLocationBottomSheetSideEffect() },
+            onCongestionFilterClick = { viewModel.postShowCongestionBottomSheetSideEffect() },
+        )
     }
 
     private val buzzzzingMediumAdapter: BuzzzzingMediumAdapter by lazy {
@@ -59,7 +62,7 @@ class HomeFragment :
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        viewModel.getBuzzzzingLocation()
+        viewModel.initData()
     }
 
     override fun initView() {
@@ -74,15 +77,9 @@ class HomeFragment :
             adapter = concatAdapter
             layoutManager = LinearLayoutManager(requireContext())
             infiniteScrolls {
+                viewModel.getBuzzzzingLocation()
             }
         }
-
-        SimpleSelectorBottomSheet.newInstance(
-            "123",
-            listOf("123", "456", "789", "34", "12423425", "asd", "12314", "adsgr", "qwr", "zxcf"),
-        ) {
-            ErrorToast.make(binding.root, "$it 아이템 클릭").show()
-        }.show(parentFragmentManager, "")
 
         MainScope().launch {
             delay(200L)
@@ -102,5 +99,35 @@ class HomeFragment :
         super.render(current)
 
         buzzzzingMediumAdapter.submitList(current.buzzzzingMediumItem)
+        homeSearchAdapter.locationSpinnerText = current.locationFilter
+        homeSearchAdapter.congestionLevelSpinnerText = current.congestionFilter
+        homeSearchAdapter.notifyItemChanged(0)
+    }
+
+    override fun handleSideEffect(sideEffect: HomeSideEffect) {
+        super.handleSideEffect(sideEffect)
+
+        when (sideEffect) {
+            HomeSideEffect.ShowCongestionBottomSheet -> showCongestionBottomSheet()
+            HomeSideEffect.ShowLocationBottomSheet -> showLocationBottomSheet()
+        }
+    }
+
+    private fun showLocationBottomSheet() {
+        SimpleSelectorBottomSheet.newInstance(
+            viewModel.state.value.locationFilter,
+            viewModel.locationCategoryValues,
+        ) {
+            viewModel.onClickLocationFilterItemClick(it)
+        }.show(parentFragmentManager, "")
+    }
+
+    private fun showCongestionBottomSheet() {
+        SimpleSelectorBottomSheet.newInstance(
+            viewModel.state.value.congestionFilter,
+            viewModel.congestionLevelCategoryValues,
+        ) {
+            viewModel.onClickCongestionFilterItemClick(it)
+        }.show(parentFragmentManager, "")
     }
 }

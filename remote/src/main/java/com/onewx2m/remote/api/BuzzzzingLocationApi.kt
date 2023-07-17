@@ -15,7 +15,7 @@ interface BuzzzzingLocationApi {
     suspend fun getBuzzzzingLocation(
         @Query("cursorId") cursorId: Int,
         @Query("keyword") keyword: String?,
-        @Query("categoryId") categoryId: Long?,
+        @Query("categoryIds") categoryId: Int?,
         @Query("congestionSort") congestionSort: String,
         @Query("cursorCongestionLevel") cursorCongestionLevel: Int?,
     ): ApiResult<ApiResponse<BuzzzzingLocationResponse>>

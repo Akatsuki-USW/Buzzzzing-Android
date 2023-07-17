@@ -15,7 +15,7 @@ class BuzzzzingLocationRepositoryImpl @Inject constructor(
     override suspend fun getBuzzzzingLocation(
         cursorId: Int,
         keyword: String?,
-        categoryId: Long?,
+        categoryId: Int?,
         congestionSort: String,
         cursorCongestionLevel: Int?,
     ): Flow<Outcome<BuzzzzingLocation>> {

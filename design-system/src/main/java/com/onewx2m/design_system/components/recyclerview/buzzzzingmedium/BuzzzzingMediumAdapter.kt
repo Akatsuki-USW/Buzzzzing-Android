@@ -4,23 +4,42 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
+import androidx.recyclerview.widget.RecyclerView
 import com.onewx2m.design_system.databinding.ItemRecyclerViewBuzzzzingMediumBinding
+import com.onewx2m.design_system.databinding.ItemRecyclerViewBuzzzzingMediumLoadingBinding
+import com.onewx2m.design_system.enum.ItemViewType
 
 class BuzzzzingMediumAdapter(
     private val onItemClick: (locationId: Int) -> Unit = {},
     private val onBookmarkClick: (locationId: Int) -> Unit = {},
-) : ListAdapter<BuzzzzingMediumItem, BuzzzzingMediumViewHolder>(DiffCallback) {
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BuzzzzingMediumViewHolder {
-        val binding = ItemRecyclerViewBuzzzzingMediumBinding.inflate(
-            LayoutInflater.from(parent.context),
-            parent,
-            false,
-        )
-        return BuzzzzingMediumViewHolder(binding, onItemClick, onBookmarkClick)
+) : ListAdapter<BuzzzzingMediumItem, RecyclerView.ViewHolder>(DiffCallback) {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        return when (ItemViewType.valueOf(viewType)) {
+            ItemViewType.NORMAL -> {
+                val binding = ItemRecyclerViewBuzzzzingMediumBinding.inflate(
+                    LayoutInflater.from(parent.context),
+                    parent,
+                    false,
+                )
+                BuzzzzingMediumViewHolder(binding, onItemClick, onBookmarkClick)
+            }
+            ItemViewType.LOADING -> {
+                val binding = ItemRecyclerViewBuzzzzingMediumLoadingBinding.inflate(
+                    LayoutInflater.from(parent.context),
+                    parent,
+                    false,
+                )
+                LoadingViewHolder(binding)
+            }
+        }
     }
 
-    override fun onBindViewHolder(holder: BuzzzzingMediumViewHolder, position: Int) {
-        holder.bind(currentList[position])
+    override fun getItemViewType(position: Int): Int {
+        return currentList[position].type.idx
+    }
+
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        if(holder is BuzzzzingMediumViewHolder) holder.bind(currentList[position])
     }
 
     companion object {

@@ -10,7 +10,7 @@ interface RemoteBuzzzzingLocationDataSource {
     suspend fun getBuzzzzingLocation(
         cursorId: Int,
         keyword: String? = null,
-        categoryId: Long? = null,
+        categoryId: Int? = null,
         congestionSort: String,
         cursorCongestionLevel: Int?,
     ): Flow<Outcome<BuzzzzingLocationEntity>>
