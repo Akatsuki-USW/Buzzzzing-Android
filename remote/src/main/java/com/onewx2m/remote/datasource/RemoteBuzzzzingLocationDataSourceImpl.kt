@@ -1,6 +1,7 @@
 package com.onewx2m.remote.datasource
 
 import com.onewx2m.data.datasource.RemoteBuzzzzingLocationDataSource
+import com.onewx2m.data.model.BuzzzzingLocationBookmarkEntity
 import com.onewx2m.data.model.BuzzzzingLocationEntity
 import com.onewx2m.domain.Outcome
 import com.onewx2m.remote.api.BuzzzzingLocationApi
@@ -44,4 +45,15 @@ class RemoteBuzzzzingLocationDataSourceImpl @Inject constructor(
                 emit(Outcome.Failure(it))
             }
     }
+
+    override suspend fun bookmarkBuzzzzingLocation(locationId: Int): Flow<Outcome<BuzzzzingLocationBookmarkEntity>> =
+        flow {
+            api.bookmarkBuzzzzingLocation(locationId)
+                .onSuccess { body ->
+                    emit(Outcome.Success(body.data!!.toEntity()))
+                }
+                .onFailure {
+                    emit(Outcome.Failure(it))
+                }
+        }
 }
