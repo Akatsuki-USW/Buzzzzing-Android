@@ -12,6 +12,7 @@ class HomeSearchAdapter(
     private val onCongestionFilterClick: () -> Unit = {},
     private val onLocationFilterClick: () -> Unit = {},
     private val onSearch: (String) -> Unit = {},
+    private val onClear: () -> Unit = {},
 ) :
     RecyclerView.Adapter<HomeSearchHolder>() {
     var congestionLevelSpinnerText: String = ""
@@ -30,6 +31,7 @@ class HomeSearchAdapter(
             onCongestionFilterClick = onCongestionFilterClick,
             onLocationFilterClick = onLocationFilterClick,
             onSearch = onSearch,
+            onClear = onClear,
         )
     }
 
@@ -45,6 +47,7 @@ class HomeSearchHolder(
     private val onSearch: (String) -> Unit = {},
     private val onCongestionFilterClick: () -> Unit = {},
     private val onLocationFilterClick: () -> Unit = {},
+    private val onClear: () -> Unit = {},
 ) :
     RecyclerView.ViewHolder(binding.root) {
 
@@ -65,6 +68,10 @@ class HomeSearchHolder(
 
         binding.spinnerSmallCongestion.onThrottleClick {
             onCongestionFilterClick()
+        }
+
+        binding.textViewClear.onThrottleClick {
+            onClear()
         }
     }
 

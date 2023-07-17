@@ -59,6 +59,10 @@ class HomeViewModel @Inject constructor(
         congestionLevelCategoryValues = congestionLevelCategory.map { it.value }
         locationCategoryValues = locationCategory.map { it.name }
 
+        clearFilter()
+    }
+
+    private fun clearFilter() {
         congestionSort = congestionLevelCategory[0].key
         categoryId = locationCategory[0].id
 
@@ -189,6 +193,11 @@ class HomeViewModel @Inject constructor(
         this.keyword = keyword
         postEvent(HomeEvent.UpdateKeyword(keyword))
         getBuzzzzingLocation(true)
+    }
+
+    fun onSearchClear() {
+        clearFilter()
+        onSearch("")
     }
 
     override fun reduceState(current: HomeViewState, event: HomeEvent): HomeViewState =

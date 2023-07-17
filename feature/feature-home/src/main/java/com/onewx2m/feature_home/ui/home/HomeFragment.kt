@@ -48,6 +48,7 @@ class HomeFragment :
             onSearch = { viewModel.onSearch(it) },
             onLocationFilterClick = { viewModel.postShowLocationBottomSheetSideEffect() },
             onCongestionFilterClick = { viewModel.postShowCongestionBottomSheetSideEffect() },
+            onClear = { viewModel.onSearchClear() },
         )
     }
 
