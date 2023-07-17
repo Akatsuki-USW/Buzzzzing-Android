@@ -3,6 +3,7 @@ package com.onewx2m.feature_home.ui.home
 import android.os.Bundle
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.ConcatAdapter
+import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.onewx2m.core_ui.extensions.infiniteScrolls
 import com.onewx2m.design_system.components.recyclerview.buzzzzingmedium.BuzzzzingMediumAdapter
@@ -43,6 +44,7 @@ class HomeFragment :
 
     private val homeSearchAdapter: HomeSearchAdapter by lazy {
         HomeSearchAdapter(
+            onSearch = { viewModel.onSearch(it) },
             onLocationFilterClick = { viewModel.postShowLocationBottomSheetSideEffect() },
             onCongestionFilterClick = { viewModel.postShowCongestionBottomSheetSideEffect() },
         )
@@ -101,6 +103,7 @@ class HomeFragment :
         buzzzzingMediumAdapter.submitList(current.buzzzzingMediumItem)
         homeSearchAdapter.locationSpinnerText = current.locationFilter
         homeSearchAdapter.congestionLevelSpinnerText = current.congestionFilter
+        homeSearchAdapter.keyword = current.keyword
         homeSearchAdapter.notifyItemChanged(0)
     }
 

@@ -16,6 +16,7 @@ class HomeSearchAdapter(
     RecyclerView.Adapter<HomeSearchHolder>() {
     var congestionLevelSpinnerText: String = ""
     var locationSpinnerText: String = ""
+    var keyword: String? = ""
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HomeSearchHolder {
         val binding =
@@ -33,7 +34,7 @@ class HomeSearchAdapter(
     }
 
     override fun onBindViewHolder(holder: HomeSearchHolder, position: Int) {
-        holder.bind(congestionLevelSpinnerText, locationSpinnerText)
+        holder.bind(keyword, congestionLevelSpinnerText, locationSpinnerText)
     }
 
     override fun getItemCount(): Int = 1
@@ -67,7 +68,12 @@ class HomeSearchHolder(
         }
     }
 
-    fun bind(congestionLevelSpinnerText: String = "", locationSpinnerText: String = "") {
+    fun bind(
+        keyword: String? = "",
+        congestionLevelSpinnerText: String = "",
+        locationSpinnerText: String = "",
+    ) {
+        binding.editTextSearch.editText.setText(keyword)
         binding.spinnerSmallCongestion.text = congestionLevelSpinnerText
         binding.spinnerSmallLocation.text = locationSpinnerText
     }

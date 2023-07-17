@@ -7,4 +7,5 @@ data class HomeViewState(
     val buzzzzingMediumItem: List<BuzzzzingMediumItem> = emptyList(),
     val congestionFilter: String = "",
     val locationFilter: String = "",
+    val keyword: String? = "",
 ) : ViewState

@@ -93,7 +93,7 @@ class HomeViewModel @Inject constructor(
 
     fun getBuzzzzingLocation(needClear: Boolean = false) = viewModelScope.launch {
         if (needClear) {
-            clearQueryAndList()
+            clearCursorAndList()
         }
 
         if (last) return@launch
@@ -152,11 +152,17 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    private fun clearQueryAndList() {
+    private fun clearCursorAndList() {
         cursorId = 0
         cursorCongestionLevel = null
         last = false
         postEvent(HomeEvent.UpdateBuzzzzingMediumItem(emptyList()))
+    }
+
+    fun onSearch(keyword: String) {
+        this.keyword = keyword
+        postEvent(HomeEvent.UpdateKeyword(keyword))
+        getBuzzzzingLocation(true)
     }
 
     override fun reduceState(current: HomeViewState, event: HomeEvent): HomeViewState =
@@ -164,5 +170,6 @@ class HomeViewModel @Inject constructor(
             is HomeEvent.UpdateBuzzzzingMediumItem -> current.copy(buzzzzingMediumItem = event.buzzzzingMediumItem)
             is HomeEvent.UpdateCongestionFilter -> current.copy(congestionFilter = event.congestionFilter)
             is HomeEvent.UpdateLocationFilter -> current.copy(locationFilter = event.locationFilter)
+            is HomeEvent.UpdateKeyword -> current.copy(keyword = event.keyword)
         }
 }
