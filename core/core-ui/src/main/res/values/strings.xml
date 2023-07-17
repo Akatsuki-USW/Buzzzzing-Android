@@ -23,4 +23,7 @@
 
     <!-- edittextsearch -->
     <string name="edit_text_search_location_hint">장소를 검색해보세요!</string>
+
+    <!-- etc -->
+    <string name="word_all_place">모든 장소</string>
 </resources>

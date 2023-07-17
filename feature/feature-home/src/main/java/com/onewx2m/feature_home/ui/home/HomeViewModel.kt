@@ -1,6 +1,7 @@
 package com.onewx2m.feature_home.ui.home
 
 import androidx.lifecycle.viewModelScope
+import com.onewx2m.core_ui.util.ResourceProvider
 import com.onewx2m.design_system.components.recyclerview.buzzzzingmedium.BuzzzzingMediumItem
 import com.onewx2m.design_system.components.recyclerview.buzzzzingsmall.BuzzzzingSmallItem
 import com.onewx2m.design_system.enum.ItemViewType
@@ -17,6 +18,7 @@ import com.onewx2m.domain.usecase.GetBuzzzzingLocationTop5UseCase
 import com.onewx2m.domain.usecase.GetBuzzzzingLocationUseCase
 import com.onewx2m.domain.usecase.GetCongestionLevelCategoryUseCase
 import com.onewx2m.domain.usecase.GetLocationCategoryUseCase
+import com.onewx2m.feature_home.R
 import com.onewx2m.mvi.MviViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers.IO
@@ -32,6 +34,7 @@ class HomeViewModel @Inject constructor(
     private val getBuzzzzingLocationUseCase: GetBuzzzzingLocationUseCase,
     private val getBuzzzzingLocationTop5UseCase: GetBuzzzzingLocationTop5UseCase,
     private val bookmarkBuzzzzingLocationUseCase: BookmarkBuzzzzingLocationUseCase,
+    private val resourceProvider: ResourceProvider,
 ) : MviViewModel<HomeViewState, HomeEvent, HomeSideEffect>(
     HomeViewState(),
 ) {
@@ -61,16 +64,15 @@ class HomeViewModel @Inject constructor(
         }.first()
 
         congestionLevelCategoryValues = congestionLevelCategory.map { it.value }
-        locationCategoryValues = locationCategory.map { it.name }
+        locationCategoryValues = listOf(resourceProvider.getString(com.onewx2m.core_ui.R.string.word_all_place)) + locationCategory.map { it.name }
 
         clearFilter()
     }
 
     private fun clearFilter() {
         congestionSort = congestionLevelCategory[0].key
-        categoryId = locationCategory[0].id
 
-        updateLocationFilter(locationCategory[0].name)
+        updateLocationFilter(locationCategoryValues[0])
         updateCongestionFilter(congestionLevelCategory[0].value)
     }
 
