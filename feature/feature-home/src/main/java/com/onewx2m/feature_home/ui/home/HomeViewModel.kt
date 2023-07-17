@@ -8,8 +8,10 @@ import com.onewx2m.domain.Outcome
 import com.onewx2m.domain.collectOutcome
 import com.onewx2m.domain.model.BuzzzzingContent
 import com.onewx2m.domain.model.BuzzzzingLocation
+import com.onewx2m.domain.model.BuzzzzingLocationBookmark
 import com.onewx2m.domain.model.category.CongestionLevelCategory
 import com.onewx2m.domain.model.category.LocationCategory
+import com.onewx2m.domain.usecase.BookmarkBuzzzzingLocationUseCase
 import com.onewx2m.domain.usecase.GetBuzzzzingLocationTop5UseCase
 import com.onewx2m.domain.usecase.GetBuzzzzingLocationUseCase
 import com.onewx2m.domain.usecase.GetCongestionLevelCategoryUseCase
@@ -28,6 +30,7 @@ class HomeViewModel @Inject constructor(
     private val getLocationCategoryUseCase: GetLocationCategoryUseCase,
     private val getBuzzzzingLocationUseCase: GetBuzzzzingLocationUseCase,
     private val getBuzzzzingLocationTop5UseCase: GetBuzzzzingLocationTop5UseCase,
+    private val bookmarkBuzzzzingLocationUseCase: BookmarkBuzzzzingLocationUseCase,
 ) : MviViewModel<HomeViewState, HomeEvent, HomeSideEffect>(
     HomeViewState(),
 ) {
@@ -198,6 +201,46 @@ class HomeViewModel @Inject constructor(
     fun onSearchClear() {
         clearFilter()
         onSearch("")
+    }
+
+    fun bookmarkMedium(locationId: Int) = viewModelScope.launch {
+        bookmarkBuzzzzingLocationUseCase(locationId).collectOutcome(
+            handleSuccess = ::handleBookmarkMediumSuccess,
+        )
+    }
+
+    private fun handleBookmarkMediumSuccess(
+        outcome: Outcome.Success<BuzzzzingLocationBookmark>,
+    ) {
+        val bookmarkUpdatedItem = state.value.buzzzzingMediumItem.map {
+            if (it.id == outcome.data.locationId) {
+                it.copy(isBookmarked = outcome.data.isBookmarked)
+            } else {
+                it
+            }
+        }
+
+        postEvent(HomeEvent.UpdateBuzzzzingMediumItem(bookmarkUpdatedItem))
+    }
+
+    fun bookmarkSmall(locationId: Int) = viewModelScope.launch {
+        bookmarkBuzzzzingLocationUseCase(locationId).collectOutcome(
+            handleSuccess = ::handleBookmarkSmallSuccess,
+        )
+    }
+
+    private fun handleBookmarkSmallSuccess(
+        outcome: Outcome.Success<BuzzzzingLocationBookmark>,
+    ) {
+        val bookmarkUpdatedItem = state.value.buzzzzingSmallItem.map {
+            if (it.id == outcome.data.locationId) {
+                it.copy(isBookmarked = outcome.data.isBookmarked)
+            } else {
+                it
+            }
+        }
+
+        postEvent(HomeEvent.UpdateBuzzzzingSmallItem(bookmarkUpdatedItem))
     }
 
     override fun reduceState(current: HomeViewState, event: HomeEvent): HomeViewState =

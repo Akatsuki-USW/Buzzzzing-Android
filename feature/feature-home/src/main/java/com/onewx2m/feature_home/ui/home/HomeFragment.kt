@@ -3,12 +3,9 @@ package com.onewx2m.feature_home.ui.home
 import android.os.Bundle
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.ConcatAdapter
-import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.onewx2m.core_ui.extensions.infiniteScrolls
 import com.onewx2m.design_system.components.recyclerview.buzzzzingmedium.BuzzzzingMediumAdapter
-import com.onewx2m.design_system.components.recyclerview.buzzzzingsmall.BuzzzzingSmallAdapter
-import com.onewx2m.design_system.components.recyclerview.buzzzzingsmall.BuzzzzingSmallItem
 import com.onewx2m.design_system.components.toast.ErrorToast
 import com.onewx2m.feature_home.databinding.FragmentHomeBinding
 import com.onewx2m.feature_home.ui.home.adapter.HomeBuzzzzingSmallAdapter
@@ -17,9 +14,6 @@ import com.onewx2m.feature_home.ui.home.adapter.HomeSearchAdapter
 import com.onewx2m.feature_home.ui.home.bottomsheet.SimpleSelectorBottomSheet
 import com.onewx2m.mvi.MviFragment
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class HomeFragment :
@@ -35,7 +29,7 @@ class HomeFragment :
     private val homeBuzzzzingSmallAdapter: HomeBuzzzzingSmallAdapter by lazy {
         HomeBuzzzzingSmallAdapter(
             onBookmarkClick = {
-                ErrorToast.make(binding.root, "$it 북마크 클릭").show()
+                viewModel.bookmarkSmall(it)
             },
             onItemClick = {
                 ErrorToast.make(binding.root, "$it 아이템 클릭").show()
@@ -55,7 +49,7 @@ class HomeFragment :
     private val buzzzzingMediumAdapter: BuzzzzingMediumAdapter by lazy {
         BuzzzzingMediumAdapter(
             onBookmarkClick = {
-                ErrorToast.make(binding.root, "$it 북마크 클릭").show()
+                viewModel.bookmarkMedium(it)
             },
             onItemClick = {
                 ErrorToast.make(binding.root, "$it 아이템 클릭").show()
