@@ -7,5 +7,6 @@ data class SignUpRequest(
     val signToken: String,
     val nickname: String,
     val email: String,
-    val profileImageUrl: String
+    val profileImageUrl: String,
+    val fcmToken: String,
 )

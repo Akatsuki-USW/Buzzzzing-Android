@@ -5,5 +5,6 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class LoginRequest(
     val oauthAccessToken: String,
-    val socialType: String
+    val socialType: String,
+    val fcmToken: String,
 )

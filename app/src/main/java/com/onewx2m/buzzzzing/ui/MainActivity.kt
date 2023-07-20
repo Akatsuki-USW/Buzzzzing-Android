@@ -64,11 +64,6 @@ class MainActivity :
         this.onBackPressedDispatcher.addCallback(this, onBackPressedCallback)
 
         PermissionManager.createNotificationPermission()
-
-        // TODO REMOVE
-        FirebaseMessaging.getInstance().token.addOnSuccessListener { token ->
-            Timber.tag("FCM_TOKEN").d(token)
-        }
     }
 
     private fun initNavBar() {

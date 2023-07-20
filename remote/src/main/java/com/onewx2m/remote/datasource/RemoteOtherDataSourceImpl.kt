@@ -1,5 +1,6 @@
 package com.onewx2m.remote.datasource
 
+import com.google.firebase.messaging.FirebaseMessaging
 import com.onewx2m.data.datasource.RemoteOtherDataSource
 import com.onewx2m.data.model.FileNameAndUrlEntity
 import com.onewx2m.data.model.JwtEntity
@@ -20,6 +21,8 @@ import com.onewx2m.remote.onSuccess
 import com.onewx2m.remote.util.FormDataUtil
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.tasks.await
+import timber.log.Timber
 import java.io.File
 import javax.inject.Inject
 
@@ -79,6 +82,7 @@ class RemoteOtherDataSourceImpl @Inject constructor(
             nickname = nickname,
             email = email,
             profileImageUrl = profileImageUrl,
+            fcmToken = FirebaseMessaging.getInstance().token.await()
         )
 
         api.signUp(request).onSuccess { body ->

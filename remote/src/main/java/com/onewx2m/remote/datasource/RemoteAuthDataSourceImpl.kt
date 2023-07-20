@@ -1,5 +1,6 @@
 package com.onewx2m.remote.datasource
 
+import com.google.firebase.messaging.FirebaseMessaging
 import com.onewx2m.data.datasource.RemoteAuthDataSource
 import com.onewx2m.data.model.JwtEntity
 import com.onewx2m.domain.Outcome
@@ -19,6 +20,7 @@ import com.onewx2m.remote.onFailure
 import com.onewx2m.remote.onSuccess
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
 class RemoteAuthDataSourceImpl @Inject constructor(
@@ -27,7 +29,13 @@ class RemoteAuthDataSourceImpl @Inject constructor(
 
     override suspend fun loginByKakao(oauthAccessToken: String): Flow<Outcome<JwtEntity>> =
         flow {
-            api.login(LoginRequest(oauthAccessToken = oauthAccessToken, socialType = SnsType.KAKAO.name))
+            api.login(
+                LoginRequest(
+                    oauthAccessToken = oauthAccessToken,
+                    socialType = SnsType.KAKAO.name,
+                    fcmToken = FirebaseMessaging.getInstance().token.await(),
+                ),
+            )
                 .onSuccess { body ->
                     emit(Outcome.Success(body.data!!.toEntity()))
                 }
