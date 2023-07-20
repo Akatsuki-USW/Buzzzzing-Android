@@ -18,6 +18,21 @@ object PermissionManager {
         return permissionListener
     }
 
+    fun createNotificationPermission() {
+        val permission = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            Manifest.permission.POST_NOTIFICATIONS
+        } else {
+            return
+        }
+
+        TedPermission.create()
+            .setPermissionListener(setPermissionListener { })
+            .setPermissions(
+                permission,
+            )
+            .check()
+    }
+
     fun createGetImageAndCameraPermission(doWhenPermissionGranted: () -> Unit) {
         val permissionListener = setPermissionListener { doWhenPermissionGranted() }
 

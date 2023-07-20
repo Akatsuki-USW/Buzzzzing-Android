@@ -22,6 +22,7 @@ import com.google.firebase.messaging.FirebaseMessaging
 import com.onewx2m.buzzzzing.R
 import com.onewx2m.buzzzzing.databinding.ActivityMainBinding
 import com.onewx2m.core_ui.util.DeepLinkUtil
+import com.onewx2m.core_ui.util.PermissionManager
 import com.onewx2m.design_system.components.toast.ErrorToast
 import com.onewx2m.mvi.MviActivity
 import dagger.hilt.android.AndroidEntryPoint
@@ -61,6 +62,8 @@ class MainActivity :
         initNavBar()
         setOnApplyWindowInsetsListener()
         this.onBackPressedDispatcher.addCallback(this, onBackPressedCallback)
+
+        PermissionManager.createNotificationPermission()
 
         // TODO REMOVE
         FirebaseMessaging.getInstance().token.addOnSuccessListener { token ->
@@ -122,8 +125,15 @@ class MainActivity :
 
             MainSideEffect.FinishActivity -> finish()
             is MainSideEffect.ShowErrorToast -> ErrorToast.make(binding.root, sideEffect.msg).show()
-            is MainSideEffect.ChangeBackPressedCallbackEnable -> onBackPressedCallback.isEnabled = sideEffect.isEnable
-            MainSideEffect.ShowBackPressedMsg -> Toast.makeText(this, getString(R.string.on_back_pressed_msg), Toast.LENGTH_SHORT).show()
+            is MainSideEffect.ChangeBackPressedCallbackEnable ->
+                onBackPressedCallback.isEnabled =
+                    sideEffect.isEnable
+
+            MainSideEffect.ShowBackPressedMsg -> Toast.makeText(
+                this,
+                getString(R.string.on_back_pressed_msg),
+                Toast.LENGTH_SHORT,
+            ).show()
         }
     }
 
