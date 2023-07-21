@@ -6,6 +6,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.onewx2m.core_ui.extensions.infiniteScrolls
+import com.onewx2m.core_ui.extensions.navigateActionWithDefaultAnim
 import com.onewx2m.core_ui.util.DeepLinkUtil
 import com.onewx2m.design_system.components.recyclerview.buzzzzingmedium.BuzzzzingMediumAdapter
 import com.onewx2m.design_system.components.toast.ErrorToast
@@ -35,7 +36,7 @@ class HomeFragment :
                 viewModel.bookmark(it)
             },
             onItemClick = {
-                ErrorToast.make(binding.root, "$it 아이템 클릭").show()
+                viewModel.goToLocationDetailFragment(it)
             },
         )
     }
@@ -55,7 +56,7 @@ class HomeFragment :
                 viewModel.bookmark(it)
             },
             onItemClick = {
-                ErrorToast.make(binding.root, "$it 아이템 클릭").show()
+                viewModel.goToLocationDetailFragment(it)
             },
         )
     }
@@ -103,6 +104,7 @@ class HomeFragment :
             HomeSideEffect.ShowLocationBottomSheet -> showLocationBottomSheet()
             is HomeSideEffect.ShowErrorToast -> ErrorToast.make(binding.root, sideEffect.msg).show()
             HomeSideEffect.GoToLoginFragment -> goToLoginFragment()
+            is HomeSideEffect.GoToLocationDetailFragment -> goToLocationDetailFragment(sideEffect.locationId)
         }
     }
 
@@ -127,5 +129,10 @@ class HomeFragment :
     private fun goToLoginFragment() {
         val (request, navOptions) = DeepLinkUtil.getLoginRequestAndOption(requireContext(), R.id.homeFragment, true)
         findNavController().navigate(request, navOptions)
+    }
+
+    private fun goToLocationDetailFragment(locationId: Int) {
+        val action = HomeFragmentDirections.actionHomeToLocationDetail(locationId)
+        findNavController().navigateActionWithDefaultAnim(action)
     }
 }

@@ -64,7 +64,8 @@ class HomeViewModel @Inject constructor(
         }.first()
 
         congestionLevelCategoryValues = congestionLevelCategory.map { it.value }
-        locationCategoryValues = listOf(resourceProvider.getString(com.onewx2m.core_ui.R.string.word_all_place)) + locationCategory.map { it.name }
+        locationCategoryValues =
+            listOf(resourceProvider.getString(com.onewx2m.core_ui.R.string.word_all_place)) + locationCategory.map { it.name }
 
         clearFilter()
     }
@@ -261,6 +262,10 @@ class HomeViewModel @Inject constructor(
                 ),
             )
         }
+    }
+
+    fun goToLocationDetailFragment(locationId: Int) {
+        postSideEffect(HomeSideEffect.GoToLocationDetailFragment(locationId))
     }
 
     override fun reduceState(current: HomeViewState, event: HomeEvent): HomeViewState =

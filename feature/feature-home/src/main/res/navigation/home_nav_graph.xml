@@ -13,8 +13,22 @@
 
         <deepLink
             app:uri="@string/deeplink_home_fragment" />
+        <action
+            android:id="@+id/action_home_to_locationDetail"
+            app:destination="@id/locationDetailFragment" />
 
 
+    </fragment>
+    <fragment
+        android:id="@+id/locationDetailFragment"
+        android:name="com.onewx2m.feature_home.ui.locationdetail.LocationDetailFragment"
+        android:label="fragment_location_detail"
+        tools:layout="@layout/fragment_location_detail" >
+
+
+        <argument
+            android:name="locationId"
+            app:argType="integer" />
     </fragment>
 
 </navigation>
