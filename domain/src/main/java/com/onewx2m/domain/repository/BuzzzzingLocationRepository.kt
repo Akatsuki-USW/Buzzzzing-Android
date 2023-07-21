@@ -3,6 +3,7 @@ package com.onewx2m.domain.repository
 import com.onewx2m.domain.Outcome
 import com.onewx2m.domain.model.BuzzzzingLocation
 import com.onewx2m.domain.model.BuzzzzingLocationBookmark
+import com.onewx2m.domain.model.BuzzzzingLocationDetailInfo
 import kotlinx.coroutines.flow.Flow
 
 interface BuzzzzingLocationRepository {
@@ -18,4 +19,6 @@ interface BuzzzzingLocationRepository {
     suspend fun getBuzzzzingLocationTop5(): Flow<Outcome<BuzzzzingLocation>>
 
     suspend fun locationBookmark(locationId: Int): Flow<Outcome<BuzzzzingLocationBookmark>>
+
+    suspend fun getBuzzzzingLocationDetailInfo(locationId: Int): Flow<Outcome<BuzzzzingLocationDetailInfo>>
 }

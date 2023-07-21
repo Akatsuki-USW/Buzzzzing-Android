@@ -3,6 +3,7 @@ package com.onewx2m.remote.api
 import com.onewx2m.remote.ApiResult
 import com.onewx2m.remote.model.ApiResponse
 import com.onewx2m.remote.model.response.BuzzzzingLocationBookmarkResponse
+import com.onewx2m.remote.model.response.BuzzzzingLocationDetailInfoResponse
 import com.onewx2m.remote.model.response.BuzzzzingLocationResponse
 import retrofit2.http.GET
 import retrofit2.http.POST
@@ -31,4 +32,9 @@ interface BuzzzzingLocationApi {
     suspend fun bookmarkBuzzzzingLocation(
         @Path(LOCATION_ID) locationId: Int,
     ): ApiResult<ApiResponse<BuzzzzingLocationBookmarkResponse>>
+
+    @GET("$LOCATION/{$LOCATION_ID}")
+    suspend fun getBuzzzzingLocationDetail(
+        @Path(LOCATION_ID) locationId: Int,
+    ): ApiResult<ApiResponse<BuzzzzingLocationDetailInfoResponse>>
 }

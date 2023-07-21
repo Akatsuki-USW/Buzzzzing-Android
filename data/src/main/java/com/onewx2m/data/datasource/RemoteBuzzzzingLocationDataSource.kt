@@ -1,8 +1,10 @@
 package com.onewx2m.data.datasource
 
 import com.onewx2m.data.model.BuzzzzingLocationBookmarkEntity
+import com.onewx2m.data.model.BuzzzzingLocationDetailInfoEntity
 import com.onewx2m.data.model.BuzzzzingLocationEntity
 import com.onewx2m.domain.Outcome
+import com.onewx2m.domain.model.BuzzzzingLocationDetailInfo
 import kotlinx.coroutines.flow.Flow
 
 interface RemoteBuzzzzingLocationDataSource {
@@ -18,4 +20,6 @@ interface RemoteBuzzzzingLocationDataSource {
     suspend fun getBuzzzzingLocationTop5(): Flow<Outcome<BuzzzzingLocationEntity>>
 
     suspend fun bookmarkBuzzzzingLocation(locationId: Int): Flow<Outcome<BuzzzzingLocationBookmarkEntity>>
+
+    suspend fun getBuzzzzingLocationDetailInfo(locationId: Int): Flow<Outcome<BuzzzzingLocationDetailInfoEntity>>
 }

@@ -6,6 +6,7 @@ import com.onewx2m.data.model.toDomain
 import com.onewx2m.domain.Outcome
 import com.onewx2m.domain.model.BuzzzzingLocation
 import com.onewx2m.domain.model.BuzzzzingLocationBookmark
+import com.onewx2m.domain.model.BuzzzzingLocationDetailInfo
 import com.onewx2m.domain.repository.BuzzzzingLocationRepository
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
@@ -36,6 +37,11 @@ class BuzzzzingLocationRepositoryImpl @Inject constructor(
 
     override suspend fun locationBookmark(locationId: Int): Flow<Outcome<BuzzzzingLocationBookmark>> {
         return remoteBuzzzzingLocationDataSource.bookmarkBuzzzzingLocation(locationId)
+            .flatMapOutcomeSuccess { data -> data.toDomain() }
+    }
+
+    override suspend fun getBuzzzzingLocationDetailInfo(locationId: Int): Flow<Outcome<BuzzzzingLocationDetailInfo>> {
+        return remoteBuzzzzingLocationDataSource.getBuzzzzingLocationDetailInfo(locationId)
             .flatMapOutcomeSuccess { data -> data.toDomain() }
     }
 }
