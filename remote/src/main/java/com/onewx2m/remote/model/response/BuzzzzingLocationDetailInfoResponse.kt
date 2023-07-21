@@ -9,15 +9,16 @@ data class BuzzzzingLocationDetailInfoResponse(
     val name: String,
     val categoryId: Int,
     val categoryName: String,
+    val bookMarkCount: Int,
     val isBookmarked: Boolean,
     val congestionSymbol: String,
     val congestionLevel: Int,
     val congestionId: Int,
     val observedAt: String,
-    val mayRelaxAt: String? = null,
-    val mayRelaxUntil: String? = null,
+    val mayRelaxAt: Int? = null,
+    val mayRelaxUntil: Int? = null,
     val mayBuzzAt: Int? = null,
-    val mayBuzzUntil: String? = null,
+    val mayBuzzUntil: Int? = null,
 )
 
 fun BuzzzzingLocationDetailInfoResponse.toEntity() = BuzzzzingLocationDetailInfoEntity(
@@ -25,6 +26,7 @@ fun BuzzzzingLocationDetailInfoResponse.toEntity() = BuzzzzingLocationDetailInfo
     name = name,
     categoryId = categoryId,
     categoryName = categoryName,
+    bookMarkCount = bookMarkCount,
     isBookmarked = isBookmarked,
     congestionSymbol = congestionSymbol,
     congestionLevel = congestionLevel,
