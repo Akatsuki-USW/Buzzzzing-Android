@@ -14,10 +14,6 @@ class HomeBuzzzzingSmallAdapter(
 ) :
     RecyclerView.Adapter<HomeBuzzzzingSmallHolder>() {
 
-    companion object {
-        private const val RECYCLER_VIEW_INIT_DELAY = 500L
-    }
-
     private var recyclerView: BuzzzzingSmallRecyclerView? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HomeBuzzzzingSmallHolder {
