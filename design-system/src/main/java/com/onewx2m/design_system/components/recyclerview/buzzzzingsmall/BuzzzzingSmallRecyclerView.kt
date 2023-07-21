@@ -18,7 +18,6 @@ class BuzzzzingSmallRecyclerView @JvmOverloads constructor(
     private var buzzzzingSmallAdapter: BuzzzzingSmallAdapter? = null
 
     fun submitList(data: List<BuzzzzingSmallItem>) {
-        Timber.d("submit $data")
         buzzzzingSmallAdapter?.submitList(data)
     }
 

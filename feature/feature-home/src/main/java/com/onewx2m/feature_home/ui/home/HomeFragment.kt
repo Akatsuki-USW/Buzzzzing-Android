@@ -93,7 +93,9 @@ class HomeFragment :
         homeSearchAdapter.keyword = current.keyword
         homeSearchAdapter.notifyItemChanged(0)
 
-        homeBuzzzzingSmallAdapter.submitList(current.buzzzzingSmallItem)
+        binding.recyclerView.post {
+            homeBuzzzzingSmallAdapter.submitList(current.buzzzzingSmallItem)
+        }
     }
 
     override fun handleSideEffect(sideEffect: HomeSideEffect) {
