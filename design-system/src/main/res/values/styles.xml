@@ -22,6 +22,12 @@
         <item name="android:includeFontPadding">false</item>
     </style>
 
+    <style name="Caption">
+        <item name="android:textColor">@color/black01</item>
+        <item name="android:letterSpacing">-0.03</item>
+        <item name="android:includeFontPadding">false</item>
+    </style>
+
     <style name="Header.1">
         <item name="figmaLineHeight">32.0</item>
         <item name="android:textSize">28sp</item>
@@ -97,6 +103,30 @@
     <style name="Label.3">
         <item name="android:textSize">12sp</item>
         <item name="figmaLineHeight">14.0</item>
+    </style>
+
+    <style name="Caption.1">
+        <item name="android:fontFamily">@font/notosanskrbold</item>
+        <item name="android:textSize">18sp</item>
+        <item name="figmaLineHeight">20.0</item>
+    </style>
+
+    <style name="Caption.2">
+        <item name="android:fontFamily">@font/notosanskrregular</item>
+        <item name="android:textSize">18sp</item>
+        <item name="figmaLineHeight">20.0</item>
+    </style>
+
+    <style name="Caption.3">
+        <item name="android:fontFamily">@font/notosanskrbold</item>
+        <item name="android:textSize">16sp</item>
+        <item name="figmaLineHeight">18.0</item>
+    </style>
+
+    <style name="Caption.4">
+        <item name="android:fontFamily">@font/notosanskrregular</item>
+        <item name="android:textSize">16sp</item>
+        <item name="figmaLineHeight">18.0</item>
     </style>
 
     <style name="sns_login_button_kakao">

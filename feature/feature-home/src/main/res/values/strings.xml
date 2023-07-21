@@ -10,4 +10,11 @@
     <string name="home_spinner_clear_search">검색 내용 초기화</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="fragment_location_detail_now">지금은</string>
+    <string name="fragment_location_detail_now_end">해요!</string>
+    <string name="fragment_location_detail_may_be">아마</string>
+    <string name="fragment_location_detail_may_be_end">쯤 한가해질 것 같아요!</string>
+
+    <string name="fragment_location_view_pager_tab_historical_data">과거 데이터</string>
+    <string name="fragment_location_view_pager_tab_recommend_place">추천 장소</string>
 </resources>
