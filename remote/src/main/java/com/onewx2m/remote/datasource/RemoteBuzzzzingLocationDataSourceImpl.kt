@@ -4,7 +4,11 @@ import com.onewx2m.data.datasource.RemoteBuzzzzingLocationDataSource
 import com.onewx2m.data.model.BuzzzzingLocationBookmarkEntity
 import com.onewx2m.data.model.BuzzzzingLocationDetailInfoEntity
 import com.onewx2m.data.model.BuzzzzingLocationEntity
+import com.onewx2m.data.model.BuzzzzingStatisticsEntity
 import com.onewx2m.domain.Outcome
+import com.onewx2m.domain.exception.BuzzzzingHttpException
+import com.onewx2m.domain.exception.NotFoundCongestionStatistics
+import com.onewx2m.domain.exception.common.CommonException
 import com.onewx2m.remote.api.BuzzzzingLocationApi
 import com.onewx2m.remote.model.response.toEntity
 import com.onewx2m.remote.onFailure
@@ -68,4 +72,28 @@ class RemoteBuzzzzingLocationDataSourceImpl @Inject constructor(
                     emit(Outcome.Failure(it))
                 }
         }
+
+    override suspend fun getBuzzzzingStatistics(
+        locationId: Int,
+        date: String,
+    ): Flow<Outcome<BuzzzzingStatisticsEntity>> = flow {
+        api.getBuzzzzingStatistics(locationId, date)
+            .onSuccess { body ->
+                emit(Outcome.Success(body.data!!.toEntity()))
+            }
+            .onFailure { exception ->
+                if (exception is BuzzzzingHttpException) {
+                    emit(handleStatisticException(exception))
+                } else {
+                    emit(Outcome.Failure(exception))
+                }
+            }
+    }
+
+    private fun handleStatisticException(
+        exception: BuzzzzingHttpException,
+    ): Outcome<BuzzzzingStatisticsEntity> = when (exception.httpCode) {
+        404 -> Outcome.Failure(NotFoundCongestionStatistics())
+        else -> Outcome.Failure(CommonException.UnknownException())
+    }
 }
