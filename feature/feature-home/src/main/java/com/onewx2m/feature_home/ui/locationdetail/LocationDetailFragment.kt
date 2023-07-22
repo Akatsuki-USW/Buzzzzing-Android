@@ -36,9 +36,7 @@ class LocationDetailFragment :
     override val viewModel: LocationDetailViewModel by viewModels()
     private val navArgs: LocationDetailFragmentArgs by navArgs()
 
-    private val pagerAdapter: LocationDetailFragmentStateAdapter by lazy {
-        LocationDetailFragmentStateAdapter(this)
-    }
+    private var pagerAdapter: LocationDetailFragmentStateAdapter? = null
 
     private val onTabSelectedListener = object : TabLayout.OnTabSelectedListener {
         override fun onTabSelected(tab: TabLayout.Tab) {
@@ -58,7 +56,6 @@ class LocationDetailFragment :
     }
 
     override fun initView() {
-        initViewPagerAndTabLayout()
         binding.imageViewBack.onThrottleClick {
             viewModel.popBackStack()
         }
@@ -84,7 +81,7 @@ class LocationDetailFragment :
             setCongestionMaybeTextView(current.congestion, current.mayRelaxAt, current.mayBuzzAt)
         }
 
-        if (current.isInitializing.not() && binding.constraintLayoutDetail.isVisible.not()) {
+        if (current.isInitializingDetailInfo.not() && current.isInitializingViewPagerData.not() && binding.constraintLayoutDetail.isVisible.not()) {
             binding.constraintLayoutDetail.setVisibleWithAnimation()
             binding.lottieLoading.setGoneWithAnimation()
         }
@@ -140,6 +137,9 @@ class LocationDetailFragment :
             ).show()
 
             LocationDetailSideEffect.PopBackStack -> findNavController().popBackStack()
+            is LocationDetailSideEffect.InitViewPagerAndTabLayout -> initViewPagerAndTabLayout(
+                sideEffect.congestion,
+            )
         }
     }
 
@@ -164,7 +164,15 @@ class LocationDetailFragment :
         BUZZING -> getString(R.string.fragment_location_congestion_text_buzz)
     }
 
-    private fun initViewPagerAndTabLayout() {
+    private fun initViewPagerAndTabLayout(congestion: String) {
+        if (pagerAdapter != null) return
+
+        pagerAdapter = LocationDetailFragmentStateAdapter(
+            this,
+            congestion,
+            navArgs.locationId,
+        ) { viewModel.finishViewPagerDataInit() }
+
         binding.viewPager2.apply {
             isUserInputEnabled = false
             adapter = pagerAdapter

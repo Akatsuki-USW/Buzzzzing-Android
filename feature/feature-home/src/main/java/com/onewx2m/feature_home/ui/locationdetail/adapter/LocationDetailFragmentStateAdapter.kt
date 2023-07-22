@@ -16,12 +16,27 @@ enum class LocationDetailViewPagerType(val idx: Int) {
     }
 }
 
-class LocationDetailFragmentStateAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
+class LocationDetailFragmentStateAdapter(
+    fragment: Fragment,
+    private val congestion: String,
+    private val locationId: Int,
+    private val doWhenInitialized: () -> Unit,
+) : FragmentStateAdapter(fragment) {
     override fun getItemCount(): Int = LocationDetailViewPagerType.values().size
 
     override fun createFragment(position: Int): Fragment = when (position) {
-        LocationDetailViewPagerType.HISTORICAL_DATE.idx -> HistoricalDataFragment()
-        LocationDetailViewPagerType.RECOMMEND_PLACE_LIST.idx -> HistoricalDataFragment()
+        LocationDetailViewPagerType.HISTORICAL_DATE.idx -> HistoricalDataFragment.newInstance(
+            congestion,
+            locationId,
+            doWhenInitialized,
+        )
+
+        LocationDetailViewPagerType.RECOMMEND_PLACE_LIST.idx -> HistoricalDataFragment.newInstance(
+            congestion,
+            locationId,
+            doWhenInitialized,
+        )
+
         else -> throw IllegalAccessException()
     }
 }

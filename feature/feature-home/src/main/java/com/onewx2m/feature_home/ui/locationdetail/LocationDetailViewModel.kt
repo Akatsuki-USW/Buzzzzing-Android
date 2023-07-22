@@ -26,6 +26,10 @@ class LocationDetailViewModel @Inject constructor(
         }
     }
 
+    fun finishViewPagerDataInit() {
+        postEvent(LocationDetailEvent.ViewPagerInitDataFinish())
+    }
+
     private fun handleLocationDetailSuccess(outcome: Outcome.Success<BuzzzzingLocationDetailInfo>) {
         postEvent(
             LocationDetailEvent.UpdateInitData(
@@ -35,6 +39,7 @@ class LocationDetailViewModel @Inject constructor(
                 mayRelaxAt = outcome.data.mayRelaxAt,
             ),
         )
+        postSideEffect(LocationDetailSideEffect.InitViewPagerAndTabLayout(outcome.data.congestionSymbol))
     }
 
     private fun handleError(error: Throwable?) {
@@ -61,11 +66,15 @@ class LocationDetailViewModel @Inject constructor(
         event: LocationDetailEvent,
     ): LocationDetailViewState = when (event) {
         is LocationDetailEvent.UpdateInitData -> current.copy(
-            isInitializing = event.isInitializing,
+            isInitializingDetailInfo = event.isInitializing,
             congestion = event.congestion,
             locationName = event.name,
             mayRelaxAt = event.mayRelaxAt,
             mayBuzzAt = event.mayBuzzAt,
+        )
+
+        is LocationDetailEvent.ViewPagerInitDataFinish -> current.copy(
+            isInitializingViewPagerData = event.isInitializingViewPagerData,
         )
     }
 }

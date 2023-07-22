@@ -48,12 +48,12 @@ class CongestionChart @JvmOverloads constructor(
 
     private val binding: ChartCongestionBinding
 
-    fun submitChartData(congestion: Congestion, entries: List<Entry>) {
+    fun submitChartData(congestion: Congestion, entries: List<ChartItem>) {
         val mainColor = getMainColor(congestion)
 
         val lineDataSet = ArrayList<ILineDataSet>() // 데이터 배열 → 데이터 셋
 
-        val set = LineDataSet(entries, "").apply {
+        val set = LineDataSet(entries.map { Entry(it.x.toFloat(), it.y.toFloat()) }, "").apply {
             setDrawCircleHole(false)
             lineWidth = LINE_WIDTH.px
             setCircleColor(mainColor)
@@ -67,6 +67,7 @@ class CongestionChart @JvmOverloads constructor(
         binding.chart.apply {
             data = LineData(lineDataSet)
             notifyDataSetChanged()
+            invalidate()
         }
     }
 

@@ -4,7 +4,8 @@ import com.onewx2m.design_system.enum.Congestion
 import com.onewx2m.mvi.ViewState
 
 data class LocationDetailViewState(
-    val isInitializing: Boolean = true,
+    val isInitializingDetailInfo: Boolean = true,
+    val isInitializingViewPagerData: Boolean = true,
     val congestion: Congestion = Congestion.NORMAL,
     val locationName: String = "",
     val mayBuzzAt: Int? = null,

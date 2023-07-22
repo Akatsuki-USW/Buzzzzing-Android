@@ -25,7 +25,6 @@ class DaySelectorAdapter(
             val prevSelectedData = alreadySelectedData?.copy()
             alreadySelectedData = it.copy()
             notifyItemChanged(prevSelectedData)
-            notifyItemChanged(alreadySelectedData)
         }
     }
 

@@ -1,60 +1,87 @@
 package com.onewx2m.feature_home.ui.locationdetail.historicaldata
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import com.onewx2m.feature_home.R
+import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.onewx2m.design_system.components.recyclerview.dayselector.DaySelectorAdapter
+import com.onewx2m.design_system.components.toast.ErrorToast
+import com.onewx2m.design_system.enum.Congestion
+import com.onewx2m.feature_home.databinding.FragmentHistoricalDataBinding
+import com.onewx2m.mvi.MviFragment
+import dagger.hilt.android.AndroidEntryPoint
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+@AndroidEntryPoint
+class HistoricalDataFragment :
+    MviFragment<FragmentHistoricalDataBinding, HistoricalDataViewState, HistoricalDataEvent, HistoricalDataSideEffect, HistoricalDataViewModel>(
+        FragmentHistoricalDataBinding::inflate,
+    ) {
+    private val congestion: String
+        get() = arguments?.getString(CONGESTION) ?: ""
 
-/**
- * A simple [Fragment] subclass.
- * Use the [HistoricalDataFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
-class HistoricalDataFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+    private val locationId: Int
+        get() = arguments?.getInt(LOCATION_ID) ?: -1
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+    private var doWhenInitialized: () -> Unit = {}
+
+    companion object {
+        private const val CONGESTION = "congestion"
+        private const val LOCATION_ID = "locationId"
+
+        @JvmStatic
+        fun newInstance(
+            congestion: String,
+            locationId: Int,
+            doWhenInitialized: () -> Unit,
+        ): HistoricalDataFragment {
+            return HistoricalDataFragment().apply {
+                this.doWhenInitialized = doWhenInitialized
+                arguments = Bundle().apply {
+                    putString(CONGESTION, congestion)
+                    putInt(LOCATION_ID, locationId)
+                }
+            }
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_historical_data, container, false)
+    override val viewModel: HistoricalDataViewModel by viewModels()
+
+    private var daySelectorAdapter: DaySelectorAdapter? = null
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        viewModel.initData(locationId) {
+            doWhenInitialized()
+        }
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment HistoricalDataFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            HistoricalDataFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
+    override fun initView() {
+        binding.recyclerView.apply {
+            layoutManager = LinearLayoutManager(requireContext()).apply {
+                orientation = LinearLayoutManager.HORIZONTAL
             }
+        }
+    }
+
+    override fun render(current: HistoricalDataViewState) {
+        super.render(current)
+
+        if (daySelectorAdapter == null && current.daysItems.isNotEmpty() && current.selectedDayItem != null) {
+            daySelectorAdapter = DaySelectorAdapter(Congestion.valueOf(congestion), current.daysItems, current.selectedDayItem) {
+                viewModel.updateSelectedDayItem(it)
+                viewModel.getBuzzzzingStatistic(locationId, it.query)
+            }
+
+            binding.recyclerView.adapter = daySelectorAdapter
+        }
+        binding.chart.submitChartData(Congestion.valueOf(congestion), current.chartItems)
+    }
+
+    override fun handleSideEffect(sideEffect: HistoricalDataSideEffect) {
+        super.handleSideEffect(sideEffect)
+
+        when (sideEffect) {
+            is HistoricalDataSideEffect.ShowErrorToast -> ErrorToast.make(binding.root, sideEffect.msg).show()
+        }
     }
 }

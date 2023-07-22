@@ -23,4 +23,5 @@
 
     <string name="fragment_location_view_pager_tab_historical_data">과거 데이터</string>
     <string name="fragment_location_view_pager_tab_recommend_place">추천 장소</string>
+    <string name="fragment_historical_data_last_week">저번주</string>
 </resources>

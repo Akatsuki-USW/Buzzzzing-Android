@@ -5,4 +5,5 @@ import com.onewx2m.mvi.Event
 
 sealed interface LocationDetailEvent : Event {
     data class UpdateInitData(val name: String, val congestion: Congestion, val mayBuzzAt: Int?, val mayRelaxAt: Int?, val isInitializing: Boolean = false) : LocationDetailEvent
+    data class ViewPagerInitDataFinish(val isInitializingViewPagerData: Boolean = false) : LocationDetailEvent
 }
