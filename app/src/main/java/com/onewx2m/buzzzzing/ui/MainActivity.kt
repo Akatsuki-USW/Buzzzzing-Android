@@ -71,6 +71,7 @@ class MainActivity :
             supportFragmentManager.findFragmentById(R.id.nav_host) as NavHostFragment
         navController = navHostFragment.navController
         binding.navBar.itemIconTintList = null
+        navController.graph.setStartDestination(R.id.home_nav_graph)
         binding.navBar.setupWithNavController(navController)
         binding.navBar.setOnItemReselectedListener { }
     }

@@ -4,7 +4,6 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.onewx2m.design_system.components.recyclerview.buzzzzingsmall.BuzzzzingSmallItem
-import com.onewx2m.design_system.components.recyclerview.buzzzzingsmall.BuzzzzingSmallRecyclerView
 import com.onewx2m.feature_home.databinding.ItemRecyclerViewHomeBuzzzzingSmallBinding
 
 class HomeBuzzzzingSmallAdapter(
@@ -14,7 +13,7 @@ class HomeBuzzzzingSmallAdapter(
 ) :
     RecyclerView.Adapter<HomeBuzzzzingSmallHolder>() {
 
-    private var recyclerView: BuzzzzingSmallRecyclerView? = null
+    private var currentList: List<BuzzzzingSmallItem> = emptyList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HomeBuzzzzingSmallHolder {
         val binding =
@@ -24,23 +23,33 @@ class HomeBuzzzzingSmallAdapter(
                 false,
             )
 
-        binding.recyclerView.initAdapter(onItemClick, onBookmarkClick, infiniteScrolls)
-        recyclerView = binding.recyclerView
-
         return HomeBuzzzzingSmallHolder(binding)
     }
 
     override fun onBindViewHolder(holder: HomeBuzzzzingSmallHolder, position: Int) {
+        holder.bind(currentList, onItemClick, onBookmarkClick, infiniteScrolls)
     }
 
     override fun getItemCount(): Int = 1
 
-    fun submitList(data: List<BuzzzzingSmallItem>) {
-        recyclerView?.submitList(data)
+    fun setData(data: List<BuzzzzingSmallItem>) {
+        currentList = data.toList()
+        notifyItemChanged(0)
     }
 }
 
 class HomeBuzzzzingSmallHolder(
-    binding: ItemRecyclerViewHomeBuzzzzingSmallBinding,
+    private val binding: ItemRecyclerViewHomeBuzzzzingSmallBinding,
 ) :
-    RecyclerView.ViewHolder(binding.root)
+    RecyclerView.ViewHolder(binding.root) {
+
+    fun bind(
+        data: List<BuzzzzingSmallItem>,
+        onItemClick: (Int) -> Unit = {},
+        onBookmarkClick: (Int) -> Unit = {},
+        infiniteScrolls: () -> Unit = {},
+    ) {
+        binding.recyclerView.initAdapter(onItemClick, onBookmarkClick, infiniteScrolls)
+        binding.recyclerView.submitList(data)
+    }
+}

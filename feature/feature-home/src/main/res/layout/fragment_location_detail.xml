@@ -9,7 +9,9 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraint_layout_detail"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:visibility="invisible"
+        tools:visibility="visible">
 
         <ImageView
             android:id="@+id/image_view_back"
@@ -43,7 +45,7 @@
             app:layout_constraintTop_toBottomOf="@id/text_view_location_name">
 
             <com.onewx2m.design_system.components.textview.FigmaTextView
-                android:id="@+id/text_view_now"
+                android:id="@+id/text_view_congestion"
                 style="@style/Caption.2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -54,68 +56,25 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <com.onewx2m.design_system.components.textview.FigmaTextView
-                android:id="@+id/text_view_congestion"
-                style="@style/Caption.1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="6dp"
-                android:textColor="@color/white01"
-                app:layout_constraintStart_toEndOf="@id/text_view_now"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:text="복쟉복쟉" />
-
-            <com.onewx2m.design_system.components.textview.FigmaTextView
-                android:id="@+id/text_view_now_end"
-                style="@style/Caption.2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="6dp"
-                android:text="@string/fragment_location_detail_now_end"
-                android:textColor="@color/white01"
-                app:layout_constraintStart_toEndOf="@id/text_view_congestion"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <com.onewx2m.design_system.components.textview.FigmaTextView
                 android:id="@+id/text_view_may_be"
                 style="@style/Caption.2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
-                android:text="@string/fragment_location_detail_may_be"
+                android:text="@string/fragment_location_detail_may_be_relax"
                 android:textColor="@color/white01"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/text_view_now" />
-
-            <com.onewx2m.design_system.components.textview.FigmaTextView
-                android:id="@+id/text_view_time"
-                style="@style/Caption.1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="6dp"
-                android:textColor="@color/white01"
-                app:layout_constraintStart_toEndOf="@id/text_view_may_be"
-                app:layout_constraintTop_toBottomOf="@id/text_view_now"
-                tools:text="오후 10시" />
-
-            <com.onewx2m.design_system.components.textview.FigmaTextView
-                android:id="@+id/text_view_may_be_end"
-                style="@style/Caption.2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/fragment_location_detail_may_be_end"
-                android:textColor="@color/white01"
-                app:layout_constraintStart_toEndOf="@id/text_view_time"
-                app:layout_constraintTop_toBottomOf="@id/text_view_now" />
+                app:layout_constraintTop_toBottomOf="@id/text_view_congestion" />
 
             <com.google.android.material.tabs.TabLayout
                 android:id="@+id/tab_layout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
                 android:layout_marginStart="12dp"
+                android:layout_marginTop="24dp"
                 android:background="@android:color/transparent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/text_view_may_be_end"
+                app:layout_constraintTop_toBottomOf="@id/text_view_may_be"
                 app:tabGravity="fill"
                 app:tabIndicatorColor="@color/white01"
                 app:tabIndicatorFullWidth="true"
@@ -137,6 +96,18 @@
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/lottie_loading"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        app:lottie_rawRes="@raw/default_loading_lottie" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -111,6 +111,13 @@
         <item name="figmaLineHeight">20.0</item>
     </style>
 
+    <style name="Caption.1.white">
+        <item name="android:textColor">@color/white01</item>
+        <item name="android:fontFamily">@font/notosanskrbold</item>
+        <item name="android:textSize">18sp</item>
+        <item name="figmaLineHeight">20.0</item>
+    </style>
+
     <style name="Caption.2">
         <item name="android:fontFamily">@font/notosanskrregular</item>
         <item name="android:textSize">18sp</item>

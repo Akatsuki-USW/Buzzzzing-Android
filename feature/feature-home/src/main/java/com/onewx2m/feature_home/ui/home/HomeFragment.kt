@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ConcatAdapter
+import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.onewx2m.core_ui.extensions.infiniteScrolls
 import com.onewx2m.core_ui.extensions.navigateActionWithDefaultAnim
@@ -77,6 +78,7 @@ class HomeFragment :
 
         binding.recyclerView.apply {
             adapter = concatAdapter
+            itemAnimator = null
             layoutManager = LinearLayoutManager(requireContext())
             infiniteScrolls {
                 viewModel.getBuzzzzingLocation()
@@ -92,10 +94,7 @@ class HomeFragment :
         homeSearchAdapter.congestionLevelSpinnerText = current.congestionFilter
         homeSearchAdapter.keyword = current.keyword
         homeSearchAdapter.notifyItemChanged(0)
-
-        binding.recyclerView.post {
-            homeBuzzzzingSmallAdapter.submitList(current.buzzzzingSmallItem)
-        }
+        homeBuzzzzingSmallAdapter.setData(current.buzzzzingSmallItem)
     }
 
     override fun handleSideEffect(sideEffect: HomeSideEffect) {

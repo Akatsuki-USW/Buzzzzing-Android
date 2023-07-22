@@ -2,12 +2,25 @@ package com.onewx2m.feature_home.ui.locationdetail
 
 import android.os.Bundle
 import android.view.View
+import androidx.annotation.StringRes
+import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
+import com.onewx2m.core_ui.extensions.changeTextStyle
+import com.onewx2m.core_ui.extensions.onThrottleClick
+import com.onewx2m.core_ui.extensions.setGoneWithAnimation
+import com.onewx2m.core_ui.extensions.setVisibleWithAnimation
+import com.onewx2m.core_ui.util.DeepLinkUtil
+import com.onewx2m.core_ui.util.TimeFormatter
+import com.onewx2m.design_system.components.toast.ErrorToast
 import com.onewx2m.design_system.databinding.IncludeTabLocatoinDetailSelectedBinding
 import com.onewx2m.design_system.databinding.IncludeTabLocatoinDetailUnselectedBinding
+import com.onewx2m.design_system.enum.Congestion
+import com.onewx2m.design_system.enum.Congestion.*
 import com.onewx2m.feature_home.R
 import com.onewx2m.feature_home.databinding.FragmentLocationDetailBinding
 import com.onewx2m.feature_home.ui.locationdetail.adapter.LocationDetailFragmentStateAdapter
@@ -46,6 +59,109 @@ class LocationDetailFragment :
 
     override fun initView() {
         initViewPagerAndTabLayout()
+        binding.imageViewBack.onThrottleClick {
+            viewModel.popBackStack()
+        }
+    }
+
+    override fun render(current: LocationDetailViewState) {
+        super.render(current)
+        val congestionColor = getCongestionColor(current.congestion)
+        binding.apply {
+            imageViewBack.setColorFilter(congestionColor)
+            textViewLocationName.setTextColor(congestionColor)
+            constraintLayoutDetailInfo.setBackgroundColor(congestionColor)
+
+            textViewLocationName.text = current.locationName
+            textViewCongestion.text = getString(
+                R.string.fragment_location_detail_now,
+                getCongestionText(current.congestion),
+            )
+            textViewCongestion.changeTextStyle(
+                listOf(getCongestionText(current.congestion)),
+                com.onewx2m.design_system.R.style.Caption_1_white,
+            )
+            setCongestionMaybeTextView(current.congestion, current.mayRelaxAt, current.mayBuzzAt)
+        }
+
+        if (current.isInitializing.not() && binding.constraintLayoutDetail.isVisible.not()) {
+            binding.constraintLayoutDetail.setVisibleWithAnimation()
+            binding.lottieLoading.setGoneWithAnimation()
+        }
+    }
+
+    private fun setCongestionMaybeTextView(
+        congestion: Congestion,
+        mayRelaxAt: Int?,
+        mayBuzzAt: Int?,
+    ) {
+        when {
+            congestion == RELAX && mayBuzzAt != null -> {
+                changeTextViewMayBeWithTime(
+                    R.string.fragment_location_detail_may_be_buzz,
+                    mayBuzzAt,
+                )
+            }
+
+            congestion != RELAX && mayRelaxAt != null -> {
+                changeTextViewMayBeWithTime(
+                    R.string.fragment_location_detail_may_be_buzz,
+                    mayRelaxAt,
+                )
+            }
+
+            congestion != RELAX && mayRelaxAt == null ->
+                binding.textViewMayBe.text =
+                    getString(R.string.fragment_location_detail_may_be_not_relax)
+
+            else ->
+                binding.textViewMayBe.text =
+                    getString(R.string.fragment_location_detail_may_be_not_buzz)
+        }
+    }
+
+    private fun changeTextViewMayBeWithTime(@StringRes stringId: Int, time: Int) {
+        val timeText = TimeFormatter.getahLocaleKorean(time)
+        binding.textViewMayBe.text =
+            getString(stringId, timeText)
+        binding.textViewMayBe.changeTextStyle(
+            listOf(timeText),
+            com.onewx2m.design_system.R.style.Caption_1_white,
+        )
+    }
+
+    override fun handleSideEffect(sideEffect: LocationDetailSideEffect) {
+        super.handleSideEffect(sideEffect)
+        when (sideEffect) {
+            LocationDetailSideEffect.GoToLoginFragment -> goToLoginFragment()
+            is LocationDetailSideEffect.ShowErrorToast -> ErrorToast.make(
+                binding.root,
+                sideEffect.msg,
+            ).show()
+
+            LocationDetailSideEffect.PopBackStack -> findNavController().popBackStack()
+        }
+    }
+
+    private fun goToLoginFragment() {
+        val (request, navOptions) = DeepLinkUtil.getLoginRequestAndOption(
+            requireContext(),
+            R.id.locationDetailFragment,
+            true,
+        )
+        findNavController().navigate(request, navOptions)
+    }
+
+    private fun getCongestionColor(congestion: Congestion) = when (congestion) {
+        RELAX -> ContextCompat.getColor(requireContext(), com.onewx2m.design_system.R.color.mint)
+        NORMAL -> ContextCompat.getColor(requireContext(), com.onewx2m.design_system.R.color.blue)
+        BUZZING -> ContextCompat.getColor(requireContext(), com.onewx2m.design_system.R.color.pink)
+    }
+
+    private fun getCongestionText(congestion: Congestion) = when (congestion) {
+        RELAX -> getString(R.string.fragment_location_congestion_text_relax)
+        NORMAL -> getString(R.string.fragment_location_congestion_text_normal)
+        BUZZING -> getString(R.string.fragment_location_congestion_text_buzz)
     }
 
     private fun initViewPagerAndTabLayout() {

@@ -15,7 +15,7 @@ class BuzzzzingSmallRecyclerView @JvmOverloads constructor(
     defStyleAttr: Int = 0,
 ) : ConstraintLayout(context, attrs, defStyleAttr) {
     private val binding: RecyclerViewBuzzzzingSmallBinding
-    private var buzzzzingSmallAdapter: BuzzzzingSmallAdapter? = null
+    var buzzzzingSmallAdapter: BuzzzzingSmallAdapter? = null
 
     fun submitList(data: List<BuzzzzingSmallItem>) {
         buzzzzingSmallAdapter?.submitList(data)
