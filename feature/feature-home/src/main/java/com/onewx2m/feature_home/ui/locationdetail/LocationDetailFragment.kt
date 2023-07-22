@@ -165,7 +165,10 @@ class LocationDetailFragment :
     }
 
     private fun initViewPagerAndTabLayout() {
-        binding.viewPager2.adapter = pagerAdapter
+        binding.viewPager2.apply {
+            isUserInputEnabled = false
+            adapter = pagerAdapter
+        }
 
         TabLayoutMediator(binding.tabLayout, binding.viewPager2) { tab, position ->
             tab.text = getTabTitleString(LocationDetailViewPagerType.getType(position))
