@@ -24,6 +24,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.zip
+import kotlinx.coroutines.joinAll
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -53,8 +54,8 @@ class HomeViewModel @Inject constructor(
 
     fun initData() = viewModelScope.launch {
         initCategory().join()
-        getBuzzzzingLocationTop5()
-        getBuzzzzingLocation()
+        joinAll(getBuzzzzingLocationTop5(), getBuzzzzingLocation())
+        postEvent(HomeEvent.Initialized)
     }
 
     private fun initCategory() = viewModelScope.launch(IO) {
@@ -275,5 +276,6 @@ class HomeViewModel @Inject constructor(
             is HomeEvent.UpdateLocationFilter -> current.copy(locationFilter = event.locationFilter)
             is HomeEvent.UpdateKeyword -> current.copy(keyword = event.keyword)
             is HomeEvent.UpdateBuzzzzingSmallItem -> current.copy(buzzzzingSmallItem = event.buzzzzingSmallItem)
+            HomeEvent.Initialized -> current.copy(isInitializing = false)
         }
 }

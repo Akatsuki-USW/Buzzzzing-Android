@@ -10,4 +10,5 @@ sealed interface HomeEvent : Event {
     data class UpdateCongestionFilter(val congestionFilter: String) : HomeEvent
     data class UpdateLocationFilter(val locationFilter: String) : HomeEvent
     data class UpdateKeyword(val keyword: String?) : HomeEvent
+    object Initialized : HomeEvent
 }

@@ -1,13 +1,15 @@
 package com.onewx2m.feature_home.ui.home
 
 import android.os.Bundle
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ConcatAdapter
-import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.onewx2m.core_ui.extensions.infiniteScrolls
 import com.onewx2m.core_ui.extensions.navigateActionWithDefaultAnim
+import com.onewx2m.core_ui.extensions.setGoneWithAnimation
+import com.onewx2m.core_ui.extensions.setVisibleWithAnimation
 import com.onewx2m.core_ui.util.DeepLinkUtil
 import com.onewx2m.design_system.components.recyclerview.buzzzzingmedium.BuzzzzingMediumAdapter
 import com.onewx2m.design_system.components.toast.ErrorToast
@@ -25,6 +27,11 @@ class HomeFragment :
     MviFragment<FragmentHomeBinding, HomeViewState, HomeEvent, HomeSideEffect, HomeViewModel>(
         FragmentHomeBinding::inflate,
     ) {
+
+    companion object {
+        private const val ANIMATION_DURATION = 500L
+    }
+
     override val viewModel: HomeViewModel by viewModels()
 
     private val homeHeaderAdapter: HomeHeaderAdapter by lazy {
@@ -95,6 +102,11 @@ class HomeFragment :
         homeSearchAdapter.keyword = current.keyword
         homeSearchAdapter.notifyItemChanged(0)
         homeBuzzzzingSmallAdapter.setData(current.buzzzzingSmallItem)
+
+        if (current.isInitializing.not() && binding.recyclerView.isVisible.not()) {
+            binding.lottieLoading.setGoneWithAnimation(ANIMATION_DURATION)
+            binding.recyclerView.setVisibleWithAnimation(ANIMATION_DURATION)
+        }
     }
 
     override fun handleSideEffect(sideEffect: HomeSideEffect) {
@@ -128,7 +140,11 @@ class HomeFragment :
     }
 
     private fun goToLoginFragment() {
-        val (request, navOptions) = DeepLinkUtil.getLoginRequestAndOption(requireContext(), R.id.homeFragment, true)
+        val (request, navOptions) = DeepLinkUtil.getLoginRequestAndOption(
+            requireContext(),
+            R.id.homeFragment,
+            true,
+        )
         findNavController().navigate(request, navOptions)
     }
 

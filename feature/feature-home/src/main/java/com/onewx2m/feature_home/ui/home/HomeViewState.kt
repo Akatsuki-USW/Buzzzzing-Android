@@ -10,4 +10,5 @@ data class HomeViewState(
     val congestionFilter: String = "",
     val locationFilter: String = "",
     val keyword: String? = "",
+    val isInitializing: Boolean = true,
 ) : ViewState
