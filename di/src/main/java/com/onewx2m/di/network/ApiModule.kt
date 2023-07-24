@@ -6,6 +6,7 @@ import com.onewx2m.remote.api.AuthApi
 import com.onewx2m.remote.api.BuzzzzingLocationApi
 import com.onewx2m.remote.api.MediaApi
 import com.onewx2m.remote.api.OtherApi
+import com.onewx2m.remote.api.SpotApi
 import com.onewx2m.remote.api.UserApi
 import dagger.Module
 import dagger.Provides
@@ -41,5 +42,10 @@ object ApiModule {
     @Provides
     fun provideBuzzzzingLocationApi(@AuthRetrofit retrofit: Retrofit): BuzzzzingLocationApi {
         return retrofit.create(BuzzzzingLocationApi::class.java)
+    }
+
+    @Provides
+    fun provideSpotApi(@AuthRetrofit retrofit: Retrofit): SpotApi {
+        return retrofit.create(SpotApi::class.java)
     }
 }

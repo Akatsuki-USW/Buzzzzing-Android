@@ -6,11 +6,13 @@ import com.onewx2m.data.repository.AuthRepositoryImpl
 import com.onewx2m.data.repository.BuzzzzingLocationRepositoryImpl
 import com.onewx2m.data.repository.CategoryRepositoryImpl
 import com.onewx2m.data.repository.OtherRepositoryImpl
+import com.onewx2m.data.repository.SpotRepositoryImpl
 import com.onewx2m.data.repository.UserRepositoryImpl
 import com.onewx2m.domain.repository.AuthRepository
 import com.onewx2m.domain.repository.BuzzzzingLocationRepository
 import com.onewx2m.domain.repository.CategoryRepository
 import com.onewx2m.domain.repository.OtherRepository
+import com.onewx2m.domain.repository.SpotRepository
 import com.onewx2m.domain.repository.UserRepository
 import dagger.Binds
 import dagger.Module
@@ -45,4 +47,9 @@ abstract class RepositoryModule {
     abstract fun bindBuzzzzingLocationRepository(
         buzzzzingLocationRepositoryImpl: BuzzzzingLocationRepositoryImpl,
     ): BuzzzzingLocationRepository
+
+    @Binds
+    abstract fun bindSpotRepository(
+        spotRepositoryImpl: SpotRepositoryImpl,
+    ): SpotRepository
 }

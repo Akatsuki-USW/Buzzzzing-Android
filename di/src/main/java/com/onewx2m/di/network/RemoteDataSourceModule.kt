@@ -6,11 +6,13 @@ import com.onewx2m.data.datasource.RemoteAuthDataSource
 import com.onewx2m.data.datasource.RemoteBuzzzzingLocationDataSource
 import com.onewx2m.data.datasource.RemoteMediaDataSource
 import com.onewx2m.data.datasource.RemoteOtherDataSource
+import com.onewx2m.data.datasource.RemoteSpotDataSource
 import com.onewx2m.data.datasource.RemoteUserDataSource
 import com.onewx2m.remote.datasource.RemoteAuthDataSourceImpl
 import com.onewx2m.remote.datasource.RemoteBuzzzzingLocationDataSourceImpl
 import com.onewx2m.remote.datasource.RemoteMediaDataSourceImpl
 import com.onewx2m.remote.datasource.RemoteOtherDataSourceImpl
+import com.onewx2m.remote.datasource.RemoteSpotDataSourceImpl
 import com.onewx2m.remote.datasource.RemoteUserDataSourceImpl
 import dagger.Binds
 import dagger.Module
@@ -45,4 +47,9 @@ abstract class RemoteDataSourceModule {
     abstract fun bindRemoteBuzzzzingLocationDatasource(
         remoteBuzzzingLocationDataSourceImpl: RemoteBuzzzzingLocationDataSourceImpl,
     ): RemoteBuzzzzingLocationDataSource
+
+    @Binds
+    abstract fun bindRemoteSpotDatasource(
+        remoteSpotDataSourceImpl: RemoteSpotDataSourceImpl,
+    ): RemoteSpotDataSource
 }
