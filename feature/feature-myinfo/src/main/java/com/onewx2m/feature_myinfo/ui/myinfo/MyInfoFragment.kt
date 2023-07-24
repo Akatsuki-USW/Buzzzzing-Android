@@ -3,11 +3,10 @@ package com.onewx2m.feature_myinfo.ui.myinfo
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.onewx2m.core_ui.extensions.loadProfileUrl
+import com.onewx2m.core_ui.extensions.loadUrl
 import com.onewx2m.core_ui.extensions.onThrottleClick
 import com.onewx2m.core_ui.util.BuzzzzingUser
 import com.onewx2m.design_system.components.toast.ErrorToast
-import com.onewx2m.feature_myinfo.R
 import com.onewx2m.feature_myinfo.databinding.FragmentMyInfoBinding
 import com.onewx2m.feature_myinfo.ui.myinfo.adapter.MenuAdapter
 import com.onewx2m.feature_myinfo.ui.myinfo.adapter.MyInfoMenu
@@ -85,7 +84,7 @@ class MyInfoFragment :
         super.render(current)
 
         binding.apply {
-            imageViewProfile.loadProfileUrl(
+            imageViewProfile.loadUrl(
                 BuzzzzingUser.profileImageUrl,
                 com.onewx2m.design_system.R.drawable.ic_profile,
                 PROFILE_RADIUS,

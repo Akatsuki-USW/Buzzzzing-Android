@@ -7,14 +7,13 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import com.onewx2m.core_ui.extensions.loadProfileUri
+import com.onewx2m.core_ui.extensions.loadUri
 import com.onewx2m.core_ui.extensions.onThrottleClick
 import com.onewx2m.core_ui.extensions.px
 import com.onewx2m.core_ui.extensions.textChangesToFlow
 import com.onewx2m.core_ui.util.Constants
 import com.onewx2m.core_ui.util.PermissionManager
 import com.onewx2m.design_system.components.toast.ErrorToast
-import com.onewx2m.feature_login_signup.R
 import com.onewx2m.feature_login_signup.databinding.FragmentProfileAndNicknameBinding
 import com.onewx2m.login_signup.ui.signup.SignUpViewModel
 import com.onewx2m.mvi.MviFragment
@@ -95,7 +94,7 @@ class ProfileAndNicknameFragment :
             helperText = getString(current.nicknameLayoutHelperTextResId)
         }
 
-        binding.imageViewProfile.loadProfileUri(
+        binding.imageViewProfile.loadUri(
             current.profileUri,
             com.onewx2m.design_system.R.drawable.ic_profile,
             PROFILE_RADIUS

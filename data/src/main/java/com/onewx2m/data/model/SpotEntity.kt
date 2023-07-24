@@ -13,7 +13,7 @@ data class SpotEntity(
     val id: Int,
     val title: String,
     val address: String,
-    val thumbnailImageUrl: String,
+    val thumbnailImageUrl: String? = null,
     val isBookmarked: String,
     val spotCategoryId: Int,
     val userId: Int,

@@ -6,7 +6,7 @@ import androidx.annotation.DrawableRes
 import coil.load
 import coil.transform.RoundedCornersTransformation
 
-fun ImageView.loadProfileUri(uri: Uri?, @DrawableRes defaultDrawable: Int, radius: Int) {
+fun ImageView.loadUri(uri: Uri?, @DrawableRes defaultDrawable: Int, radius: Int) {
     load(uri ?: defaultDrawable) {
         placeholder(defaultDrawable)
         transformations(
@@ -20,7 +20,7 @@ fun ImageView.loadProfileUri(uri: Uri?, @DrawableRes defaultDrawable: Int, radiu
     }
 }
 
-fun ImageView.loadProfileUrl(url: String, @DrawableRes defaultDrawable: Int, radius: Int) {
+fun ImageView.loadUrl(url: String, @DrawableRes defaultDrawable: Int, radius: Int) {
     load(url.ifBlank { defaultDrawable }) {
         placeholder(defaultDrawable)
         transformations(

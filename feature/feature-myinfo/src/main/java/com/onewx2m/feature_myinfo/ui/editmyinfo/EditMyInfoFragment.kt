@@ -6,8 +6,8 @@ import android.view.ViewTreeObserver
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.onewx2m.core_ui.extensions.hideKeyboard
-import com.onewx2m.core_ui.extensions.loadProfileUri
-import com.onewx2m.core_ui.extensions.loadProfileUrl
+import com.onewx2m.core_ui.extensions.loadUri
+import com.onewx2m.core_ui.extensions.loadUrl
 import com.onewx2m.core_ui.extensions.onThrottleClick
 import com.onewx2m.core_ui.extensions.px
 import com.onewx2m.core_ui.extensions.textChangesToFlow
@@ -129,12 +129,12 @@ class EditMyInfoFragment :
             }
 
             current.profileUri?.let {
-                imageViewProfile.loadProfileUri(
+                imageViewProfile.loadUri(
                     it,
                     com.onewx2m.design_system.R.drawable.ic_profile,
                     PROFILE_RADIUS,
                 )
-            } ?: imageViewProfile.loadProfileUrl(
+            } ?: imageViewProfile.loadUrl(
                 BuzzzzingUser.profileImageUrl,
                 com.onewx2m.design_system.R.drawable.ic_profile,
                 PROFILE_RADIUS,
