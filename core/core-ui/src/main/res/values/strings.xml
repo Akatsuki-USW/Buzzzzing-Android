@@ -26,4 +26,5 @@
 
     <!-- etc -->
     <string name="word_all_place">모든 장소</string>
+    <string name="word_all">전체</string>
 </resources>
