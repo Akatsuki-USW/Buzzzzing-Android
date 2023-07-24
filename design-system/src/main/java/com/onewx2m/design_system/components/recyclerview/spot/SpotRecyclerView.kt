@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.onewx2m.core_ui.extensions.infiniteScrolls
-import com.onewx2m.design_system.databinding.RecyclerViewBuzzzzingMediumBinding
 import com.onewx2m.design_system.databinding.RecyclerViewSpotBinding
 
 class SpotRecyclerView @JvmOverloads constructor(

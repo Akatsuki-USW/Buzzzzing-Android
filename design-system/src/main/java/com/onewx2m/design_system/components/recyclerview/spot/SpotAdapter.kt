@@ -22,7 +22,7 @@ class SpotAdapter(
                     parent,
                     false,
                 )
-                SpotViewHolder(binding, onItemClick, onBookmarkClick)
+                SpotViewHolder(congestion, binding, onItemClick, onBookmarkClick)
             }
             ItemViewType.LOADING -> {
                 val binding = ItemRecyclerViewSpotLoadingBinding.inflate(
@@ -40,7 +40,7 @@ class SpotAdapter(
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        if(holder is SpotViewHolder) holder.bind(congestion, currentList[position])
+        if (holder is SpotViewHolder) holder.bind(currentList[position])
     }
 
     companion object {

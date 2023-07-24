@@ -16,7 +16,7 @@
 
     <string name="fragment_location_detail_may_be_not_relax">오늘 한가해지진 않을 것 같아요.</string>
     <string name="fragment_location_detail_may_be_not_buzz">하루 종일 한가할 예정이에요!</string>
-    
+
     <string name="fragment_location_congestion_text_buzz">복쟉복쟉</string>
     <string name="fragment_location_congestion_text_relax">한가</string>
     <string name="fragment_location_congestion_text_normal">적당</string>

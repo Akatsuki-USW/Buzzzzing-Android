@@ -3,6 +3,7 @@ package com.onewx2m.feature_home.ui.locationdetail.adapter
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.onewx2m.feature_home.ui.locationdetail.historicaldata.HistoricalDataFragment
+import com.onewx2m.feature_home.ui.locationdetail.spot.SpotFragment
 
 enum class LocationDetailViewPagerType(val idx: Int) {
     HISTORICAL_DATE(0), RECOMMEND_PLACE_LIST(1);
@@ -31,10 +32,9 @@ class LocationDetailFragmentStateAdapter(
             doWhenInitialized,
         )
 
-        LocationDetailViewPagerType.RECOMMEND_PLACE_LIST.idx -> HistoricalDataFragment.newInstance(
+        LocationDetailViewPagerType.RECOMMEND_PLACE_LIST.idx -> SpotFragment.newInstance(
             congestion,
             locationId,
-            doWhenInitialized,
         )
 
         else -> throw IllegalAccessException()

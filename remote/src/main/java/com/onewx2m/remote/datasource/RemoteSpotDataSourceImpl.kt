@@ -1,6 +1,7 @@
 package com.onewx2m.remote.datasource
 
 import com.onewx2m.data.datasource.RemoteSpotDataSource
+import com.onewx2m.data.model.SpotBookmarkEntity
 import com.onewx2m.data.model.SpotListEntity
 import com.onewx2m.domain.Outcome
 import com.onewx2m.remote.api.SpotApi
@@ -28,5 +29,15 @@ class RemoteSpotDataSourceImpl @Inject constructor(
         }.onFailure {
             emit(Outcome.Failure(it))
         }
+    }
+
+    override suspend fun bookmarkSpot(spotId: Int): Flow<Outcome<SpotBookmarkEntity>> = flow {
+        api.bookmarkSpot(spotId)
+            .onSuccess { body ->
+                emit(Outcome.Success(body.data!!.toEntity()))
+            }
+            .onFailure {
+                emit(Outcome.Failure(it))
+            }
     }
 }

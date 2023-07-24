@@ -4,4 +4,5 @@ import com.onewx2m.mvi.SideEffect
 
 sealed interface SpotSideEffect : SideEffect {
     data class ShowErrorToast(val msg: String) : SpotSideEffect
+    object GoToLoginFragment : SpotSideEffect
 }

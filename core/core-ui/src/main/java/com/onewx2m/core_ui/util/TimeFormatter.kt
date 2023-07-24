@@ -10,6 +10,6 @@ object TimeFormatter {
         DateTimeFormatter.ofPattern(ahLocaleKorean)
 
     fun getahLocaleKorean(hour: Int): String {
-        return ahLocaleKoreanFormatter.format(LocalTime.of(hour, 0))
+        return ahLocaleKoreanFormatter.format(LocalTime.of(hour - 1, 0))
     }
 }

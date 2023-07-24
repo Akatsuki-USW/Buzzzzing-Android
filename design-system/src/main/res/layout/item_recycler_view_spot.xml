@@ -9,15 +9,29 @@
     android:paddingHorizontal="20dp">
 
 
-    <ImageView
-        android:id="@+id/image_view_thumbnail"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card_view_wrap_image_view_thumbnail"
         android:layout_width="42dp"
         android:layout_height="42dp"
         android:layout_marginStart="4dp"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:src="@drawable/ic_profile" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/image_view_thumbnail"
+            android:layout_width="42dp"
+            android:layout_height="42dp"
+            android:scaleType="centerCrop"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@drawable/ic_profile" />
+
+    </androidx.cardview.widget.CardView>
+
 
     <com.onewx2m.design_system.components.textview.FigmaTextView
         android:id="@+id/text_view_spot_title"
@@ -29,9 +43,10 @@
         android:ellipsize="end"
         android:gravity="start"
         android:maxLines="1"
-        app:layout_constraintEnd_toStartOf="@id/image_view_bookmark"
-        app:layout_constraintStart_toEndOf="@id/image_view_thumbnail"
+        app:layout_constraintEnd_toStartOf="@+id/image_view_bookmark"
+        app:layout_constraintStart_toEndOf="@id/card_view_wrap_image_view_thumbnail"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_goneMarginStart="4dp"
         tools:text="여기 진짜 존맛!!" />
 
     <ImageView
@@ -50,20 +65,33 @@
         style="@style/Body.6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
         android:textColor="@color/gray03"
-        app:layout_constraintStart_toStartOf="@id/text_view_spot_title"
+        app:layout_constraintStart_toEndOf="@id/card_view_wrap_image_view_thumbnail"
         app:layout_constraintTop_toBottomOf="@id/text_view_spot_title"
+        app:layout_goneMarginStart="4dp"
         tools:text="수원대학교 무공 돈까스" />
 
-    <ImageView
-        android:id="@+id/image_view_profile"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card_view_wrap_image_view_nickname"
         android:layout_width="12dp"
         android:layout_height="12dp"
         android:layout_marginEnd="4dp"
+        app:cardCornerRadius="2dp"
+        app:cardElevation="0dp"
         app:layout_constraintBottom_toBottomOf="@id/text_view_nickname"
         app:layout_constraintEnd_toStartOf="@id/text_view_nickname"
-        app:layout_constraintTop_toTopOf="@id/text_view_nickname"
-        tools:src="@drawable/ic_profile" />
+        app:layout_constraintTop_toTopOf="@id/text_view_nickname">
+
+        <ImageView
+            android:id="@+id/image_view_profile"
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_profile" />
+
+    </androidx.cardview.widget.CardView>
+
 
     <com.onewx2m.design_system.components.textview.FigmaTextView
         android:id="@+id/text_view_nickname"
