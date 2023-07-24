@@ -102,7 +102,7 @@ class LocationDetailFragment :
 
             congestion != RELAX && mayRelaxAt != null -> {
                 changeTextViewMayBeWithTime(
-                    R.string.fragment_location_detail_may_be_buzz,
+                    R.string.fragment_location_detail_may_be_relax,
                     mayRelaxAt,
                 )
             }
