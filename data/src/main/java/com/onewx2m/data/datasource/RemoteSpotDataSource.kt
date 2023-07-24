@@ -8,6 +8,7 @@ import kotlinx.coroutines.flow.Flow
 interface RemoteSpotDataSource {
 
     suspend fun getSpotOfLocationList(
+        cursorId: Int,
         locationId: Int,
         categoryId: Int? = null,
     ): Flow<Outcome<SpotListEntity>>

@@ -2,6 +2,7 @@ package com.onewx2m.remote.api
 
 import com.onewx2m.remote.ApiResult
 import com.onewx2m.remote.api.BuzzzzingLocationApi.Companion.CATEGORY_IDS
+import com.onewx2m.remote.api.BuzzzzingLocationApi.Companion.CURSOR_ID
 import com.onewx2m.remote.api.BuzzzzingLocationApi.Companion.LOCATION
 import com.onewx2m.remote.api.BuzzzzingLocationApi.Companion.LOCATION_ID
 import com.onewx2m.remote.model.ApiResponse
@@ -17,6 +18,7 @@ interface SpotApi {
 
     @GET("$LOCATION/{$LOCATION_ID}/$SPOT")
     suspend fun getSpotOfLocationList(
+        @Query(CURSOR_ID) cursorId: Int,
         @Path(LOCATION_ID) locationId: Int,
         @Query(CATEGORY_IDS) categoryIds: Int?,
     ): ApiResult<ApiResponse<SpotListResponse>>

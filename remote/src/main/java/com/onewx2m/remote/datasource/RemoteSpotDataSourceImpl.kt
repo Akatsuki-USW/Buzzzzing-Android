@@ -15,10 +15,12 @@ class RemoteSpotDataSourceImpl @Inject constructor(
     private val api: SpotApi,
 ) : RemoteSpotDataSource {
     override suspend fun getSpotOfLocationList(
+        cursorId: Int,
         locationId: Int,
         categoryId: Int?,
     ): Flow<Outcome<SpotListEntity>> = flow {
         api.getSpotOfLocationList(
+            cursorId = cursorId,
             locationId = locationId,
             categoryIds = categoryId,
         ).onSuccess { body ->

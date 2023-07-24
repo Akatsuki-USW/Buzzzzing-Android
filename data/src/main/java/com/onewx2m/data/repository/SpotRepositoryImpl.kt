@@ -13,10 +13,11 @@ class SpotRepositoryImpl @Inject constructor(
     private val remoteSpotDataSource: RemoteSpotDataSource,
 ) : SpotRepository {
     override suspend fun getSpotOfLocationList(
+        cursorId: Int,
         locationId: Int,
         categoryId: Int?,
     ): Flow<Outcome<SpotList>> {
-        return remoteSpotDataSource.getSpotOfLocationList(locationId, categoryId)
+        return remoteSpotDataSource.getSpotOfLocationList(cursorId ,locationId, categoryId)
             .flatMapOutcomeSuccess { data ->
                 data.toDomain()
             }

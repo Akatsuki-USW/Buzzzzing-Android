@@ -7,9 +7,11 @@ class GetSpotOfLocationListUseCase @Inject constructor(
     private val spotRepository: SpotRepository,
 ) {
     suspend operator fun invoke(
+        cursorId: Int,
         locationId: Int,
         categoryId: Int? = null,
     ) = spotRepository.getSpotOfLocationList(
+        cursorId,
         locationId,
         categoryId,
     )
