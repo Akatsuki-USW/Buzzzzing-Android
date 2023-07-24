@@ -3,13 +3,14 @@ package com.onewx2m.feature_home.ui.locationdetail.spot
 import android.os.Bundle
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.onewx2m.core_ui.extensions.infiniteScrolls
+import com.onewx2m.design_system.components.recyclerview.spot.SpotAdapter
 import com.onewx2m.design_system.components.recyclerview.spotcategoryselector.SpotCategorySelectorAdapter
 import com.onewx2m.design_system.components.toast.ErrorToast
 import com.onewx2m.design_system.enum.Congestion
 import com.onewx2m.feature_home.databinding.FragmentSpotBinding
 import com.onewx2m.mvi.MviFragment
 import dagger.hilt.android.AndroidEntryPoint
-import timber.log.Timber
 
 @AndroidEntryPoint
 class SpotFragment :
@@ -43,6 +44,9 @@ class SpotFragment :
     override val viewModel: SpotViewModel by viewModels()
 
     private var spotCategorySelectorAdapter: SpotCategorySelectorAdapter? = null
+    private val spotAdapter: SpotAdapter by lazy {
+        SpotAdapter(congestion, onItemClick = {}, onBookmarkClick = { viewModel.bookmark(it) })
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,12 +61,14 @@ class SpotFragment :
             }
         }
 
-        binding.recyclerViewSpot.initAdapter(
-            congestion,
-            onItemClick = {},
-            onBookmarkClick = { viewModel.bookmark(it) },
-            infiniteScrolls = { viewModel.getSpotList(locationId) },
-        )
+        binding.recyclerViewSpot.apply {
+            layoutManager = LinearLayoutManager(requireContext())
+            adapter = spotAdapter
+            itemAnimator = null
+            infiniteScrolls {
+                viewModel.getSpotList(locationId)
+            }
+        }
     }
 
     override fun render(current: SpotViewState) {
@@ -80,8 +86,8 @@ class SpotFragment :
 
             binding.recyclerViewCategory.adapter = spotCategorySelectorAdapter
         }
-        Timber.tag("테스트").d("${current.spotList.map { it.id }}")
-        binding.recyclerViewSpot.submitList(current.spotList)
+
+        spotAdapter.submitList(current.spotList)
     }
 
     override fun handleSideEffect(sideEffect: SpotSideEffect) {
