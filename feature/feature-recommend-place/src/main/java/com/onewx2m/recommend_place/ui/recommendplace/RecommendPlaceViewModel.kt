@@ -160,6 +160,9 @@ class RecommendPlaceViewModel @Inject constructor(
         }
     }
 
+    fun postGoToWriteFragmentSideEffect() =
+        postSideEffect(RecommendPlaceSideEffect.GoToWriteFragment)
+
     override fun reduceState(
         current: RecommendPlaceViewState,
         event: RecommendPlaceEvent,

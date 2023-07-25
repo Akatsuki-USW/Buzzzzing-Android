@@ -3,4 +3,5 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="fragment_recommend_place_title">장소 추천</string>
     <string name="fragment_recommend_place_write">추천 글 작성</string>
+    <string name="fragment_write_title">장소 추천</string>
 </resources>

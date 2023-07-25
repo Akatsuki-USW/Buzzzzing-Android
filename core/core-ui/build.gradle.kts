@@ -1,6 +1,7 @@
 plugins {
     id("buzzzzing.plugin.android-library")
     id("buzzzzing.plugin.hilt")
+    id("org.jetbrains.kotlin.plugin.serialization")
 }
 
 android {
@@ -14,6 +15,8 @@ dependencies {
     implementation(libs.androidx.activity.ktx)
     implementation(libs.androidx.fragment.ktx)
     implementation(libs.androidx.recyclerview)
+
+    implementation(libs.kotlinx.serialization.json)
 
     implementation(libs.google.material)
 

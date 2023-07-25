@@ -5,13 +5,13 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.onewx2m.core_ui.extensions.infiniteScrolls
+import com.onewx2m.core_ui.extensions.onThrottleClick
 import com.onewx2m.core_ui.util.DeepLinkUtil
 import com.onewx2m.design_system.components.recyclerview.spot.SpotAdapter
 import com.onewx2m.design_system.components.recyclerview.spotcategoryselector.SpotCategorySelectorAdapter
 import com.onewx2m.design_system.components.toast.ErrorToast
 import com.onewx2m.design_system.enum.Congestion
 import com.onewx2m.mvi.MviFragment
-import com.onewx2m.recommend_place.R
 import com.onewx2m.recommend_place.databinding.FragmentRecommendPlaceBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -36,6 +36,10 @@ class RecommendPlaceFragment :
     }
 
     override fun initView() {
+        binding.buttonWrite.onThrottleClick {
+            viewModel.postGoToWriteFragmentSideEffect()
+        }
+
         binding.recyclerViewCategory.apply {
             layoutManager = LinearLayoutManager(requireContext()).apply {
                 orientation = LinearLayoutManager.HORIZONTAL
@@ -81,6 +85,7 @@ class RecommendPlaceFragment :
             ).show()
 
             RecommendPlaceSideEffect.GoToLoginFragment -> goToLoginFragment()
+            RecommendPlaceSideEffect.GoToWriteFragment -> goToWriteFragment()
         }
     }
 
@@ -90,6 +95,11 @@ class RecommendPlaceFragment :
             findNavController().graph.id,
             true,
         )
+        findNavController().navigate(request, navOptions)
+    }
+
+    private fun goToWriteFragment() {
+        val (request, navOptions) = DeepLinkUtil.getWriteRequestAndOption(requireContext())
         findNavController().navigate(request, navOptions)
     }
 }
