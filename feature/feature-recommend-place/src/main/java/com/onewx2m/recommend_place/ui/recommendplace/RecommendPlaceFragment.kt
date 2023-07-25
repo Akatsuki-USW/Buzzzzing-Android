@@ -87,7 +87,7 @@ class RecommendPlaceFragment :
     private fun goToLoginFragment() {
         val (request, navOptions) = DeepLinkUtil.getLoginRequestAndOption(
             requireContext(),
-            R.id.recommendPlaceFragment,
+            findNavController().graph.id,
             true,
         )
         findNavController().navigate(request, navOptions)

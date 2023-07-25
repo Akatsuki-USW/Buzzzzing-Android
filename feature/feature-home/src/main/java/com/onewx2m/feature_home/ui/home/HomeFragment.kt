@@ -142,7 +142,7 @@ class HomeFragment :
     private fun goToLoginFragment() {
         val (request, navOptions) = DeepLinkUtil.getLoginRequestAndOption(
             requireContext(),
-            R.id.homeFragment,
+            findNavController().graph.id,
             true,
         )
         findNavController().navigate(request, navOptions)
