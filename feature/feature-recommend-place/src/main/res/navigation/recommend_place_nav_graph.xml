@@ -8,7 +8,7 @@
 
     <fragment
         android:id="@+id/recommendPlaceFragment"
-        android:name="com.onewx2m.recommend_place.ui.RecommendPlaceFragment"
+        android:name="com.onewx2m.recommend_place.ui.recommendplace.RecommendPlaceFragment"
         android:label="fragment_recommend_place"
         tools:layout="@layout/fragment_recommend_place" />
 </navigation>

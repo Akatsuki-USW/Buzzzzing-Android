@@ -1,14 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.RecommendPlaceFragment">
+    android:background="@color/white01"
+    tools:context=".ui.recommendplace.RecommendPlaceFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <com.onewx2m.design_system.components.textview.FigmaTextView
+        android:id="@+id/text_view_title"
+        style="@style/Header.3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/fragment_recommend_place_title"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view_category"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="장소 추천" />
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/text_view_title" />
 
-</FrameLayout>
+    <View
+        android:id="@+id/view_divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="12dp"
+        android:background="@color/gray06"
+        app:layout_constraintTop_toBottomOf="@id/recycler_view_category" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view_spot"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="1dp"
+        app:layout_constrainedHeight="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/view_divider" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/button_write"
+        style="@style/Header.6"
+        android:layout_width="120dp"
+        android:layout_height="30dp"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/ripple_black01_bg_solid_blue_rounded_5"
+        android:gravity="center"
+        android:text="@string/fragment_recommend_place_write"
+        android:textColor="@color/white01"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

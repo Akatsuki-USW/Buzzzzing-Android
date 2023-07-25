@@ -8,7 +8,6 @@ class GetAllSpotListUseCase @Inject constructor(
 ) {
     suspend operator fun invoke(
         cursorId: Int,
-        locationId: Int,
         categoryId: Int? = null,
     ) = spotRepository.getAllSpotList(
         cursorId,

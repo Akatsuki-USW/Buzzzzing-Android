@@ -1,4 +1,4 @@
-package com.onewx2m.feature_home.ui.locationdetail.spot
+package com.onewx2m.recommend_place.ui.recommendplace
 
 import android.os.Bundle
 import androidx.fragment.app.viewModels
@@ -10,41 +10,19 @@ import com.onewx2m.design_system.components.recyclerview.spot.SpotAdapter
 import com.onewx2m.design_system.components.recyclerview.spotcategoryselector.SpotCategorySelectorAdapter
 import com.onewx2m.design_system.components.toast.ErrorToast
 import com.onewx2m.design_system.enum.Congestion
-import com.onewx2m.feature_home.R
-import com.onewx2m.feature_home.databinding.FragmentSpotBinding
 import com.onewx2m.mvi.MviFragment
+import com.onewx2m.recommend_place.R
+import com.onewx2m.recommend_place.databinding.FragmentRecommendPlaceBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class SpotFragment :
-    MviFragment<FragmentSpotBinding, SpotViewState, SpotEvent, SpotSideEffect, SpotViewModel>(
-        FragmentSpotBinding::inflate,
+class RecommendPlaceFragment :
+    MviFragment<FragmentRecommendPlaceBinding, RecommendPlaceViewState, RecommendPlaceEvent, RecommendPlaceSideEffect, RecommendPlaceViewModel>(
+        FragmentRecommendPlaceBinding::inflate,
     ) {
-    private val congestion: String
-        get() = arguments?.getString(CONGESTION) ?: ""
+    private val congestion = Congestion.NORMAL.name
 
-    private val locationId: Int
-        get() = arguments?.getInt(LOCATION_ID) ?: -1
-
-    companion object {
-        private const val CONGESTION = "congestion"
-        private const val LOCATION_ID = "locationId"
-
-        @JvmStatic
-        fun newInstance(
-            congestion: String,
-            locationId: Int,
-        ): SpotFragment {
-            return SpotFragment().apply {
-                arguments = Bundle().apply {
-                    putString(CONGESTION, congestion)
-                    putInt(LOCATION_ID, locationId)
-                }
-            }
-        }
-    }
-
-    override val viewModel: SpotViewModel by viewModels()
+    override val viewModel: RecommendPlaceViewModel by viewModels()
 
     private var spotCategorySelectorAdapter: SpotCategorySelectorAdapter? = null
     private val spotAdapter: SpotAdapter by lazy {
@@ -54,7 +32,7 @@ class SpotFragment :
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        viewModel.initData(locationId)
+        viewModel.initData()
     }
 
     override fun initView() {
@@ -69,12 +47,12 @@ class SpotFragment :
             adapter = spotAdapter
             itemAnimator = null
             infiniteScrolls {
-                viewModel.getSpotList(locationId)
+                viewModel.getSpotList()
             }
         }
     }
 
-    override fun render(current: SpotViewState) {
+    override fun render(current: RecommendPlaceViewState) {
         super.render(current)
 
         if (spotCategorySelectorAdapter == null && current.spotCategoryItems.isNotEmpty() && current.selectedSpotCategoryItem != null) {
@@ -84,7 +62,7 @@ class SpotFragment :
                 current.selectedSpotCategoryItem,
             ) {
                 viewModel.updateCategoryId(it.id)
-                viewModel.getSpotList(locationId, true)
+                viewModel.getSpotList(true)
             }
 
             binding.recyclerViewCategory.adapter = spotCategorySelectorAdapter
@@ -93,19 +71,23 @@ class SpotFragment :
         spotAdapter.submitList(current.spotList)
     }
 
-    override fun handleSideEffect(sideEffect: SpotSideEffect) {
+    override fun handleSideEffect(sideEffect: RecommendPlaceSideEffect) {
         super.handleSideEffect(sideEffect)
 
         when (sideEffect) {
-            is SpotSideEffect.ShowErrorToast -> ErrorToast.make(binding.root, sideEffect.msg).show()
-            SpotSideEffect.GoToLoginFragment -> goToLoginFragment()
+            is RecommendPlaceSideEffect.ShowErrorToast -> ErrorToast.make(
+                binding.root,
+                sideEffect.msg,
+            ).show()
+
+            RecommendPlaceSideEffect.GoToLoginFragment -> goToLoginFragment()
         }
     }
 
     private fun goToLoginFragment() {
         val (request, navOptions) = DeepLinkUtil.getLoginRequestAndOption(
             requireContext(),
-            R.id.locationDetailFragment,
+            R.id.recommendPlaceFragment,
             true,
         )
         findNavController().navigate(request, navOptions)
