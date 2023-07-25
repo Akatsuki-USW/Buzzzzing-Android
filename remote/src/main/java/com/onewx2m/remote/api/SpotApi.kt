@@ -30,4 +30,10 @@ interface SpotApi {
     suspend fun bookmarkSpot(
         @Path(SPOT_ID) spotId: Int,
     ): ApiResult<ApiResponse<SpotBookmarkResponse>>
+
+    @GET("$LOCATION/$SPOT")
+    suspend fun getAllSpotList(
+        @Query(CURSOR_ID) cursorId: Int,
+        @Query(CATEGORY_IDS) categoryIds: Int?,
+    ): ApiResult<ApiResponse<SpotListResponse>>
 }

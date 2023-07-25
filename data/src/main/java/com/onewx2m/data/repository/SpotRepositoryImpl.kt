@@ -28,4 +28,11 @@ class SpotRepositoryImpl @Inject constructor(
         return remoteSpotDataSource.bookmarkSpot(spotId)
             .flatMapOutcomeSuccess { data -> data.toDomain() }
     }
+
+    override suspend fun getAllSpotList(cursorId: Int, categoryId: Int?): Flow<Outcome<SpotList>> {
+        return remoteSpotDataSource.getAllSpotList(cursorId, categoryId)
+            .flatMapOutcomeSuccess { data ->
+                data.toDomain()
+            }
+    }
 }
