@@ -6,6 +6,16 @@ plugins {
 
 android {
     namespace = "com.onewx2m.remote"
+
+    defaultConfig {
+        buildConfigField(
+            "String",
+            "KAKAO_REST_API_KEY",
+            com.android.build.gradle.internal.cxx.configure.gradleLocalProperties(
+                rootDir,
+            ).getProperty("KAKAO_REST_API_KEY"),
+        )
+    }
 }
 
 dependencies {

@@ -3,6 +3,7 @@ package com.onewx2m.di.network
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import com.onewx2m.di.AuthOkHttpClient
 import com.onewx2m.di.AuthRetrofit
+import com.onewx2m.di.KakaoLocationRetrofit
 import com.onewx2m.di.NormalOkHttpClient
 import com.onewx2m.di.NormalRetrofit
 import com.onewx2m.di.isJsonArray
@@ -28,6 +29,7 @@ import java.util.concurrent.TimeUnit
 object NetworkModule {
 
     private const val BASE_URL = "http://3.104.197.181:8080"
+    private const val KAKAO_LOCATION_BASE_URL = "https://dapi.kakao.com"
     private const val RETROFIT_TAG = "Retrofit2"
 
     @Provides
@@ -44,10 +46,11 @@ object NetworkModule {
     }
 
     @Provides
-    fun provideJsonForLog(): Json {
+    fun provideJson(): Json {
         return Json {
             prettyPrint = true
             coerceInputValues = true
+            ignoreUnknownKeys = true
         }
     }
 
@@ -111,6 +114,20 @@ object NetworkModule {
     ): Retrofit {
         return Retrofit.Builder()
             .baseUrl(BASE_URL)
+            .client(okHttpClient)
+            .addCallAdapterFactory(ResultCallAdapterFactory())
+            .addConverterFactory(json.asConverterFactory("application/json".toMediaTypeOrNull()!!))
+            .build()
+    }
+
+    @Provides
+    @KakaoLocationRetrofit
+    fun provideKakaoLocationRetrofit(
+        @NormalOkHttpClient okHttpClient: OkHttpClient,
+        json: Json,
+    ): Retrofit {
+        return Retrofit.Builder()
+            .baseUrl(KAKAO_LOCATION_BASE_URL)
             .client(okHttpClient)
             .addCallAdapterFactory(ResultCallAdapterFactory())
             .addConverterFactory(json.asConverterFactory("application/json".toMediaTypeOrNull()!!))

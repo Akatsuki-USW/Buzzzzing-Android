@@ -4,12 +4,14 @@ package com.onewx2m.di.network
 
 import com.onewx2m.data.datasource.RemoteAuthDataSource
 import com.onewx2m.data.datasource.RemoteBuzzzzingLocationDataSource
+import com.onewx2m.data.datasource.RemoteKakaoLocationDataSource
 import com.onewx2m.data.datasource.RemoteMediaDataSource
 import com.onewx2m.data.datasource.RemoteOtherDataSource
 import com.onewx2m.data.datasource.RemoteSpotDataSource
 import com.onewx2m.data.datasource.RemoteUserDataSource
 import com.onewx2m.remote.datasource.RemoteAuthDataSourceImpl
 import com.onewx2m.remote.datasource.RemoteBuzzzzingLocationDataSourceImpl
+import com.onewx2m.remote.datasource.RemoteKakaoLocationDataSourceImpl
 import com.onewx2m.remote.datasource.RemoteMediaDataSourceImpl
 import com.onewx2m.remote.datasource.RemoteOtherDataSourceImpl
 import com.onewx2m.remote.datasource.RemoteSpotDataSourceImpl
@@ -52,4 +54,9 @@ abstract class RemoteDataSourceModule {
     abstract fun bindRemoteSpotDatasource(
         remoteSpotDataSourceImpl: RemoteSpotDataSourceImpl,
     ): RemoteSpotDataSource
+
+    @Binds
+    abstract fun bindRemoteKakaoDatasource(
+        remoteKakaoLocationDataSourceImpl: RemoteKakaoLocationDataSourceImpl,
+    ): RemoteKakaoLocationDataSource
 }
