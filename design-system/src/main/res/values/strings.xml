@@ -13,4 +13,5 @@
     <string name="word_relax">여유</string>
     <string name="word_normal">보통</string>
     <string name="word_buzz">혼잡</string>
+    <string name="word_search">검색</string>
 </resources>
