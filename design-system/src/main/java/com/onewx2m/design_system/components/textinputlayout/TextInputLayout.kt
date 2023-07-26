@@ -1,12 +1,14 @@
 package com.onewx2m.design_system.components.textinputlayout
 
 import android.content.Context
+import android.text.InputFilter
+
+import android.text.InputType
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
 import androidx.annotation.ColorRes
 import androidx.constraintlayout.widget.ConstraintLayout
-import com.onewx2m.core_ui.extensions.px
 import com.onewx2m.design_system.R
 import com.onewx2m.design_system.databinding.TextInputLayoutBinding
 
@@ -21,7 +23,6 @@ class TextInputLayout @JvmOverloads constructor(
 ) : ConstraintLayout(context, attrs, defStyleAttr) {
 
     companion object {
-        private const val MIN_EDIT_TEXT_HEIGHT = 29
         private const val LOSING_FOCUS_DELAY = 250L
     }
 
@@ -131,12 +132,16 @@ class TextInputLayout @JvmOverloads constructor(
 
         val hint = typedArray.getText(R.styleable.TextInputLayout_textInputLayoutHint)
 
-        val editTextHeight = typedArray.getDimension(
-            R.styleable.TextInputLayout_textInputEditTextHeight,
-            MIN_EDIT_TEXT_HEIGHT.px.toFloat(),
-        )
+        val line = typedArray.getInteger(R.styleable.TextInputLayout_textInputEditTextLine, 1)
+        val maxLength = typedArray.getInteger(R.styleable.TextInputLayout_textInputMaxLength, 50)
 
-        binding.editText.layoutParams.height = editTextHeight.toInt()
+        binding.editText.setLines(line)
+
+        if (line == 1) {
+            binding.editText.inputType = InputType.TYPE_CLASS_TEXT
+        }
+
+        binding.editText.filters = arrayOf(InputFilter.LengthFilter(maxLength))
 
         binding.label.text = label
         binding.label.visibility = if (isHideLabel) View.GONE else View.VISIBLE

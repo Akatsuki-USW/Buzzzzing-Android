@@ -4,4 +4,14 @@
     <string name="fragment_recommend_place_title">장소 추천</string>
     <string name="fragment_recommend_place_write">추천 글 작성</string>
     <string name="fragment_write_title">장소 추천</string>
+    <string name="fragment_write_title_hint">ex) 여기 진짜 맛있어요!</string>
+    <string name="fragment_write_buzzzzing_location_hint">ex) OOO역</string>
+    <string name="fragment_write_address_hint">ex) OOO역 보드게임 카페</string>
+    <string name="fragment_write_category">카테고리</string>
+    <string name="fragment_write_picture">사진</string>
+    <string name="fragment_write_input_title">제목</string>
+    <string name="fragment_write_buzzzzing_place">복쟉 장소</string>
+    <string name="fragment_write_address_title">상세 주소</string>
+    <string name="fragment_write_detail">상세 내용</string>
+    <string name="fragment_write_detail_hint">ex) 여기 사장님도 친절하시고 음식도 맛있어요!\n강추합니다 ㅎㅎ</string>
 </resources>

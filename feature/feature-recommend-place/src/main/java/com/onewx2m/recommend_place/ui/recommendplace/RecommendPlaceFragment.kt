@@ -68,9 +68,9 @@ class RecommendPlaceFragment :
                 viewModel.updateCategoryId(it.id)
                 viewModel.getSpotList(true)
             }
-
-            binding.recyclerViewCategory.adapter = spotCategorySelectorAdapter
         }
+
+        if(spotCategorySelectorAdapter != null && binding.recyclerViewCategory.adapter == null) binding.recyclerViewCategory.adapter = spotCategorySelectorAdapter
 
         spotAdapter.submitList(current.spotList)
     }

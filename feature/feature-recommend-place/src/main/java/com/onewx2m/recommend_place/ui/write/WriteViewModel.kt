@@ -12,4 +12,14 @@ class WriteViewModel @Inject constructor() :
     override fun reduceState(current: WriteViewState, event: WriteEvent): WriteViewState {
         return current
     }
+
+    fun doWhenKeyboardShow(currentScrollY: Int, additionalScroll: Int) {
+        if (currentScrollY < additionalScroll) {
+            postSideEffect(
+                WriteSideEffect.MoreScroll(
+                    additionalScroll - currentScrollY,
+                ),
+            )
+        }
+    }
 }

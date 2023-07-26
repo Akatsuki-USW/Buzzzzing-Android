@@ -19,7 +19,8 @@
         <attr name="helperTextContent" format="reference|string" />
         <attr name="hideHelperTextContent" format="boolean" />
         <attr name="textInputLayoutHint" format="reference|string" />
-        <attr name="textInputEditTextHeight" format="dimension"/>
+        <attr name="textInputEditTextLine" format="integer"/>
+        <attr name="textInputMaxLength" format="integer" />
     </declare-styleable>
 
     <declare-styleable name="MainButton">

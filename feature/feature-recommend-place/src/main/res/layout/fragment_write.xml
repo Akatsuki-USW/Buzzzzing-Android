@@ -8,24 +8,140 @@
     android:paddingTop="16dp"
     tools:context=".ui.write.WriteFragment">
 
-    <com.onewx2m.design_system.components.textview.FigmaTextView
-        android:id="@+id/text_view_title"
-        style="@style/Header.3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/fragment_write_title"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <ScrollView
+        android:id="@+id/scroll_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none">
 
-    <com.onewx2m.design_system.components.textinputlayout.TextInputLayout
-        android:id="@+id/text_input_layout_title"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="400dp">
+
+            <com.onewx2m.design_system.components.textview.FigmaTextView
+                android:id="@+id/text_view_title"
+                style="@style/Header.3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/fragment_write_title"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.onewx2m.design_system.components.textinputlayout.TextInputLayout
+                android:id="@+id/text_input_layout_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                app:hideHelperTextContent="true"
+                app:label="@string/fragment_write_input_title"
+                app:layout_constraintTop_toBottomOf="@id/text_view_title"
+                app:textInputLayoutHint="@string/fragment_write_title_hint"
+                tools:layout="@layout/text_input_layout"
+                tools:layout_height="100dp" />
+
+            <com.onewx2m.design_system.components.textinputlayout.TextInputLayout
+                android:id="@+id/text_input_layout_buzzzzing_location"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                app:hideHelperTextContent="true"
+                app:label="@string/fragment_write_buzzzzing_place"
+                app:layout_constraintTop_toBottomOf="@id/text_input_layout_title"
+                app:textInputLayoutHint="@string/fragment_write_buzzzzing_location_hint"
+                tools:layout="@layout/text_input_layout"
+                tools:layout_height="100dp" />
+
+            <com.onewx2m.design_system.components.textinputlayout.TextInputLayout
+                android:id="@+id/text_input_layout_address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                app:hideHelperTextContent="true"
+                app:label="@string/fragment_write_address_title"
+                app:layout_constraintTop_toBottomOf="@id/text_input_layout_buzzzzing_location"
+                app:textInputLayoutHint="@string/fragment_write_address_hint"
+                tools:layout="@layout/text_input_layout"
+                tools:layout_height="100dp" />
+
+            <com.onewx2m.design_system.components.textview.FigmaTextView
+                android:id="@+id/text_view_category"
+                style="@style/Label.2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:text="@string/fragment_write_category"
+                android:textColor="@color/gray05"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/text_input_layout_address" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_view_category"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/text_view_category" />
+
+            <com.onewx2m.design_system.components.textview.FigmaTextView
+                android:id="@+id/text_view_picture"
+                style="@style/Label.2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="28dp"
+                android:text="@string/fragment_write_picture"
+                android:textColor="@color/gray05"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/recycler_view_category" />
+
+            <ImageView
+                android:id="@+id/image_view_add_image"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginTop="10dp"
+                android:src="@drawable/ic_add_image"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/text_view_picture" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_view_image"
+                android:layout_width="0dp"
+                android:layout_height="60dp"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/image_view_add_image"
+                app:layout_constraintTop_toBottomOf="@id/text_view_picture" />
+
+            <com.onewx2m.design_system.components.textinputlayout.TextInputLayout
+                android:id="@+id/text_input_layout_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                app:hideHelperTextContent="true"
+                app:label="@string/fragment_write_detail"
+                app:layout_constraintTop_toBottomOf="@id/image_view_add_image"
+                app:textInputEditTextLine="7"
+                app:textInputLayoutHint="@string/fragment_write_detail_hint"
+                app:textInputMaxLength="1500"
+                tools:layout="@layout/text_input_layout"
+                tools:layout_height="100dp" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </ScrollView>
+
+    <com.onewx2m.design_system.components.button.MainButton
+        android:id="@+id/button_main"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        app:label="@string/text_input_layout_nickname_helper_hint"
-        app:layout_constraintTop_toBottomOf="@id/text_view_title"
-        app:textInputLayoutHint="@string/text_input_layout_nickname_hint"
-        tools:layout="@layout/text_input_layout"
-        tools:layout_height="100dp" />
+        android:layout_marginBottom="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:mainButtonText="@string/word_confirm" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
