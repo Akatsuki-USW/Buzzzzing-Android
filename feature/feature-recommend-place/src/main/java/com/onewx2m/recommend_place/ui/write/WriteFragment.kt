@@ -3,11 +3,12 @@ package com.onewx2m.recommend_place.ui.write
 import android.graphics.Rect
 import android.view.ViewTreeObserver
 import androidx.fragment.app.viewModels
+import com.onewx2m.core_ui.extensions.onThrottleClick
 import com.onewx2m.core_ui.extensions.px
 import com.onewx2m.mvi.MviFragment
 import com.onewx2m.recommend_place.databinding.FragmentWriteBinding
+import com.onewx2m.recommend_place.ui.write.bottomsheet.KakaoLocationBottomSheet
 import dagger.hilt.android.AndroidEntryPoint
-import timber.log.Timber
 import kotlin.properties.Delegates
 
 @AndroidEntryPoint
@@ -29,7 +30,12 @@ class WriteFragment :
 
     override fun initView() {
         binding.apply {
-            textInputLayoutAddress.editText.isFocusable = false
+            textInputLayoutAddress.editText.apply {
+                isFocusable = false
+                onThrottleClick {
+                    showKakaoLocationBottomSheet()
+                }
+            }
             textInputLayoutBuzzzzingLocation.editText.isFocusable = false
         }
     }
@@ -39,12 +45,16 @@ class WriteFragment :
 
         when (sideEffect) {
             is WriteSideEffect.MoreScroll -> {
-                Timber.tag("테스트").d("MORE SCROLL, ${binding.textInputLayoutContent.editText.isFocused}")
                 binding.scrollView.run {
                     smoothScrollTo(scrollX, scrollY + sideEffect.scrollY)
                 }
             }
         }
+    }
+
+    private fun showKakaoLocationBottomSheet() {
+        KakaoLocationBottomSheet.newInstance {
+        }.show(parentFragmentManager, "")
     }
 
     override fun onStart() {

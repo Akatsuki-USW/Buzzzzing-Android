@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="Theme.Buzzzzing" parent="Theme.AppCompat.Light.NoActionBar" >
+    <style name="Theme.Buzzzzing" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorAccent">@color/blue</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor">@color/white01</item>
@@ -11,22 +11,21 @@
         <item name="bottomSheetDialogTheme">@style/AppBottomSheetDialogTheme</item>
     </style>
 
-    <style name="Theme.Buzzzzing.Splash" parent="Theme.SplashScreen" >
+    <style name="Theme.Buzzzzing.Splash" parent="Theme.SplashScreen">
         <item name="windowSplashScreenBackground">@color/blue</item>
         <item name="windowSplashScreenAnimatedIcon">@drawable/ic_splash</item>
 
         <item name="postSplashScreenTheme">@style/Theme.Buzzzzing</item>
     </style>
 
-    <style name="AppBottomSheetDialogTheme"
-        parent="Theme.Design.Light.BottomSheetDialog">
+    <style name="AppBottomSheetDialogTheme" parent="Theme.Design.Light.BottomSheetDialog">
+        <item name="colorAccent">@color/blue</item>
         <item name="bottomSheetStyle">@style/AppModalStyle</item>
         <item name="android:windowSoftInputMode">adjustResize</item>
         <item name="android:windowIsFloating">false</item>
     </style>
 
-    <style name="AppModalStyle"
-        parent="Widget.Design.BottomSheet.Modal">
+    <style name="AppModalStyle" parent="Widget.Design.BottomSheet.Modal">
         <item name="android:background">@drawable/shape_bottom_sheet</item>
     </style>
 </resources>

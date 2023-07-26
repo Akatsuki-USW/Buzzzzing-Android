@@ -27,7 +27,8 @@
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
         android:layout_height="400dp"
-        android:layout_marginTop="16dp"
+        android:clipToPadding="false"
+        android:paddingTop="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/edit_text_search" />

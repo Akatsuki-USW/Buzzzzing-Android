@@ -4,34 +4,45 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/constraint_layout_item"
     android:layout_width="match_parent"
-    android:layout_height="62dp"
-    android:background="@drawable/ripple_gray06_bg_solid_white_rounded_8_gray05"
-    android:paddingHorizontal="16dp">
+    android:layout_height="wrap_content"
+    android:paddingBottom="8dp">
 
-    <com.onewx2m.design_system.components.textview.FigmaTextView
-        android:id="@+id/text_view_location_name"
-        style="@style/Header.6"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="6dp"
-        android:ellipsize="end"
-        android:gravity="start"
-        android:maxLines="1"
-        android:textColor="@color/gray01"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="62dp"
+        android:background="@drawable/ripple_gray06_bg_solid_white_rounded_8_gray05"
+        android:paddingHorizontal="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="신도림역" />
+        app:layout_constraintTop_toTopOf="parent">
 
-    <com.onewx2m.design_system.components.textview.FigmaTextView
-        android:id="@+id/text_view_address"
-        style="@style/Body.4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@color/gray01"
-        app:layout_constraintStart_toStartOf="@id/text_view_location_name"
-        app:layout_constraintTop_toBottomOf="@id/text_view_location_name"
-        tools:text="서울시 어쩌구저쩌구 무슨 길" />
+        <com.onewx2m.design_system.components.textview.FigmaTextView
+            android:id="@+id/text_view_location_name"
+            style="@style/Header.6"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:ellipsize="end"
+            android:gravity="start"
+            android:maxLines="1"
+            android:textColor="@color/gray01"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="신도림역" />
+
+        <com.onewx2m.design_system.components.textview.FigmaTextView
+            android:id="@+id/text_view_address"
+            style="@style/Body.4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/gray01"
+            app:layout_constraintStart_toStartOf="@id/text_view_location_name"
+            app:layout_constraintTop_toBottomOf="@id/text_view_location_name"
+            tools:text="서울시 어쩌구저쩌구 무슨 길" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
