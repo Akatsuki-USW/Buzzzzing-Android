@@ -34,9 +34,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 app:hideHelperTextContent="true"
-                app:textInputEditTextLine="1"
                 app:label="@string/fragment_write_input_title"
                 app:layout_constraintTop_toBottomOf="@id/text_view_title"
+                app:textInputEditTextLine="1"
                 app:textInputLayoutHint="@string/fragment_write_title_hint"
                 tools:layout="@layout/text_input_layout"
                 tools:layout_height="100dp" />
@@ -108,8 +108,9 @@
                 android:id="@+id/recycler_view_image"
                 android:layout_width="0dp"
                 android:layout_height="60dp"
-                android:layout_marginStart="12dp"
                 android:layout_marginTop="10dp"
+                android:clipToPadding="false"
+                android:paddingStart="12dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/image_view_add_image"
                 app:layout_constraintTop_toBottomOf="@id/text_view_picture" />

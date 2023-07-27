@@ -1,13 +1,14 @@
 package com.onewx2m.recommend_place.ui.write
 
+import android.net.Uri
 import androidx.lifecycle.viewModelScope
 import com.onewx2m.core_ui.util.ResourceProvider
 import com.onewx2m.design_system.components.recyclerview.buzzzzingshort.BuzzzzingShortItem
 import com.onewx2m.design_system.components.recyclerview.kakaolocation.KakaoLocationItem
+import com.onewx2m.design_system.components.recyclerview.picture.PictureItem
 import com.onewx2m.design_system.components.recyclerview.spotcategoryselector.SpotCategoryItem
 import com.onewx2m.domain.usecase.GetSpotCategoryUseCase
 import com.onewx2m.mvi.MviViewModel
-import com.onewx2m.recommend_place.R
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
@@ -49,6 +50,10 @@ class WriteViewModel @Inject constructor(
             is WriteEvent.UpdateSpotCategoryItems -> current.copy(
                 spotCategoryItems = event.spotCategoryItems,
             )
+
+            is WriteEvent.UpdatePictures -> current.copy(
+                pictures = event.pictures,
+            )
         }
     }
 
@@ -60,7 +65,7 @@ class WriteViewModel @Inject constructor(
     }
 
     fun updateSelectedCategoryItem(item: SpotCategoryItem) {
-        postEvent(WriteEvent.UpdateSelectedSpotCategoryItem(if(item == state.value.selectedSpotCategoryItem) null else item))
+        postEvent(WriteEvent.UpdateSelectedSpotCategoryItem(if (item == state.value.selectedSpotCategoryItem) null else item))
     }
 
     fun doWhenKeyboardShow(currentScrollY: Int, additionalScroll: Int) {
@@ -112,5 +117,37 @@ class WriteViewModel @Inject constructor(
         postEvent(
             WriteEvent.UpdateContent(content),
         )
+    }
+
+    fun updatePictures(uris: List<Uri>) {
+        val uriQueue = ArrayDeque<Uri>()
+        uriQueue.addAll(uris)
+
+        val pictures = state.value.pictures.map {
+            if (it.url.isBlank()) {
+                PictureItem(uri = uriQueue.removeFirstOrNull())
+            } else {
+                it
+            }
+        }.toMutableList()
+
+        while (uriQueue.isNotEmpty()) {
+            pictures.add(PictureItem(uri = uriQueue.removeFirstOrNull()))
+        }
+
+        postEvent(
+            WriteEvent.UpdatePictures(
+                pictures,
+            ),
+        )
+    }
+
+    fun removePicture(item: PictureItem) {
+        val pictures = state.value.pictures.minus(item)
+        postEvent(WriteEvent.UpdatePictures(pictures))
+    }
+
+    fun showImagePicker() {
+        postSideEffect(WriteSideEffect.GetPermissionAndShowImagePicker)
     }
 }

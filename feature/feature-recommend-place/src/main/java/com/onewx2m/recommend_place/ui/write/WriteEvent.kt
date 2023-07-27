@@ -1,8 +1,8 @@
 package com.onewx2m.recommend_place.ui.write
 
+import com.onewx2m.design_system.components.recyclerview.picture.PictureItem
 import com.onewx2m.design_system.components.recyclerview.spotcategoryselector.SpotCategoryItem
 import com.onewx2m.mvi.Event
-import com.onewx2m.recommend_place.ui.recommendplace.RecommendPlaceEvent
 
 sealed interface WriteEvent : Event {
     data class ChangeKakaoLocationInputLayout(
@@ -27,5 +27,9 @@ sealed interface WriteEvent : Event {
 
     data class UpdateSelectedSpotCategoryItem(
         val selectedSpotCategoryItem: SpotCategoryItem?,
+    ) : WriteEvent
+
+    data class UpdatePictures(
+        val pictures: List<PictureItem>,
     ) : WriteEvent
 }

@@ -14,4 +14,5 @@
     <string name="fragment_write_address_title">상세 주소</string>
     <string name="fragment_write_detail">상세 내용</string>
     <string name="fragment_write_detail_hint">ex) 여기 사장님도 친절하시고 음식도 맛있어요!\n강추합니다 ㅎㅎ</string>
+    <string name="max_notification">더 이상 선택할 수 없어요.</string>
 </resources>

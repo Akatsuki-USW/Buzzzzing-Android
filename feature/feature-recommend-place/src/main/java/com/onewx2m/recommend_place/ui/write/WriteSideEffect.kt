@@ -6,4 +6,5 @@ sealed interface WriteSideEffect : SideEffect {
     data class MoreScroll(val scrollY: Int) : WriteSideEffect
     object ShowBuzzzzingLocationBottomSheet : WriteSideEffect
     object ShowKakaoLocationBottomSheet : WriteSideEffect
+    object GetPermissionAndShowImagePicker : WriteSideEffect
 }

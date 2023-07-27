@@ -8,13 +8,17 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.onewx2m.core_ui.extensions.onThrottleClick
 import com.onewx2m.core_ui.extensions.px
+import com.onewx2m.core_ui.util.PermissionManager
+import com.onewx2m.design_system.components.recyclerview.picture.PictureAdapter
 import com.onewx2m.design_system.components.recyclerview.spotcategoryselector.SpotCategorySelectorAdapter
 import com.onewx2m.design_system.enum.Congestion
 import com.onewx2m.mvi.MviFragment
+import com.onewx2m.recommend_place.R
 import com.onewx2m.recommend_place.databinding.FragmentWriteBinding
 import com.onewx2m.recommend_place.ui.write.bottomsheet.BuzzzzingLocationBottomSheet
 import com.onewx2m.recommend_place.ui.write.bottomsheet.KakaoLocationBottomSheet
 import dagger.hilt.android.AndroidEntryPoint
+import gun0912.tedimagepicker.builder.TedImagePicker
 import timber.log.Timber
 import kotlin.properties.Delegates
 
@@ -26,6 +30,8 @@ class WriteFragment :
     companion object {
         private const val SCROLL_FOR_CONTENT_Y_AXIS = 0
         private const val MIN_KEY_BOARD_HEIGHT = 150
+
+        private const val MAX_PICTURE = 5
     }
 
     private val visibleFrameSize = Rect()
@@ -36,6 +42,11 @@ class WriteFragment :
     override val viewModel: WriteViewModel by viewModels()
 
     private var spotCategorySelectorAdapter: SpotCategorySelectorAdapter? = null
+    private val pictureAdapter: PictureAdapter by lazy {
+        PictureAdapter {
+            viewModel.removePicture(it)
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,6 +60,17 @@ class WriteFragment :
                 layoutManager = LinearLayoutManager(requireContext()).apply {
                     orientation = LinearLayoutManager.HORIZONTAL
                 }
+            }
+
+            recyclerViewImage.apply {
+                layoutManager = LinearLayoutManager(requireContext()).apply {
+                    orientation = LinearLayoutManager.HORIZONTAL
+                }
+                adapter = pictureAdapter
+            }
+
+            imageViewAddImage.onThrottleClick {
+                viewModel.showImagePicker()
             }
 
             textInputLayoutAddress.editText.apply {
@@ -105,6 +127,8 @@ class WriteFragment :
         binding.textInputLayoutContent.editText.setSelection(current.content.length)
 
         binding.buttonMain.state = current.mainButtonState
+
+        pictureAdapter.submitList(current.pictures)
     }
 
     override fun handleSideEffect(sideEffect: WriteSideEffect) {
@@ -119,6 +143,14 @@ class WriteFragment :
 
             WriteSideEffect.ShowBuzzzzingLocationBottomSheet -> showBuzzzzingLocationBottomSheet()
             WriteSideEffect.ShowKakaoLocationBottomSheet -> showKakaoLocationBottomSheet()
+            WriteSideEffect.GetPermissionAndShowImagePicker -> PermissionManager.createGetImageAndCameraPermission {
+                TedImagePicker.with(requireContext())
+                    .max(MAX_PICTURE - viewModel.state.value.pictureUrls.size, R.string.max_notification)
+                    .selectedUri(viewModel.state.value.pictureUris)
+                    .startMultiImage { uris ->
+                        viewModel.updatePictures(uris)
+                    }
+            }
         }
     }
 
