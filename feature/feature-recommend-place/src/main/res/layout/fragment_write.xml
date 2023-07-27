@@ -34,6 +34,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 app:hideHelperTextContent="true"
+                app:textInputEditTextLine="1"
                 app:label="@string/fragment_write_input_title"
                 app:layout_constraintTop_toBottomOf="@id/text_view_title"
                 app:textInputLayoutHint="@string/fragment_write_title_hint"

@@ -1,6 +1,7 @@
 package com.onewx2m.recommend_place.ui.write
 
 import android.graphics.Rect
+import android.text.InputType
 import android.view.ViewTreeObserver
 import androidx.fragment.app.viewModels
 import com.onewx2m.core_ui.extensions.onThrottleClick
@@ -34,15 +35,27 @@ class WriteFragment :
             textInputLayoutAddress.editText.apply {
                 isFocusable = false
                 onThrottleClick {
-                    showKakaoLocationBottomSheet()
+                    viewModel.postShowKakaoLocationBottomSheetSideEffect()
                 }
             }
             textInputLayoutBuzzzzingLocation.editText.apply {
                 isFocusable = false
                 onThrottleClick {
-                    showBuzzzzingLocationBottomSheet()
+                    viewModel.postShowBuzzzzingLocationBottomSheetSideEffect()
                 }
             }
+        }
+    }
+
+    override fun render(current: WriteViewState) {
+        super.render(current)
+
+        binding.textInputLayoutAddress.apply {
+            editText.setText(current.kakaoLocation)
+        }
+
+        binding.textInputLayoutBuzzzzingLocation.apply {
+            editText.setText(current.buzzzzingLocation)
         }
     }
 
@@ -55,16 +68,21 @@ class WriteFragment :
                     smoothScrollTo(scrollX, scrollY + sideEffect.scrollY)
                 }
             }
+
+            WriteSideEffect.ShowBuzzzzingLocationBottomSheet -> showBuzzzzingLocationBottomSheet()
+            WriteSideEffect.ShowKakaoLocationBottomSheet -> showKakaoLocationBottomSheet()
         }
     }
 
     private fun showKakaoLocationBottomSheet() {
         KakaoLocationBottomSheet.newInstance {
+            viewModel.onClickKakaoLocationItem(it)
         }.show(parentFragmentManager, "")
     }
 
     private fun showBuzzzzingLocationBottomSheet() {
         BuzzzzingLocationBottomSheet.newInstance {
+            viewModel.onClickBuzzzzingLocationItem(it)
         }.show(parentFragmentManager, "")
     }
 

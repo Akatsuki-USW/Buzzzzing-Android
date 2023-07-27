@@ -13,6 +13,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.onewx2m.core_ui.extensions.hideKeyboard
 import com.onewx2m.core_ui.extensions.infiniteScrolls
 import com.onewx2m.design_system.components.recyclerview.kakaolocation.KakaoLocationAdapter
+import com.onewx2m.design_system.components.recyclerview.kakaolocation.KakaoLocationItem
 import com.onewx2m.design_system.databinding.BottomSheetSearchLocationBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -29,7 +30,7 @@ class KakaoLocationBottomSheet : BottomSheetDialogFragment() {
     companion object {
 
         fun newInstance(
-            onItemClick: (String) -> Unit = {},
+            onItemClick: (KakaoLocationItem) -> Unit = {},
         ) = KakaoLocationBottomSheet().apply {
             this.onItemClick = onItemClick
         }
@@ -42,7 +43,7 @@ class KakaoLocationBottomSheet : BottomSheetDialogFragment() {
         }
     }
 
-    private var onItemClick: (String) -> Unit = {}
+    private var onItemClick: (KakaoLocationItem) -> Unit = {}
 
     override fun onCreateView(
         inflater: LayoutInflater,

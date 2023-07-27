@@ -10,7 +10,7 @@ import com.onewx2m.design_system.databinding.ItemRecyclerViewKakaoLocationLoadin
 import com.onewx2m.design_system.enum.ItemViewType
 
 class KakaoLocationAdapter(
-    private val onItemClick: (placeName: String) -> Unit = {},
+    private val onItemClick: (KakaoLocationItem) -> Unit = {},
 ) : ListAdapter<KakaoLocationItem, RecyclerView.ViewHolder>(DiffCallback) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (ItemViewType.valueOf(viewType)) {

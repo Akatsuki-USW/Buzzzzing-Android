@@ -6,20 +6,20 @@ import com.onewx2m.design_system.databinding.ItemRecyclerViewKakaoLocationBindin
 
 class KakaoLocationViewHolder(
     private val binding: ItemRecyclerViewKakaoLocationBinding,
-    private val onItemClick: (placeName: String) -> Unit = {},
+    private val onItemClick: (KakaoLocationItem) -> Unit = {},
 ) : RecyclerView.ViewHolder(binding.root) {
-    private var placeName: String? = null
+    private var item: KakaoLocationItem? = null
 
     init {
         binding.constraintLayoutItem.onThrottleClick {
-            placeName?.let {
+            item?.let {
                 onItemClick(it)
             }
         }
     }
 
     fun bind(data: KakaoLocationItem) {
-        placeName = data.placeName
+        item = data
 
         binding.apply {
             textViewLocationName.text = data.placeName

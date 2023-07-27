@@ -2,7 +2,6 @@ package com.onewx2m.design_system.components.textinputlayout
 
 import android.content.Context
 import android.text.InputFilter
-
 import android.text.InputType
 import android.util.AttributeSet
 import android.view.LayoutInflater
@@ -132,14 +131,11 @@ class TextInputLayout @JvmOverloads constructor(
 
         val hint = typedArray.getText(R.styleable.TextInputLayout_textInputLayoutHint)
 
-        val line = typedArray.getInteger(R.styleable.TextInputLayout_textInputEditTextLine, 1)
+        val line = typedArray.getInteger(R.styleable.TextInputLayout_textInputEditTextLine, -1)
         val maxLength = typedArray.getInteger(R.styleable.TextInputLayout_textInputMaxLength, 50)
 
-        binding.editText.setLines(line)
-
-        if (line == 1) {
-            binding.editText.inputType = InputType.TYPE_CLASS_TEXT
-        }
+        if (line > 0) binding.editText.setLines(line)
+        if(line == 1) binding.editText.inputType = InputType.TYPE_CLASS_TEXT
 
         binding.editText.filters = arrayOf(InputFilter.LengthFilter(maxLength))
 
