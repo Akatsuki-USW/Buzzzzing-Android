@@ -7,6 +7,7 @@ import com.onewx2m.core_ui.extensions.onThrottleClick
 import com.onewx2m.core_ui.extensions.px
 import com.onewx2m.mvi.MviFragment
 import com.onewx2m.recommend_place.databinding.FragmentWriteBinding
+import com.onewx2m.recommend_place.ui.write.bottomsheet.BuzzzzingLocationBottomSheet
 import com.onewx2m.recommend_place.ui.write.bottomsheet.KakaoLocationBottomSheet
 import dagger.hilt.android.AndroidEntryPoint
 import kotlin.properties.Delegates
@@ -36,7 +37,12 @@ class WriteFragment :
                     showKakaoLocationBottomSheet()
                 }
             }
-            textInputLayoutBuzzzzingLocation.editText.isFocusable = false
+            textInputLayoutBuzzzzingLocation.editText.apply {
+                isFocusable = false
+                onThrottleClick {
+                    showBuzzzzingLocationBottomSheet()
+                }
+            }
         }
     }
 
@@ -54,6 +60,11 @@ class WriteFragment :
 
     private fun showKakaoLocationBottomSheet() {
         KakaoLocationBottomSheet.newInstance {
+        }.show(parentFragmentManager, "")
+    }
+
+    private fun showBuzzzzingLocationBottomSheet() {
+        BuzzzzingLocationBottomSheet.newInstance {
         }.show(parentFragmentManager, "")
     }
 
