@@ -1,16 +1,21 @@
 package com.onewx2m.recommend_place.ui.write
 
 import android.graphics.Rect
-import android.text.InputType
+import android.os.Bundle
 import android.view.ViewTreeObserver
+import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.onewx2m.core_ui.extensions.onThrottleClick
 import com.onewx2m.core_ui.extensions.px
+import com.onewx2m.design_system.components.recyclerview.spotcategoryselector.SpotCategorySelectorAdapter
+import com.onewx2m.design_system.enum.Congestion
 import com.onewx2m.mvi.MviFragment
 import com.onewx2m.recommend_place.databinding.FragmentWriteBinding
 import com.onewx2m.recommend_place.ui.write.bottomsheet.BuzzzzingLocationBottomSheet
 import com.onewx2m.recommend_place.ui.write.bottomsheet.KakaoLocationBottomSheet
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 import kotlin.properties.Delegates
 
 @AndroidEntryPoint
@@ -30,8 +35,22 @@ class WriteFragment :
 
     override val viewModel: WriteViewModel by viewModels()
 
+    private var spotCategorySelectorAdapter: SpotCategorySelectorAdapter? = null
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        viewModel.initSpotCategoryItems()
+    }
+
     override fun initView() {
         binding.apply {
+            recyclerViewCategory.apply {
+                layoutManager = LinearLayoutManager(requireContext()).apply {
+                    orientation = LinearLayoutManager.HORIZONTAL
+                }
+            }
+
             textInputLayoutAddress.editText.apply {
                 isFocusable = false
                 onThrottleClick {
@@ -44,11 +63,32 @@ class WriteFragment :
                     viewModel.postShowBuzzzzingLocationBottomSheetSideEffect()
                 }
             }
+            textInputLayoutTitle.editText.doOnTextChanged { text, _, _, _ ->
+                viewModel.updateTitle(text.toString())
+            }
+            textInputLayoutContent.editText.doOnTextChanged { text, _, _, _ ->
+                viewModel.updateContent(text.toString())
+            }
         }
     }
 
     override fun render(current: WriteViewState) {
         super.render(current)
+
+        if (spotCategorySelectorAdapter == null && current.spotCategoryItems.isNotEmpty()) {
+            spotCategorySelectorAdapter = SpotCategorySelectorAdapter(
+                Congestion.NORMAL,
+                current.spotCategoryItems,
+                current.selectedSpotCategoryItem,
+            ) {
+                viewModel.updateSelectedCategoryItem(it)
+            }
+        }
+
+        if (spotCategorySelectorAdapter != null && binding.recyclerViewCategory.adapter == null) {
+            binding.recyclerViewCategory.adapter =
+                spotCategorySelectorAdapter
+        }
 
         binding.textInputLayoutAddress.apply {
             editText.setText(current.kakaoLocation)
@@ -57,6 +97,14 @@ class WriteFragment :
         binding.textInputLayoutBuzzzzingLocation.apply {
             editText.setText(current.buzzzzingLocation)
         }
+
+        binding.textInputLayoutTitle.editText.setText(current.title)
+        binding.textInputLayoutTitle.editText.setSelection(current.title.length)
+
+        binding.textInputLayoutContent.editText.setText(current.content)
+        binding.textInputLayoutContent.editText.setSelection(current.content.length)
+
+        binding.buttonMain.state = current.mainButtonState
     }
 
     override fun handleSideEffect(sideEffect: WriteSideEffect) {

@@ -24,9 +24,11 @@ class SpotCategorySelectorAdapter(
         )
         return SpotCategorySelectorViewHolder(binding, congestion) {
             onItemClick(it)
-            val prevSelectedData = alreadySelectedData?.copy()
-            alreadySelectedData = it.copy()
-            notifyItemChanged(prevSelectedData)
+            if (it != alreadySelectedData) {
+                val prevSelectedData = alreadySelectedData?.copy()
+                alreadySelectedData = it.copy()
+                notifyItemChanged(prevSelectedData)
+            }
         }
     }
 

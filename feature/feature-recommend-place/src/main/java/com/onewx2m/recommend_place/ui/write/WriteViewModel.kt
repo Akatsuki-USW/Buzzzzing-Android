@@ -1,15 +1,22 @@
 package com.onewx2m.recommend_place.ui.write
 
+import androidx.lifecycle.viewModelScope
 import com.onewx2m.core_ui.util.ResourceProvider
 import com.onewx2m.design_system.components.recyclerview.buzzzzingshort.BuzzzzingShortItem
 import com.onewx2m.design_system.components.recyclerview.kakaolocation.KakaoLocationItem
+import com.onewx2m.design_system.components.recyclerview.spotcategoryselector.SpotCategoryItem
+import com.onewx2m.domain.usecase.GetSpotCategoryUseCase
 import com.onewx2m.mvi.MviViewModel
 import com.onewx2m.recommend_place.R
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class WriteViewModel @Inject constructor(
+    private val getSpotCategoryUseCase: GetSpotCategoryUseCase,
     private val resourceProvider: ResourceProvider,
 ) :
     MviViewModel<WriteViewState, WriteEvent, WriteSideEffect>(
@@ -26,7 +33,34 @@ class WriteViewModel @Inject constructor(
             is WriteEvent.ChangeKakaoLocationInputLayout -> current.copy(
                 kakaoLocation = event.kakaoLocation,
             )
+
+            is WriteEvent.UpdateTitle -> current.copy(
+                title = event.title,
+            )
+
+            is WriteEvent.UpdateContent -> current.copy(
+                content = event.content,
+            )
+
+            is WriteEvent.UpdateSelectedSpotCategoryItem -> current.copy(
+                selectedSpotCategoryItem = event.selectedSpotCategoryItem,
+            )
+
+            is WriteEvent.UpdateSpotCategoryItems -> current.copy(
+                spotCategoryItems = event.spotCategoryItems,
+            )
         }
+    }
+
+    fun initSpotCategoryItems() = viewModelScope.launch(Dispatchers.IO) {
+        val categoryItems = getSpotCategoryUseCase().first()
+            .map { SpotCategoryItem(id = it.id, name = it.name) }
+
+        postEvent(WriteEvent.UpdateSpotCategoryItems(categoryItems))
+    }
+
+    fun updateSelectedCategoryItem(item: SpotCategoryItem) {
+        postEvent(WriteEvent.UpdateSelectedSpotCategoryItem(if(item == state.value.selectedSpotCategoryItem) null else item))
     }
 
     fun doWhenKeyboardShow(currentScrollY: Int, additionalScroll: Int) {
@@ -65,6 +99,18 @@ class WriteViewModel @Inject constructor(
             WriteEvent.ChangeBuzzzzingLocationInputLayout(
                 item.name,
             ),
+        )
+    }
+
+    fun updateTitle(title: String) {
+        postEvent(
+            WriteEvent.UpdateTitle(title),
+        )
+    }
+
+    fun updateContent(content: String) {
+        postEvent(
+            WriteEvent.UpdateContent(content),
         )
     }
 }
