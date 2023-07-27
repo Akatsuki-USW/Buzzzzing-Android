@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.onewx2m.core_ui.extensions.hideKeyboard
 import com.onewx2m.core_ui.extensions.onThrottleClick
 import com.onewx2m.core_ui.extensions.px
+import com.onewx2m.core_ui.util.Constants.MAX_IMAGE_COUNT
 import com.onewx2m.core_ui.util.DeepLinkUtil
 import com.onewx2m.core_ui.util.PermissionManager
 import com.onewx2m.design_system.components.recyclerview.picture.PictureAdapter
@@ -34,8 +35,6 @@ class WriteFragment :
     companion object {
         private const val SCROLL_FOR_CONTENT_Y_AXIS = 0
         private const val MIN_KEY_BOARD_HEIGHT = 150
-
-        private const val MAX_PICTURE = 5
     }
 
     private val visibleFrameSize = Rect()
@@ -185,7 +184,7 @@ class WriteFragment :
         PermissionManager.createGetImageAndCameraPermission {
             TedImagePicker.with(requireContext())
                 .max(
-                    MAX_PICTURE - viewModel.state.value.pictureUrls.size,
+                    MAX_IMAGE_COUNT - viewModel.state.value.pictureUrls.size,
                     R.string.max_notification,
                 )
                 .selectedUri(viewModel.state.value.pictureUris)
