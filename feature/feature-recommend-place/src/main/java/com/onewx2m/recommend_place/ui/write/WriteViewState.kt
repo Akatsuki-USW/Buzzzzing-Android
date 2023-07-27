@@ -15,14 +15,21 @@ data class WriteViewState(
     val spotCategoryItems: List<SpotCategoryItem> = emptyList(),
     val selectedSpotCategoryItem: SpotCategoryItem? = null,
     val pictures: List<PictureItem> = emptyList(),
+    val isScrollbarVisible: Boolean = true,
+    val isLoadingLottieVisible: Boolean = false,
+    val isSuccessLottieVisible: Boolean = false,
 ) : ViewState {
     val mainButtonState: MainButtonState =
         if (
-            title.isNotEmpty() &&
+            isLoadingLottieVisible
+        ) {
+            MainButtonState.LOADING
+        } else if (title.isNotEmpty() &&
             kakaoLocation.isNotEmpty() &&
             buzzzzingLocation.isNotEmpty() &&
             content.isNotEmpty() &&
-            selectedSpotCategoryItem != null
+            selectedSpotCategoryItem != null ||
+            isSuccessLottieVisible
         ) {
             MainButtonState.POSITIVE
         } else {

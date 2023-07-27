@@ -34,4 +34,9 @@ sealed interface WriteEvent : Event {
     data class UpdatePictures(
         val pictures: List<PictureItem>,
     ) : WriteEvent
+
+    object LoadingState : WriteEvent
+    object NormalState : WriteEvent
+
+    object SuccessState : WriteEvent
 }

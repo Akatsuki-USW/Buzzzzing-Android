@@ -8,12 +8,14 @@ import com.onewx2m.design_system.components.recyclerview.buzzzzingshort.Buzzzzin
 import com.onewx2m.design_system.components.recyclerview.kakaolocation.KakaoLocationItem
 import com.onewx2m.design_system.components.recyclerview.picture.PictureItem
 import com.onewx2m.design_system.components.recyclerview.spotcategoryselector.SpotCategoryItem
+import com.onewx2m.domain.Outcome
+import com.onewx2m.domain.collectOutcome
+import com.onewx2m.domain.exception.common.CommonException
 import com.onewx2m.domain.usecase.GetSpotCategoryUseCase
 import com.onewx2m.domain.usecase.PostSpotUseCase
 import com.onewx2m.mvi.MviViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -63,6 +65,24 @@ class WriteViewModel @Inject constructor(
 
             is WriteEvent.UpdatePictures -> current.copy(
                 pictures = event.pictures,
+            )
+
+            WriteEvent.LoadingState -> current.copy(
+                isScrollbarVisible = false,
+                isLoadingLottieVisible = true,
+                isSuccessLottieVisible = false,
+            )
+
+            WriteEvent.NormalState -> current.copy(
+                isScrollbarVisible = true,
+                isLoadingLottieVisible = false,
+                isSuccessLottieVisible = false,
+            )
+
+            WriteEvent.SuccessState -> current.copy(
+                isScrollbarVisible = false,
+                isLoadingLottieVisible = false,
+                isSuccessLottieVisible = true,
             )
         }
     }
@@ -162,14 +182,31 @@ class WriteViewModel @Inject constructor(
         postSideEffect(WriteSideEffect.GetPermissionAndShowImagePicker)
     }
 
-    fun postSpot() = viewModelScope.launch {
+    fun onMainButtonClick() {
+        if (state.value.isSuccessLottieVisible) {
+            postSideEffect(WriteSideEffect.GoToHome)
+        } else {
+            postSpot()
+        }
+    }
+
+    private fun postSpot() = viewModelScope.launch {
+        postEvent(WriteEvent.LoadingState)
+        postSideEffect(WriteSideEffect.HideKeyboard)
+        postSideEffect(WriteSideEffect.PlayLoadingLottie)
+
         val files = state.value.pictureUris.map { uri ->
-            imageUtil.uriToOptimizeImageFile(uri) ?: return@launch
+            imageUtil.uriToOptimizeImageFile(uri) ?: return@launch handleFail(
+                Outcome.Failure<Unit>(
+                    null,
+                ),
+            )
         }
 
         with(state.value) {
-            val spotCategoryId = selectedSpotCategoryItem?.id ?: return@launch
-            val locationId = locationId ?: return@launch
+            val spotCategoryId = selectedSpotCategoryItem?.id
+                ?: return@launch handleFail(Outcome.Failure<Unit>(null))
+            val locationId = locationId ?: return@launch handleFail(Outcome.Failure<Unit>(null))
             postSpotUseCase(
                 spotCategoryId = spotCategoryId,
                 locationId = locationId,
@@ -177,7 +214,27 @@ class WriteViewModel @Inject constructor(
                 address = kakaoLocation,
                 content = content,
                 files,
-            ).collect()
+            ).collectOutcome(
+                handleSuccess = ::handleSuccess,
+                handleFail = ::handleFail,
+            )
         }
+    }
+
+    private fun <T> handleSuccess(outcome: Outcome.Success<T>) {
+        postEvent(WriteEvent.SuccessState)
+        postSideEffect(WriteSideEffect.StopLoadingLottie)
+        postSideEffect(WriteSideEffect.PlaySuccessLottie)
+    }
+
+    private fun <T> handleFail(outcome: Outcome.Failure<T>) {
+        postEvent(WriteEvent.NormalState)
+        postSideEffect(WriteSideEffect.StopLoadingLottie)
+        postSideEffect(
+            WriteSideEffect.ShowErrorToast(
+                outcome.error?.message
+                    ?: CommonException.UnknownException().snackBarMessage,
+            ),
+        )
     }
 }

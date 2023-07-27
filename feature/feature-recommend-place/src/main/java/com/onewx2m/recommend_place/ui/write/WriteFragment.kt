@@ -2,15 +2,20 @@ package com.onewx2m.recommend_place.ui.write
 
 import android.graphics.Rect
 import android.os.Bundle
+import android.view.View
 import android.view.ViewTreeObserver
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.onewx2m.core_ui.extensions.hideKeyboard
 import com.onewx2m.core_ui.extensions.onThrottleClick
 import com.onewx2m.core_ui.extensions.px
+import com.onewx2m.core_ui.util.DeepLinkUtil
 import com.onewx2m.core_ui.util.PermissionManager
 import com.onewx2m.design_system.components.recyclerview.picture.PictureAdapter
 import com.onewx2m.design_system.components.recyclerview.spotcategoryselector.SpotCategorySelectorAdapter
+import com.onewx2m.design_system.components.toast.ErrorToast
 import com.onewx2m.design_system.enum.Congestion
 import com.onewx2m.mvi.MviFragment
 import com.onewx2m.recommend_place.R
@@ -91,7 +96,7 @@ class WriteFragment :
                 viewModel.updateContent(text.toString())
             }
             buttonMain.onThrottleClick {
-                viewModel.postSpot()
+                viewModel.onMainButtonClick()
             }
         }
     }
@@ -135,6 +140,13 @@ class WriteFragment :
         binding.buttonMain.state = current.mainButtonState
 
         pictureAdapter.submitList(current.pictures)
+
+        binding.scrollView.visibility =
+            if (current.isScrollbarVisible) View.VISIBLE else View.INVISIBLE
+        binding.lottieLoading.visibility =
+            if (current.isLoadingLottieVisible) View.VISIBLE else View.INVISIBLE
+        binding.lottieSuccess.visibility =
+            if (current.isSuccessLottieVisible) View.VISIBLE else View.INVISIBLE
     }
 
     override fun handleSideEffect(sideEffect: WriteSideEffect) {
@@ -149,17 +161,37 @@ class WriteFragment :
 
             WriteSideEffect.ShowBuzzzzingLocationBottomSheet -> showBuzzzzingLocationBottomSheet()
             WriteSideEffect.ShowKakaoLocationBottomSheet -> showKakaoLocationBottomSheet()
-            WriteSideEffect.GetPermissionAndShowImagePicker -> PermissionManager.createGetImageAndCameraPermission {
-                TedImagePicker.with(requireContext())
-                    .max(
-                        MAX_PICTURE - viewModel.state.value.pictureUrls.size,
-                        R.string.max_notification,
-                    )
-                    .selectedUri(viewModel.state.value.pictureUris)
-                    .startMultiImage { uris ->
-                        viewModel.updatePictures(uris)
-                    }
-            }
+            WriteSideEffect.GetPermissionAndShowImagePicker -> showImagePicker()
+            WriteSideEffect.HideKeyboard -> hideKeyboard()
+            WriteSideEffect.PlayLoadingLottie -> binding.lottieLoading.playAnimation()
+            WriteSideEffect.StopLoadingLottie -> binding.lottieLoading.cancelAnimation()
+            WriteSideEffect.PlaySuccessLottie -> binding.lottieSuccess.playAnimation()
+            WriteSideEffect.StopSuccessLottie -> binding.lottieSuccess.cancelAnimation()
+            WriteSideEffect.GoToHome -> goToHomeFragment()
+            is WriteSideEffect.ShowErrorToast -> ErrorToast.make(binding.root, sideEffect.msg).show()
+        }
+    }
+
+    private fun goToHomeFragment() {
+        val (request, navOptions) = DeepLinkUtil.getHomeRequestAndOption(
+            requireContext(),
+            findNavController().graph.id,
+            true,
+        )
+        findNavController().navigate(request, navOptions)
+    }
+
+    private fun showImagePicker() {
+        PermissionManager.createGetImageAndCameraPermission {
+            TedImagePicker.with(requireContext())
+                .max(
+                    MAX_PICTURE - viewModel.state.value.pictureUrls.size,
+                    R.string.max_notification,
+                )
+                .selectedUri(viewModel.state.value.pictureUris)
+                .startMultiImage { uris ->
+                    viewModel.updatePictures(uris)
+                }
         }
     }
 
