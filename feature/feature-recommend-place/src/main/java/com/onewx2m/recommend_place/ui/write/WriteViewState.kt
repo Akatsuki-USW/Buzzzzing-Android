@@ -7,9 +7,11 @@ import com.onewx2m.mvi.ViewState
 
 data class WriteViewState(
     val title: String = "",
+    val needTitleRender: Boolean = false,
     val kakaoLocation: String = "",
     val buzzzzingLocation: String = "",
     val content: String = "",
+    val needContentRender: Boolean = false,
     val spotCategoryItems: List<SpotCategoryItem> = emptyList(),
     val selectedSpotCategoryItem: SpotCategoryItem? = null,
     val pictures: List<PictureItem> = emptyList(),

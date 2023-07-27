@@ -15,10 +15,12 @@ sealed interface WriteEvent : Event {
 
     data class UpdateTitle(
         val title: String,
+        val needRender: Boolean,
     ) : WriteEvent
 
     data class UpdateContent(
         val content: String,
+        val needRender: Boolean,
     ) : WriteEvent
 
     data class UpdateSpotCategoryItems(

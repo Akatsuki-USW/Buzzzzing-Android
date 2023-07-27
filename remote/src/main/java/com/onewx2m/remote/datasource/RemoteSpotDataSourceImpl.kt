@@ -2,9 +2,11 @@ package com.onewx2m.remote.datasource
 
 import com.onewx2m.data.datasource.RemoteSpotDataSource
 import com.onewx2m.data.model.SpotBookmarkEntity
+import com.onewx2m.data.model.SpotDetailEntity
 import com.onewx2m.data.model.SpotListEntity
 import com.onewx2m.domain.Outcome
 import com.onewx2m.remote.api.SpotApi
+import com.onewx2m.remote.model.request.PostSpotRequest
 import com.onewx2m.remote.model.response.toEntity
 import com.onewx2m.remote.onFailure
 import com.onewx2m.remote.onSuccess
@@ -43,7 +45,7 @@ class RemoteSpotDataSourceImpl @Inject constructor(
 
     override suspend fun getAllSpotList(
         cursorId: Int,
-        categoryId: Int?
+        categoryId: Int?,
     ): Flow<Outcome<SpotListEntity>> = flow {
         api.getAllSpotList(
             cursorId = cursorId,
@@ -53,5 +55,31 @@ class RemoteSpotDataSourceImpl @Inject constructor(
         }.onFailure {
             emit(Outcome.Failure(it))
         }
+    }
+
+    override suspend fun postSpot(
+        spotCategoryId: Int,
+        locationId: Int,
+        title: String,
+        address: String,
+        content: String,
+        imageUrls: List<String>,
+    ): Flow<Outcome<SpotDetailEntity>> = flow {
+        val request = PostSpotRequest(
+            title = title,
+            address = address,
+            content = content,
+            imageUrls = imageUrls,
+        )
+        api.postSpot(
+            spotCategoryId = spotCategoryId,
+            locationId = locationId,
+            request = request,
+        )
+            .onSuccess { body ->
+                emit(Outcome.Success(body.data!!.toEntity()))
+            }.onFailure {
+                emit(Outcome.Failure(it))
+            }
     }
 }

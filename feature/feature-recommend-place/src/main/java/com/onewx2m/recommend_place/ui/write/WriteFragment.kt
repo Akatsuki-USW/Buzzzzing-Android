@@ -19,7 +19,6 @@ import com.onewx2m.recommend_place.ui.write.bottomsheet.BuzzzzingLocationBottomS
 import com.onewx2m.recommend_place.ui.write.bottomsheet.KakaoLocationBottomSheet
 import dagger.hilt.android.AndroidEntryPoint
 import gun0912.tedimagepicker.builder.TedImagePicker
-import timber.log.Timber
 import kotlin.properties.Delegates
 
 @AndroidEntryPoint
@@ -91,6 +90,9 @@ class WriteFragment :
             textInputLayoutContent.editText.doOnTextChanged { text, _, _, _ ->
                 viewModel.updateContent(text.toString())
             }
+            buttonMain.onThrottleClick {
+                viewModel.postSpot()
+            }
         }
     }
 
@@ -120,11 +122,15 @@ class WriteFragment :
             editText.setText(current.buzzzzingLocation)
         }
 
-        binding.textInputLayoutTitle.editText.setText(current.title)
-        binding.textInputLayoutTitle.editText.setSelection(current.title.length)
+        if (current.needTitleRender) {
+            binding.textInputLayoutTitle.editText.setText(current.title)
+            binding.textInputLayoutTitle.editText.setSelection(current.title.length)
+        }
 
-        binding.textInputLayoutContent.editText.setText(current.content)
-        binding.textInputLayoutContent.editText.setSelection(current.content.length)
+        if (current.needContentRender) {
+            binding.textInputLayoutContent.editText.setText(current.content)
+            binding.textInputLayoutContent.editText.setSelection(current.content.length)
+        }
 
         binding.buttonMain.state = current.mainButtonState
 
@@ -145,7 +151,10 @@ class WriteFragment :
             WriteSideEffect.ShowKakaoLocationBottomSheet -> showKakaoLocationBottomSheet()
             WriteSideEffect.GetPermissionAndShowImagePicker -> PermissionManager.createGetImageAndCameraPermission {
                 TedImagePicker.with(requireContext())
-                    .max(MAX_PICTURE - viewModel.state.value.pictureUrls.size, R.string.max_notification)
+                    .max(
+                        MAX_PICTURE - viewModel.state.value.pictureUrls.size,
+                        R.string.max_notification,
+                    )
                     .selectedUri(viewModel.state.value.pictureUris)
                     .startMultiImage { uris ->
                         viewModel.updatePictures(uris)
