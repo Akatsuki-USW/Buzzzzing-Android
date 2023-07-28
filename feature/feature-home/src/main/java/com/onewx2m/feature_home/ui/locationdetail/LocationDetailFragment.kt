@@ -182,18 +182,6 @@ class LocationDetailFragment :
             tab.text = getTabTitleString(LocationDetailViewPagerType.getType(position))
             tab.customView = getTabView(LocationDetailViewPagerType.getType(position))
         }.attach()
-
-        binding.tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
-            override fun onTabSelected(tab: TabLayout.Tab) {
-                tab.customView = getSelectedTabView(tab.text.toString())
-            }
-
-            override fun onTabUnselected(tab: TabLayout.Tab) {
-                tab.customView = getUnSelectedTabView(tab.text.toString())
-            }
-
-            override fun onTabReselected(tab: TabLayout.Tab) {}
-        })
     }
 
     override fun onStart() {

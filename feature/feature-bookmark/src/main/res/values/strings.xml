@@ -1,4 +1,8 @@
 <resources>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="fragment_bookmark_title">북마크</string>
+
+    <string name="fragment_tab_buzzzzing_place">복쟉 장소</string>
+    <string name="fragment_tab_spot_place">추천 장소</string>
 </resources>
