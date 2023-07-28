@@ -81,7 +81,10 @@ class BookmarkBuzzzzingFragment :
     }
 
     private fun goToLocationDetailFragment(locationId: Int) {
-        // val action = HomeFragmentDirections.actionHomeToLocationDetail(locationId)
-        // findNavController().navigateActionWithDefaultAnim(action)
+        val (request, navOptions) = DeepLinkUtil.getLocationDetailRequestAndOption(
+            requireContext(),
+            locationId,
+        )
+        findNavController().navigate(request, navOptions)
     }
 }

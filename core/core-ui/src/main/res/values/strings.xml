@@ -3,6 +3,7 @@
     <string name="deeplink_home_fragment">android-app://com.onewx2m.feature_home.ui.home.HomeFragment</string>
     <string name="deeplink_login_fragment">android-app://com.onewx2m.feature_login_signup.ui.login.LoginFragment</string>
     <string name="deeplink_write_fragment">android-app://com.onewx2m.feature_recommend_place.ui.write.WriteFragment/{writeContent}</string>
+    <string name="deeplink_location_detail_fragment">android-app://com.onewx2m.feature_home.ui.locationdetail.LocationDetailFragment/{locationId}</string>
 
     <!-- url -->
     <string name="url_personal_information_handling_policy">https://policy.naver.com/policy/privacy.html</string>
