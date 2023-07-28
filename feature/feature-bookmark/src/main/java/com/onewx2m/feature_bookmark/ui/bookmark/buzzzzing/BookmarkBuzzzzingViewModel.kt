@@ -15,6 +15,7 @@ import com.onewx2m.mvi.MviViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -144,5 +145,10 @@ class BookmarkBuzzzzingViewModel @Inject constructor(
 
     fun goToLocationDetailFragment(locationId: Int) {
         postSideEffect(BookmarkBuzzzzingSideEffect.GoToLocationDetailFragment(locationId))
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        Timber.tag("테스트").d("onCleared")
     }
 }

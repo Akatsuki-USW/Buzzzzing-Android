@@ -19,7 +19,7 @@ class BookmarkBuzzzzingFragment :
     MviFragment<FragmentBookmarkBuzzzzingBinding, BookmarkBuzzzzingViewState, BookmarkBuzzzzingEvent, BookmarkBuzzzzingSideEffect, BookmarkBuzzzzingViewModel>(
         FragmentBookmarkBuzzzzingBinding::inflate,
     ) {
-    override val viewModel: BookmarkBuzzzzingViewModel by viewModels()
+    override val viewModel: BookmarkBuzzzzingViewModel by viewModels({ requireParentFragment() })
 
     private val buzzzzingMediumAdapter: BuzzzzingMediumAdapter by lazy {
         BuzzzzingMediumAdapter(
@@ -33,8 +33,6 @@ class BookmarkBuzzzzingFragment :
     }
 
     override fun initView() {
-        viewModel.getBuzzzzingLocationBookmarked(true)
-
         binding.recyclerView.apply {
             adapter = buzzzzingMediumAdapter
             itemAnimator = null

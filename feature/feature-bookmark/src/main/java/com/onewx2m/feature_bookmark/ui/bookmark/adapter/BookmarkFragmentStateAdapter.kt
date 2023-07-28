@@ -17,13 +17,13 @@ enum class BookmarkViewPagerType(val idx: Int) {
     }
 }
 
-class BookmarkFragmentStateAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
+class BookmarkFragmentStateAdapter(fragment: Fragment, private val fragmentList: List<Fragment>) : FragmentStateAdapter(fragment) {
     override fun getItemCount(): Int = BookmarkViewPagerType.values().size
 
     override fun createFragment(position: Int): Fragment = when (position) {
-        BookmarkViewPagerType.BUZZZZING.idx -> BookmarkBuzzzzingFragment()
+        BookmarkViewPagerType.BUZZZZING.idx -> fragmentList[position]
 
-        BookmarkViewPagerType.SPOT.idx -> BookmarkSpotFragment()
+        BookmarkViewPagerType.SPOT.idx -> fragmentList[position]
 
         else -> throw IllegalAccessException()
     }

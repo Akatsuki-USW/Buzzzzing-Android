@@ -5,9 +5,12 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class BookmarkViewModel @Inject constructor() : MviViewModel<BookmarkViewState, BookmarkEvent, BookmarkSideEffect>(
-    BookmarkViewState()
-) {
+class BookmarkViewModel @Inject constructor() :
+    MviViewModel<BookmarkViewState, BookmarkEvent, BookmarkSideEffect>(
+        BookmarkViewState(),
+    ) {
+    var viewPagerPosition = 1
+
     override fun reduceState(current: BookmarkViewState, event: BookmarkEvent): BookmarkViewState {
         return current
     }

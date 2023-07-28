@@ -20,7 +20,7 @@ class BookmarkSpotFragment :
     MviFragment<FragmentBookmarkSpotBinding, BookmarkSpotViewState, BookmarkSpotEvent, BookmarkSpotSideEffect, BookmarkSpotViewModel>(
         FragmentBookmarkSpotBinding::inflate,
     ) {
-    override val viewModel: BookmarkSpotViewModel by viewModels()
+    override val viewModel: BookmarkSpotViewModel by viewModels({ requireParentFragment() })
 
     private val spotAdapter: SpotAdapter by lazy {
         SpotAdapter(
@@ -31,8 +31,6 @@ class BookmarkSpotFragment :
     }
 
     override fun initView() {
-        viewModel.getSpotBookmarked(true)
-
         binding.recyclerView.apply {
             adapter = spotAdapter
             itemAnimator = null

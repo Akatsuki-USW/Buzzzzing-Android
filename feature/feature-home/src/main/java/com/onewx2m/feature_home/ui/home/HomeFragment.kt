@@ -13,7 +13,6 @@ import com.onewx2m.core_ui.extensions.setVisibleWithAnimation
 import com.onewx2m.core_ui.util.DeepLinkUtil
 import com.onewx2m.design_system.components.recyclerview.buzzzzingmedium.BuzzzzingMediumAdapter
 import com.onewx2m.design_system.components.toast.ErrorToast
-import com.onewx2m.feature_home.R
 import com.onewx2m.feature_home.databinding.FragmentHomeBinding
 import com.onewx2m.feature_home.ui.home.adapter.HomeBuzzzzingSmallAdapter
 import com.onewx2m.feature_home.ui.home.adapter.HomeHeaderAdapter
