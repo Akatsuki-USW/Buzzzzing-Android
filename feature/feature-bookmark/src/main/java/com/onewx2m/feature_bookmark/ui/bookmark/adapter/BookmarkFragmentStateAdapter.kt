@@ -2,6 +2,7 @@ package com.onewx2m.feature_bookmark.ui.bookmark.adapter
 
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import com.onewx2m.feature_bookmark.ui.bookmark.buzzzzing.BookmarkBuzzzzingFragment
 import com.onewx2m.feature_bookmark.ui.bookmark.spot.BookmarkSpotFragment
 
 enum class BookmarkViewPagerType(val idx: Int) {
@@ -20,7 +21,7 @@ class BookmarkFragmentStateAdapter(fragment: Fragment) : FragmentStateAdapter(fr
     override fun getItemCount(): Int = BookmarkViewPagerType.values().size
 
     override fun createFragment(position: Int): Fragment = when (position) {
-        BookmarkViewPagerType.BUZZZZING.idx -> BookmarkSpotFragment()
+        BookmarkViewPagerType.BUZZZZING.idx -> BookmarkBuzzzzingFragment()
 
         BookmarkViewPagerType.SPOT.idx -> BookmarkSpotFragment()
 
