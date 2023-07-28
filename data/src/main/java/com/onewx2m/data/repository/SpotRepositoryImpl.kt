@@ -87,4 +87,10 @@ class SpotRepositoryImpl @Inject constructor(
             }
         }
     }
+
+    override suspend fun getSpotBookmarked(cursorId: Int): Flow<Outcome<SpotList>> {
+        return remoteSpotDataSource.getSpotBookmarked(cursorId).flatMapOutcomeSuccess { data ->
+            data.toDomain()
+        }
+    }
 }

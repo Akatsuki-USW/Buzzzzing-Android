@@ -16,6 +16,10 @@ interface RemoteSpotDataSource {
         categoryId: Int? = null,
     ): Flow<Outcome<SpotListEntity>>
 
+    suspend fun getSpotBookmarked(
+        cursorId: Int,
+    ): Flow<Outcome<SpotListEntity>>
+
     suspend fun bookmarkSpot(spotId: Int): Flow<Outcome<SpotBookmarkEntity>>
 
     suspend fun getAllSpotList(

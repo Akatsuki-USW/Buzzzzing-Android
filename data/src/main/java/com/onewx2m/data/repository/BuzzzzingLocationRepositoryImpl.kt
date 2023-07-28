@@ -53,4 +53,9 @@ class BuzzzzingLocationRepositoryImpl @Inject constructor(
         return remoteBuzzzzingLocationDataSource.getBuzzzzingStatistics(locationId, date)
             .flatMapOutcomeSuccess { data -> data.toDomain() }
     }
+
+    override suspend fun getBuzzzzingLocationBookmarked(cursorId: Int): Flow<Outcome<BuzzzzingLocation>> {
+        return remoteBuzzzzingLocationDataSource.getBuzzzzingLocationBookmarked(cursorId)
+            .flatMapOutcomeSuccess { data -> data.toDomain() }
+    }
 }

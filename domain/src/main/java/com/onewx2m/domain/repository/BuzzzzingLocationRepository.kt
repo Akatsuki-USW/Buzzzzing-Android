@@ -19,6 +19,8 @@ interface BuzzzzingLocationRepository {
 
     suspend fun getBuzzzzingLocationTop5(): Flow<Outcome<BuzzzzingLocation>>
 
+    suspend fun getBuzzzzingLocationBookmarked(cursorId: Int): Flow<Outcome<BuzzzzingLocation>>
+
     suspend fun locationBookmark(locationId: Int): Flow<Outcome<BuzzzzingLocationBookmark>>
 
     suspend fun getBuzzzzingLocationDetailInfo(locationId: Int): Flow<Outcome<BuzzzzingLocationDetailInfo>>

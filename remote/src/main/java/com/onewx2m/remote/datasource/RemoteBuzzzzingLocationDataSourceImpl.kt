@@ -96,4 +96,14 @@ class RemoteBuzzzzingLocationDataSourceImpl @Inject constructor(
         404 -> Outcome.Failure(NotFoundCongestionStatistics())
         else -> Outcome.Failure(CommonException.UnknownException())
     }
+
+    override suspend fun getBuzzzzingLocationBookmarked(cursorId: Int): Flow<Outcome<BuzzzzingLocationEntity>> =
+        flow {
+            api.getBuzzzzingLocationBookmarked(cursorId)
+                .onSuccess { body ->
+                    emit(Outcome.Success(body.data!!.toEntity()))
+                }.onFailure {
+                    emit(Outcome.Failure(it))
+                }
+        }
 }

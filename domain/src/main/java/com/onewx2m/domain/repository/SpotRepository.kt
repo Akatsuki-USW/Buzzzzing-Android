@@ -21,6 +21,10 @@ interface SpotRepository {
         categoryId: Int? = null,
     ): Flow<Outcome<SpotList>>
 
+    suspend fun getSpotBookmarked(
+        cursorId: Int,
+    ): Flow<Outcome<SpotList>>
+
     suspend fun spotBookmark(spotId: Int): Flow<Outcome<SpotBookmark>>
 
     suspend fun postSpot(

@@ -24,6 +24,8 @@ interface BuzzzzingLocationApi {
         const val CONGESTION_SORT = "congestionSort"
         const val CURSOR_CONGESTION_LEVEL = "cursorCongestionLevel"
         const val DATE = "date"
+        const val BOOKMARK = "bookmarks"
+        const val ME = "me"
     }
 
     @GET(LOCATION)
@@ -35,10 +37,15 @@ interface BuzzzzingLocationApi {
         @Query(CURSOR_CONGESTION_LEVEL) cursorCongestionLevel: Int?,
     ): ApiResult<ApiResponse<BuzzzzingLocationResponse>>
 
+    @GET("$LOCATION/$BOOKMARK/$ME")
+    suspend fun getBuzzzzingLocationBookmarked(
+        @Query(CURSOR_ID) cursorId: Int,
+    ): ApiResult<ApiResponse<BuzzzzingLocationResponse>>
+
     @GET("$LOCATION/top")
     suspend fun getBuzzzzingLocationTop5(): ApiResult<ApiResponse<BuzzzzingLocationResponse>>
 
-    @POST("$LOCATION/{$LOCATION_ID}/bookmarks")
+    @POST("$LOCATION/{$LOCATION_ID}/$BOOKMARK")
     suspend fun bookmarkBuzzzzingLocation(
         @Path(LOCATION_ID) locationId: Int,
     ): ApiResult<ApiResponse<BuzzzzingLocationBookmarkResponse>>

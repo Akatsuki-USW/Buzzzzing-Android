@@ -18,6 +18,10 @@ interface RemoteBuzzzzingLocationDataSource {
         cursorCongestionLevel: Int?,
     ): Flow<Outcome<BuzzzzingLocationEntity>>
 
+    suspend fun getBuzzzzingLocationBookmarked(
+        cursorId: Int,
+    ): Flow<Outcome<BuzzzzingLocationEntity>>
+
     suspend fun getBuzzzzingLocationTop5(): Flow<Outcome<BuzzzzingLocationEntity>>
 
     suspend fun bookmarkBuzzzzingLocation(locationId: Int): Flow<Outcome<BuzzzzingLocationBookmarkEntity>>
