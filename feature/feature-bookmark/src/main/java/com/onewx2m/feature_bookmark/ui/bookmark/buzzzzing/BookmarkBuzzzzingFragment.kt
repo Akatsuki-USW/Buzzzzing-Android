@@ -5,7 +5,6 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.onewx2m.core_ui.extensions.infiniteScrolls
-import com.onewx2m.core_ui.extensions.navigateActionWithDefaultAnim
 import com.onewx2m.core_ui.extensions.setGoneWithAnimation
 import com.onewx2m.core_ui.extensions.setVisibleWithAnimation
 import com.onewx2m.core_ui.util.DeepLinkUtil
@@ -14,7 +13,6 @@ import com.onewx2m.design_system.components.toast.ErrorToast
 import com.onewx2m.feature_bookmark.databinding.FragmentBookmarkBuzzzzingBinding
 import com.onewx2m.mvi.MviFragment
 import dagger.hilt.android.AndroidEntryPoint
-import timber.log.Timber
 
 @AndroidEntryPoint
 class BookmarkBuzzzzingFragment :
@@ -34,12 +32,9 @@ class BookmarkBuzzzzingFragment :
         )
     }
 
-    override fun onStart() {
-        super.onStart()
-        viewModel.getBuzzzzingLocationBookmarked(true)
-    }
-
     override fun initView() {
+        viewModel.getBuzzzzingLocationBookmarked(true)
+
         binding.recyclerView.apply {
             adapter = buzzzzingMediumAdapter
             itemAnimator = null
@@ -64,9 +59,15 @@ class BookmarkBuzzzzingFragment :
         super.handleSideEffect(sideEffect)
 
         when (sideEffect) {
-            is BookmarkBuzzzzingSideEffect.ShowErrorToast -> ErrorToast.make(binding.root, sideEffect.msg).show()
+            is BookmarkBuzzzzingSideEffect.ShowErrorToast -> ErrorToast.make(
+                binding.root,
+                sideEffect.msg,
+            ).show()
+
             BookmarkBuzzzzingSideEffect.GoToLoginFragment -> goToLoginFragment()
-            is BookmarkBuzzzzingSideEffect.GoToLocationDetailFragment -> goToLocationDetailFragment(sideEffect.locationId)
+            is BookmarkBuzzzzingSideEffect.GoToLocationDetailFragment -> goToLocationDetailFragment(
+                sideEffect.locationId,
+            )
         }
     }
 
@@ -80,7 +81,7 @@ class BookmarkBuzzzzingFragment :
     }
 
     private fun goToLocationDetailFragment(locationId: Int) {
-        //val action = HomeFragmentDirections.actionHomeToLocationDetail(locationId)
-        //findNavController().navigateActionWithDefaultAnim(action)
+        // val action = HomeFragmentDirections.actionHomeToLocationDetail(locationId)
+        // findNavController().navigateActionWithDefaultAnim(action)
     }
 }
