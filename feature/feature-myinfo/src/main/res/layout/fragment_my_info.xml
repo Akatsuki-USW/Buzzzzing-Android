@@ -4,11 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white01"
     tools:context=".ui.myinfo.MyInfoFragment">
 
     <com.onewx2m.design_system.components.textview.FigmaTextView
         android:id="@+id/text_view_title"
-        style="@style/Header.2"
+        style="@style/Header.3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
@@ -26,73 +27,97 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
-        android:id="@+id/image_view_profile"
-        android:layout_width="64dp"
-        android:layout_height="64dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="24dp"
-        android:src="@drawable/ic_profile"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/text_view_title" />
-
-    <com.onewx2m.design_system.components.textview.FigmaTextView
-        android:id="@+id/text_view_nickname"
-        style="@style/Header.3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        app:layout_constraintStart_toEndOf="@id/image_view_profile"
-        app:layout_constraintTop_toTopOf="@id/image_view_profile"
-        tools:text="지누크" />
-
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraint_layout_edit"
-        android:layout_width="wrap_content"
+        android:id="@+id/constraint_layout_profile"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="11dp"
-        app:layout_constraintStart_toStartOf="@id/text_view_nickname"
-        app:layout_constraintTop_toBottomOf="@id/text_view_nickname">
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/bg_solid_gray07_rounded_5"
+        android:padding="14dp"
+        app:layout_constraintTop_toBottomOf="@id/text_view_title">
 
-        <com.onewx2m.design_system.components.textview.FigmaTextView
-            android:id="@+id/text_view_edit"
-            style="@style/Body.4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/my_info_edit_my_info"
-            android:textColor="@color/gray03"
+        <ImageView
+            android:id="@+id/image_view_profile"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:src="@drawable/ic_profile"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageView
-            android:id="@+id/image_view_arrow"
-            android:layout_width="12dp"
-            android:layout_height="12dp"
-            android:layout_marginStart="10dp"
-            android:src="@drawable/ic_arrow_right"
-            android:tint="@color/gray03"
+        <TextView
+            android:id="@+id/text_view_nickname"
+            style="@style/Header.6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:textColor="@color/gray01"
+            app:layout_constraintStart_toEndOf="@id/image_view_profile"
+            app:layout_constraintTop_toTopOf="@id/image_view_profile"
+            tools:text="지누크" />
+
+        <com.onewx2m.design_system.components.textview.FigmaTextView
+            android:id="@+id/text_view_email"
+            style="@style/Body.3"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginEnd="16dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textColor="@color/gray01"
+            app:layout_constraintEnd_toStartOf="@id/button_edit_my_info"
+            app:layout_constraintStart_toEndOf="@id/image_view_profile"
+            app:layout_constraintTop_toBottomOf="@id/text_view_nickname"
+            tools:text="koownij@kakao.com" />
+
+        <TextView
+            android:id="@+id/button_edit_my_info"
+            style="@style/Body.4"
+            android:layout_width="60dp"
+            android:layout_height="30dp"
+            android:background="@drawable/bg_solid_white01_rounded_5"
+            android:gravity="center"
+            android:text="@string/fragment_my_info_edit_my_info"
+            android:textColor="@color/gray01"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@id/text_view_edit"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:ignore="UseAppTint" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <View
-        android:id="@+id/view_divider"
-        android:layout_width="match_parent"
-        android:layout_height="4dp"
-        android:layout_marginTop="20dp"
-        android:background="@color/gray06"
-        app:layout_constraintTop_toBottomOf="@id/image_view_profile" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_view"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraint_layout_menu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:paddingHorizontal="20dp"
-        app:layout_constraintTop_toBottomOf="@id/view_divider" />
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/bg_solid_gray07_rounded_5"
+        android:paddingVertical="12dp"
+        android:paddingStart="14dp"
+        android:paddingEnd="8dp"
+        app:layout_constraintTop_toBottomOf="@id/constraint_layout_profile">
+
+        <com.onewx2m.design_system.components.textview.FigmaTextView
+            android:id="@+id/text_view_setting"
+            style="@style/Header.4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/fragment_my_info_setting"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@id/text_view_setting" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

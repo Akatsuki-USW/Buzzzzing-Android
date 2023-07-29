@@ -14,4 +14,6 @@
     <string name="my_info_menu_logout">로그 아웃</string>
     <string name="my_info_menu_quit">회원 탈퇴</string>
     <string name="edit_my_info_title">내 정보 수정</string>
+    <string name="fragment_my_info_edit_my_info">수정하기</string>
+    <string name="fragment_my_info_setting">설정</string>
 </resources>

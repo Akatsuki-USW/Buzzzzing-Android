@@ -32,7 +32,7 @@ class MyInfoFragment :
         }
         listAdapter.submitList(MyInfoMenu.values().toList())
 
-        binding.constraintLayoutEdit.onThrottleClick {
+        binding.buttonEditMyInfo.onThrottleClick {
             viewModel.goToEdit()
         }
     }
@@ -90,6 +90,7 @@ class MyInfoFragment :
                 PROFILE_RADIUS,
             )
             textViewNickname.text = BuzzzzingUser.nickname
+            textViewEmail.text = BuzzzzingUser.email
         }
     }
 
