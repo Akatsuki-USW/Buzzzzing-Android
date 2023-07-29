@@ -143,4 +143,8 @@ class BookmarkSpotViewModel @Inject constructor(
 
         postEvent(BookmarkSpotEvent.UpdateSpotList(bookmarkUpdatedItem))
     }
+
+    fun goToSpotDetail(spotId: Int) {
+        postSideEffect(BookmarkSpotSideEffect.GoToSpotDetailFragment(spotId))
+    }
 }

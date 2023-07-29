@@ -6,4 +6,5 @@ sealed interface RecommendPlaceSideEffect : SideEffect {
     data class ShowErrorToast(val msg: String) : RecommendPlaceSideEffect
     object GoToLoginFragment : RecommendPlaceSideEffect
     object GoToWriteFragment : RecommendPlaceSideEffect
+    data class GoToSpotDetailFragment(val spotId: Int) : RecommendPlaceSideEffect
 }

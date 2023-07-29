@@ -14,7 +14,6 @@ import com.onewx2m.feature_bookmark.ui.bookmark.spot.BookmarkSpotFragment
 import com.onewx2m.feature_bookmark.ui.bookmark.spot.BookmarkSpotViewModel
 import com.onewx2m.mvi.MviFragment
 import dagger.hilt.android.AndroidEntryPoint
-import timber.log.Timber
 
 @AndroidEntryPoint
 class BookmarkFragment :
@@ -36,6 +35,7 @@ class BookmarkFragment :
         super.onCreate(savedInstanceState)
         bookmarkBuzzzzingViewModel.getBuzzzzingLocationBookmarked(true)
         bookmarkSpotViewModel.getSpotBookmarked(true)
+        viewModel.viewPagerPosition = 0
     }
 
     override fun onResume() {
@@ -43,8 +43,8 @@ class BookmarkFragment :
 
         if (binding.viewPager.adapter == null) {
             binding.viewPager.adapter = pagerAdapter
-            binding.viewPager.currentItem = viewModel.viewPagerPosition
         }
+        binding.viewPager.setCurrentItem(viewModel.viewPagerPosition, false)
     }
 
     override fun onPause() {

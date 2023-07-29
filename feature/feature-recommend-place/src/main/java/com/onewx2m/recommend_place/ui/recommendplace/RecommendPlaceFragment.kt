@@ -26,7 +26,7 @@ class RecommendPlaceFragment :
 
     private var spotCategorySelectorAdapter: SpotCategorySelectorAdapter? = null
     private val spotAdapter: SpotAdapter by lazy {
-        SpotAdapter(congestion, onItemClick = {}, onBookmarkClick = { viewModel.bookmark(it) })
+        SpotAdapter(congestion, onItemClick = { viewModel.goToSpotDetail(it) }, onBookmarkClick = { viewModel.bookmark(it) })
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -86,6 +86,7 @@ class RecommendPlaceFragment :
 
             RecommendPlaceSideEffect.GoToLoginFragment -> goToLoginFragment()
             RecommendPlaceSideEffect.GoToWriteFragment -> goToWriteFragment()
+            is RecommendPlaceSideEffect.GoToSpotDetailFragment -> goToSpotDetailFragment(sideEffect.spotId)
         }
     }
 
@@ -100,6 +101,14 @@ class RecommendPlaceFragment :
 
     private fun goToWriteFragment() {
         val (request, navOptions) = DeepLinkUtil.getWriteRequestAndOption(requireContext())
+        findNavController().navigate(request, navOptions)
+    }
+
+    private fun goToSpotDetailFragment(spotId: Int) {
+        val (request, navOptions) = DeepLinkUtil.getSpotDetailRequestAndOption(
+            requireContext(),
+            spotId,
+        )
         findNavController().navigate(request, navOptions)
     }
 }

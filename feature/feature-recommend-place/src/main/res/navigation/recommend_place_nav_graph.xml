@@ -22,6 +22,18 @@
             android:name="writeContent"
             app:argType="string" />
     </fragment>
+    <fragment
+        android:id="@+id/spotDetailFragment"
+        android:name="com.onewx2m.recommend_place.ui.spotdetail.SpotDetailFragment"
+        android:label="fragment_spot_detail"
+        tools:layout="@layout/fragment_spot_detail" >
+
+        <deepLink app:uri="@string/deeplink_spot_detail_fragment"/>
+        <argument
+            android:name="spotId"
+            app:argType="integer" />
+
+    </fragment>
 
 
 </navigation>

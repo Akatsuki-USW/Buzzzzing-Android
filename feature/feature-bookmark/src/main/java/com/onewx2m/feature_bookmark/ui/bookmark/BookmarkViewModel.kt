@@ -9,7 +9,7 @@ class BookmarkViewModel @Inject constructor() :
     MviViewModel<BookmarkViewState, BookmarkEvent, BookmarkSideEffect>(
         BookmarkViewState(),
     ) {
-    var viewPagerPosition = 1
+    var viewPagerPosition = 0
 
     override fun reduceState(current: BookmarkViewState, event: BookmarkEvent): BookmarkViewState {
         return current

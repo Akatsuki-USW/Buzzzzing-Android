@@ -57,6 +57,16 @@ object DeepLinkUtil {
         )
     }
 
+    fun getSpotDetailRequestAndOption(
+        context: Context,
+        spotId: Int = -1,
+    ): Pair<NavDeepLinkRequest, NavOptions> {
+        val deepLinkString = context.getString(R.string.deeplink_spot_detail_fragment).replace("{spotId}", "$spotId")
+        return getNaviRequestAndOption(
+            deepLinkString.toUri(),
+        )
+    }
+
     private fun getNaviRequestAndOption(
         destination: Uri,
         popUpToId: Int = -1,

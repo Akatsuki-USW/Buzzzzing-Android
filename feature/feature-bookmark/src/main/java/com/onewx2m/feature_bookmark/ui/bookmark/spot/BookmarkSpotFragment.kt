@@ -25,7 +25,7 @@ class BookmarkSpotFragment :
     private val spotAdapter: SpotAdapter by lazy {
         SpotAdapter(
             congestion = Congestion.NORMAL.name,
-            onItemClick = {},
+            onItemClick = { viewModel.goToSpotDetail(it) },
             onBookmarkClick = { viewModel.bookmark(it) },
         )
     }
@@ -61,6 +61,7 @@ class BookmarkSpotFragment :
             ).show()
 
             BookmarkSpotSideEffect.GoToLoginFragment -> goToLoginFragment()
+            is BookmarkSpotSideEffect.GoToSpotDetailFragment -> goToSpotDetailFragment(sideEffect.spotId)
         }
     }
 
@@ -69,6 +70,14 @@ class BookmarkSpotFragment :
             requireContext(),
             findNavController().graph.id,
             true,
+        )
+        findNavController().navigate(request, navOptions)
+    }
+
+    private fun goToSpotDetailFragment(spotId: Int) {
+        val (request, navOptions) = DeepLinkUtil.getSpotDetailRequestAndOption(
+            requireContext(),
+            spotId,
         )
         findNavController().navigate(request, navOptions)
     }

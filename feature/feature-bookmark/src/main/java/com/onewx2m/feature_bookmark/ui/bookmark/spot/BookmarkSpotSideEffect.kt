@@ -5,4 +5,5 @@ import com.onewx2m.mvi.SideEffect
 sealed interface BookmarkSpotSideEffect : SideEffect {
     data class ShowErrorToast(val msg: String) : BookmarkSpotSideEffect
     object GoToLoginFragment : BookmarkSpotSideEffect
+    data class GoToSpotDetailFragment(val spotId: Int) : BookmarkSpotSideEffect
 }
