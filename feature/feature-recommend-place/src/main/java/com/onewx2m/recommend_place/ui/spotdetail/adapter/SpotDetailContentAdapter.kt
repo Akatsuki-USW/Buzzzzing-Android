@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager2.widget.ViewPager2
 import com.onewx2m.core_ui.extensions.loadUrl
 import com.onewx2m.core_ui.extensions.onThrottleClick
 import com.onewx2m.recommend_place.R
@@ -93,12 +94,16 @@ class SpotDetailContentHolder(
             textViewTitle.text = item.title
             textViewLocation.text = item.address
             if (item.imageUrls.isNotEmpty()) {
+                setTextViewIndicator(1, item.imageUrls.size)
+                textViewIndicator.visibility = View.VISIBLE
                 viewPager2.apply {
                     adapter = SpotDetailImageViewAdapter(item.imageUrls)
                     visibility = View.VISIBLE
+                    registerOnPageChangeCallback(getPageChangeCallback(item.imageUrls.size))
                 }
             } else {
                 viewPager2.visibility = View.GONE
+                textViewIndicator.visibility = View.GONE
             }
             imageViewBookmark.setColorFilter(bookmarkColor)
             textViewContent.text = item.content
@@ -108,4 +113,32 @@ class SpotDetailContentHolder(
             )
         }
     }
+
+    private fun setTextViewIndicator(currentIdx: Int, maxSize: Int) {
+        binding.textViewIndicator.text = binding.root.context.getString(
+            com.onewx2m.design_system.R.string.word_slash_int,
+            currentIdx,
+            maxSize,
+        )
+    }
+
+    private fun getPageChangeCallback(viewPageItemSize: Int) =
+        object : ViewPager2.OnPageChangeCallback() {
+            override fun onPageScrolled(
+                position: Int,
+                positionOffset: Float,
+                positionOffsetPixels: Int,
+            ) {
+                super.onPageScrolled(position, positionOffset, positionOffsetPixels)
+            }
+
+            override fun onPageSelected(position: Int) {
+                super.onPageSelected(position)
+                setTextViewIndicator(position + 1, viewPageItemSize)
+            }
+
+            override fun onPageScrollStateChanged(state: Int) {
+                super.onPageScrollStateChanged(state)
+            }
+        }
 }
