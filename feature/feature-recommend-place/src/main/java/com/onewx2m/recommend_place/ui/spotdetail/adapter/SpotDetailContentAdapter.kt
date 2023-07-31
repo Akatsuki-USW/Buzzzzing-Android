@@ -93,24 +93,42 @@ class SpotDetailContentHolder(
             textViewDate.text = item.createdAt
             textViewTitle.text = item.title
             textViewLocation.text = item.address
-            if (item.imageUrls.isNotEmpty()) {
-                setTextViewIndicator(1, item.imageUrls.size)
-                textViewIndicator.visibility = View.VISIBLE
-                viewPager2.apply {
-                    adapter = SpotDetailImageViewAdapter(item.imageUrls)
-                    visibility = View.VISIBLE
-                    registerOnPageChangeCallback(getPageChangeCallback(item.imageUrls.size))
-                }
-            } else {
-                viewPager2.visibility = View.GONE
-                textViewIndicator.visibility = View.GONE
-            }
+            setViewPager(item)
             imageViewBookmark.setColorFilter(bookmarkColor)
             textViewContent.text = item.content
             textViewCommentCount.text = root.context.getString(
                 R.string.fragment_spot_detail_comment_count,
                 item.commentCount,
             )
+        }
+    }
+
+    private fun ItemRecyclerViewSpotDetailContentBinding.setViewPager(
+        item: SpotDetailContentItem,
+    ) {
+        if (item.imageUrls.isNotEmpty()) {
+            setViewPagerEnable(item)
+        } else {
+            setViewPagerDisable()
+        }
+    }
+
+    private fun ItemRecyclerViewSpotDetailContentBinding.setViewPagerDisable() {
+        viewPager2.visibility = View.GONE
+        textViewIndicator.visibility = View.GONE
+    }
+
+    private fun ItemRecyclerViewSpotDetailContentBinding.setViewPagerEnable(
+        item: SpotDetailContentItem,
+    ) {
+        textViewIndicator.visibility = View.VISIBLE
+        if (viewPager2.adapter == null) {
+            setTextViewIndicator(1, item.imageUrls.size)
+            viewPager2.apply {
+                adapter = SpotDetailImageViewAdapter(item.imageUrls)
+                visibility = View.VISIBLE
+                registerOnPageChangeCallback(getPageChangeCallback(item.imageUrls.size))
+            }
         }
     }
 

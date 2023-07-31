@@ -25,8 +25,7 @@ class SpotDetailFragment :
 
     private val spotDetailContentAdapter: SpotDetailContentAdapter by lazy {
         SpotDetailContentAdapter(
-            onBookmarkClick = {
-            },
+            onBookmarkClick = viewModel::bookmark,
         )
     }
 
