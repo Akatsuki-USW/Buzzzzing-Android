@@ -161,6 +161,10 @@ class SpotViewModel @Inject constructor(
         }
     }
 
+    fun goToSpotDetail(spotId: Int) {
+        postSideEffect(SpotSideEffect.GoToSpotDetailFragment(spotId))
+    }
+
     override fun reduceState(current: SpotViewState, event: SpotEvent): SpotViewState =
         when (event) {
             is SpotEvent.UpdateSelectedSpotCategoryItem -> current.copy(selectedSpotCategoryItem = event.selectedSpotCategoryItem)

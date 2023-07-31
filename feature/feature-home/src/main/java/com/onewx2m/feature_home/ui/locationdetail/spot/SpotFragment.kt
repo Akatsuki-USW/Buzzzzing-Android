@@ -48,7 +48,7 @@ class SpotFragment :
 
     private var spotCategorySelectorAdapter: SpotCategorySelectorAdapter? = null
     private val spotAdapter: SpotAdapter by lazy {
-        SpotAdapter(congestion, onItemClick = {}, onBookmarkClick = { viewModel.bookmark(it) })
+        SpotAdapter(congestion, onItemClick = viewModel::goToSpotDetail, onBookmarkClick = viewModel::bookmark)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -99,7 +99,16 @@ class SpotFragment :
         when (sideEffect) {
             is SpotSideEffect.ShowErrorToast -> ErrorToast.make(binding.root, sideEffect.msg).show()
             SpotSideEffect.GoToLoginFragment -> goToLoginFragment()
+            is SpotSideEffect.GoToSpotDetailFragment -> goToSpotDetailFragment(sideEffect.spotId)
         }
+    }
+
+    private fun goToSpotDetailFragment(spotId: Int) {
+        val (request, navOptions) = DeepLinkUtil.getSpotDetailRequestAndOption(
+            requireContext(),
+            spotId,
+        )
+        findNavController().navigate(request, navOptions)
     }
 
     private fun goToLoginFragment() {
