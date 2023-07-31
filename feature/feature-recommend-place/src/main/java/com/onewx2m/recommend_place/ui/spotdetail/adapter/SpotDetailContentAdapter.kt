@@ -18,6 +18,7 @@ data class SpotDetailContentItem(
     val isBookmarked: Boolean = false,
     val title: String = "",
     val location: String = "",
+    val address: String = "",
     val imageUrls: List<String> = emptyList(),
     val content: String = "",
     val commentCount: Int = 0,
@@ -90,7 +91,7 @@ class SpotDetailContentHolder(
             textViewNickname.text = item.nickname
             textViewDate.text = item.createdAt
             textViewTitle.text = item.title
-            textViewLocation.text = item.location
+            textViewLocation.text = item.address
             if (item.imageUrls.isNotEmpty()) {
                 viewPager2.apply {
                     adapter = SpotDetailImageViewAdapter(item.imageUrls)

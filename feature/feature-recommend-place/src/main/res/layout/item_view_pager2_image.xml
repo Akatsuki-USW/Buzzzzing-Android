@@ -10,14 +10,14 @@
     <androidx.cardview.widget.CardView
         app:layout_constraintTop_toTopOf="parent"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="300dp"
         app:cardCornerRadius="5dp"
         app:cardElevation="0dp">
 
         <ImageView
             android:id="@+id/image_view"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
+            android:layout_height="300dp"
             android:scaleType="centerCrop"
             tools:src="@drawable/bg_solid_blue_rounded_10" />
 

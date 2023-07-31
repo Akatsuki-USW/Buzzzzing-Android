@@ -62,7 +62,7 @@
 
     <com.onewx2m.design_system.components.textview.FigmaTextView
         android:id="@+id/text_view_location"
-        style="@style/Label.2"
+        style="@style/Label.3"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="20dp"
@@ -75,7 +75,7 @@
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/view_pager2"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="300dp"
         android:layout_marginTop="10dp"
         android:clipToPadding="false"
         android:paddingStart="20dp"
@@ -88,7 +88,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="20dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="12dp"
         android:textColor="@color/gray01"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

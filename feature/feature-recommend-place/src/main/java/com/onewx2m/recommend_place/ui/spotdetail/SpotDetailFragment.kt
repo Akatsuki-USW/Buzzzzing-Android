@@ -1,14 +1,18 @@
 package com.onewx2m.recommend_place.ui.spotdetail
 
-import android.view.View
+import android.os.Bundle
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
+import androidx.navigation.NavArgs
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.onewx2m.core_ui.extensions.infiniteScrolls
+import com.onewx2m.core_ui.extensions.setGoneWithAnimation
+import com.onewx2m.core_ui.extensions.setVisibleWithAnimation
 import com.onewx2m.mvi.MviFragment
 import com.onewx2m.recommend_place.databinding.FragmentSpotDetailBinding
 import com.onewx2m.recommend_place.ui.spotdetail.adapter.SpotDetailContentAdapter
-import com.onewx2m.recommend_place.ui.spotdetail.adapter.SpotDetailContentItem
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -17,12 +21,19 @@ class SpotDetailFragment :
         FragmentSpotDetailBinding::inflate,
     ) {
     override val viewModel: SpotDetailViewModel by viewModels()
+    private val navArgs by navArgs<SpotDetailFragmentArgs>()
 
     private val spotDetailContentAdapter: SpotDetailContentAdapter by lazy {
         SpotDetailContentAdapter(
             onBookmarkClick = {
             },
         )
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        viewModel.getSpotDetail(navArgs.spotId)
     }
 
     override fun initView() {
@@ -42,22 +53,15 @@ class SpotDetailFragment :
     override fun render(current: SpotDetailViewState) {
         super.render(current)
 
-        binding.recyclerView.visibility = View.VISIBLE
-        binding.lottieLoading.visibility = View.GONE
+        with(binding) {
+            if (lottieLoading.isVisible && current.isLoadingLottieVisible.not()) {
+                recyclerView.setVisibleWithAnimation()
+                lottieLoading.setGoneWithAnimation()
+            }
+        }
 
         spotDetailContentAdapter.setData(
-            SpotDetailContentItem(
-                spotId = -1,
-                profileImageUrl = "https://avatars.githubusercontent.com/u/81678959?v=4",
-                nickname = "지누크",
-                createdAt = "2020 20 02",
-                isBookmarked = false,
-                title = "테스트 제목",
-                location = "테스트 로케이션",
-                imageUrls = listOf(),
-                content = "테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 ",
-                commentCount = 15,
-            )
+            current.spotDetailContent,
         )
     }
 
