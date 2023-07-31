@@ -3,7 +3,7 @@ package com.onewx2m.design_system.components.recyclerview.spot
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
-import coil.load
+import com.onewx2m.core_ui.extensions.loadUrl
 import com.onewx2m.core_ui.extensions.onThrottleClick
 import com.onewx2m.design_system.R
 import com.onewx2m.design_system.databinding.ItemRecyclerViewSpotBinding
@@ -18,6 +18,11 @@ class SpotViewHolder(
     private var spotId: Int? = null
     private val highlightColorId: Int
     private val normalColorId: Int
+
+    companion object {
+        private const val THUMBNAIL_RADIUS = 8
+        private const val PROFILE_RADIUS = 2
+    }
 
     init {
         val colorIds = getColorResId(congestionSymbol)
@@ -46,12 +51,16 @@ class SpotViewHolder(
         )
 
         binding.apply {
-            cardViewWrapImageViewThumbnail.visibility = View.VISIBLE
+            imageViewThumbnail.visibility = View.VISIBLE
 
             if (data.thumbnailImageUrl == null) {
-                cardViewWrapImageViewThumbnail.visibility = View.GONE
+                imageViewThumbnail.visibility = View.GONE
             } else {
-                imageViewThumbnail.load(data.thumbnailImageUrl)
+                imageViewThumbnail.loadUrl(
+                    data.thumbnailImageUrl,
+                    R.drawable.bg_solid_gray07_rounded_5,
+                    THUMBNAIL_RADIUS,
+                )
             }
 
             textViewSpotTitle.text = data.title
@@ -59,7 +68,11 @@ class SpotViewHolder(
             textViewAddress.text = data.address
 
             if (data.userProfileImageUrl.isNotBlank()) {
-                imageViewProfile.load(data.userProfileImageUrl)
+                imageViewProfile.loadUrl(
+                    data.userProfileImageUrl,
+                    R.drawable.bg_solid_gray07_rounded_5,
+                    PROFILE_RADIUS,
+                )
             }
 
             textViewNickname.text = data.userNickname

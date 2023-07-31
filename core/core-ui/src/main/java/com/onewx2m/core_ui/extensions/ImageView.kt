@@ -20,6 +20,7 @@ fun ImageView.loadUri(uri: Uri?, @DrawableRes defaultDrawable: Int, radius: Int)
                 radius.px.toFloat(),
             ),
         )
+        error(defaultDrawable)
     }
 }
 
@@ -35,5 +36,6 @@ fun ImageView.loadUrl(url: String, @DrawableRes defaultDrawable: Int, radius: In
                 radius.px.toFloat(),
             ),
         )
+        error(defaultDrawable)
     }
 }
