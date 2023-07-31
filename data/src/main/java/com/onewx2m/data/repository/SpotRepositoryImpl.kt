@@ -93,4 +93,10 @@ class SpotRepositoryImpl @Inject constructor(
             data.toDomain()
         }
     }
+
+    override suspend fun getSpotDetail(spotId: Int): Flow<Outcome<SpotDetail>> {
+        return remoteSpotDataSource.getSpotDetail(spotId).flatMapOutcomeSuccess { data ->
+            data.toDomain()
+        }
+    }
 }

@@ -54,4 +54,9 @@ interface SpotApi {
         @Path(SPOT_CATEGORY_ID) spotCategoryId: Int,
         @Body request: PostSpotRequest,
     ): ApiResult<ApiResponse<SpotDetailResponse>>
+
+    @GET("$LOCATION/$SPOT/{$SPOT_ID}")
+    suspend fun getSpotDetail(
+        @Path(SPOT_ID) spotId: Int,
+    ): ApiResult<ApiResponse<SpotDetailResponse>>
 }

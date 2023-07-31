@@ -4,9 +4,7 @@ import com.onewx2m.data.model.SpotBookmarkEntity
 import com.onewx2m.data.model.SpotDetailEntity
 import com.onewx2m.data.model.SpotListEntity
 import com.onewx2m.domain.Outcome
-import com.onewx2m.domain.model.SpotDetail
 import kotlinx.coroutines.flow.Flow
-import java.io.File
 
 interface RemoteSpotDataSource {
 
@@ -34,5 +32,9 @@ interface RemoteSpotDataSource {
         address: String,
         content: String,
         imageFiles: List<String>,
+    ): Flow<Outcome<SpotDetailEntity>>
+
+    suspend fun getSpotDetail(
+        spotId: Int,
     ): Flow<Outcome<SpotDetailEntity>>
 }

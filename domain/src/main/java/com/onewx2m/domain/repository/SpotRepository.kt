@@ -4,7 +4,6 @@ import com.onewx2m.domain.Outcome
 import com.onewx2m.domain.model.SpotBookmark
 import com.onewx2m.domain.model.SpotDetail
 import com.onewx2m.domain.model.SpotList
-import com.onewx2m.domain.model.UserInfo
 import kotlinx.coroutines.flow.Flow
 import java.io.File
 
@@ -34,5 +33,9 @@ interface SpotRepository {
         address: String,
         content: String,
         imageFiles: List<File>,
+    ): Flow<Outcome<SpotDetail>>
+
+    suspend fun getSpotDetail(
+        spotId: Int,
     ): Flow<Outcome<SpotDetail>>
 }

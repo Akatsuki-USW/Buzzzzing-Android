@@ -90,4 +90,12 @@ class RemoteSpotDataSourceImpl @Inject constructor(
             emit(Outcome.Failure(it))
         }
     }
+
+    override suspend fun getSpotDetail(spotId: Int): Flow<Outcome<SpotDetailEntity>> = flow {
+        api.getSpotDetail(spotId).onSuccess { body ->
+            emit(Outcome.Success(body.data!!.toEntity()))
+        }.onFailure {
+            emit(Outcome.Failure(it))
+        }
+    }
 }
