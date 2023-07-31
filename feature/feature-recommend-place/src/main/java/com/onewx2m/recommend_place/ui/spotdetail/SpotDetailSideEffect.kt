@@ -6,4 +6,6 @@ sealed interface SpotDetailSideEffect : SideEffect {
     data class ShowErrorToast(val msg: String) : SpotDetailSideEffect
     object GoToLoginFragment : SpotDetailSideEffect
     object GoToWriteFragment : SpotDetailSideEffect
+    object ShowContentPowerMenu : SpotDetailSideEffect
+    object GoToPrevPage : SpotDetailSideEffect
 }

@@ -1,6 +1,7 @@
 package com.onewx2m.recommend_place.ui.spotdetail
 
 import androidx.lifecycle.viewModelScope
+import com.onewx2m.design_system.components.powermenu.PowerMenuType
 import com.onewx2m.domain.Outcome
 import com.onewx2m.domain.collectOutcome
 import com.onewx2m.domain.exception.common.CommonException
@@ -21,9 +22,16 @@ class SpotDetailViewModel @Inject constructor(
 ) : MviViewModel<SpotDetailViewState, SpotDetailEvent, SpotDetailSideEffect>(
     SpotDetailViewState(),
 ) {
+    var contentPowerMenuList = listOf(PowerMenuType.REPORT.kor, PowerMenuType.BLOCK.kor)
+        private set
+
     fun getSpotDetail(spotId: Int) = viewModelScope.launch {
         getSpotDetailUseCase(spotId).collectOutcome(
             handleSuccess = {
+                if (it.data.isAuthor) {
+                    contentPowerMenuList =
+                        listOf(PowerMenuType.EDIT.kor, PowerMenuType.DELETE.kor)
+                }
                 postEvent(
                     SpotDetailEvent.UpdateSpotDetailContent(
                         it.data.toSpotDetailContentItem(),
@@ -98,4 +106,8 @@ class SpotDetailViewModel @Inject constructor(
             )
         }
     }
+
+    fun showContentPowerMenu() = postSideEffect(SpotDetailSideEffect.ShowContentPowerMenu)
+    fun goToPrevPage() = postSideEffect(SpotDetailSideEffect.GoToPrevPage)
+    fun goToWriteFragment() = postSideEffect(SpotDetailSideEffect.GoToWriteFragment)
 }

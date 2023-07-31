@@ -40,6 +40,7 @@ tedPermission = "3.3.0"
 coil = "2.4.0"
 lottie = "5.0.2"
 mpAndroidChart = "v3.1.0"
+powerMenu = "2.2.2"
 
 [plugins]
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
@@ -103,6 +104,7 @@ ted-permission = { group = "io.github.ParkSangGwon", name = "tedpermission-norma
 coil = { group = "io.coil-kt", name = "coil", version.ref = "coil" }
 lottie = { group = "com.airbnb.android", name = "lottie", version.ref = "lottie" }
 mpAndroidChart = { group = "com.github.PhilJay", name = "MPAndroidChart", version.ref = "mpAndroidChart" }
+powerMenu = { group = "com.github.skydoves", name = "powermenu", version.ref = "powerMenu" }
 
 room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
 room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }

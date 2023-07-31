@@ -21,4 +21,5 @@ dependencies {
     implementation(libs.timber)
     implementation(libs.lottie)
     implementation(libs.mpAndroidChart)
+    implementation(libs.powerMenu)
 }
