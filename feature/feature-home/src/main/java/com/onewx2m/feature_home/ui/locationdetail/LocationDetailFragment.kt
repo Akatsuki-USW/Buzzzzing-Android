@@ -85,6 +85,10 @@ class LocationDetailFragment :
             binding.constraintLayoutDetail.setVisibleWithAnimation()
             binding.lottieLoading.setGoneWithAnimation()
         }
+
+        if (binding.constraintLayoutDetail.isVisible && current.isInitializingViewPagerData.not()) {
+            initViewPagerAndTabLayout(current.congestion.name)
+        }
     }
 
     private fun setCongestionMaybeTextView(
@@ -165,8 +169,6 @@ class LocationDetailFragment :
     }
 
     private fun initViewPagerAndTabLayout(congestion: String) {
-        if (pagerAdapter != null) return
-
         pagerAdapter = LocationDetailFragmentStateAdapter(
             this,
             congestion,

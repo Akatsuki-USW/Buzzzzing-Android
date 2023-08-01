@@ -71,9 +71,12 @@ class HistoricalDataFragment :
                 viewModel.updateSelectedDayItem(it)
                 viewModel.getBuzzzzingStatistic(locationId, it.query)
             }
+        }
 
+        if(binding.recyclerView.adapter == null && daySelectorAdapter != null) {
             binding.recyclerView.adapter = daySelectorAdapter
         }
+
         binding.chart.submitChartData(Congestion.valueOf(congestion), current.chartItems)
     }
 

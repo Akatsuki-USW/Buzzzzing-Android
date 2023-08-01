@@ -10,7 +10,6 @@ import com.onewx2m.design_system.components.recyclerview.spot.SpotAdapter
 import com.onewx2m.design_system.components.recyclerview.spotcategoryselector.SpotCategorySelectorAdapter
 import com.onewx2m.design_system.components.toast.ErrorToast
 import com.onewx2m.design_system.enum.Congestion
-import com.onewx2m.feature_home.R
 import com.onewx2m.feature_home.databinding.FragmentSpotBinding
 import com.onewx2m.mvi.MviFragment
 import dagger.hilt.android.AndroidEntryPoint
@@ -48,7 +47,11 @@ class SpotFragment :
 
     private var spotCategorySelectorAdapter: SpotCategorySelectorAdapter? = null
     private val spotAdapter: SpotAdapter by lazy {
-        SpotAdapter(congestion, onItemClick = viewModel::goToSpotDetail, onBookmarkClick = viewModel::bookmark)
+        SpotAdapter(
+            congestion,
+            onItemClick = viewModel::goToSpotDetail,
+            onBookmarkClick = viewModel::bookmark,
+        )
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -86,7 +89,9 @@ class SpotFragment :
                 viewModel.updateCategoryId(it.id)
                 viewModel.getSpotList(locationId, true)
             }
+        }
 
+        if (spotCategorySelectorAdapter != null && binding.recyclerViewCategory.adapter == null) {
             binding.recyclerViewCategory.adapter = spotCategorySelectorAdapter
         }
 
