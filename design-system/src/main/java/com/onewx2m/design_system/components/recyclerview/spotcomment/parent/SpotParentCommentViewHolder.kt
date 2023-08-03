@@ -8,11 +8,13 @@ import com.onewx2m.core_ui.extensions.onThrottleClick
 import com.onewx2m.core_ui.extensions.px
 import com.onewx2m.design_system.R
 import com.onewx2m.design_system.components.recyclerview.spotcomment.children.SpotChildrenCommentAdapter
+import com.onewx2m.design_system.components.recyclerview.spotcomment.children.SpotChildrenCommentItem
 import com.onewx2m.design_system.databinding.ItemRecyclerViewParentCommentBinding
 
 class SpotParentCommentViewHolder(
     private val binding: ItemRecyclerViewParentCommentBinding,
-    private val onMeatBallClick: (View, SpotParentCommentItem) -> Unit,
+    private val onParentMeatBallClick: (View, SpotParentCommentItem) -> Unit,
+    private val onChildMeatBallClick: (View, SpotChildrenCommentItem) -> Unit,
 ) : RecyclerView.ViewHolder(binding.root) {
 
     companion object {
@@ -20,11 +22,11 @@ class SpotParentCommentViewHolder(
     }
 
     private var item = SpotParentCommentItem()
-    private val listAdapter = SpotChildrenCommentAdapter()
+    private val listAdapter = SpotChildrenCommentAdapter(onChildMeatBallClick)
 
     init {
         binding.imageViewMeatBall.onThrottleClick {
-            onMeatBallClick(it, item)
+            onParentMeatBallClick(it, item)
         }
 
         binding.recyclerViewChildren.apply {

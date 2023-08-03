@@ -7,12 +7,14 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.onewx2m.design_system.components.recyclerview.spotcomment.SpotCommentType
+import com.onewx2m.design_system.components.recyclerview.spotcomment.children.SpotChildrenCommentItem
 import com.onewx2m.design_system.databinding.ItemRecyclerViewParentCommentBinding
 import com.onewx2m.design_system.databinding.ItemRecyclerViewParentCommentDeleteBinding
 import com.onewx2m.design_system.databinding.ItemRecyclerViewSpotCommentLoadingBinding
 
 class SpotParentCommentAdapter(
-    private val onMeatBallClick: (View, SpotParentCommentItem) -> Unit,
+    private val onParentMeatBallClick: (View, SpotParentCommentItem) -> Unit,
+    private val onChildMeatBallClick: (View, SpotChildrenCommentItem) -> Unit,
 ) :
     ListAdapter<SpotParentCommentItem, RecyclerView.ViewHolder>(DiffCallback) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -23,7 +25,7 @@ class SpotParentCommentAdapter(
                     parent,
                     false,
                 )
-                SpotParentCommentViewHolder(binding, onMeatBallClick)
+                SpotParentCommentViewHolder(binding, onParentMeatBallClick, onChildMeatBallClick)
             }
 
             SpotCommentType.DELETE -> {
