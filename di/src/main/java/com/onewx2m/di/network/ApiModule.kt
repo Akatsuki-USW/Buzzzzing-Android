@@ -9,6 +9,7 @@ import com.onewx2m.remote.api.KakaoLocationApi
 import com.onewx2m.remote.api.MediaApi
 import com.onewx2m.remote.api.OtherApi
 import com.onewx2m.remote.api.SpotApi
+import com.onewx2m.remote.api.SpotCommentApi
 import com.onewx2m.remote.api.UserApi
 import dagger.Module
 import dagger.Provides
@@ -16,7 +17,6 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
 import retrofit2.create
-import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -52,9 +52,13 @@ object ApiModule {
         return retrofit.create(SpotApi::class.java)
     }
 
-    @Singleton
     @Provides
     fun provideKakaoLocationApi(@KakaoLocationRetrofit retrofit: Retrofit): KakaoLocationApi {
         return retrofit.create(KakaoLocationApi::class.java)
+    }
+
+    @Provides
+    fun provideSpotCommentLocationApi(@AuthRetrofit retrofit: Retrofit): SpotCommentApi {
+        return retrofit.create(SpotCommentApi::class.java)
     }
 }
