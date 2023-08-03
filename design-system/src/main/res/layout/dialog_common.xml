@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<androidx.constraintlayout.widget.ConstraintLayout android:background="@drawable/insect_dialog"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:paddingHorizontal="48dp"
+    tools:layout_height="wrap_content"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <TextView
+        style="@style/Header.2"
+        android:gravity="center"
+        android:id="@+id/text_view_title"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:layout_width="wrap_content"
+        android:textColor="@color/gray01"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="모임을 종료하시겠어요?" />
+
+    <TextView
+        style="@style/Body.1"
+        android:gravity="center"
+        android:id="@+id/text_view_description"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_width="0dp"
+        android:textColor="@color/gray01"
+        android:visibility="gone"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/text_view_title"
+        tools:text="message message message message message"
+        tools:visibility="visible" />
+
+
+    <androidx.appcompat.widget.AppCompatButton
+        style="@style/Header.3"
+        android:background="@drawable/ripple_gray01_bg_solid_blue_light_rounded_5"
+        android:gravity="center"
+        android:id="@+id/button_negative"
+        android:layout_height="45dp"
+        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="12dp"
+        android:layout_marginTop="32dp"
+        android:layout_width="0dp"
+        android:stateListAnimator="@null"
+        android:textColor="@color/white01"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/button_positive"
+        app:layout_constraintTop_toBottomOf="@id/text_view_description"
+        tools:text="취소"
+        tools:visibility="visible" />
+
+
+    <androidx.appcompat.widget.AppCompatButton
+        style="@style/Header.3"
+        android:background="@drawable/ripple_black01_bg_solid_blue_rounded_5"
+        android:gravity="center"
+        android:id="@+id/button_positive"
+        android:layout_height="45dp"
+        android:layout_marginBottom="16dp"
+        android:layout_marginTop="32dp"
+        android:layout_width="0dp"
+        android:stateListAnimator="@null"
+        android:textColor="@color/white01"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/button_negative"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/text_view_description"
+        tools:text="확인" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
