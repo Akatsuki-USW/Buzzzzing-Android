@@ -6,7 +6,11 @@ import com.onewx2m.recommend_place.ui.spotdetail.adapter.SpotDetailContentItem
 
 sealed interface SpotDetailEvent : Event {
     data class UpdateSpotDetailContent(val content: SpotDetailContentItem) : SpotDetailEvent
-    data class UpdateSpotParentCommentList(val commentList: List<SpotParentCommentItem>) : SpotDetailEvent
+    data class UpdateSpotParentCommentList(val commentList: List<SpotParentCommentItem>) :
+        SpotDetailEvent
+
+    object ShowSmallLoadingLottie : SpotDetailEvent
+    object HideSmallLoadingLottie : SpotDetailEvent
 
     object Initialized : SpotDetailEvent
 }

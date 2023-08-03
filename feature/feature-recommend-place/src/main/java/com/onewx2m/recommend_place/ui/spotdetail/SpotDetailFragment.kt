@@ -1,6 +1,7 @@
 package com.onewx2m.recommend_place.ui.spotdetail
 
 import android.os.Bundle
+import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -39,6 +40,7 @@ class SpotDetailFragment :
         SpotParentCommentAdapter(
             onParentMeatBallClick = { view, item -> },
             onChildMeatBallClick = { view, item -> },
+            onMoreClick = { item -> viewModel.getChildrenComments(item.id) },
         )
     }
 
@@ -56,7 +58,6 @@ class SpotDetailFragment :
 
         binding.recyclerView.apply {
             adapter = concatAdapter
-            itemAnimator = null
             layoutManager = LinearLayoutManager(requireContext())
             infiniteScrolls {
                 viewModel.getSpotParentCommentList(navArgs.spotId)
@@ -87,6 +88,9 @@ class SpotDetailFragment :
         )
 
         spotParentCommentAdapter.submitList(current.spotCommentList)
+
+        binding.lottieLoadingSmall.visibility =
+            if (current.isSmallLottieVisible) View.VISIBLE else View.GONE
     }
 
     override fun handleSideEffect(sideEffect: SpotDetailSideEffect) {

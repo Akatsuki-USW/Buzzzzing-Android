@@ -50,6 +50,7 @@ class SpotDetailContentAdapter(
     override fun getItemCount(): Int = 1
 
     fun setData(item: SpotDetailContentItem) {
+        if (this.item == item) return
         this.item = item
         notifyItemChanged(0)
     }

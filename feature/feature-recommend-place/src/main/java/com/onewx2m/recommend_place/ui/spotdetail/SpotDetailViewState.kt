@@ -1,6 +1,7 @@
 package com.onewx2m.recommend_place.ui.spotdetail
 
 import com.onewx2m.design_system.components.recyclerview.spotcomment.SpotCommentType
+import com.onewx2m.design_system.components.recyclerview.spotcomment.children.SpotChildrenCommentItem
 import com.onewx2m.design_system.components.recyclerview.spotcomment.parent.SpotParentCommentItem
 import com.onewx2m.domain.model.SpotComment
 import com.onewx2m.domain.model.SpotDetail
@@ -12,6 +13,7 @@ data class SpotDetailViewState(
     val spotCommentList: List<SpotParentCommentItem> = emptyList(),
     val isLoadingLottieVisible: Boolean = true,
     val isRecyclerViewVisible: Boolean = false,
+    val isSmallLottieVisible: Boolean = false,
 ) : ViewState
 
 internal fun SpotComment.toSpotParentCommentItem() = SpotParentCommentItem(
@@ -22,6 +24,17 @@ internal fun SpotComment.toSpotParentCommentItem() = SpotParentCommentItem(
     createdAt = createdAt,
     content = content,
     totalChildrenCount = childCount,
+    isAuthor = isAuthor,
+)
+
+internal fun SpotComment.toSpotChildrenCommentItem(parentId: Int) = SpotChildrenCommentItem(
+    type = if (presence) SpotCommentType.NORMAL else SpotCommentType.DELETE,
+    id = id,
+    parentId = parentId,
+    profileImageUrl = userProfileImageUrl,
+    nickname = userNickname,
+    createdAt = createdAt,
+    content = content,
     isAuthor = isAuthor,
 )
 

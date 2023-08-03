@@ -43,7 +43,7 @@ interface SpotCommentApi {
         @Path(COMMENT_ID) commentId: Int,
     ): ApiResult<ApiResponse<SpotCommentResponse>>
 
-    @DELETE("$LOCATION/$SPOT/$COMMENT/{$PARENT_ID}/children")
+    @GET("$LOCATION/$SPOT/$COMMENT/{$PARENT_ID}/children")
     suspend fun getChildrenComments(
         @Path(PARENT_ID) parentId: Int,
         @Query(CURSOR_ID) cursorId: Int,

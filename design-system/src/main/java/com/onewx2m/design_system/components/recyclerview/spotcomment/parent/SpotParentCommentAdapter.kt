@@ -15,6 +15,7 @@ import com.onewx2m.design_system.databinding.ItemRecyclerViewSpotCommentLoadingB
 class SpotParentCommentAdapter(
     private val onParentMeatBallClick: (View, SpotParentCommentItem) -> Unit,
     private val onChildMeatBallClick: (View, SpotChildrenCommentItem) -> Unit,
+    private val onMoreClick: (SpotParentCommentItem) -> Unit,
 ) :
     ListAdapter<SpotParentCommentItem, RecyclerView.ViewHolder>(DiffCallback) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -25,7 +26,7 @@ class SpotParentCommentAdapter(
                     parent,
                     false,
                 )
-                SpotParentCommentViewHolder(binding, onParentMeatBallClick, onChildMeatBallClick)
+                SpotParentCommentViewHolder(binding, onParentMeatBallClick, onChildMeatBallClick, onMoreClick)
             }
 
             SpotCommentType.DELETE -> {

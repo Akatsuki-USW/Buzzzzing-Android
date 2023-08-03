@@ -14,6 +14,7 @@ class SpotParentCommentViewHolder(
     private val binding: ItemRecyclerViewParentCommentBinding,
     private val onParentMeatBallClick: (View, SpotParentCommentItem) -> Unit,
     private val onChildMeatBallClick: (View, SpotChildrenCommentItem) -> Unit,
+    private val onMoreClick: (SpotParentCommentItem) -> Unit,
 ) : RecyclerView.ViewHolder(binding.root) {
 
     companion object {
@@ -31,6 +32,10 @@ class SpotParentCommentViewHolder(
         binding.recyclerViewChildren.apply {
             adapter = listAdapter
             layoutManager = LinearLayoutManager(context)
+        }
+
+        binding.textViewMoreComment.onThrottleClick {
+            onMoreClick(item)
         }
     }
 
