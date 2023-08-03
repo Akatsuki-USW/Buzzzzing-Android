@@ -64,6 +64,7 @@
         app:layout_constraintTop_toBottomOf="@id/text_view_content" />
 
     <com.onewx2m.design_system.components.textview.FigmaTextView
+        android:id="@+id/text_view_more_comment"
         style="@style/Label.2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

@@ -33,9 +33,9 @@
             android:id="@+id/image_view_profile"
             android:layout_width="36dp"
             android:layout_height="36dp"
+            android:src="@drawable/ic_profile"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:src="@drawable/ic_profile" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/text_view_nickname"
