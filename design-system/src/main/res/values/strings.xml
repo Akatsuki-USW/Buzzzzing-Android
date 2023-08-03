@@ -16,4 +16,5 @@
     <string name="word_buzz">혼잡</string>
     <string name="word_search">검색</string>
     <string name="item_recycler_view_parent_comment_more_children">- %d개의 대댓글 보기</string>
+    <string name="item_recycler_view_comment_delete">삭제된 댓글입니다.</string>
 </resources>
