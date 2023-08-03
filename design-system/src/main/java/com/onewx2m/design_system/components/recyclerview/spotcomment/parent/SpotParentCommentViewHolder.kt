@@ -5,7 +5,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.onewx2m.core_ui.extensions.loadUrl
 import com.onewx2m.core_ui.extensions.onThrottleClick
-import com.onewx2m.core_ui.extensions.px
 import com.onewx2m.design_system.R
 import com.onewx2m.design_system.components.recyclerview.spotcomment.children.SpotChildrenCommentAdapter
 import com.onewx2m.design_system.components.recyclerview.spotcomment.children.SpotChildrenCommentItem
@@ -43,7 +42,7 @@ class SpotParentCommentViewHolder(
                 imageViewProfile.loadUrl(
                     item.profileImageUrl,
                     R.drawable.bg_solid_gray07_rounded_5,
-                    PROFILE_RADIUS.px,
+                    PROFILE_RADIUS,
                 )
             }
 
@@ -57,6 +56,9 @@ class SpotParentCommentViewHolder(
                     R.string.item_recycler_view_parent_comment_more_children,
                     moreCount,
                 )
+                binding.textViewMoreComment.visibility = View.VISIBLE
+            } else {
+                binding.textViewMoreComment.visibility = View.GONE
             }
 
             listAdapter.submitList(item.visibleChildrenCommentList)

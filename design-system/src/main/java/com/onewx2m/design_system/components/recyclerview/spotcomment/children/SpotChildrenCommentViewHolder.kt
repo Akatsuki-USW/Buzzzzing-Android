@@ -4,7 +4,6 @@ import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.onewx2m.core_ui.extensions.loadUrl
 import com.onewx2m.core_ui.extensions.onThrottleClick
-import com.onewx2m.core_ui.extensions.px
 import com.onewx2m.design_system.R
 import com.onewx2m.design_system.databinding.ItemRecyclerViewChildrenCommentBinding
 
@@ -33,7 +32,7 @@ class SpotChildrenCommentViewHolder(
                 imageViewProfile.loadUrl(
                     item.profileImageUrl,
                     R.drawable.bg_solid_gray07_rounded_5,
-                    PROFILE_RADIUS.px,
+                    PROFILE_RADIUS,
                 )
             }
 

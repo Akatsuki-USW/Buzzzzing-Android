@@ -6,12 +6,13 @@ import com.onewx2m.domain.Outcome
 import com.onewx2m.domain.collectOutcome
 import com.onewx2m.domain.exception.common.CommonException
 import com.onewx2m.domain.model.SpotBookmark
-import com.onewx2m.domain.model.SpotDetail
+import com.onewx2m.domain.model.SpotCommentList
 import com.onewx2m.domain.usecase.BookmarkSpotUseCase
 import com.onewx2m.domain.usecase.GetSpotDetailUseCase
+import com.onewx2m.domain.usecase.GetSpotParentCommentsUseCase
 import com.onewx2m.mvi.MviViewModel
-import com.onewx2m.recommend_place.ui.spotdetail.adapter.SpotDetailContentItem
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.joinAll
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -19,13 +20,22 @@ import javax.inject.Inject
 class SpotDetailViewModel @Inject constructor(
     private val getSpotDetailUseCase: GetSpotDetailUseCase,
     private val bookmarkSpotUseCase: BookmarkSpotUseCase,
+    private val getSpotParentCommentsUseCase: GetSpotParentCommentsUseCase,
 ) : MviViewModel<SpotDetailViewState, SpotDetailEvent, SpotDetailSideEffect>(
     SpotDetailViewState(),
 ) {
     var contentPowerMenuList = listOf(PowerMenuType.REPORT.kor, PowerMenuType.BLOCK.kor)
         private set
 
-    fun getSpotDetail(spotId: Int) = viewModelScope.launch {
+    private var parentCommentCursorId = 0
+    private var parentCommentLast = false
+
+    fun initData(spotId: Int) = viewModelScope.launch {
+        joinAll(getSpotDetail(spotId), getSpotParentCommentList(spotId))
+        postEvent(SpotDetailEvent.Initialized)
+    }
+
+    private fun getSpotDetail(spotId: Int) = viewModelScope.launch {
         getSpotDetailUseCase(spotId).collectOutcome(
             handleSuccess = {
                 if (it.data.isAuthor) {
@@ -37,25 +47,33 @@ class SpotDetailViewModel @Inject constructor(
                         it.data.toSpotDetailContentItem(),
                     ),
                 )
-                postEvent(SpotDetailEvent.Initialized)
             },
             handleFail = { handleError(it.error) },
         )
     }
 
-    private fun SpotDetail.toSpotDetailContentItem() = SpotDetailContentItem(
-        spotId = id,
-        profileImageUrl = userProfileImageUrl ?: "",
-        nickname = userNickname,
-        createdAt = createdAt,
-        isBookmarked = isBookmarked,
-        title = title,
-        location = locationName,
-        address = address,
-        imageUrls = imageUrls,
-        content = content,
-        commentCount = 0, // TODO 업데이트
-    )
+    fun getSpotParentCommentList(spotId: Int) = viewModelScope.launch {
+        if (parentCommentLast) return@launch
+
+        getSpotParentCommentsUseCase(spotId, parentCommentCursorId).collectOutcome(
+            handleSuccess = ::handleSpotParentCommentListSuccess,
+            handleFail = { handleError(it.error) },
+        )
+    }
+
+    private fun handleSpotParentCommentListSuccess(outcome: Outcome.Success<SpotCommentList>) {
+        parentCommentCursorId = outcome.data.content.lastOrNull()?.id ?: -1
+        parentCommentLast = outcome.data.last
+
+        postEvent(SpotDetailEvent.UpdateSpotParentCommentList(outcome.data.content.map { it.toSpotParentCommentItem() }))
+        postEvent(
+            SpotDetailEvent.UpdateSpotDetailContent(
+                state.value.spotDetailContent.copy(
+                    commentCount = outcome.data.totalElements,
+                ),
+            ),
+        )
+    }
 
     fun bookmark(spotId: Int) = viewModelScope.launch {
         bookmarkSpotUseCase(spotId).collectOutcome(
@@ -89,6 +107,10 @@ class SpotDetailViewModel @Inject constructor(
 
         is SpotDetailEvent.UpdateSpotDetailContent -> current.copy(
             spotDetailContent = event.content,
+        )
+
+        is SpotDetailEvent.UpdateSpotParentCommentList -> current.copy(
+            spotCommentList = event.commentList,
         )
     }
 

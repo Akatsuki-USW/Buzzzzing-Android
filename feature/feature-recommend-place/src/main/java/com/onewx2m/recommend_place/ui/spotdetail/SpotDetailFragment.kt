@@ -14,6 +14,7 @@ import com.onewx2m.core_ui.extensions.setVisibleWithAnimation
 import com.onewx2m.core_ui.util.DeepLinkUtil
 import com.onewx2m.design_system.components.powermenu.PowerMenuType
 import com.onewx2m.design_system.components.powermenu.showPowerMenu
+import com.onewx2m.design_system.components.recyclerview.spotcomment.parent.SpotParentCommentAdapter
 import com.onewx2m.design_system.components.toast.ErrorToast
 import com.onewx2m.mvi.MviFragment
 import com.onewx2m.recommend_place.databinding.FragmentSpotDetailBinding
@@ -34,15 +35,23 @@ class SpotDetailFragment :
         )
     }
 
+    private val spotParentCommentAdapter: SpotParentCommentAdapter by lazy {
+        SpotParentCommentAdapter(
+            onParentMeatBallClick = { view, item -> },
+            onChildMeatBallClick = { view, item -> },
+        )
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        viewModel.getSpotDetail(navArgs.spotId)
+        viewModel.initData(navArgs.spotId)
     }
 
     override fun initView() {
         val concatAdapter = ConcatAdapter(
             spotDetailContentAdapter,
+            spotParentCommentAdapter,
         )
 
         binding.recyclerView.apply {
@@ -50,6 +59,7 @@ class SpotDetailFragment :
             itemAnimator = null
             layoutManager = LinearLayoutManager(requireContext())
             infiniteScrolls {
+                viewModel.getSpotParentCommentList(navArgs.spotId)
             }
         }
 
@@ -75,6 +85,8 @@ class SpotDetailFragment :
         spotDetailContentAdapter.setData(
             current.spotDetailContent,
         )
+
+        spotParentCommentAdapter.submitList(current.spotCommentList)
     }
 
     override fun handleSideEffect(sideEffect: SpotDetailSideEffect) {
