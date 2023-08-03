@@ -17,4 +17,6 @@
     <string name="max_notification">더 이상 선택할 수 없어요.</string>
 
     <string name="fragment_spot_detail_comment_count">%d개의 댓글</string>
+    <string name="fragment_spot_detail_reply_to">%s님에게 대댓글 남기는 중...</string>
+    <string name="fragment_spot_detail_input_comment_hint">댓글을 입력해주세요.</string>
 </resources>

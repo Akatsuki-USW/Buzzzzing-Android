@@ -8,7 +8,9 @@ class PostSpotChildrenCommentUseCase @Inject constructor(
 ) {
     suspend operator fun invoke(
         parentId: Int,
+        content: String,
     ) = spotCommentRepository.createChildrenComment(
         parentId = parentId,
+        content = content,
     )
 }

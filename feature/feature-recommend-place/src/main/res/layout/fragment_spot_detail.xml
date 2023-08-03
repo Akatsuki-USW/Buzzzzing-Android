@@ -71,6 +71,40 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraint_layout_reply"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        android:background="@color/gray07"
+        android:padding="10dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@id/constraint_layout_comment">
+
+        <TextView
+            android:id="@+id/text_view_reply"
+            style="@style/Body.3"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/fragment_spot_detail_reply_to"
+            android:textColor="@color/gray04"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/image_view_reply_close"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/image_view_reply_close"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_delete"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraint_layout_comment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white01"
@@ -88,17 +122,19 @@
             app:layout_constraintBottom_toBottomOf="parent">
 
             <EditText
+                android:id="@+id/edit_text_comment"
                 style="@style/Body.3"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_marginHorizontal="12dp"
                 android:background="@null"
-                android:hint="댓글을 입력해주세요."
+                android:hint="@string/fragment_spot_detail_input_comment_hint"
                 android:inputType="textMultiLine"
                 android:minHeight="50dp"
+                android:paddingEnd="50dp"
                 android:textColorHint="@color/gray05"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/image_view_send"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 

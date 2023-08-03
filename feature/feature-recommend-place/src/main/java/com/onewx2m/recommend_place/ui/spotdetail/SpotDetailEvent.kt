@@ -12,5 +12,10 @@ sealed interface SpotDetailEvent : Event {
     object ShowSmallLoadingLottie : SpotDetailEvent
     object HideSmallLoadingLottie : SpotDetailEvent
 
+    data class ShowReplyLayout(val nickname: String) : SpotDetailEvent
+    object HideReplyLayout : SpotDetailEvent
+
     object Initialized : SpotDetailEvent
+
+    data class UpdateComment(val content: String, val needRender: Boolean = false) : SpotDetailEvent
 }

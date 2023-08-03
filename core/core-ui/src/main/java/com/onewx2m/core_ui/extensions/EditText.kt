@@ -1,5 +1,7 @@
 package com.onewx2m.core_ui.extensions
 
+import android.content.Context
+import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import androidx.core.widget.doOnTextChanged
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -17,4 +19,10 @@ fun EditText.textChangesToFlow(): Flow<CharSequence?> {
         }
         awaitClose { removeTextChangedListener(listener) }
     }.onStart { emit(text) }
+}
+
+fun EditText.showKeyboard() {
+    val inputMethodManager = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+    this.requestFocus()
+    inputMethodManager.showSoftInput(this, InputMethodManager.SHOW_IMPLICIT)
 }

@@ -31,6 +31,7 @@ class SpotParentCommentViewHolder(
 
         binding.recyclerViewChildren.apply {
             adapter = listAdapter
+            itemAnimator = null
             layoutManager = LinearLayoutManager(context)
         }
 

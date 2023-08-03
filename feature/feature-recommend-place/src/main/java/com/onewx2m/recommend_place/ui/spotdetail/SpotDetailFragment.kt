@@ -3,15 +3,18 @@ package com.onewx2m.recommend_place.ui.spotdetail
 import android.os.Bundle
 import android.view.View
 import androidx.core.view.isVisible
+import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.onewx2m.core_ui.extensions.hideKeyboard
 import com.onewx2m.core_ui.extensions.infiniteScrolls
 import com.onewx2m.core_ui.extensions.onThrottleClick
 import com.onewx2m.core_ui.extensions.setGoneWithAnimation
 import com.onewx2m.core_ui.extensions.setVisibleWithAnimation
+import com.onewx2m.core_ui.extensions.showKeyboard
 import com.onewx2m.core_ui.util.DeepLinkUtil
 import com.onewx2m.design_system.components.powermenu.PowerMenuType
 import com.onewx2m.design_system.components.powermenu.showPowerMenu
@@ -20,6 +23,7 @@ import com.onewx2m.design_system.components.recyclerview.spotcomment.parent.Spot
 import com.onewx2m.design_system.components.recyclerview.spotcomment.parent.SpotParentCommentItem
 import com.onewx2m.design_system.components.toast.ErrorToast
 import com.onewx2m.mvi.MviFragment
+import com.onewx2m.recommend_place.R
 import com.onewx2m.recommend_place.databinding.FragmentSpotDetailBinding
 import com.onewx2m.recommend_place.ui.spotdetail.adapter.SpotDetailContentAdapter
 import dagger.hilt.android.AndroidEntryPoint
@@ -60,6 +64,7 @@ class SpotDetailFragment :
 
         binding.recyclerView.apply {
             adapter = concatAdapter
+            itemAnimator = null
             layoutManager = LinearLayoutManager(requireContext())
             infiniteScrolls {
                 viewModel.getSpotParentCommentList(navArgs.spotId)
@@ -73,6 +78,18 @@ class SpotDetailFragment :
         binding.imageViewBack.onThrottleClick {
             viewModel.goToPrevPage()
         }
+
+        binding.editTextComment.doOnTextChanged { text, _, _, _ ->
+            viewModel.updateContent(text.toString())
+        }
+
+        binding.imageViewReplyClose.onThrottleClick {
+            viewModel.onReplyCloseClick()
+        }
+
+        binding.imageViewSend.onThrottleClick {
+            viewModel.onClickCommentSend(navArgs.spotId)
+        }
     }
 
     override fun render(current: SpotDetailViewState) {
@@ -83,6 +100,19 @@ class SpotDetailFragment :
                 recyclerView.setVisibleWithAnimation()
                 lottieLoading.setGoneWithAnimation()
             }
+
+            lottieLoadingSmall.visibility =
+                if (current.isSmallLottieVisible) View.VISIBLE else View.GONE
+
+            constraintLayoutReply.visibility =
+                if (current.isReplyLayoutVisible) View.VISIBLE else View.GONE
+
+            if (current.needCommentRender) {
+                binding.editTextComment.setText(current.commentContent)
+                binding.editTextComment.setSelection(current.commentContent.length)
+            }
+
+            textViewReply.text = getString(R.string.fragment_spot_detail_reply_to, current.replyNickname)
         }
 
         spotDetailContentAdapter.setData(
@@ -90,9 +120,6 @@ class SpotDetailFragment :
         )
 
         spotParentCommentAdapter.submitList(current.spotCommentList)
-
-        binding.lottieLoadingSmall.visibility =
-            if (current.isSmallLottieVisible) View.VISIBLE else View.GONE
     }
 
     override fun handleSideEffect(sideEffect: SpotDetailSideEffect) {
@@ -106,8 +133,18 @@ class SpotDetailFragment :
                 .show()
 
             SpotDetailSideEffect.GoToPrevPage -> findNavController().popBackStack()
-            is SpotDetailSideEffect.ShowChildCommentPowerMenu -> showChildCommentPowerMenu(sideEffect.view, sideEffect.item)
-            is SpotDetailSideEffect.ShowParentCommentPowerMenu -> showParentCommentPowerMenu(sideEffect.view, sideEffect.item)
+            is SpotDetailSideEffect.ShowChildCommentPowerMenu -> showChildCommentPowerMenu(
+                sideEffect.view,
+                sideEffect.item,
+            )
+
+            is SpotDetailSideEffect.ShowParentCommentPowerMenu -> showParentCommentPowerMenu(
+                sideEffect.view,
+                sideEffect.item,
+            )
+
+            SpotDetailSideEffect.ShowKeyboard -> binding.editTextComment.showKeyboard()
+            SpotDetailSideEffect.HideKeyboard -> hideKeyboard()
         }
     }
 
@@ -155,7 +192,7 @@ class SpotDetailFragment :
                 PowerMenuType.DELETE -> Unit
                 PowerMenuType.REPORT -> Unit
                 PowerMenuType.BLOCK -> Unit
-                PowerMenuType.REPLY -> Unit
+                PowerMenuType.REPLY -> viewModel.onClickReply(item.id, item.nickname)
             }
         }
     }

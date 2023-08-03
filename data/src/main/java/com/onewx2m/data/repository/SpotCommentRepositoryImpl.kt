@@ -23,8 +23,11 @@ class SpotCommentRepositoryImpl @Inject constructor(
             }
     }
 
-    override suspend fun createParentComment(spotId: Int): Flow<Outcome<SpotComment>> {
-        return remoteSpotCommentDataSource.createParentComment(spotId = spotId)
+    override suspend fun createParentComment(
+        spotId: Int,
+        content: String,
+    ): Flow<Outcome<SpotComment>> {
+        return remoteSpotCommentDataSource.createParentComment(spotId = spotId, content = content)
             .flatMapOutcomeSuccess {
                 it.toDomain()
             }
@@ -48,14 +51,23 @@ class SpotCommentRepositoryImpl @Inject constructor(
         parentId: Int,
         cursorId: Int,
     ): Flow<Outcome<SpotCommentList>> {
-        return remoteSpotCommentDataSource.getChildrenComments(parentId = parentId, cursorId = cursorId)
+        return remoteSpotCommentDataSource.getChildrenComments(
+            parentId = parentId,
+            cursorId = cursorId,
+        )
             .flatMapOutcomeSuccess {
                 it.toDomain()
             }
     }
 
-    override suspend fun createChildrenComment(parentId: Int): Flow<Outcome<SpotComment>> {
-        return remoteSpotCommentDataSource.createChildrenComment(parentId = parentId)
+    override suspend fun createChildrenComment(
+        parentId: Int,
+        content: String,
+    ): Flow<Outcome<SpotComment>> {
+        return remoteSpotCommentDataSource.createChildrenComment(
+            parentId = parentId,
+            content = content,
+        )
             .flatMapOutcomeSuccess {
                 it.toDomain()
             }

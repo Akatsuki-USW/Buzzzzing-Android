@@ -5,6 +5,7 @@ import com.onewx2m.data.model.SpotCommentEntity
 import com.onewx2m.data.model.SpotCommentListEntity
 import com.onewx2m.domain.Outcome
 import com.onewx2m.remote.api.SpotCommentApi
+import com.onewx2m.remote.model.request.CommentRequest
 import com.onewx2m.remote.model.response.toEntity
 import com.onewx2m.remote.onFailure
 import com.onewx2m.remote.onSuccess
@@ -29,8 +30,8 @@ class RemoteSpotCommentDataSourceImpl @Inject constructor(
         }
     }
 
-    override suspend fun createParentComment(spotId: Int): Flow<Outcome<SpotCommentEntity>> = flow {
-        api.createParentComment(spotId = spotId).onSuccess { body ->
+    override suspend fun createParentComment(spotId: Int, content: String): Flow<Outcome<SpotCommentEntity>> = flow {
+        api.createParentComment(spotId = spotId, CommentRequest(content)).onSuccess { body ->
             emit(Outcome.Success(body.data!!.toEntity()))
         }.onFailure {
             emit(Outcome.Failure(it))
@@ -64,9 +65,9 @@ class RemoteSpotCommentDataSourceImpl @Inject constructor(
         }
     }
 
-    override suspend fun createChildrenComment(parentId: Int): Flow<Outcome<SpotCommentEntity>> =
+    override suspend fun createChildrenComment(parentId: Int, content: String): Flow<Outcome<SpotCommentEntity>> =
         flow {
-            api.createChildrenComment(parentId = parentId).onSuccess { body ->
+            api.createChildrenComment(parentId = parentId, CommentRequest(content)).onSuccess { body ->
                 emit(Outcome.Success(body.data!!.toEntity()))
             }.onFailure {
                 emit(Outcome.Failure(it))

@@ -17,4 +17,7 @@ sealed interface SpotDetailSideEffect : SideEffect {
         SpotDetailSideEffect
 
     object GoToPrevPage : SpotDetailSideEffect
+
+    object ShowKeyboard : SpotDetailSideEffect
+    object HideKeyboard : SpotDetailSideEffect
 }

@@ -3,17 +3,21 @@ package com.onewx2m.recommend_place.ui.spotdetail
 import android.view.View
 import androidx.lifecycle.viewModelScope
 import com.onewx2m.design_system.components.powermenu.PowerMenuType
+import com.onewx2m.design_system.components.recyclerview.spotcomment.SpotCommentType
 import com.onewx2m.design_system.components.recyclerview.spotcomment.children.SpotChildrenCommentItem
 import com.onewx2m.design_system.components.recyclerview.spotcomment.parent.SpotParentCommentItem
 import com.onewx2m.domain.Outcome
 import com.onewx2m.domain.collectOutcome
 import com.onewx2m.domain.exception.common.CommonException
 import com.onewx2m.domain.model.SpotBookmark
+import com.onewx2m.domain.model.SpotComment
 import com.onewx2m.domain.model.SpotCommentList
 import com.onewx2m.domain.usecase.BookmarkSpotUseCase
 import com.onewx2m.domain.usecase.GetSpotChildrenCommentsUseCase
 import com.onewx2m.domain.usecase.GetSpotDetailUseCase
 import com.onewx2m.domain.usecase.GetSpotParentCommentsUseCase
+import com.onewx2m.domain.usecase.PostSpotChildrenCommentUseCase
+import com.onewx2m.domain.usecase.PostSpotParentCommentUseCase
 import com.onewx2m.mvi.MviViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.onCompletion
@@ -28,6 +32,8 @@ class SpotDetailViewModel @Inject constructor(
     private val bookmarkSpotUseCase: BookmarkSpotUseCase,
     private val getSpotParentCommentsUseCase: GetSpotParentCommentsUseCase,
     private val getSpotChildrenCommentsUseCase: GetSpotChildrenCommentsUseCase,
+    private val postSpotParentCommentUseCase: PostSpotParentCommentUseCase,
+    private val postSpotChildrenCommentUseCase: PostSpotChildrenCommentUseCase,
 ) : MviViewModel<SpotDetailViewState, SpotDetailEvent, SpotDetailSideEffect>(
     SpotDetailViewState(),
 ) {
@@ -39,8 +45,104 @@ class SpotDetailViewModel @Inject constructor(
 
     private var authorId = -1
 
+    private var replyCommentId: Int? = null
+
     // key == parentCommentId
     private val childrenCommentQuery = mutableMapOf<Int, ChildrenCommentQuery>()
+
+    fun onClickCommentSend(spotId: Int) {
+        if (state.value.commentContent.isEmpty()) return
+
+        postEvent(SpotDetailEvent.ShowSmallLoadingLottie)
+        postEvent(SpotDetailEvent.HideReplyLayout)
+        postSideEffect(SpotDetailSideEffect.HideKeyboard)
+
+        if (replyCommentId == null) {
+            createParentComment(spotId)
+        } else {
+            createChildComment()
+        }
+    }
+
+    private fun createParentComment(spotId: Int) = viewModelScope.launch {
+        postSpotParentCommentUseCase(spotId, state.value.commentContent).onCompletion {
+            postEvent(SpotDetailEvent.HideSmallLoadingLottie)
+            updateContent("", true)
+        }.collectOutcome(
+            handleSuccess = ::handleCreateParentCommentSuccess,
+            handleFail = { handleError(it.error) },
+        )
+    }
+
+    private fun handleCreateParentCommentSuccess(outcome: Outcome.Success<SpotComment>) {
+        if (parentCommentLast) {
+            val commentList =
+                state.value.spotCommentList.plus(outcome.data.toSpotParentCommentItem())
+            postEvent(SpotDetailEvent.UpdateSpotParentCommentList(commentList))
+        } else {
+            val spotDetailContent = state.value.spotDetailContent.copy(
+                commentCount = state.value.spotDetailContent.commentCount + 1,
+            )
+            postEvent(SpotDetailEvent.UpdateSpotDetailContent(spotDetailContent))
+        }
+    }
+
+    private fun createChildComment() = viewModelScope.launch {
+        postSpotChildrenCommentUseCase(replyCommentId!!, state.value.commentContent).onCompletion {
+            postEvent(SpotDetailEvent.HideSmallLoadingLottie)
+            updateContent("", true)
+            replyCommentId = null
+        }.collectOutcome(
+            handleSuccess = ::handleCreateChildCommentSuccess,
+            handleFail = { handleError(it.error) },
+        )
+    }
+
+    private fun handleCreateChildCommentSuccess(outcome: Outcome.Success<SpotComment>) {
+        val childComment = outcome.data.toSpotChildrenCommentItem(replyCommentId!!)
+
+        val parentComment = state.value.spotCommentList.find { it.id == replyCommentId } ?: return
+
+        val childComments =
+            if (childrenCommentQuery[replyCommentId!!]?.last == true) {
+                parentComment.visibleChildrenCommentList.plus(
+                    childComment,
+                )
+            } else {
+                parentComment.visibleChildrenCommentList
+            }
+
+        val commentList =
+            state.value.spotCommentList.map { comment ->
+                if (comment.id == replyCommentId) {
+                    comment.copy(
+                        visibleChildrenCommentList = childComments,
+                        totalChildrenCount = comment.totalChildrenCount + 1,
+                    )
+                } else {
+                    comment
+                }
+            }
+
+        postEvent(SpotDetailEvent.UpdateSpotParentCommentList(commentList))
+    }
+
+    fun updateContent(content: String, needRender: Boolean = false) {
+        postEvent(
+            SpotDetailEvent.UpdateComment(content, needRender),
+        )
+    }
+
+    fun onClickReply(replyCommentId: Int, nickname: String) {
+        this.replyCommentId = replyCommentId
+        postSideEffect(SpotDetailSideEffect.ShowKeyboard)
+        postEvent(SpotDetailEvent.ShowReplyLayout(nickname))
+    }
+
+    fun onReplyCloseClick() {
+        this.replyCommentId = null
+        postEvent(SpotDetailEvent.HideReplyLayout)
+    }
 
     fun getParentCommentPowerMenuList(isAuthor: Boolean) =
         if (isAuthor) {
@@ -96,7 +198,19 @@ class SpotDetailViewModel @Inject constructor(
         parentCommentCursorId = outcome.data.content.lastOrNull()?.id ?: -1
         parentCommentLast = outcome.data.last
 
-        postEvent(SpotDetailEvent.UpdateSpotParentCommentList(outcome.data.content.map { it.toSpotParentCommentItem() }))
+        val newCommentList =
+            outcome.data.content.map { it.toSpotParentCommentItem() } + if (parentCommentLast) {
+                listOf()
+            } else {
+                listOf(
+                    SpotParentCommentItem(type = SpotCommentType.LOADING),
+                )
+            }
+
+        val commentList =
+            state.value.spotCommentList.minus(SpotParentCommentItem(type = SpotCommentType.LOADING)) + newCommentList
+
+        postEvent(SpotDetailEvent.UpdateSpotParentCommentList(commentList))
         postEvent(
             SpotDetailEvent.UpdateSpotDetailContent(
                 state.value.spotDetailContent.copy(
@@ -139,7 +253,7 @@ class SpotDetailViewModel @Inject constructor(
         val commentList = state.value.spotCommentList.map { parentComment ->
             if (parentComment.id == parentId) {
                 parentComment.copy(
-                    visibleChildrenCommentList = outcome.data.content.map {
+                    visibleChildrenCommentList = parentComment.visibleChildrenCommentList + outcome.data.content.map {
                         it.toSpotChildrenCommentItem(
                             parentId,
                         )
@@ -191,6 +305,21 @@ class SpotDetailViewModel @Inject constructor(
 
         SpotDetailEvent.ShowSmallLoadingLottie -> current.copy(
             isSmallLottieVisible = true,
+        )
+
+        SpotDetailEvent.HideReplyLayout -> current.copy(
+            isReplyLayoutVisible = false,
+            replyNickname = "",
+        )
+
+        is SpotDetailEvent.ShowReplyLayout -> current.copy(
+            isReplyLayoutVisible = true,
+            replyNickname = event.nickname,
+        )
+
+        is SpotDetailEvent.UpdateComment -> current.copy(
+            commentContent = event.content,
+            needCommentRender = event.needRender,
         )
     }
 

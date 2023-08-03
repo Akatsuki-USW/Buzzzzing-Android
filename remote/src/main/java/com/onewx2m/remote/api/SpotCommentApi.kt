@@ -6,8 +6,10 @@ import com.onewx2m.remote.api.BuzzzzingLocationApi.Companion.LOCATION
 import com.onewx2m.remote.api.SpotApi.Companion.SPOT
 import com.onewx2m.remote.api.SpotApi.Companion.SPOT_ID
 import com.onewx2m.remote.model.ApiResponse
+import com.onewx2m.remote.model.request.CommentRequest
 import com.onewx2m.remote.model.response.SpotCommentListResponse
 import com.onewx2m.remote.model.response.SpotCommentResponse
+import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.POST
@@ -31,6 +33,7 @@ interface SpotCommentApi {
     @POST("$LOCATION/$SPOT/{$SPOT_ID}/$COMMENT/parents")
     suspend fun createParentComment(
         @Path(SPOT_ID) spotId: Int,
+        @Body request: CommentRequest,
     ): ApiResult<ApiResponse<SpotCommentResponse>>
 
     @PUT("$LOCATION/$SPOT/$COMMENT/{$COMMENT_ID}")
@@ -52,5 +55,6 @@ interface SpotCommentApi {
     @POST("$LOCATION/$SPOT/$COMMENT/{$PARENT_ID}/children")
     suspend fun createChildrenComment(
         @Path(PARENT_ID) parentId: Int,
+        @Body request: CommentRequest,
     ): ApiResult<ApiResponse<SpotCommentResponse>>
 }

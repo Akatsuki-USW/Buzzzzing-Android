@@ -14,6 +14,10 @@ data class SpotDetailViewState(
     val isLoadingLottieVisible: Boolean = true,
     val isRecyclerViewVisible: Boolean = false,
     val isSmallLottieVisible: Boolean = false,
+    val isReplyLayoutVisible: Boolean = false,
+    val replyNickname: String = "",
+    val commentContent: String = "",
+    val needCommentRender: Boolean = false,
 ) : ViewState
 
 internal fun SpotComment.toSpotParentCommentItem() = SpotParentCommentItem(

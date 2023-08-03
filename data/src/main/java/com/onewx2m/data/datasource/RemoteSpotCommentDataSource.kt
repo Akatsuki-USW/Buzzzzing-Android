@@ -15,6 +15,7 @@ interface RemoteSpotCommentDataSource {
 
     suspend fun createParentComment(
         spotId: Int,
+        content: String,
     ): Flow<Outcome<SpotCommentEntity>>
 
     suspend fun editComment(
@@ -32,5 +33,6 @@ interface RemoteSpotCommentDataSource {
 
     suspend fun createChildrenComment(
         parentId: Int,
+        content: String,
     ): Flow<Outcome<SpotCommentEntity>>
 }

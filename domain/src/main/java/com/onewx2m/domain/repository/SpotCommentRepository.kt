@@ -13,6 +13,7 @@ interface SpotCommentRepository {
 
     suspend fun createParentComment(
         spotId: Int,
+        content: String,
     ): Flow<Outcome<SpotComment>>
 
     suspend fun editComment(
@@ -30,5 +31,6 @@ interface SpotCommentRepository {
 
     suspend fun createChildrenComment(
         parentId: Int,
+        content: String,
     ): Flow<Outcome<SpotComment>>
 }
