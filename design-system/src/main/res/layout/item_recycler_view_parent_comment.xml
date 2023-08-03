@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/constraint_layout_item"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white01"
+    android:paddingHorizontal="20dp"
+    android:paddingTop="12dp">
+
+
+    <ImageView
+        android:id="@+id/image_view_profile"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@drawable/ic_profile" />
+
+    <TextView
+        android:id="@+id/text_view_nickname"
+        style="@style/Header.6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        app:layout_constraintStart_toEndOf="@id/image_view_profile"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="지누크" />
+
+    <TextView
+        android:id="@+id/text_view_created_at"
+        style="@style/Body.4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:textColor="@color/gray05"
+        app:layout_constraintStart_toEndOf="@id/image_view_profile"
+        app:layout_constraintTop_toBottomOf="@id/text_view_nickname"
+        tools:text="2023-05-21 18:26" />
+
+    <ImageView
+        android:id="@+id/image_view_meat_ball"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:src="@drawable/ic_meat_ball"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/text_view_content"
+        style="@style/Body.3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        app:layout_constraintTop_toBottomOf="@id/image_view_profile"
+        tools:text="여기 맛있긴해" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view_children"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:listitem="@layout/item_recycler_view_children_comment"
+        app:layout_constraintTop_toBottomOf="@id/text_view_content" />
+
+    <com.onewx2m.design_system.components.textview.FigmaTextView
+        style="@style/Label.2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/item_recycler_view_parent_comment_more_children"
+        android:textColor="@color/gray04"
+        app:layout_constraintTop_toBottomOf="@id/recycler_view_children" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
