@@ -1,35 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 
-<androidx.constraintlayout.widget.ConstraintLayout android:background="@drawable/insect_dialog"
-    android:layout_height="match_parent"
-    android:layout_width="match_parent"
-    android:paddingHorizontal="48dp"
-    tools:layout_height="wrap_content"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/insect_dialog"
+    android:paddingHorizontal="48dp"
+    tools:layout_height="wrap_content">
 
     <TextView
-        style="@style/Header.2"
-        android:gravity="center"
         android:id="@+id/text_view_title"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
+        style="@style/Header.3"
         android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
         android:textColor="@color/gray01"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="모임을 종료하시겠어요?" />
 
     <TextView
-        style="@style/Body.1"
-        android:gravity="center"
         android:id="@+id/text_view_description"
+        style="@style/Body.1"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:layout_width="0dp"
+        android:gravity="start"
         android:textColor="@color/gray01"
         android:visibility="gone"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -40,15 +39,15 @@
 
 
     <androidx.appcompat.widget.AppCompatButton
-        style="@style/Header.3"
+        android:id="@+id/button_negative"
+        style="@style/Header.5"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="12dp"
+        android:layout_marginBottom="16dp"
         android:background="@drawable/ripple_gray01_bg_solid_blue_light_rounded_5"
         android:gravity="center"
-        android:id="@+id/button_negative"
-        android:layout_height="45dp"
-        android:layout_marginBottom="16dp"
-        android:layout_marginEnd="12dp"
-        android:layout_marginTop="32dp"
-        android:layout_width="0dp"
         android:stateListAnimator="@null"
         android:textColor="@color/white01"
         android:visibility="gone"
@@ -61,14 +60,14 @@
 
 
     <androidx.appcompat.widget.AppCompatButton
-        style="@style/Header.3"
+        android:id="@+id/button_positive"
+        style="@style/Header.5"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="16dp"
         android:background="@drawable/ripple_black01_bg_solid_blue_rounded_5"
         android:gravity="center"
-        android:id="@+id/button_positive"
-        android:layout_height="45dp"
-        android:layout_marginBottom="16dp"
-        android:layout_marginTop="32dp"
-        android:layout_width="0dp"
         android:stateListAnimator="@null"
         android:textColor="@color/white01"
         app:layout_constraintBottom_toBottomOf="parent"

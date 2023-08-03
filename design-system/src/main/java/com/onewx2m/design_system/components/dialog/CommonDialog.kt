@@ -93,7 +93,7 @@ class CommonDialog constructor(private val context: Context) {
 
     fun setNegativeButton(
         @StringRes textId: Int = R.string.word_cancel,
-        onClickListener: (view: View) -> (Unit),
+        onClickListener: (view: View) -> (Unit) = {},
     ): CommonDialog {
         binding.buttonNegative.apply {
             visibility = View.VISIBLE
@@ -106,7 +106,7 @@ class CommonDialog constructor(private val context: Context) {
 
     fun setNegativeButton(
         text: CharSequence,
-        onClickListener: (view: View) -> (Unit),
+        onClickListener: (view: View) -> (Unit) = {},
     ): CommonDialog {
         binding.buttonNegative.apply {
             visibility = View.VISIBLE

@@ -43,7 +43,8 @@ class SpotDetailViewModel @Inject constructor(
     private var parentCommentCursorId = 0
     private var parentCommentLast = false
 
-    private var authorId = -1
+    var authorId = -1
+        private set
 
     private var replyCommentId: Int? = null
 
@@ -79,12 +80,12 @@ class SpotDetailViewModel @Inject constructor(
             val commentList =
                 state.value.spotCommentList.plus(outcome.data.toSpotParentCommentItem())
             postEvent(SpotDetailEvent.UpdateSpotParentCommentList(commentList))
-        } else {
-            val spotDetailContent = state.value.spotDetailContent.copy(
-                commentCount = state.value.spotDetailContent.commentCount + 1,
-            )
-            postEvent(SpotDetailEvent.UpdateSpotDetailContent(spotDetailContent))
         }
+
+        val spotDetailContent = state.value.spotDetailContent.copy(
+            commentCount = state.value.spotDetailContent.commentCount + 1,
+        )
+        postEvent(SpotDetailEvent.UpdateSpotDetailContent(spotDetailContent))
     }
 
     private fun createChildComment() = viewModelScope.launch {
@@ -337,6 +338,11 @@ class SpotDetailViewModel @Inject constructor(
             )
         }
     }
+
+    fun showBlockDialog(userId: Int) = postSideEffect(SpotDetailSideEffect.ShowBlockDialog(userId))
+    fun showDeleteSpotDialog() = postSideEffect(SpotDetailSideEffect.ShowSpotDeleteDialog)
+    fun showDeleteCommentDialog(commentId: Int) =
+        postSideEffect(SpotDetailSideEffect.ShowCommentDeleteDialog(commentId))
 
     fun showContentPowerMenu() =
         postSideEffect(SpotDetailSideEffect.ShowContentPowerMenu)

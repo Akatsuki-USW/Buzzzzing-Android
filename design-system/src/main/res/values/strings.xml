@@ -18,4 +18,9 @@
     <string name="word_search">검색</string>
     <string name="item_recycler_view_parent_comment_more_children">- %d개의 대댓글 보기</string>
     <string name="item_recycler_view_comment_delete">삭제된 댓글입니다.</string>
+
+    <string name="dialog_block_description">정말 차단하시겠어요?\n차단은 해제할 수 없어요.</string>
+    <string name="dialog_block_title">차단</string>
+    <string name="dialog_delete_description">정말 삭제하시겠어요?</string>
+    <string name="dialog_delete_title">삭제</string>
 </resources>

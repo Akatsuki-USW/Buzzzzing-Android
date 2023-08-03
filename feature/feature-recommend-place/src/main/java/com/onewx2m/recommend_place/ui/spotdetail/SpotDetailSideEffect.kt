@@ -20,4 +20,8 @@ sealed interface SpotDetailSideEffect : SideEffect {
 
     object ShowKeyboard : SpotDetailSideEffect
     object HideKeyboard : SpotDetailSideEffect
+
+    data class ShowBlockDialog(val userId: Int) : SpotDetailSideEffect
+    data class ShowCommentDeleteDialog(val commentId: Int) : SpotDetailSideEffect
+    object ShowSpotDeleteDialog : SpotDetailSideEffect
 }

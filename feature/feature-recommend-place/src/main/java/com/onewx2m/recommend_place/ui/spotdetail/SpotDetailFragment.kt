@@ -16,6 +16,7 @@ import com.onewx2m.core_ui.extensions.setGoneWithAnimation
 import com.onewx2m.core_ui.extensions.setVisibleWithAnimation
 import com.onewx2m.core_ui.extensions.showKeyboard
 import com.onewx2m.core_ui.util.DeepLinkUtil
+import com.onewx2m.design_system.components.dialog.CommonDialog
 import com.onewx2m.design_system.components.powermenu.PowerMenuType
 import com.onewx2m.design_system.components.powermenu.showPowerMenu
 import com.onewx2m.design_system.components.recyclerview.spotcomment.children.SpotChildrenCommentItem
@@ -48,6 +49,10 @@ class SpotDetailFragment :
             onChildMeatBallClick = viewModel::showChildrenCommentPowerMenu,
             onMoreClick = { item -> viewModel.getChildrenComments(item.id) },
         )
+    }
+
+    private val commonDialog by lazy {
+        CommonDialog(requireContext())
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -112,7 +117,8 @@ class SpotDetailFragment :
                 binding.editTextComment.setSelection(current.commentContent.length)
             }
 
-            textViewReply.text = getString(R.string.fragment_spot_detail_reply_to, current.replyNickname)
+            textViewReply.text =
+                getString(R.string.fragment_spot_detail_reply_to, current.replyNickname)
         }
 
         spotDetailContentAdapter.setData(
@@ -145,7 +151,46 @@ class SpotDetailFragment :
 
             SpotDetailSideEffect.ShowKeyboard -> binding.editTextComment.showKeyboard()
             SpotDetailSideEffect.HideKeyboard -> hideKeyboard()
+            is SpotDetailSideEffect.ShowBlockDialog -> showBlockDialog(sideEffect.userId)
+            is SpotDetailSideEffect.ShowCommentDeleteDialog -> showCommentDelete(sideEffect.commentId)
+            SpotDetailSideEffect.ShowSpotDeleteDialog -> showSpotDelete()
         }
+    }
+
+    private fun showBlockDialog(userId: Int) {
+        commonDialog.setDescription(com.onewx2m.design_system.R.string.dialog_block_description)
+            .setTitle(com.onewx2m.design_system.R.string.dialog_block_title)
+            .setNegativeButton {
+                commonDialog.dismiss()
+            }
+            .setPositiveButton {
+                // TODO 유저 차단
+                commonDialog.dismiss()
+            }.show()
+    }
+
+    private fun showSpotDelete() {
+        commonDialog.setTitle(com.onewx2m.design_system.R.string.dialog_delete_title)
+            .setDescription(com.onewx2m.design_system.R.string.dialog_delete_description)
+            .setNegativeButton {
+                commonDialog.dismiss()
+            }
+            .setPositiveButton {
+                // TODO 스팟 삭제 navArgs.spotId
+                commonDialog.dismiss()
+            }.show()
+    }
+
+    private fun showCommentDelete(commentId: Int) {
+        commonDialog.setDescription(com.onewx2m.design_system.R.string.dialog_delete_description)
+            .setTitle(com.onewx2m.design_system.R.string.dialog_delete_title)
+            .setNegativeButton {
+                commonDialog.dismiss()
+            }
+            .setPositiveButton {
+                // TODO 댓글 삭제
+                commonDialog.dismiss()
+            }.show()
     }
 
     private fun goToLoginFragment() {
@@ -172,9 +217,9 @@ class SpotDetailFragment :
         ) { _, item ->
             when (PowerMenuType.typeOf(item)) {
                 PowerMenuType.EDIT -> viewModel.goToWriteFragment()
-                PowerMenuType.DELETE -> Unit
+                PowerMenuType.DELETE -> viewModel.showDeleteSpotDialog()
                 PowerMenuType.REPORT -> Unit
-                PowerMenuType.BLOCK -> Unit
+                PowerMenuType.BLOCK -> viewModel.showBlockDialog(viewModel.authorId)
                 PowerMenuType.REPLY -> Unit
             }
         }
@@ -189,9 +234,9 @@ class SpotDetailFragment :
         ) { _, menu ->
             when (PowerMenuType.typeOf(menu)) {
                 PowerMenuType.EDIT -> Unit
-                PowerMenuType.DELETE -> Unit
+                PowerMenuType.DELETE -> viewModel.showDeleteCommentDialog(item.id)
                 PowerMenuType.REPORT -> Unit
-                PowerMenuType.BLOCK -> Unit
+                PowerMenuType.BLOCK -> viewModel.showBlockDialog(item.userId)
                 PowerMenuType.REPLY -> viewModel.onClickReply(item.id, item.nickname)
             }
         }
@@ -206,9 +251,9 @@ class SpotDetailFragment :
         ) { _, menu ->
             when (PowerMenuType.typeOf(menu)) {
                 PowerMenuType.EDIT -> Unit
-                PowerMenuType.DELETE -> Unit
+                PowerMenuType.DELETE -> viewModel.showDeleteCommentDialog(item.id)
                 PowerMenuType.REPORT -> Unit
-                PowerMenuType.BLOCK -> Unit
+                PowerMenuType.BLOCK -> viewModel.showBlockDialog(item.userId)
                 PowerMenuType.REPLY -> Unit
             }
         }
