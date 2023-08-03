@@ -19,6 +19,7 @@ data class SpotDetailViewState(
 internal fun SpotComment.toSpotParentCommentItem() = SpotParentCommentItem(
     type = if (presence) SpotCommentType.NORMAL else SpotCommentType.DELETE,
     id = id,
+    userId = userId,
     profileImageUrl = userProfileImageUrl,
     nickname = userNickname,
     createdAt = createdAt,
@@ -30,6 +31,7 @@ internal fun SpotComment.toSpotParentCommentItem() = SpotParentCommentItem(
 internal fun SpotComment.toSpotChildrenCommentItem(parentId: Int) = SpotChildrenCommentItem(
     type = if (presence) SpotCommentType.NORMAL else SpotCommentType.DELETE,
     id = id,
+    userId = userId,
     parentId = parentId,
     profileImageUrl = userProfileImageUrl,
     nickname = userNickname,

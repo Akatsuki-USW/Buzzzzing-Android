@@ -6,6 +6,7 @@ import com.onewx2m.design_system.components.recyclerview.spotcomment.children.Sp
 data class SpotParentCommentItem(
     val type: SpotCommentType = SpotCommentType.NORMAL,
     val id: Int = -1,
+    val userId: Int = -1,
     val profileImageUrl: String = "",
     val nickname: String = "",
     val createdAt: String = "",

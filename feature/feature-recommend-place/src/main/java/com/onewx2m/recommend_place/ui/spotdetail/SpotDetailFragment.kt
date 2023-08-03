@@ -15,7 +15,9 @@ import com.onewx2m.core_ui.extensions.setVisibleWithAnimation
 import com.onewx2m.core_ui.util.DeepLinkUtil
 import com.onewx2m.design_system.components.powermenu.PowerMenuType
 import com.onewx2m.design_system.components.powermenu.showPowerMenu
+import com.onewx2m.design_system.components.recyclerview.spotcomment.children.SpotChildrenCommentItem
 import com.onewx2m.design_system.components.recyclerview.spotcomment.parent.SpotParentCommentAdapter
+import com.onewx2m.design_system.components.recyclerview.spotcomment.parent.SpotParentCommentItem
 import com.onewx2m.design_system.components.toast.ErrorToast
 import com.onewx2m.mvi.MviFragment
 import com.onewx2m.recommend_place.databinding.FragmentSpotDetailBinding
@@ -38,8 +40,8 @@ class SpotDetailFragment :
 
     private val spotParentCommentAdapter: SpotParentCommentAdapter by lazy {
         SpotParentCommentAdapter(
-            onParentMeatBallClick = { view, item -> },
-            onChildMeatBallClick = { view, item -> },
+            onParentMeatBallClick = viewModel::showParentCommentPowerMenu,
+            onChildMeatBallClick = viewModel::showChildrenCommentPowerMenu,
             onMoreClick = { item -> viewModel.getChildrenComments(item.id) },
         )
     }
@@ -99,11 +101,13 @@ class SpotDetailFragment :
         when (sideEffect) {
             SpotDetailSideEffect.GoToLoginFragment -> goToLoginFragment()
             SpotDetailSideEffect.GoToWriteFragment -> goToWriteFragment()
-            SpotDetailSideEffect.ShowContentPowerMenu -> showContentPowerMenu()
+            is SpotDetailSideEffect.ShowContentPowerMenu -> showContentPowerMenu()
             is SpotDetailSideEffect.ShowErrorToast -> ErrorToast.make(binding.root, sideEffect.msg)
                 .show()
 
             SpotDetailSideEffect.GoToPrevPage -> findNavController().popBackStack()
+            is SpotDetailSideEffect.ShowChildCommentPowerMenu -> showChildCommentPowerMenu(sideEffect.view, sideEffect.item)
+            is SpotDetailSideEffect.ShowParentCommentPowerMenu -> showParentCommentPowerMenu(sideEffect.view, sideEffect.item)
         }
     }
 
@@ -131,6 +135,40 @@ class SpotDetailFragment :
         ) { _, item ->
             when (PowerMenuType.typeOf(item)) {
                 PowerMenuType.EDIT -> viewModel.goToWriteFragment()
+                PowerMenuType.DELETE -> Unit
+                PowerMenuType.REPORT -> Unit
+                PowerMenuType.BLOCK -> Unit
+                PowerMenuType.REPLY -> Unit
+            }
+        }
+    }
+
+    private fun showParentCommentPowerMenu(view: View, item: SpotParentCommentItem) {
+        view.showPowerMenu(
+            0,
+            0,
+            viewLifecycleOwner,
+            viewModel.getParentCommentPowerMenuList(item.isAuthor),
+        ) { _, menu ->
+            when (PowerMenuType.typeOf(menu)) {
+                PowerMenuType.EDIT -> Unit
+                PowerMenuType.DELETE -> Unit
+                PowerMenuType.REPORT -> Unit
+                PowerMenuType.BLOCK -> Unit
+                PowerMenuType.REPLY -> Unit
+            }
+        }
+    }
+
+    private fun showChildCommentPowerMenu(view: View, item: SpotChildrenCommentItem) {
+        view.showPowerMenu(
+            0,
+            0,
+            viewLifecycleOwner,
+            viewModel.getChildrenCommentPowerMenuList(item.isAuthor),
+        ) { _, menu ->
+            when (PowerMenuType.typeOf(menu)) {
+                PowerMenuType.EDIT -> Unit
                 PowerMenuType.DELETE -> Unit
                 PowerMenuType.REPORT -> Unit
                 PowerMenuType.BLOCK -> Unit

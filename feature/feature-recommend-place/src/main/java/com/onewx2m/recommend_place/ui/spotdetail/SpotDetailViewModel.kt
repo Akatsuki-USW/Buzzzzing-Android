@@ -1,7 +1,10 @@
 package com.onewx2m.recommend_place.ui.spotdetail
 
+import android.view.View
 import androidx.lifecycle.viewModelScope
 import com.onewx2m.design_system.components.powermenu.PowerMenuType
+import com.onewx2m.design_system.components.recyclerview.spotcomment.children.SpotChildrenCommentItem
+import com.onewx2m.design_system.components.recyclerview.spotcomment.parent.SpotParentCommentItem
 import com.onewx2m.domain.Outcome
 import com.onewx2m.domain.collectOutcome
 import com.onewx2m.domain.exception.common.CommonException
@@ -34,8 +37,28 @@ class SpotDetailViewModel @Inject constructor(
     private var parentCommentCursorId = 0
     private var parentCommentLast = false
 
+    private var authorId = -1
+
     // key == parentCommentId
     private val childrenCommentQuery = mutableMapOf<Int, ChildrenCommentQuery>()
+
+    fun getParentCommentPowerMenuList(isAuthor: Boolean) =
+        if (isAuthor) {
+            listOf(
+                PowerMenuType.EDIT.kor,
+                PowerMenuType.DELETE.kor,
+                PowerMenuType.REPLY.kor,
+            )
+        } else {
+            listOf(
+                PowerMenuType.REPORT.kor,
+                PowerMenuType.BLOCK.kor,
+                PowerMenuType.REPLY.kor,
+            )
+        }
+
+    fun getChildrenCommentPowerMenuList(isAuthor: Boolean) =
+        getParentCommentPowerMenuList(isAuthor).filterNot { it == PowerMenuType.REPLY.kor }
 
     fun initData(spotId: Int) = viewModelScope.launch {
         joinAll(getSpotDetail(spotId), getSpotParentCommentList(spotId))
@@ -45,6 +68,7 @@ class SpotDetailViewModel @Inject constructor(
     private fun getSpotDetail(spotId: Int) = viewModelScope.launch {
         getSpotDetailUseCase(spotId).collectOutcome(
             handleSuccess = {
+                authorId = it.data.userId
                 if (it.data.isAuthor) {
                     contentPowerMenuList =
                         listOf(PowerMenuType.EDIT.kor, PowerMenuType.DELETE.kor)
@@ -185,7 +209,15 @@ class SpotDetailViewModel @Inject constructor(
         }
     }
 
-    fun showContentPowerMenu() = postSideEffect(SpotDetailSideEffect.ShowContentPowerMenu)
+    fun showContentPowerMenu() =
+        postSideEffect(SpotDetailSideEffect.ShowContentPowerMenu)
+
+    fun showParentCommentPowerMenu(view: View, item: SpotParentCommentItem) =
+        postSideEffect(SpotDetailSideEffect.ShowParentCommentPowerMenu(view, item))
+
+    fun showChildrenCommentPowerMenu(view: View, item: SpotChildrenCommentItem) =
+        postSideEffect(SpotDetailSideEffect.ShowChildCommentPowerMenu(view, item))
+
     fun goToPrevPage() = postSideEffect(SpotDetailSideEffect.GoToPrevPage)
     fun goToWriteFragment() = postSideEffect(SpotDetailSideEffect.GoToWriteFragment)
 }
