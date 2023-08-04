@@ -7,17 +7,34 @@
     android:layout_height="wrap_content"
     android:background="@color/white01"
     android:paddingHorizontal="20dp"
-    android:paddingTop="12dp">
+    android:paddingVertical="12dp">
 
     <TextView
         android:id="@+id/text_view_content"
         style="@style/Body.3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
         android:text="@string/item_recycler_view_comment_delete"
         android:textColor="@color/gray04"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view_children"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/text_view_content"
+        app:layout_goneMarginTop="36dp"
+        tools:listitem="@layout/item_recycler_view_children_comment" />
+
+    <com.onewx2m.design_system.components.textview.FigmaTextView
+        android:id="@+id/text_view_more_comment"
+        style="@style/Label.2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="@string/item_recycler_view_parent_comment_more_children"
+        android:textColor="@color/gray04"
+        app:layout_constraintTop_toBottomOf="@id/recycler_view_children" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

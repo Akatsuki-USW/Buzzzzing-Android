@@ -8,7 +8,6 @@
     android:background="@color/white01"
     android:paddingHorizontal="20dp">
 
-
     <ImageView
         android:id="@+id/image_view_profile"
         android:layout_width="36dp"
@@ -60,11 +59,13 @@
         app:layout_constraintTop_toBottomOf="@id/image_view_profile"
         tools:text="여기 맛있긴해" />
 
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view_children"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/text_view_content"
+        app:layout_goneMarginTop="30dp"
         tools:listitem="@layout/item_recycler_view_children_comment" />
 
     <com.onewx2m.design_system.components.textview.FigmaTextView

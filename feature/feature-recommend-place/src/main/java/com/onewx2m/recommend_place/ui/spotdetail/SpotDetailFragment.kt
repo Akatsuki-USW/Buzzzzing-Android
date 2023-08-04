@@ -69,8 +69,8 @@ class SpotDetailFragment :
 
         binding.recyclerView.apply {
             adapter = concatAdapter
-            itemAnimator = null
             layoutManager = LinearLayoutManager(requireContext())
+            itemAnimator = null
             infiniteScrolls {
                 viewModel.getSpotParentCommentList(navArgs.spotId)
             }
@@ -188,7 +188,7 @@ class SpotDetailFragment :
                 commonDialog.dismiss()
             }
             .setPositiveButton {
-                // TODO 댓글 삭제
+                viewModel.deleteComment(commentId)
                 commonDialog.dismiss()
             }.show()
     }

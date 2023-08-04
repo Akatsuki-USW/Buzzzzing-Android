@@ -13,6 +13,7 @@ import com.onewx2m.domain.model.SpotBookmark
 import com.onewx2m.domain.model.SpotComment
 import com.onewx2m.domain.model.SpotCommentList
 import com.onewx2m.domain.usecase.BookmarkSpotUseCase
+import com.onewx2m.domain.usecase.DeleteCommentUseCase
 import com.onewx2m.domain.usecase.GetSpotChildrenCommentsUseCase
 import com.onewx2m.domain.usecase.GetSpotDetailUseCase
 import com.onewx2m.domain.usecase.GetSpotParentCommentsUseCase
@@ -34,6 +35,7 @@ class SpotDetailViewModel @Inject constructor(
     private val getSpotChildrenCommentsUseCase: GetSpotChildrenCommentsUseCase,
     private val postSpotParentCommentUseCase: PostSpotParentCommentUseCase,
     private val postSpotChildrenCommentUseCase: PostSpotChildrenCommentUseCase,
+    private val deleteCommentUseCase: DeleteCommentUseCase,
 ) : MviViewModel<SpotDetailViewState, SpotDetailEvent, SpotDetailSideEffect>(
     SpotDetailViewState(),
 ) {
@@ -50,6 +52,37 @@ class SpotDetailViewModel @Inject constructor(
 
     // key == parentCommentId
     private val childrenCommentQuery = mutableMapOf<Int, ChildrenCommentQuery>()
+
+    fun deleteComment(commentId: Int) = viewModelScope.launch {
+        deleteCommentUseCase(commentId).onStart {
+            postEvent(SpotDetailEvent.ShowSmallLoadingLottie)
+        }.onCompletion {
+            postEvent(SpotDetailEvent.HideSmallLoadingLottie)
+        }.collectOutcome(
+            handleSuccess = { handleDeleteCommentSuccess(commentId) },
+            handleFail = { handleError(it.error) },
+        )
+    }
+
+    private fun handleDeleteCommentSuccess(commentId: Int) {
+        val commentList = state.value.spotCommentList.map { comment ->
+            if (comment.id == commentId) {
+                comment.copy(type = SpotCommentType.DELETE)
+            } else {
+                val childrenCommentList = comment.visibleChildrenCommentList.map { child ->
+                    if (child.id == commentId) {
+                        child.copy(type = SpotCommentType.DELETE)
+                    } else {
+                        child
+                    }
+                }
+
+                comment.copy(visibleChildrenCommentList = childrenCommentList)
+            }
+        }
+
+        postEvent(SpotDetailEvent.UpdateSpotParentCommentList(commentList))
+    }
 
     fun onClickCommentSend(spotId: Int) {
         if (state.value.commentContent.isEmpty()) return

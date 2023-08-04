@@ -35,7 +35,7 @@ class SpotParentCommentAdapter(
                     parent,
                     false,
                 )
-                SpotParentCommentDeleteViewHolder(binding)
+                SpotParentCommentDeleteViewHolder(binding, onChildMeatBallClick, onMoreClick)
             }
 
             SpotCommentType.LOADING -> {
@@ -54,7 +54,9 @@ class SpotParentCommentAdapter(
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        if (holder is SpotParentCommentViewHolder) holder.bind(currentList[position])
+        if (holder is SpotParentCommentViewHolder) {
+            holder.bind(currentList[position])
+        } else if (holder is SpotParentCommentDeleteViewHolder) holder.bind(currentList[position])
     }
 
     companion object {
