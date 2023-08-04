@@ -54,6 +54,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clickable="true"
+        android:elevation="15dp"
         android:visibility="gone">
 
         <com.airbnb.lottie.LottieAnimationView

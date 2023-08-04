@@ -49,6 +49,10 @@ class SpotDetailContentAdapter(
 
     override fun getItemCount(): Int = 1
 
+    override fun getItemId(position: Int): Long {
+        return item.spotId.toLong()
+    }
+
     fun setData(item: SpotDetailContentItem) {
         if (this.item == item) return
         this.item = item

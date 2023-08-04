@@ -327,28 +327,34 @@ class SpotDetailViewModel @Inject constructor(
 
         is SpotDetailEvent.UpdateSpotDetailContent -> current.copy(
             spotDetailContent = event.content,
+            needCommentRender = false,
         )
 
         is SpotDetailEvent.UpdateSpotParentCommentList -> current.copy(
             spotCommentList = event.commentList,
+            needCommentRender = false,
         )
 
         SpotDetailEvent.HideSmallLoadingLottie -> current.copy(
             isSmallLottieVisible = false,
+            needCommentRender = false,
         )
 
         SpotDetailEvent.ShowSmallLoadingLottie -> current.copy(
             isSmallLottieVisible = true,
+            needCommentRender = false,
         )
 
         SpotDetailEvent.HideReplyLayout -> current.copy(
             isReplyLayoutVisible = false,
             replyNickname = "",
+            needCommentRender = false,
         )
 
         is SpotDetailEvent.ShowReplyLayout -> current.copy(
             isReplyLayoutVisible = true,
             replyNickname = event.nickname,
+            needCommentRender = false,
         )
 
         is SpotDetailEvent.UpdateComment -> current.copy(

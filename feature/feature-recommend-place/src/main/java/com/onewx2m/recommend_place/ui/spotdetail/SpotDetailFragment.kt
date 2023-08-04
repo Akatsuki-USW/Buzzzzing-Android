@@ -28,6 +28,9 @@ import com.onewx2m.recommend_place.R
 import com.onewx2m.recommend_place.databinding.FragmentSpotDetailBinding
 import com.onewx2m.recommend_place.ui.spotdetail.adapter.SpotDetailContentAdapter
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class SpotDetailFragment :
@@ -40,7 +43,9 @@ class SpotDetailFragment :
     private val spotDetailContentAdapter: SpotDetailContentAdapter by lazy {
         SpotDetailContentAdapter(
             onBookmarkClick = viewModel::bookmark,
-        )
+        ).apply {
+            setHasStableIds(true)
+        }
     }
 
     private val spotParentCommentAdapter: SpotParentCommentAdapter by lazy {
@@ -48,7 +53,9 @@ class SpotDetailFragment :
             onParentMeatBallClick = viewModel::showParentCommentPowerMenu,
             onChildMeatBallClick = viewModel::showChildrenCommentPowerMenu,
             onMoreClick = { item -> viewModel.getChildrenComments(item.id) },
-        )
+        ).apply {
+            setHasStableIds(true)
+        }
     }
 
     private val commonDialog by lazy {

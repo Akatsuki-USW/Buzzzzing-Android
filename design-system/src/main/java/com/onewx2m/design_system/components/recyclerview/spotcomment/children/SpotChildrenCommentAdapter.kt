@@ -11,8 +11,9 @@ import com.onewx2m.design_system.databinding.ItemRecyclerViewChildrenCommentBind
 import com.onewx2m.design_system.databinding.ItemRecyclerViewChildrenCommentDeleteBinding
 
 class SpotChildrenCommentAdapter(
+    var currentList: List<SpotChildrenCommentItem>,
     private val onMeatBallClick: (View, SpotChildrenCommentItem) -> Unit,
-) : ListAdapter<SpotChildrenCommentItem, RecyclerView.ViewHolder>(DiffCallback) {
+) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (SpotCommentType.valueOf(viewType)) {
             SpotCommentType.NORMAL -> {
@@ -38,6 +39,8 @@ class SpotChildrenCommentAdapter(
     override fun getItemViewType(position: Int): Int {
         return currentList[position].type.idx
     }
+
+    override fun getItemCount(): Int = currentList.size
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if (holder is SpotChildrenCommentViewHolder) holder.bind(currentList[position])

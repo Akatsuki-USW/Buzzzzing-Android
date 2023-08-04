@@ -1,5 +1,6 @@
 package com.onewx2m.design_system.components.recyclerview.spotcomment.parent
 
+import android.annotation.SuppressLint
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -22,24 +23,25 @@ class SpotParentCommentViewHolder(
     }
 
     private var item = SpotParentCommentItem()
-    private val listAdapter = SpotChildrenCommentAdapter(onChildMeatBallClick)
+    private val recyclerViewAdapter =
+        SpotChildrenCommentAdapter(item.visibleChildrenCommentList, onChildMeatBallClick)
 
     init {
         binding.imageViewMeatBall.onThrottleClick {
             onParentMeatBallClick(it, item)
         }
 
-        binding.recyclerViewChildren.apply {
-            adapter = listAdapter
-            itemAnimator = null
-            layoutManager = LinearLayoutManager(context)
-        }
-
         binding.textViewMoreComment.onThrottleClick {
             onMoreClick(item)
         }
+
+        binding.recyclerViewChildren.apply {
+            adapter = recyclerViewAdapter
+            layoutManager = LinearLayoutManager(context)
+        }
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     fun bind(item: SpotParentCommentItem) {
         this.item = item
 
@@ -67,7 +69,8 @@ class SpotParentCommentViewHolder(
                 binding.textViewMoreComment.visibility = View.GONE
             }
 
-            listAdapter.submitList(item.visibleChildrenCommentList)
+            recyclerViewAdapter.currentList = item.visibleChildrenCommentList
+            recyclerViewAdapter.notifyDataSetChanged()
         }
     }
 }

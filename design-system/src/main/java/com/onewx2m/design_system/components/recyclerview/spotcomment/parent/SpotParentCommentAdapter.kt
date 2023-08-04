@@ -26,7 +26,12 @@ class SpotParentCommentAdapter(
                     parent,
                     false,
                 )
-                SpotParentCommentViewHolder(binding, onParentMeatBallClick, onChildMeatBallClick, onMoreClick)
+                SpotParentCommentViewHolder(
+                    binding,
+                    onParentMeatBallClick,
+                    onChildMeatBallClick,
+                    onMoreClick,
+                )
             }
 
             SpotCommentType.DELETE -> {
@@ -51,6 +56,10 @@ class SpotParentCommentAdapter(
 
     override fun getItemViewType(position: Int): Int {
         return currentList[position].type.idx
+    }
+
+    override fun getItemId(position: Int): Long {
+        return currentList[position].id.toLong()
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
