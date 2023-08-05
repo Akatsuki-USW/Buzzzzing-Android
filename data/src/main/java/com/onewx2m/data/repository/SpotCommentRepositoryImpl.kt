@@ -33,8 +33,11 @@ class SpotCommentRepositoryImpl @Inject constructor(
             }
     }
 
-    override suspend fun editComment(commentId: Int): Flow<Outcome<SpotComment>> {
-        return remoteSpotCommentDataSource.editComment(commentId = commentId)
+    override suspend fun editComment(
+        commentId: Int,
+        content: String,
+    ): Flow<Outcome<SpotComment>> {
+        return remoteSpotCommentDataSource.editComment(commentId = commentId, content = content)
             .flatMapOutcomeSuccess {
                 it.toDomain()
             }

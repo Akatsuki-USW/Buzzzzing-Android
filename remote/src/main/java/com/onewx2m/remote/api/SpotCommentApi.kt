@@ -39,6 +39,7 @@ interface SpotCommentApi {
     @PUT("$LOCATION/$SPOT/$COMMENT/{$COMMENT_ID}")
     suspend fun editComment(
         @Path(COMMENT_ID) commentId: Int,
+        @Body request: CommentRequest,
     ): ApiResult<ApiResponse<SpotCommentResponse>>
 
     @DELETE("$LOCATION/$SPOT/$COMMENT/{$COMMENT_ID}")

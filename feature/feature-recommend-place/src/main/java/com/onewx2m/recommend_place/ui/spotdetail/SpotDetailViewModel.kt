@@ -14,6 +14,7 @@ import com.onewx2m.domain.model.SpotComment
 import com.onewx2m.domain.model.SpotCommentList
 import com.onewx2m.domain.usecase.BookmarkSpotUseCase
 import com.onewx2m.domain.usecase.DeleteCommentUseCase
+import com.onewx2m.domain.usecase.EditCommentUseCase
 import com.onewx2m.domain.usecase.GetSpotChildrenCommentsUseCase
 import com.onewx2m.domain.usecase.GetSpotDetailUseCase
 import com.onewx2m.domain.usecase.GetSpotParentCommentsUseCase
@@ -36,6 +37,7 @@ class SpotDetailViewModel @Inject constructor(
     private val postSpotParentCommentUseCase: PostSpotParentCommentUseCase,
     private val postSpotChildrenCommentUseCase: PostSpotChildrenCommentUseCase,
     private val deleteCommentUseCase: DeleteCommentUseCase,
+    private val editCommentUseCase: EditCommentUseCase,
 ) : MviViewModel<SpotDetailViewState, SpotDetailEvent, SpotDetailSideEffect>(
     SpotDetailViewState(),
 ) {
@@ -52,6 +54,37 @@ class SpotDetailViewModel @Inject constructor(
 
     // key == parentCommentId
     private val childrenCommentQuery = mutableMapOf<Int, ChildrenCommentQuery>()
+
+    fun editComment(commentId: Int, content: String) = viewModelScope.launch {
+        editCommentUseCase(commentId, content).onStart {
+            postEvent(SpotDetailEvent.ShowSmallLoadingLottie)
+        }.onCompletion {
+            postEvent(SpotDetailEvent.HideSmallLoadingLottie)
+        }.collectOutcome(
+            handleSuccess = { handleEditCommentSuccess(commentId, content) },
+            handleFail = { handleError(it.error) },
+        )
+    }
+
+    private fun handleEditCommentSuccess(commentId: Int, content: String) {
+        val commentList = state.value.spotCommentList.map { comment ->
+            if (comment.id == commentId) {
+                comment.copy(content = content)
+            } else {
+                val childrenCommentList = comment.visibleChildrenCommentList.map { child ->
+                    if (child.id == commentId) {
+                        child.copy(content = content)
+                    } else {
+                        child
+                    }
+                }
+
+                comment.copy(visibleChildrenCommentList = childrenCommentList)
+            }
+        }
+
+        postEvent(SpotDetailEvent.UpdateSpotParentCommentList(commentList))
+    }
 
     fun deleteComment(commentId: Int) = viewModelScope.launch {
         deleteCommentUseCase(commentId).onStart {
@@ -391,6 +424,9 @@ class SpotDetailViewModel @Inject constructor(
 
     fun showChildrenCommentPowerMenu(view: View, item: SpotChildrenCommentItem) =
         postSideEffect(SpotDetailSideEffect.ShowChildCommentPowerMenu(view, item))
+
+    fun showCommentBottomSheet(content: String, commentId: Int) =
+        postSideEffect(SpotDetailSideEffect.ShowEditCommentBottomSheet(content, commentId))
 
     fun goToPrevPage() = postSideEffect(SpotDetailSideEffect.GoToPrevPage)
     fun goToWriteFragment() = postSideEffect(SpotDetailSideEffect.GoToWriteFragment)

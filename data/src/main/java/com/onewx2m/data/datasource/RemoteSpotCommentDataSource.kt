@@ -20,6 +20,7 @@ interface RemoteSpotCommentDataSource {
 
     suspend fun editComment(
         commentId: Int,
+        content: String,
     ): Flow<Outcome<SpotCommentEntity>>
 
     suspend fun deleteComment(

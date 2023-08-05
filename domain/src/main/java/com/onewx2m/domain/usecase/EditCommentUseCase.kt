@@ -8,7 +8,9 @@ class EditCommentUseCase @Inject constructor(
 ) {
     suspend operator fun invoke(
         commentId: Int,
+        content: String,
     ) = spotCommentRepository.editComment(
         commentId = commentId,
+        content = content,
     )
 }

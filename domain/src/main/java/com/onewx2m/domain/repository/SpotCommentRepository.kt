@@ -18,6 +18,7 @@ interface SpotCommentRepository {
 
     suspend fun editComment(
         commentId: Int,
+        content: String,
     ): Flow<Outcome<SpotComment>>
 
     suspend fun deleteComment(

@@ -27,6 +27,8 @@ import com.onewx2m.mvi.MviFragment
 import com.onewx2m.recommend_place.R
 import com.onewx2m.recommend_place.databinding.FragmentSpotDetailBinding
 import com.onewx2m.recommend_place.ui.spotdetail.adapter.SpotDetailContentAdapter
+import com.onewx2m.recommend_place.ui.spotdetail.bottomsheet.EditCommentBottomSheet
+import com.onewx2m.recommend_place.ui.write.bottomsheet.KakaoLocationBottomSheet
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.delay
@@ -161,6 +163,7 @@ class SpotDetailFragment :
             is SpotDetailSideEffect.ShowBlockDialog -> showBlockDialog(sideEffect.userId)
             is SpotDetailSideEffect.ShowCommentDeleteDialog -> showCommentDelete(sideEffect.commentId)
             SpotDetailSideEffect.ShowSpotDeleteDialog -> showSpotDelete()
+            is SpotDetailSideEffect.ShowEditCommentBottomSheet -> showEditCommentBottomSheet(sideEffect.content, sideEffect.commentId)
         }
     }
 
@@ -240,7 +243,7 @@ class SpotDetailFragment :
             viewModel.getParentCommentPowerMenuList(item.isAuthor),
         ) { _, menu ->
             when (PowerMenuType.typeOf(menu)) {
-                PowerMenuType.EDIT -> Unit
+                PowerMenuType.EDIT -> viewModel.showCommentBottomSheet(item.content, item.id)
                 PowerMenuType.DELETE -> viewModel.showDeleteCommentDialog(item.id)
                 PowerMenuType.REPORT -> Unit
                 PowerMenuType.BLOCK -> viewModel.showBlockDialog(item.userId)
@@ -257,12 +260,18 @@ class SpotDetailFragment :
             viewModel.getChildrenCommentPowerMenuList(item.isAuthor),
         ) { _, menu ->
             when (PowerMenuType.typeOf(menu)) {
-                PowerMenuType.EDIT -> Unit
+                PowerMenuType.EDIT -> viewModel.showCommentBottomSheet(item.content, item.id)
                 PowerMenuType.DELETE -> viewModel.showDeleteCommentDialog(item.id)
                 PowerMenuType.REPORT -> Unit
                 PowerMenuType.BLOCK -> viewModel.showBlockDialog(item.userId)
                 PowerMenuType.REPLY -> Unit
             }
         }
+    }
+
+    private fun showEditCommentBottomSheet(content: String, commentId: Int) {
+        EditCommentBottomSheet.newInstance(content) {
+            viewModel.editComment(commentId, it)
+        }.show(parentFragmentManager, "")
     }
 }

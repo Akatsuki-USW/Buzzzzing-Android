@@ -30,7 +30,10 @@ class RemoteSpotCommentDataSourceImpl @Inject constructor(
         }
     }
 
-    override suspend fun createParentComment(spotId: Int, content: String): Flow<Outcome<SpotCommentEntity>> = flow {
+    override suspend fun createParentComment(
+        spotId: Int,
+        content: String,
+    ): Flow<Outcome<SpotCommentEntity>> = flow {
         api.createParentComment(spotId = spotId, CommentRequest(content)).onSuccess { body ->
             emit(Outcome.Success(body.data!!.toEntity()))
         }.onFailure {
@@ -38,8 +41,11 @@ class RemoteSpotCommentDataSourceImpl @Inject constructor(
         }
     }
 
-    override suspend fun editComment(commentId: Int): Flow<Outcome<SpotCommentEntity>> = flow {
-        api.editComment(commentId = commentId).onSuccess { body ->
+    override suspend fun editComment(
+        commentId: Int,
+        content: String,
+    ): Flow<Outcome<SpotCommentEntity>> = flow {
+        api.editComment(commentId = commentId, request = CommentRequest(content)).onSuccess { body ->
             emit(Outcome.Success(body.data!!.toEntity()))
         }.onFailure {
             emit(Outcome.Failure(it))
@@ -65,12 +71,16 @@ class RemoteSpotCommentDataSourceImpl @Inject constructor(
         }
     }
 
-    override suspend fun createChildrenComment(parentId: Int, content: String): Flow<Outcome<SpotCommentEntity>> =
+    override suspend fun createChildrenComment(
+        parentId: Int,
+        content: String,
+    ): Flow<Outcome<SpotCommentEntity>> =
         flow {
-            api.createChildrenComment(parentId = parentId, CommentRequest(content)).onSuccess { body ->
-                emit(Outcome.Success(body.data!!.toEntity()))
-            }.onFailure {
-                emit(Outcome.Failure(it))
-            }
+            api.createChildrenComment(parentId = parentId, CommentRequest(content))
+                .onSuccess { body ->
+                    emit(Outcome.Success(body.data!!.toEntity()))
+                }.onFailure {
+                    emit(Outcome.Failure(it))
+                }
         }
 }
