@@ -19,4 +19,8 @@
     <string name="fragment_spot_detail_comment_count">%d개의 댓글</string>
     <string name="fragment_spot_detail_reply_to">%s님에게 대댓글 남기는 중...</string>
     <string name="fragment_spot_detail_input_comment_hint">댓글을 입력해주세요.</string>
+
+    <string name="edit_comment">댓글 수정</string>
+    <string name="report">신고</string>
+    <string name="report_success">신고가 접수되었습니다.</string>
 </resources>

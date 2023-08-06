@@ -5,6 +5,7 @@ import com.onewx2m.data.datasource.RemoteUserDataSource
 import com.onewx2m.data.extension.flatMapOutcomeSuccess
 import com.onewx2m.data.model.toDomain
 import com.onewx2m.domain.Outcome
+import com.onewx2m.domain.enums.ReportType
 import com.onewx2m.domain.enums.S3Type
 import com.onewx2m.domain.model.UserInfo
 import com.onewx2m.domain.repository.UserRepository
@@ -64,5 +65,16 @@ class UserRepositoryImpl @Inject constructor(
 
     override suspend fun block(blockUserId: Int): Flow<Outcome<Unit>> {
         return remoteUserDataSource.blockUser(blockUserId)
+    }
+
+    override suspend fun report(
+        reportType: ReportType,
+        reportTargetId: Int,
+        reportedUserId: Int,
+        content: String
+    ): Flow<Outcome<Unit>> {
+        return remoteUserDataSource.report(
+            reportType, reportTargetId, reportedUserId, content
+        )
     }
 }

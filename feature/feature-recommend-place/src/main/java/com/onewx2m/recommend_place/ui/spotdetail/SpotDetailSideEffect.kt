@@ -7,6 +7,7 @@ import com.onewx2m.mvi.SideEffect
 
 sealed interface SpotDetailSideEffect : SideEffect {
     data class ShowErrorToast(val msg: String) : SpotDetailSideEffect
+    object ShowReportSuccessToast : SpotDetailSideEffect
     object GoToLoginFragment : SpotDetailSideEffect
     object GoToWriteFragment : SpotDetailSideEffect
     object GoToHomeFragment : SpotDetailSideEffect
@@ -26,5 +27,10 @@ sealed interface SpotDetailSideEffect : SideEffect {
     data class ShowCommentDeleteDialog(val commentId: Int) : SpotDetailSideEffect
     object ShowSpotDeleteDialog : SpotDetailSideEffect
     data class ShowEditCommentBottomSheet(val content: String, val commentId: Int) :
+        SpotDetailSideEffect
+    data class ShowSpotReportBottomSheet(val userId: Int, val reportId: Int) :
+        SpotDetailSideEffect
+
+    data class ShowCommentReportBottomSheet(val userId: Int, val reportId: Int) :
         SpotDetailSideEffect
 }

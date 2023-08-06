@@ -8,11 +8,10 @@
     android:paddingBottom="10dp">
 
     <com.onewx2m.design_system.components.textview.FigmaTextView
-        android:id="@+id/text_view_search"
+        android:id="@+id/text_view_title"
         style="@style/Header.6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="댓글 수정"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -24,7 +23,7 @@
         android:layout_marginTop="10dp"
         app:hideHelperTextContent="true"
         app:hideLabel="true"
-        app:layout_constraintTop_toBottomOf="@id/text_view_search"
+        app:layout_constraintTop_toBottomOf="@id/text_view_title"
         app:textInputEditTextLine="5"
         app:textInputMaxLength="300" />
 
@@ -34,6 +33,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         app:layout_constraintTop_toBottomOf="@id/edit_text_comment"
-        app:mainButtonText="수정 완료" />
+        app:mainButtonText="@string/word_confirm" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

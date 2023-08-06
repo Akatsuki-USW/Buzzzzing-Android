@@ -4,38 +4,31 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.EditorInfo
-import androidx.fragment.app.viewModels
-import androidx.lifecycle.coroutineScope
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import com.onewx2m.core_ui.extensions.hideKeyboard
-import com.onewx2m.core_ui.extensions.infiniteScrolls
 import com.onewx2m.core_ui.extensions.onThrottleClick
-import com.onewx2m.design_system.components.recyclerview.buzzzzingshort.BuzzzzingShortAdapter
-import com.onewx2m.design_system.components.recyclerview.buzzzzingshort.BuzzzzingShortItem
-import com.onewx2m.design_system.databinding.BottomSheetEditCommentBinding
-import com.onewx2m.design_system.databinding.BottomSheetSearchLocationBinding
+import com.onewx2m.design_system.databinding.BottomSheetSimpleInputBinding
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class EditCommentBottomSheet : BottomSheetDialogFragment() {
+class SimpleInputBottomSheet : BottomSheetDialogFragment() {
 
-    private val binding: BottomSheetEditCommentBinding by lazy {
-        BottomSheetEditCommentBinding.inflate(layoutInflater)
+    private val binding: BottomSheetSimpleInputBinding by lazy {
+        BottomSheetSimpleInputBinding.inflate(layoutInflater)
     }
 
     companion object {
+        private const val TITLE = "TITLE"
         private const val CONTENT = "CONTENT"
 
         fun newInstance(
+            title: String,
             content: String,
             onButtonClick: (String) -> Unit = {},
-        ) = EditCommentBottomSheet().apply {
+        ) = SimpleInputBottomSheet().apply {
             this.onButtonClick = onButtonClick
             arguments = Bundle().apply {
+                putString(TITLE, title)
                 putString(CONTENT, content)
             }
         }
@@ -44,6 +37,9 @@ class EditCommentBottomSheet : BottomSheetDialogFragment() {
     private var onButtonClick: (String) -> Unit = {}
     private val content
         get() = arguments?.getString(CONTENT) ?: ""
+
+    private val title
+        get() = arguments?.getString(TITLE) ?: ""
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -69,6 +65,7 @@ class EditCommentBottomSheet : BottomSheetDialogFragment() {
         }
 
         binding.apply {
+            textViewTitle.text = title
             buttonMain.onThrottleClick {
                 onButtonClick(editTextComment.editText.text.toString())
                 dismiss()

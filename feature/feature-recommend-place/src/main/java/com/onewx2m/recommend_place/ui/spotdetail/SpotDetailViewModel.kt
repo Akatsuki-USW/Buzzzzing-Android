@@ -8,6 +8,7 @@ import com.onewx2m.design_system.components.recyclerview.spotcomment.children.Sp
 import com.onewx2m.design_system.components.recyclerview.spotcomment.parent.SpotParentCommentItem
 import com.onewx2m.domain.Outcome
 import com.onewx2m.domain.collectOutcome
+import com.onewx2m.domain.enums.ReportType
 import com.onewx2m.domain.exception.common.CommonException
 import com.onewx2m.domain.model.SpotBookmark
 import com.onewx2m.domain.model.SpotComment
@@ -21,6 +22,7 @@ import com.onewx2m.domain.usecase.GetSpotDetailUseCase
 import com.onewx2m.domain.usecase.GetSpotParentCommentsUseCase
 import com.onewx2m.domain.usecase.PostSpotChildrenCommentUseCase
 import com.onewx2m.domain.usecase.PostSpotParentCommentUseCase
+import com.onewx2m.domain.usecase.ReportUseCase
 import com.onewx2m.mvi.MviViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.onCompletion
@@ -40,6 +42,7 @@ class SpotDetailViewModel @Inject constructor(
     private val deleteCommentUseCase: DeleteCommentUseCase,
     private val editCommentUseCase: EditCommentUseCase,
     private val blockUserUseCase: BlockUserUseCase,
+    private val reportUseCase: ReportUseCase,
 ) : MviViewModel<SpotDetailViewState, SpotDetailEvent, SpotDetailSideEffect>(
     SpotDetailViewState(),
 ) {
@@ -57,13 +60,42 @@ class SpotDetailViewModel @Inject constructor(
     // key == parentCommentId
     private val childrenCommentQuery = mutableMapOf<Int, ChildrenCommentQuery>()
 
+    fun reportComment(targetId: Int, userId: Int, content: String) {
+        report(ReportType.COMMENT, targetId, userId, content)
+    }
+
+    fun reportSpot(targetId: Int, userId: Int, content: String) {
+        report(ReportType.SPOT, targetId, userId, content)
+    }
+
+    private fun report(reportType: ReportType, targetId: Int, userId: Int, content: String) =
+        viewModelScope.launch {
+            reportUseCase(
+                reportType = reportType,
+                reportTargetId = targetId,
+                reportedUserId = userId,
+                content = content,
+            ).onStart { postEvent(SpotDetailEvent.ShowSmallLoadingLottie) }
+                .onCompletion {
+                    postEvent(SpotDetailEvent.HideSmallLoadingLottie)
+                }.collectOutcome(
+                    handleSuccess = ::handleReportSuccess,
+                    handleFail = { handleError(it.error) },
+                )
+        }
+
+    private fun handleReportSuccess(outcome: Outcome.Success<Unit>) {
+        postSideEffect(SpotDetailSideEffect.ShowReportSuccessToast)
+    }
+
     fun blockUser(userId: Int) = viewModelScope.launch {
-        blockUserUseCase(userId).onStart { postEvent(SpotDetailEvent.ShowSmallLoadingLottie) }.onCompletion {
-            postEvent(SpotDetailEvent.HideSmallLoadingLottie)
-        }.collectOutcome(
-            handleSuccess = ::handleBlockUserSuccess,
-            handleFail = { handleError(it.error) },
-        )
+        blockUserUseCase(userId).onStart { postEvent(SpotDetailEvent.ShowSmallLoadingLottie) }
+            .onCompletion {
+                postEvent(SpotDetailEvent.HideSmallLoadingLottie)
+            }.collectOutcome(
+                handleSuccess = ::handleBlockUserSuccess,
+                handleFail = { handleError(it.error) },
+            )
     }
 
     private fun handleBlockUserSuccess(outcome: Outcome.Success<Unit>) {
@@ -442,6 +474,22 @@ class SpotDetailViewModel @Inject constructor(
 
     fun showCommentBottomSheet(content: String, commentId: Int) =
         postSideEffect(SpotDetailSideEffect.ShowEditCommentBottomSheet(content, commentId))
+
+    fun showSpotReportBottomSheet(spotId: Int) =
+        postSideEffect(
+            SpotDetailSideEffect.ShowSpotReportBottomSheet(
+                userId = authorId,
+                reportId = spotId,
+            ),
+        )
+
+    fun showCommentReportBottomSheet(userId: Int, commentId: Int) =
+        postSideEffect(
+            SpotDetailSideEffect.ShowCommentReportBottomSheet(
+                userId = userId,
+                reportId = commentId,
+            ),
+        )
 
     fun goToPrevPage() = postSideEffect(SpotDetailSideEffect.GoToPrevPage)
     fun goToWriteFragment() = postSideEffect(SpotDetailSideEffect.GoToWriteFragment)

@@ -23,16 +23,13 @@ import com.onewx2m.design_system.components.recyclerview.spotcomment.children.Sp
 import com.onewx2m.design_system.components.recyclerview.spotcomment.parent.SpotParentCommentAdapter
 import com.onewx2m.design_system.components.recyclerview.spotcomment.parent.SpotParentCommentItem
 import com.onewx2m.design_system.components.toast.ErrorToast
+import com.onewx2m.design_system.components.toast.SuccessToast
 import com.onewx2m.mvi.MviFragment
 import com.onewx2m.recommend_place.R
 import com.onewx2m.recommend_place.databinding.FragmentSpotDetailBinding
 import com.onewx2m.recommend_place.ui.spotdetail.adapter.SpotDetailContentAdapter
-import com.onewx2m.recommend_place.ui.spotdetail.bottomsheet.EditCommentBottomSheet
-import com.onewx2m.recommend_place.ui.write.bottomsheet.KakaoLocationBottomSheet
+import com.onewx2m.recommend_place.ui.spotdetail.bottomsheet.SimpleInputBottomSheet
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class SpotDetailFragment :
@@ -163,8 +160,26 @@ class SpotDetailFragment :
             is SpotDetailSideEffect.ShowBlockDialog -> showBlockDialog(sideEffect.userId)
             is SpotDetailSideEffect.ShowCommentDeleteDialog -> showCommentDelete(sideEffect.commentId)
             SpotDetailSideEffect.ShowSpotDeleteDialog -> showSpotDelete()
-            is SpotDetailSideEffect.ShowEditCommentBottomSheet -> showEditCommentBottomSheet(sideEffect.content, sideEffect.commentId)
+            is SpotDetailSideEffect.ShowEditCommentBottomSheet -> showEditCommentBottomSheet(
+                sideEffect.content,
+                sideEffect.commentId,
+            )
+
             SpotDetailSideEffect.GoToHomeFragment -> goToHomeFragment()
+            is SpotDetailSideEffect.ShowCommentReportBottomSheet -> showCommentReportCommentBottomSheet(
+                userId = sideEffect.userId,
+                targetId = sideEffect.reportId,
+            )
+
+            is SpotDetailSideEffect.ShowSpotReportBottomSheet -> showSpotReportCommentBottomSheet(
+                userId = sideEffect.userId,
+                targetId = sideEffect.reportId,
+            )
+
+            SpotDetailSideEffect.ShowReportSuccessToast -> SuccessToast.make(
+                binding.root,
+                getString(R.string.report_success),
+            ).show()
         }
     }
 
@@ -238,7 +253,7 @@ class SpotDetailFragment :
             when (PowerMenuType.typeOf(item)) {
                 PowerMenuType.EDIT -> viewModel.goToWriteFragment()
                 PowerMenuType.DELETE -> viewModel.showDeleteSpotDialog()
-                PowerMenuType.REPORT -> Unit
+                PowerMenuType.REPORT -> viewModel.showSpotReportBottomSheet(navArgs.spotId)
                 PowerMenuType.BLOCK -> viewModel.showBlockDialog(viewModel.authorId)
                 PowerMenuType.REPLY -> Unit
             }
@@ -255,7 +270,7 @@ class SpotDetailFragment :
             when (PowerMenuType.typeOf(menu)) {
                 PowerMenuType.EDIT -> viewModel.showCommentBottomSheet(item.content, item.id)
                 PowerMenuType.DELETE -> viewModel.showDeleteCommentDialog(item.id)
-                PowerMenuType.REPORT -> Unit
+                PowerMenuType.REPORT -> viewModel.showCommentReportBottomSheet(item.userId, item.id)
                 PowerMenuType.BLOCK -> viewModel.showBlockDialog(item.userId)
                 PowerMenuType.REPLY -> viewModel.onClickReply(item.id, item.nickname)
             }
@@ -272,7 +287,7 @@ class SpotDetailFragment :
             when (PowerMenuType.typeOf(menu)) {
                 PowerMenuType.EDIT -> viewModel.showCommentBottomSheet(item.content, item.id)
                 PowerMenuType.DELETE -> viewModel.showDeleteCommentDialog(item.id)
-                PowerMenuType.REPORT -> Unit
+                PowerMenuType.REPORT -> viewModel.showCommentReportBottomSheet(item.userId, item.id)
                 PowerMenuType.BLOCK -> viewModel.showBlockDialog(item.userId)
                 PowerMenuType.REPLY -> Unit
             }
@@ -280,8 +295,20 @@ class SpotDetailFragment :
     }
 
     private fun showEditCommentBottomSheet(content: String, commentId: Int) {
-        EditCommentBottomSheet.newInstance(content) {
+        SimpleInputBottomSheet.newInstance(getString(R.string.edit_comment), content) {
             viewModel.editComment(commentId, it)
+        }.show(parentFragmentManager, "")
+    }
+
+    private fun showSpotReportCommentBottomSheet(userId: Int, targetId: Int) {
+        SimpleInputBottomSheet.newInstance(getString(R.string.report), "") {
+            viewModel.reportSpot(targetId, userId, it)
+        }.show(parentFragmentManager, "")
+    }
+
+    private fun showCommentReportCommentBottomSheet(userId: Int, targetId: Int) {
+        SimpleInputBottomSheet.newInstance(getString(R.string.report), "") {
+            viewModel.reportComment(targetId, userId, it)
         }.show(parentFragmentManager, "")
     }
 }
