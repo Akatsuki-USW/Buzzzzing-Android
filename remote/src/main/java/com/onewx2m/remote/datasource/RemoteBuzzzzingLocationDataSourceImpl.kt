@@ -68,8 +68,12 @@ class RemoteBuzzzzingLocationDataSourceImpl @Inject constructor(
                 .onSuccess { body ->
                     emit(Outcome.Success(body.data!!.toEntity()))
                 }
-                .onFailure {
-                    emit(Outcome.Failure(it))
+                .onFailure { exception ->
+                    if (exception is BuzzzzingHttpException) {
+                        emit(handleStatisticException(exception))
+                    } else {
+                        emit(Outcome.Failure(exception))
+                    }
                 }
         }
 
@@ -90,9 +94,9 @@ class RemoteBuzzzzingLocationDataSourceImpl @Inject constructor(
             }
     }
 
-    private fun handleStatisticException(
+    private fun <T> handleStatisticException(
         exception: BuzzzzingHttpException,
-    ): Outcome<BuzzzzingStatisticsEntity> = when (exception.httpCode) {
+    ): Outcome<T> = when (exception.httpCode) {
         404 -> Outcome.Failure(NotFoundCongestionStatistics())
         else -> Outcome.Failure(CommonException.UnknownException())
     }
