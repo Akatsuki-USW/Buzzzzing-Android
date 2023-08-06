@@ -4,6 +4,10 @@ import com.onewx2m.data.datasource.RemoteUserDataSource
 import com.onewx2m.data.model.UserInfoEntity
 import com.onewx2m.domain.Outcome
 import com.onewx2m.domain.enums.ReportType
+import com.onewx2m.domain.exception.BuzzzzingHttpException
+import com.onewx2m.domain.exception.DuplicateReportException
+import com.onewx2m.domain.exception.NotFoundCongestionStatistics
+import com.onewx2m.domain.exception.common.CommonException
 import com.onewx2m.remote.api.UserApi
 import com.onewx2m.remote.model.request.BlockUserRequest
 import com.onewx2m.remote.model.request.ReportRequest
@@ -70,7 +74,18 @@ class RemoteUserDataSourceImpl @Inject constructor(
         ).onSuccess {
             emit(Outcome.Success(it.data!!))
         }.onFailure { exception ->
-            emit(Outcome.Failure(exception))
+            if (exception is BuzzzzingHttpException) {
+                emit(handleReportException(exception))
+            } else {
+                emit(Outcome.Failure(exception))
+            }
         }
+    }
+
+    private fun <T> handleReportException(
+        exception: BuzzzzingHttpException,
+    ): Outcome<T> = when (exception.httpCode) {
+        400 -> Outcome.Failure(DuplicateReportException())
+        else -> Outcome.Failure(CommonException.UnknownException())
     }
 }
