@@ -5,6 +5,7 @@ import com.onewx2m.domain.Outcome
 import kotlinx.coroutines.flow.Flow
 
 interface RemoteUserDataSource {
+    suspend fun blockUser(blockUserId: Int): Flow<Outcome<Unit>>
 
     suspend fun getUserInfo(): Flow<Outcome<UserInfoEntity>>
 

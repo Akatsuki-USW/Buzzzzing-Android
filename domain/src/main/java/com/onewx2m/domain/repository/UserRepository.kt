@@ -6,6 +6,7 @@ import kotlinx.coroutines.flow.Flow
 import java.io.File
 
 interface UserRepository {
+    suspend fun block(blockUserId: Int): Flow<Outcome<Unit>>
 
     suspend fun getMyInfo(): Flow<Outcome<UserInfo>>
 

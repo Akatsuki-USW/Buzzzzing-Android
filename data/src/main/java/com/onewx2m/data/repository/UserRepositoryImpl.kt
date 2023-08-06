@@ -61,4 +61,8 @@ class UserRepositoryImpl @Inject constructor(
             emit(it)
         }
     }
+
+    override suspend fun block(blockUserId: Int): Flow<Outcome<Unit>> {
+        return remoteUserDataSource.blockUser(blockUserId)
+    }
 }
