@@ -9,6 +9,7 @@ sealed interface SpotDetailSideEffect : SideEffect {
     data class ShowErrorToast(val msg: String) : SpotDetailSideEffect
     object GoToLoginFragment : SpotDetailSideEffect
     object GoToWriteFragment : SpotDetailSideEffect
+    object GoToHomeFragment : SpotDetailSideEffect
     object ShowContentPowerMenu : SpotDetailSideEffect
     data class ShowParentCommentPowerMenu(val view: View, val item: SpotParentCommentItem) :
         SpotDetailSideEffect
@@ -24,5 +25,6 @@ sealed interface SpotDetailSideEffect : SideEffect {
     data class ShowBlockDialog(val userId: Int) : SpotDetailSideEffect
     data class ShowCommentDeleteDialog(val commentId: Int) : SpotDetailSideEffect
     object ShowSpotDeleteDialog : SpotDetailSideEffect
-    data class ShowEditCommentBottomSheet(val content: String, val commentId: Int) : SpotDetailSideEffect
+    data class ShowEditCommentBottomSheet(val content: String, val commentId: Int) :
+        SpotDetailSideEffect
 }

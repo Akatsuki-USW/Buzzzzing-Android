@@ -15,7 +15,7 @@ interface UserApi {
     }
 
     @POST("$USER/hide")
-    suspend fun blockUser(request: BlockUserRequest): ApiResult<ApiResponse<Unit>>
+    suspend fun blockUser(@Body request: BlockUserRequest): ApiResult<ApiResponse<Unit>>
 
     @GET("$USER/me")
     suspend fun getMyInfo(): ApiResult<ApiResponse<UserInfoResponse>>

@@ -164,7 +164,17 @@ class SpotDetailFragment :
             is SpotDetailSideEffect.ShowCommentDeleteDialog -> showCommentDelete(sideEffect.commentId)
             SpotDetailSideEffect.ShowSpotDeleteDialog -> showSpotDelete()
             is SpotDetailSideEffect.ShowEditCommentBottomSheet -> showEditCommentBottomSheet(sideEffect.content, sideEffect.commentId)
+            SpotDetailSideEffect.GoToHomeFragment -> goToHomeFragment()
         }
+    }
+
+    private fun goToHomeFragment() {
+        val (request, navOptions) = DeepLinkUtil.getHomeRequestAndOption(
+            requireContext(),
+            findNavController().graph.id,
+            true,
+        )
+        findNavController().navigate(request, navOptions)
     }
 
     private fun showBlockDialog(userId: Int) {
@@ -174,7 +184,7 @@ class SpotDetailFragment :
                 commonDialog.dismiss()
             }
             .setPositiveButton {
-                // TODO 유저 차단
+                viewModel.blockUser(userId)
                 commonDialog.dismiss()
             }.show()
     }

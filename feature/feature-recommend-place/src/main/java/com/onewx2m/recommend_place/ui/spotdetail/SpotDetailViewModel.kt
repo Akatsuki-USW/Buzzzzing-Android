@@ -12,6 +12,7 @@ import com.onewx2m.domain.exception.common.CommonException
 import com.onewx2m.domain.model.SpotBookmark
 import com.onewx2m.domain.model.SpotComment
 import com.onewx2m.domain.model.SpotCommentList
+import com.onewx2m.domain.usecase.BlockUserUseCase
 import com.onewx2m.domain.usecase.BookmarkSpotUseCase
 import com.onewx2m.domain.usecase.DeleteCommentUseCase
 import com.onewx2m.domain.usecase.EditCommentUseCase
@@ -38,6 +39,7 @@ class SpotDetailViewModel @Inject constructor(
     private val postSpotChildrenCommentUseCase: PostSpotChildrenCommentUseCase,
     private val deleteCommentUseCase: DeleteCommentUseCase,
     private val editCommentUseCase: EditCommentUseCase,
+    private val blockUserUseCase: BlockUserUseCase,
 ) : MviViewModel<SpotDetailViewState, SpotDetailEvent, SpotDetailSideEffect>(
     SpotDetailViewState(),
 ) {
@@ -54,6 +56,19 @@ class SpotDetailViewModel @Inject constructor(
 
     // key == parentCommentId
     private val childrenCommentQuery = mutableMapOf<Int, ChildrenCommentQuery>()
+
+    fun blockUser(userId: Int) = viewModelScope.launch {
+        blockUserUseCase(userId).onStart { postEvent(SpotDetailEvent.ShowSmallLoadingLottie) }.onCompletion {
+            postEvent(SpotDetailEvent.HideSmallLoadingLottie)
+        }.collectOutcome(
+            handleSuccess = ::handleBlockUserSuccess,
+            handleFail = { handleError(it.error) },
+        )
+    }
+
+    private fun handleBlockUserSuccess(outcome: Outcome.Success<Unit>) {
+        postSideEffect(SpotDetailSideEffect.GoToHomeFragment)
+    }
 
     fun editComment(commentId: Int, content: String) = viewModelScope.launch {
         editCommentUseCase(commentId, content).onStart {
