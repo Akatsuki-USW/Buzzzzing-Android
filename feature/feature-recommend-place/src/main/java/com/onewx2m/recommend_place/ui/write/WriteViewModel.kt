@@ -184,7 +184,7 @@ class WriteViewModel @Inject constructor(
 
     fun onMainButtonClick() {
         if (state.value.isSuccessLottieVisible) {
-            postSideEffect(WriteSideEffect.GoToHome)
+            postSideEffect(WriteSideEffect.GoToRecommendPlace)
         } else {
             postSpot()
         }

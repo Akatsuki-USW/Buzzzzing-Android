@@ -166,13 +166,13 @@ class WriteFragment :
             WriteSideEffect.StopLoadingLottie -> binding.lottieLoading.cancelAnimation()
             WriteSideEffect.PlaySuccessLottie -> binding.lottieSuccess.playAnimation()
             WriteSideEffect.StopSuccessLottie -> binding.lottieSuccess.cancelAnimation()
-            WriteSideEffect.GoToHome -> goToHomeFragment()
+            WriteSideEffect.GoToRecommendPlace -> goToRecommendPlaceFragment()
             is WriteSideEffect.ShowErrorToast -> ErrorToast.make(binding.root, sideEffect.msg).show()
         }
     }
 
-    private fun goToHomeFragment() {
-        val (request, navOptions) = DeepLinkUtil.getHomeRequestAndOption(
+    private fun goToRecommendPlaceFragment() {
+        val (request, navOptions) = DeepLinkUtil.getRecommendPlaceRequestAndOption(
             requireContext(),
             findNavController().graph.id,
             true,

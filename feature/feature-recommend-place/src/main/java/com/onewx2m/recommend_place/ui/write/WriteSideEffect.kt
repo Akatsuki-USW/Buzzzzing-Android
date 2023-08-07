@@ -13,5 +13,5 @@ sealed interface WriteSideEffect : SideEffect {
     object PlaySuccessLottie : WriteSideEffect
     object HideKeyboard : WriteSideEffect
     data class ShowErrorToast(val msg: String) : WriteSideEffect
-    object GoToHome : WriteSideEffect
+    object GoToRecommendPlace : WriteSideEffect
 }

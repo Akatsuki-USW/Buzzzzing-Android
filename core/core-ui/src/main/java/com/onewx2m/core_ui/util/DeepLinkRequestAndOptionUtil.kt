@@ -23,6 +23,18 @@ object DeepLinkUtil {
             inclusive,
         )
     }
+    fun getRecommendPlaceRequestAndOption(
+        context: Context,
+        popUpToId: Int = -1,
+        inclusive: Boolean = false,
+    ): Pair<NavDeepLinkRequest, NavOptions> {
+        return getNaviRequestAndOption(
+            context.getString(R.string.deeplink_recommend_place_fragment).toUri(),
+            popUpToId,
+            inclusive,
+        )
+    }
+
 
     fun getLoginRequestAndOption(
         context: Context,

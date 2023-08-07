@@ -3,6 +3,7 @@
     <string name="deeplink_home_fragment">android-app://com.onewx2m.feature_home.ui.home.HomeFragment</string>
     <string name="deeplink_login_fragment">android-app://com.onewx2m.feature_login_signup.ui.login.LoginFragment</string>
     <string name="deeplink_write_fragment">android-app://com.onewx2m.feature_recommend_place.ui.write.WriteFragment/{writeContent}</string>
+    <string name="deeplink_recommend_place_fragment">android-app://com.onewx2m.feature_recommend_place.ui.recommendplace.RecommendPlaceFragment</string>
     <string name="deeplink_location_detail_fragment">android-app://com.onewx2m.feature_home.ui.locationdetail.LocationDetailFragment/{locationId}</string>
     <string name="deeplink_spot_detail_fragment">android-app://com.onewx2m.feature_recommend_place.ui.spotdetail.SpotDetailFragment/{spotId}</string>
 

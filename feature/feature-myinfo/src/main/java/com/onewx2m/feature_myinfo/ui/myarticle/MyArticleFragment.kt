@@ -10,6 +10,7 @@ import com.onewx2m.feature_myinfo.ui.myarticle.adapter.MyArticleFragmentStateAda
 import com.onewx2m.feature_myinfo.ui.myarticle.adapter.MyArticleViewPagerType
 import com.onewx2m.feature_myinfo.ui.myarticle.spotcommented.SpotCommentedFragment
 import com.onewx2m.feature_myinfo.ui.myarticle.spotwritten.SpotWrittenFragment
+import com.onewx2m.feature_myinfo.ui.myarticle.spotwritten.SpotWrittenViewModel
 import com.onewx2m.mvi.MviFragment
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -19,6 +20,7 @@ class MyArticleFragment :
         FragmentMyArticleBinding::inflate,
     ) {
     override val viewModel: MyArticleViewModel by viewModels()
+    private val spotWrittenViewModel: SpotWrittenViewModel by viewModels()
 
     private val pagerAdapter: MyArticleFragmentStateAdapter by lazy {
         MyArticleFragmentStateAdapter(
@@ -30,6 +32,7 @@ class MyArticleFragment :
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel.viewPagerPosition = 0
+        spotWrittenViewModel.getSpotWritten()
     }
 
     override fun onResume() {

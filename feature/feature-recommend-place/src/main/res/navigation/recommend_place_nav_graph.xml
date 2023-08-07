@@ -10,7 +10,11 @@
         android:id="@+id/recommendPlaceFragment"
         android:name="com.onewx2m.recommend_place.ui.recommendplace.RecommendPlaceFragment"
         android:label="fragment_recommend_place"
-        tools:layout="@layout/fragment_recommend_place" />
+        tools:layout="@layout/fragment_recommend_place" >
+
+        <deepLink app:uri="@string/deeplink_recommend_place_fragment" />
+
+    </fragment>
     <fragment
         android:id="@+id/writeFragment"
         android:name="com.onewx2m.recommend_place.ui.write.WriteFragment"
