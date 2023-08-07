@@ -495,9 +495,10 @@ class SpotDetailViewModel @Inject constructor(
         )
 
     fun goToPrevPage() = postSideEffect(SpotDetailSideEffect.GoToPrevPage)
-    fun goToWriteFragment() {
+    fun goToWriteFragment(spotId: Int) {
         val state = state.value.spotDetailContent
         val writeContent = WriteContent(
+            spotId = spotId,
             title = state.title,
             buzzzzingLocation = state.location,
             buzzzzingLocationId = state.locationId,

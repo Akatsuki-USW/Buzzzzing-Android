@@ -251,7 +251,7 @@ class SpotDetailFragment :
             viewModel.contentPowerMenuList,
         ) { _, item ->
             when (PowerMenuType.typeOf(item)) {
-                PowerMenuType.EDIT -> viewModel.goToWriteFragment()
+                PowerMenuType.EDIT -> viewModel.goToWriteFragment(navArgs.spotId)
                 PowerMenuType.DELETE -> viewModel.showDeleteSpotDialog()
                 PowerMenuType.REPORT -> viewModel.showSpotReportBottomSheet(navArgs.spotId)
                 PowerMenuType.BLOCK -> viewModel.showBlockDialog(viewModel.authorId)
