@@ -55,5 +55,7 @@ internal fun SpotDetail.toSpotDetailContentItem() = SpotDetailContentItem(
     address = address,
     imageUrls = imageUrls,
     content = content,
-    commentCount = 0, // TODO 업데이트
+    commentCount = 0,
+    locationId = locationId,
+    spotCategoryId = spotCategoryId,
 )

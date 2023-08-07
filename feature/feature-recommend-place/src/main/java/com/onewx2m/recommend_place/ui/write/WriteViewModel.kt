@@ -2,6 +2,7 @@ package com.onewx2m.recommend_place.ui.write
 
 import android.net.Uri
 import androidx.lifecycle.viewModelScope
+import com.onewx2m.core_ui.model.WriteContent
 import com.onewx2m.core_ui.util.ImageUtil
 import com.onewx2m.core_ui.util.ResourceProvider
 import com.onewx2m.design_system.components.recyclerview.buzzzzingshort.BuzzzzingShortItem
@@ -18,6 +19,9 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import kotlinx.serialization.json.Json
+import timber.log.Timber
+import java.util.Base64
 import javax.inject.Inject
 
 @HiltViewModel
@@ -31,6 +35,7 @@ class WriteViewModel @Inject constructor(
         WriteViewState(),
     ) {
     private var locationId: Int? = null
+    private var spotId: Int? = null
 
     // TODO 스팟 수정할 때 사용할듯
     private val toDeleteUrls: MutableList<String> = mutableListOf()
@@ -84,14 +89,33 @@ class WriteViewModel @Inject constructor(
                 isLoadingLottieVisible = false,
                 isSuccessLottieVisible = true,
             )
+
+            is WriteEvent.InitViewState -> event.state
         }
     }
 
-    fun initSpotCategoryItems() = viewModelScope.launch(Dispatchers.IO) {
+    fun initData(writeContentArgsEncodedBase64: String) = viewModelScope.launch(Dispatchers.IO) {
+        val writeContentArgs = String(Base64.getDecoder().decode(writeContentArgsEncodedBase64))
+        val writeContent = Json.decodeFromString<WriteContent>(writeContentArgs)
         val categoryItems = getSpotCategoryUseCase().first()
             .map { SpotCategoryItem(id = it.id, name = it.name) }
 
-        postEvent(WriteEvent.UpdateSpotCategoryItems(categoryItems))
+        val viewState = WriteViewState(
+            title = writeContent.title,
+            needTitleRender = true,
+            kakaoLocation = writeContent.address,
+            buzzzzingLocation = writeContent.buzzzzingLocation,
+            content = writeContent.content,
+            needContentRender = true,
+            spotCategoryItems = categoryItems,
+            selectedSpotCategoryItem = categoryItems.find { it.id == writeContent.spotCategoryId },
+            pictures = writeContent.imgUrls.map { PictureItem(url = it) },
+        )
+
+        locationId = writeContent.buzzzzingLocationId
+        spotId = writeContent.spotId
+
+        postEvent(WriteEvent.InitViewState(viewState))
     }
 
     fun updateSelectedCategoryItem(item: SpotCategoryItem) {

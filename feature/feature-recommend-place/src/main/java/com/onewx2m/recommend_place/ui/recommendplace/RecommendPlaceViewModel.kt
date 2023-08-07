@@ -2,6 +2,7 @@ package com.onewx2m.recommend_place.ui.recommendplace
 
 import androidx.lifecycle.viewModelScope
 import com.onewx2m.core_ui.R
+import com.onewx2m.core_ui.model.WriteContent
 import com.onewx2m.core_ui.util.ResourceProvider
 import com.onewx2m.design_system.components.recyclerview.spot.SpotItem
 import com.onewx2m.design_system.components.recyclerview.spotcategoryselector.SpotCategoryItem

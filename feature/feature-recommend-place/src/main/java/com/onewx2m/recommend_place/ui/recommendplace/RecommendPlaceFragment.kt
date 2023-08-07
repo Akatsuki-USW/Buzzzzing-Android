@@ -26,7 +26,11 @@ class RecommendPlaceFragment :
 
     private var spotCategorySelectorAdapter: SpotCategorySelectorAdapter? = null
     private val spotAdapter: SpotAdapter by lazy {
-        SpotAdapter(congestion, onItemClick = { viewModel.goToSpotDetail(it) }, onBookmarkClick = { viewModel.bookmark(it) })
+        SpotAdapter(
+            congestion,
+            onItemClick = { viewModel.goToSpotDetail(it) },
+            onBookmarkClick = { viewModel.bookmark(it) },
+        )
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -70,7 +74,10 @@ class RecommendPlaceFragment :
             }
         }
 
-        if(spotCategorySelectorAdapter != null && binding.recyclerViewCategory.adapter == null) binding.recyclerViewCategory.adapter = spotCategorySelectorAdapter
+        if (spotCategorySelectorAdapter != null && binding.recyclerViewCategory.adapter == null) {
+            binding.recyclerViewCategory.adapter =
+                spotCategorySelectorAdapter
+        }
 
         spotAdapter.submitList(current.spotList)
     }
@@ -85,7 +92,7 @@ class RecommendPlaceFragment :
             ).show()
 
             RecommendPlaceSideEffect.GoToLoginFragment -> goToLoginFragment()
-            RecommendPlaceSideEffect.GoToWriteFragment -> goToWriteFragment()
+            is RecommendPlaceSideEffect.GoToWriteFragment -> goToWriteFragment()
             is RecommendPlaceSideEffect.GoToSpotDetailFragment -> goToSpotDetailFragment(sideEffect.spotId)
         }
     }

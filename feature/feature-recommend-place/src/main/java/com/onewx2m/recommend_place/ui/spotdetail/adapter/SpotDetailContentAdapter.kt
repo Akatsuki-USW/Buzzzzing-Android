@@ -23,6 +23,8 @@ data class SpotDetailContentItem(
     val imageUrls: List<String> = emptyList(),
     val content: String = "",
     val commentCount: Int = 0,
+    val locationId: Int = -1,
+    val spotCategoryId: Int = -1,
 )
 
 class SpotDetailContentAdapter(

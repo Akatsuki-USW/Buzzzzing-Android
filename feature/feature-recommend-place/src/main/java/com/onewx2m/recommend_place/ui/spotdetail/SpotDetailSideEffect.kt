@@ -1,6 +1,7 @@
 package com.onewx2m.recommend_place.ui.spotdetail
 
 import android.view.View
+import com.onewx2m.core_ui.model.WriteContent
 import com.onewx2m.design_system.components.recyclerview.spotcomment.children.SpotChildrenCommentItem
 import com.onewx2m.design_system.components.recyclerview.spotcomment.parent.SpotParentCommentItem
 import com.onewx2m.mvi.SideEffect
@@ -9,7 +10,7 @@ sealed interface SpotDetailSideEffect : SideEffect {
     data class ShowErrorToast(val msg: String) : SpotDetailSideEffect
     object ShowReportSuccessToast : SpotDetailSideEffect
     object GoToLoginFragment : SpotDetailSideEffect
-    object GoToWriteFragment : SpotDetailSideEffect
+    data class GoToWriteFragment(val writeContent: WriteContent) : SpotDetailSideEffect
     object GoToHomeFragment : SpotDetailSideEffect
     object ShowContentPowerMenu : SpotDetailSideEffect
     data class ShowParentCommentPowerMenu(val view: View, val item: SpotParentCommentItem) :

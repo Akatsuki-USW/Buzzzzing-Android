@@ -15,6 +15,7 @@ import com.onewx2m.core_ui.extensions.onThrottleClick
 import com.onewx2m.core_ui.extensions.setGoneWithAnimation
 import com.onewx2m.core_ui.extensions.setVisibleWithAnimation
 import com.onewx2m.core_ui.extensions.showKeyboard
+import com.onewx2m.core_ui.model.WriteContent
 import com.onewx2m.core_ui.util.DeepLinkUtil
 import com.onewx2m.design_system.components.dialog.CommonDialog
 import com.onewx2m.design_system.components.powermenu.PowerMenuType
@@ -139,7 +140,7 @@ class SpotDetailFragment :
 
         when (sideEffect) {
             SpotDetailSideEffect.GoToLoginFragment -> goToLoginFragment()
-            SpotDetailSideEffect.GoToWriteFragment -> goToWriteFragment()
+            is SpotDetailSideEffect.GoToWriteFragment -> goToWriteFragment(sideEffect.writeContent)
             is SpotDetailSideEffect.ShowContentPowerMenu -> showContentPowerMenu()
             is SpotDetailSideEffect.ShowErrorToast -> ErrorToast.make(binding.root, sideEffect.msg)
                 .show()
@@ -237,9 +238,8 @@ class SpotDetailFragment :
         findNavController().navigate(request, navOptions)
     }
 
-    private fun goToWriteFragment() {
-        // TODO WriteContent 넣어야함.
-        val (request, navOptions) = DeepLinkUtil.getWriteRequestAndOption(requireContext())
+    private fun goToWriteFragment(writeContent: WriteContent) {
+        val (request, navOptions) = DeepLinkUtil.getWriteRequestAndOption(requireContext(), writeContent)
         findNavController().navigate(request, navOptions)
     }
 

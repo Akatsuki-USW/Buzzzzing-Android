@@ -7,6 +7,7 @@ import android.view.ViewTreeObserver
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.onewx2m.core_ui.extensions.hideKeyboard
 import com.onewx2m.core_ui.extensions.onThrottleClick
@@ -43,6 +44,7 @@ class WriteFragment :
     private lateinit var globalLayoutListener: ViewTreeObserver.OnGlobalLayoutListener
 
     override val viewModel: WriteViewModel by viewModels()
+    private val navArgs: WriteFragmentArgs by navArgs()
 
     private var spotCategorySelectorAdapter: SpotCategorySelectorAdapter? = null
     private val pictureAdapter: PictureAdapter by lazy {
@@ -54,7 +56,7 @@ class WriteFragment :
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        viewModel.initSpotCategoryItems()
+        viewModel.initData(navArgs.writeContent)
     }
 
     override fun initView() {

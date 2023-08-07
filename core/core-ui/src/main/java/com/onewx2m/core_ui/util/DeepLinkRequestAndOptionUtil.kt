@@ -8,8 +8,12 @@ import androidx.navigation.NavDeepLinkRequest
 import androidx.navigation.NavOptions
 import com.onewx2m.core_ui.R
 import com.onewx2m.core_ui.model.WriteContent
+import kotlinx.serialization.SerializationStrategy
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
+import timber.log.Timber
+import java.nio.charset.StandardCharsets
+import java.util.Base64
 
 object DeepLinkUtil {
     fun getHomeRequestAndOption(
@@ -52,8 +56,9 @@ object DeepLinkUtil {
         context: Context,
         writeContent: WriteContent = WriteContent(),
     ): Pair<NavDeepLinkRequest, NavOptions> {
-        val writeContentJsonString = Json.encodeToString(writeContent)
+        val writeContentJsonString = Base64.getEncoder().encodeToString(Json.encodeToString(writeContent).toByteArray())
         val deepLinkString = context.getString(R.string.deeplink_write_fragment).replace("{writeContent}", writeContentJsonString)
+        Timber.tag("테스트").d("$deepLinkString")
         return getNaviRequestAndOption(
             deepLinkString.toUri(),
         )

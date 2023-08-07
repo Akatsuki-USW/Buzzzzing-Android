@@ -2,6 +2,7 @@ package com.onewx2m.recommend_place.ui.spotdetail
 
 import android.view.View
 import androidx.lifecycle.viewModelScope
+import com.onewx2m.core_ui.model.WriteContent
 import com.onewx2m.design_system.components.powermenu.PowerMenuType
 import com.onewx2m.design_system.components.recyclerview.spotcomment.SpotCommentType
 import com.onewx2m.design_system.components.recyclerview.spotcomment.children.SpotChildrenCommentItem
@@ -29,6 +30,8 @@ import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.joinAll
 import kotlinx.coroutines.launch
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 import javax.inject.Inject
 
 @HiltViewModel
@@ -492,7 +495,20 @@ class SpotDetailViewModel @Inject constructor(
         )
 
     fun goToPrevPage() = postSideEffect(SpotDetailSideEffect.GoToPrevPage)
-    fun goToWriteFragment() = postSideEffect(SpotDetailSideEffect.GoToWriteFragment)
+    fun goToWriteFragment() {
+        val state = state.value.spotDetailContent
+        val writeContent = WriteContent(
+            title = state.title,
+            buzzzzingLocation = state.location,
+            buzzzzingLocationId = state.locationId,
+            address = state.address,
+            spotCategoryId = state.spotCategoryId,
+            imgUrls = state.imageUrls,
+            content = state.content,
+        )
+
+        postSideEffect(SpotDetailSideEffect.GoToWriteFragment(writeContent))
+    }
 }
 
 data class ChildrenCommentQuery(

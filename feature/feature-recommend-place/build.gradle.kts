@@ -1,6 +1,7 @@
 plugins {
     id("buzzzzing.plugin.feature")
     id("org.jetbrains.kotlin.android")
+    id("org.jetbrains.kotlin.plugin.serialization")
 }
 
 android {
@@ -9,6 +10,7 @@ android {
 }
 
 dependencies {
+    implementation(libs.kotlinx.serialization.json)
 
     implementation(libs.ted.imagePicker)
     implementation(libs.ted.permission)

@@ -5,6 +5,10 @@ import com.onewx2m.design_system.components.recyclerview.spotcategoryselector.Sp
 import com.onewx2m.mvi.Event
 
 sealed interface WriteEvent : Event {
+    data class InitViewState(
+        val state: WriteViewState,
+    ) : WriteEvent
+
     data class ChangeKakaoLocationInputLayout(
         val kakaoLocation: String,
     ) : WriteEvent
