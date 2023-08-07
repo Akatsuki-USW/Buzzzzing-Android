@@ -38,10 +38,7 @@ class MyInfoFragment :
     }
 
     private fun onMenuClick(item: MyInfoMenu) = when (item) {
-        MyInfoMenu.MY_ARTICLE -> ErrorToast.make(
-            binding.root,
-            requireContext().getString(item.StringRes),
-        ).show()
+        MyInfoMenu.MY_ARTICLE -> viewModel.goToMyArticle()
 
         MyInfoMenu.ASK -> ErrorToast.make(binding.root, requireContext().getString(item.StringRes))
             .show()
@@ -100,6 +97,11 @@ class MyInfoFragment :
         when (sideEffect) {
             MyInfoSideEffect.GoToEdit -> {
                 val action = MyInfoFragmentDirections.actionMyInfoToEditMyInfo()
+                findNavController().navigate(action)
+            }
+
+            MyInfoSideEffect.GoToMyArticle -> {
+                val action = MyInfoFragmentDirections.actionMyInfoToMyArticle()
                 findNavController().navigate(action)
             }
         }

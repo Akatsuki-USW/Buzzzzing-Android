@@ -8,10 +8,14 @@ import javax.inject.Inject
 class MyInfoViewModel @Inject constructor() :
     MviViewModel<MyInfoViewState, MyInfoEvent, MyInfoSideEffect>(MyInfoViewState.Default) {
     override fun reduceState(current: MyInfoViewState, event: MyInfoEvent): MyInfoViewState {
-        TODO("Not yet implemented")
+        return current
     }
 
     fun goToEdit() {
         postSideEffect(MyInfoSideEffect.GoToEdit)
+    }
+
+    fun goToMyArticle() {
+        postSideEffect(MyInfoSideEffect.GoToMyArticle)
     }
 }
