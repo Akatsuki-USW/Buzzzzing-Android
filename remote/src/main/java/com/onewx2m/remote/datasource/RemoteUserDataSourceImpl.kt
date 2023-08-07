@@ -1,12 +1,12 @@
 package com.onewx2m.remote.datasource
 
 import com.onewx2m.data.datasource.RemoteUserDataSource
+import com.onewx2m.data.model.SpotListEntity
 import com.onewx2m.data.model.UserInfoEntity
 import com.onewx2m.domain.Outcome
 import com.onewx2m.domain.enums.ReportType
 import com.onewx2m.domain.exception.BuzzzzingHttpException
 import com.onewx2m.domain.exception.DuplicateReportException
-import com.onewx2m.domain.exception.NotFoundCongestionStatistics
 import com.onewx2m.domain.exception.common.CommonException
 import com.onewx2m.remote.api.UserApi
 import com.onewx2m.remote.model.request.BlockUserRequest
@@ -87,5 +87,21 @@ class RemoteUserDataSourceImpl @Inject constructor(
     ): Outcome<T> = when (exception.httpCode) {
         400 -> Outcome.Failure(DuplicateReportException())
         else -> Outcome.Failure(CommonException.UnknownException())
+    }
+
+    override suspend fun getSpotWritten(cursorId: Int): Flow<Outcome<SpotListEntity>> = flow {
+        api.getSpotWritten(cursorId).onSuccess {
+            emit(Outcome.Success(it.data!!.toEntity()))
+        }.onFailure {
+            emit(Outcome.Failure(it))
+        }
+    }
+
+    override suspend fun getSpotCommented(cursorId: Int): Flow<Outcome<SpotListEntity>> = flow {
+        api.getSpotCommented(cursorId).onSuccess {
+            emit(Outcome.Success(it.data!!.toEntity()))
+        }.onFailure {
+            emit(Outcome.Failure(it))
+        }
     }
 }

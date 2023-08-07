@@ -7,6 +7,7 @@ import com.onewx2m.data.model.toDomain
 import com.onewx2m.domain.Outcome
 import com.onewx2m.domain.enums.ReportType
 import com.onewx2m.domain.enums.S3Type
+import com.onewx2m.domain.model.SpotList
 import com.onewx2m.domain.model.UserInfo
 import com.onewx2m.domain.repository.UserRepository
 import kotlinx.coroutines.flow.Flow
@@ -76,5 +77,13 @@ class UserRepositoryImpl @Inject constructor(
         return remoteUserDataSource.report(
             reportType, reportTargetId, reportedUserId, content
         )
+    }
+
+    override suspend fun getSpotWritten(cursorId: Int): Flow<Outcome<SpotList>> {
+        return remoteUserDataSource.getSpotWritten(cursorId).flatMapOutcomeSuccess { it.toDomain() }
+    }
+
+    override suspend fun getSpotCommented(cursorId: Int): Flow<Outcome<SpotList>> {
+        return remoteUserDataSource.getSpotCommented(cursorId).flatMapOutcomeSuccess { it.toDomain() }
     }
 }
