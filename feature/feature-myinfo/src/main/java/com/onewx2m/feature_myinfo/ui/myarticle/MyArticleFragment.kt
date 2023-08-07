@@ -9,6 +9,7 @@ import com.onewx2m.feature_myinfo.databinding.FragmentMyArticleBinding
 import com.onewx2m.feature_myinfo.ui.myarticle.adapter.MyArticleFragmentStateAdapter
 import com.onewx2m.feature_myinfo.ui.myarticle.adapter.MyArticleViewPagerType
 import com.onewx2m.feature_myinfo.ui.myarticle.spotcommented.SpotCommentedFragment
+import com.onewx2m.feature_myinfo.ui.myarticle.spotcommented.SpotCommentedViewModel
 import com.onewx2m.feature_myinfo.ui.myarticle.spotwritten.SpotWrittenFragment
 import com.onewx2m.feature_myinfo.ui.myarticle.spotwritten.SpotWrittenViewModel
 import com.onewx2m.mvi.MviFragment
@@ -21,6 +22,7 @@ class MyArticleFragment :
     ) {
     override val viewModel: MyArticleViewModel by viewModels()
     private val spotWrittenViewModel: SpotWrittenViewModel by viewModels()
+    private val spotCommentedViewModel: SpotCommentedViewModel by viewModels()
 
     private val pagerAdapter: MyArticleFragmentStateAdapter by lazy {
         MyArticleFragmentStateAdapter(
@@ -33,6 +35,7 @@ class MyArticleFragment :
         super.onCreate(savedInstanceState)
         viewModel.viewPagerPosition = 0
         spotWrittenViewModel.getSpotWritten()
+        spotCommentedViewModel.getSpotCommented()
     }
 
     override fun onResume() {
