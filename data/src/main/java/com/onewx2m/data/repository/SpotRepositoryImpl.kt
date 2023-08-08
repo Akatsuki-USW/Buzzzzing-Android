@@ -1,5 +1,6 @@
 package com.onewx2m.data.repository
 
+import com.onewx2m.data.datasource.RemoteMediaDataSource
 import com.onewx2m.data.datasource.RemoteOtherDataSource
 import com.onewx2m.data.datasource.RemoteSpotDataSource
 import com.onewx2m.data.extension.flatMapOutcomeSuccess
@@ -19,6 +20,7 @@ import javax.inject.Inject
 class SpotRepositoryImpl @Inject constructor(
     private val remoteSpotDataSource: RemoteSpotDataSource,
     private val remoteOtherDataSource: RemoteOtherDataSource,
+    private val remoteMediaDataSource: RemoteMediaDataSource,
 ) : SpotRepository {
     override suspend fun getSpotOfLocationList(
         cursorId: Int,
@@ -97,6 +99,55 @@ class SpotRepositoryImpl @Inject constructor(
     override suspend fun getSpotDetail(spotId: Int): Flow<Outcome<SpotDetail>> {
         return remoteSpotDataSource.getSpotDetail(spotId).flatMapOutcomeSuccess { data ->
             data.toDomain()
+        }
+    }
+
+    override suspend fun editSpot(
+        spotId: Int,
+        spotCategoryId: Int,
+        locationId: Int,
+        title: String,
+        address: String,
+        content: String,
+        imageFiles: List<File>,
+        deletedUrls: List<String>,
+        previousUrls: List<String>,
+    ): Flow<Outcome<SpotDetail>> = flow {
+        var changedUrls: List<String> = emptyList()
+
+        var isChangeFileFail = false
+
+        if (imageFiles.isNotEmpty()) {
+            remoteMediaDataSource.changeImage(S3Type.SPOT, deletedUrls, imageFiles)
+                .collect { outcome ->
+                    when (outcome) {
+                        is Outcome.Success -> {
+                            changedUrls = outcome.data.map { it.fileUrl }
+                        }
+
+                        is Outcome.Failure -> {
+                            isChangeFileFail = true
+                            emit(Outcome.Failure(outcome.error))
+                        }
+                    }
+                }
+        }
+
+        if (isChangeFileFail) return@flow
+
+        remoteSpotDataSource.editSpot(
+            spotId = spotId,
+            spotCategoryId = spotCategoryId,
+            locationId = locationId,
+            title = title,
+            address = address,
+            content = content,
+            imageUrls = previousUrls + changedUrls,
+        ).collect { outcome ->
+            when (outcome) {
+                is Outcome.Success -> emit(Outcome.Success(outcome.data.toDomain()))
+                is Outcome.Failure -> emit(Outcome.Failure(outcome.error))
+            }
         }
     }
 }

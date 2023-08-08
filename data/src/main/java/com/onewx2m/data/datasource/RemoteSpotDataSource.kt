@@ -37,4 +37,14 @@ interface RemoteSpotDataSource {
     suspend fun getSpotDetail(
         spotId: Int,
     ): Flow<Outcome<SpotDetailEntity>>
+
+    suspend fun editSpot(
+        spotId: Int,
+        title: String,
+        address: String,
+        content: String,
+        imageUrls: List<String>,
+        locationId: Int,
+        spotCategoryId: Int,
+    ): Flow<Outcome<SpotDetailEntity>>
 }

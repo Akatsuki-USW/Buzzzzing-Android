@@ -12,6 +12,7 @@ import com.onewx2m.design_system.components.recyclerview.spotcategoryselector.Sp
 import com.onewx2m.domain.Outcome
 import com.onewx2m.domain.collectOutcome
 import com.onewx2m.domain.exception.common.CommonException
+import com.onewx2m.domain.usecase.EditSpotUseCase
 import com.onewx2m.domain.usecase.GetSpotCategoryUseCase
 import com.onewx2m.domain.usecase.PostSpotUseCase
 import com.onewx2m.mvi.MviViewModel
@@ -20,7 +21,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.serialization.json.Json
-import timber.log.Timber
 import java.util.Base64
 import javax.inject.Inject
 
@@ -28,6 +28,7 @@ import javax.inject.Inject
 class WriteViewModel @Inject constructor(
     private val getSpotCategoryUseCase: GetSpotCategoryUseCase,
     private val postSpotUseCase: PostSpotUseCase,
+    private val editSpotUseCase: EditSpotUseCase,
     private val resourceProvider: ResourceProvider,
     private val imageUtil: ImageUtil,
 ) :
@@ -210,11 +211,11 @@ class WriteViewModel @Inject constructor(
         if (state.value.isSuccessLottieVisible) {
             postSideEffect(WriteSideEffect.GoToRecommendPlace)
         } else {
-            postSpot()
+            postOrEditSpot()
         }
     }
 
-    private fun postSpot() = viewModelScope.launch {
+    private fun postOrEditSpot() = viewModelScope.launch {
         postEvent(WriteEvent.LoadingState)
         postSideEffect(WriteSideEffect.HideKeyboard)
         postSideEffect(WriteSideEffect.PlayLoadingLottie)
@@ -231,14 +232,31 @@ class WriteViewModel @Inject constructor(
             val spotCategoryId = selectedSpotCategoryItem?.id
                 ?: return@launch handleFail(Outcome.Failure<Unit>(null))
             val locationId = locationId ?: return@launch handleFail(Outcome.Failure<Unit>(null))
-            postSpotUseCase(
-                spotCategoryId = spotCategoryId,
-                locationId = locationId,
-                title = title,
-                address = kakaoLocation,
-                content = content,
-                files,
-            ).collectOutcome(
+
+            val spotUseCase = if (spotId == null) {
+                postSpotUseCase(
+                    spotCategoryId = spotCategoryId,
+                    locationId = locationId,
+                    title = title,
+                    address = kakaoLocation,
+                    content = content,
+                    files,
+                )
+            } else {
+                editSpotUseCase(
+                    spotId = spotId!!,
+                    spotCategoryId = spotCategoryId,
+                    locationId = locationId,
+                    title = title,
+                    address = kakaoLocation,
+                    content = content,
+                    imageFiles = files,
+                    deletedUrls = toDeleteUrls,
+                    previousUrls = pictureUrls,
+                )
+            }
+
+            spotUseCase.collectOutcome(
                 handleSuccess = ::handleSuccess,
                 handleFail = ::handleFail,
             )

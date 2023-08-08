@@ -6,6 +6,7 @@ import com.onewx2m.data.model.SpotDetailEntity
 import com.onewx2m.data.model.SpotListEntity
 import com.onewx2m.domain.Outcome
 import com.onewx2m.remote.api.SpotApi
+import com.onewx2m.remote.model.request.EditSpotRequest
 import com.onewx2m.remote.model.request.PostSpotRequest
 import com.onewx2m.remote.model.response.toEntity
 import com.onewx2m.remote.onFailure
@@ -93,6 +94,30 @@ class RemoteSpotDataSourceImpl @Inject constructor(
 
     override suspend fun getSpotDetail(spotId: Int): Flow<Outcome<SpotDetailEntity>> = flow {
         api.getSpotDetail(spotId).onSuccess { body ->
+            emit(Outcome.Success(body.data!!.toEntity()))
+        }.onFailure {
+            emit(Outcome.Failure(it))
+        }
+    }
+
+    override suspend fun editSpot(
+        spotId: Int,
+        title: String,
+        address: String,
+        content: String,
+        imageUrls: List<String>,
+        locationId: Int,
+        spotCategoryId: Int,
+    ): Flow<Outcome<SpotDetailEntity>> = flow {
+        val request = EditSpotRequest(
+            title = title,
+            address = address,
+            content = content,
+            imageUrls = imageUrls,
+            locationId = locationId,
+            spotCategoryId = spotCategoryId,
+        )
+        api.editSpot(spotId = spotId, request = request).onSuccess { body ->
             emit(Outcome.Success(body.data!!.toEntity()))
         }.onFailure {
             emit(Outcome.Failure(it))

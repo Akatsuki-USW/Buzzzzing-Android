@@ -8,6 +8,7 @@ import com.onewx2m.remote.api.BuzzzzingLocationApi.Companion.LOCATION
 import com.onewx2m.remote.api.BuzzzzingLocationApi.Companion.LOCATION_ID
 import com.onewx2m.remote.api.BuzzzzingLocationApi.Companion.ME
 import com.onewx2m.remote.model.ApiResponse
+import com.onewx2m.remote.model.request.EditSpotRequest
 import com.onewx2m.remote.model.request.PostSpotRequest
 import com.onewx2m.remote.model.response.SpotBookmarkResponse
 import com.onewx2m.remote.model.response.SpotDetailResponse
@@ -15,6 +16,7 @@ import com.onewx2m.remote.model.response.SpotListResponse
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.PUT
 import retrofit2.http.Path
 import retrofit2.http.Query
 
@@ -58,5 +60,11 @@ interface SpotApi {
     @GET("$LOCATION/$SPOT/{$SPOT_ID}")
     suspend fun getSpotDetail(
         @Path(SPOT_ID) spotId: Int,
+    ): ApiResult<ApiResponse<SpotDetailResponse>>
+
+    @PUT("$LOCATION/$SPOT/{$SPOT_ID}")
+    suspend fun editSpot(
+        @Path(SPOT_ID) spotId: Int,
+        @Body request: EditSpotRequest,
     ): ApiResult<ApiResponse<SpotDetailResponse>>
 }

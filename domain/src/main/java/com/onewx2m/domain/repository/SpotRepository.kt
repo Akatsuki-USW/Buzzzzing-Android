@@ -35,6 +35,18 @@ interface SpotRepository {
         imageFiles: List<File>,
     ): Flow<Outcome<SpotDetail>>
 
+    suspend fun editSpot(
+        spotId: Int,
+        spotCategoryId: Int,
+        locationId: Int,
+        title: String,
+        address: String,
+        content: String,
+        imageFiles: List<File>,
+        deletedUrls: List<String>,
+        previousUrls: List<String>,
+    ): Flow<Outcome<SpotDetail>>
+
     suspend fun getSpotDetail(
         spotId: Int,
     ): Flow<Outcome<SpotDetail>>
