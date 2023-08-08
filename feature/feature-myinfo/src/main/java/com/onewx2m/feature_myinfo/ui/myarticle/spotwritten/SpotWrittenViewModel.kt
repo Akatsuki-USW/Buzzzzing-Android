@@ -1,6 +1,7 @@
 package com.onewx2m.feature_myinfo.ui.myarticle.spotwritten
 
 import androidx.lifecycle.viewModelScope
+import com.onewx2m.core_ui.model.WriteContent
 import com.onewx2m.design_system.components.recyclerview.spot.SpotItem
 import com.onewx2m.design_system.enum.ItemViewType
 import com.onewx2m.domain.Outcome
@@ -146,5 +147,21 @@ class SpotWrittenViewModel @Inject constructor(
 
     fun goToSpotDetail(spotId: Int) {
         postSideEffect(SpotWrittenSideEffect.GoToSpotDetailFragment(spotId))
+    }
+
+    fun updateListItem(writeContent: WriteContent) {
+        val currentList = state.value.spotList.map {
+            if (it.id == writeContent.spotId) {
+                it.copy(
+                    title = writeContent.title,
+                    thumbnailImageUrl = writeContent.imgUrls.getOrNull(0),
+                    address = writeContent.address,
+                )
+            } else {
+                it
+            }
+        }
+
+        postEvent(SpotWrittenEvent.UpdateSpotList(currentList))
     }
 }

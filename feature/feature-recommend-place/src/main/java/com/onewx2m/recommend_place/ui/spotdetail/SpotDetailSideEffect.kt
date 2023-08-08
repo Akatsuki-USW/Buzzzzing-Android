@@ -19,7 +19,7 @@ sealed interface SpotDetailSideEffect : SideEffect {
     data class ShowChildCommentPowerMenu(val view: View, val item: SpotChildrenCommentItem) :
         SpotDetailSideEffect
 
-    object GoToPrevPage : SpotDetailSideEffect
+    data class GoToPrevPage(val writeContent: WriteContent) : SpotDetailSideEffect
 
     object ShowKeyboard : SpotDetailSideEffect
     object HideKeyboard : SpotDetailSideEffect
@@ -29,6 +29,7 @@ sealed interface SpotDetailSideEffect : SideEffect {
     object ShowSpotDeleteDialog : SpotDetailSideEffect
     data class ShowEditCommentBottomSheet(val content: String, val commentId: Int) :
         SpotDetailSideEffect
+
     data class ShowSpotReportBottomSheet(val userId: Int, val reportId: Int) :
         SpotDetailSideEffect
 

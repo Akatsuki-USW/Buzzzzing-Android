@@ -4,6 +4,7 @@ import android.graphics.Rect
 import android.os.Bundle
 import android.view.View
 import android.view.ViewTreeObserver
+import androidx.activity.OnBackPressedCallback
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -55,6 +56,12 @@ class WriteFragment :
         }
     }
 
+    private val backPressedDispatcher = object : OnBackPressedCallback(true) {
+        override fun handleOnBackPressed() {
+            viewModel.postPopBackStackSideEvent()
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -102,6 +109,8 @@ class WriteFragment :
                 viewModel.onMainButtonClick()
             }
         }
+
+        requireActivity().onBackPressedDispatcher.addCallback(this, backPressedDispatcher)
     }
 
     override fun render(current: WriteViewState) {
@@ -171,16 +180,21 @@ class WriteFragment :
             WriteSideEffect.PlaySuccessLottie -> binding.lottieSuccess.playAnimation()
             WriteSideEffect.StopSuccessLottie -> binding.lottieSuccess.cancelAnimation()
             WriteSideEffect.GoToRecommendPlace -> goToRecommendPlaceFragment()
-            is WriteSideEffect.ShowErrorToast -> ErrorToast.make(binding.root, sideEffect.msg).show()
+            is WriteSideEffect.ShowErrorToast -> ErrorToast.make(binding.root, sideEffect.msg)
+                .show()
+
             is WriteSideEffect.PopBackStack -> popBackStack(sideEffect.writeContent)
         }
     }
 
     private fun popBackStack(writeContent: WriteContent) {
-        findNavController().previousBackStackEntry?.savedStateHandle?.set(
-            WRITE_CONTENT_KEY,
-            writeContent,
-        )
+        if (writeContent != WriteContent()) {
+            findNavController().previousBackStackEntry?.savedStateHandle?.set(
+                WRITE_CONTENT_KEY,
+                writeContent,
+            )
+        }
+
         findNavController().popBackStack()
     }
 

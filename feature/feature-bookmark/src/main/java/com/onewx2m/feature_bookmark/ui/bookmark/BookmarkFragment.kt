@@ -2,7 +2,10 @@ package com.onewx2m.feature_bookmark.ui.bookmark
 
 import android.os.Bundle
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.google.android.material.tabs.TabLayoutMediator
+import com.onewx2m.core_ui.model.WRITE_CONTENT_KEY
+import com.onewx2m.core_ui.model.WriteContent
 import com.onewx2m.design_system.databinding.IncludeTabBookmarkBinding
 import com.onewx2m.feature_bookmark.R
 import com.onewx2m.feature_bookmark.databinding.FragmentBookmarkBinding
@@ -56,6 +59,13 @@ class BookmarkFragment :
 
     override fun initView() {
         initViewPagerAndTabLayout()
+
+        findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<WriteContent>(
+            WRITE_CONTENT_KEY,
+        )
+            ?.observe(viewLifecycleOwner) { data ->
+                bookmarkSpotViewModel.updateListItem(data)
+            }
     }
 
     private fun initViewPagerAndTabLayout() {

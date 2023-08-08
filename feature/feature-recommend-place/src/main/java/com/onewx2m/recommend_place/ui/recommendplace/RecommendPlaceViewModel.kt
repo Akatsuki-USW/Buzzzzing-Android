@@ -180,4 +180,20 @@ class RecommendPlaceViewModel @Inject constructor(
             is RecommendPlaceEvent.UpdateSpotCategoryItems -> current.copy(spotCategoryItems = event.spotCategoryItems)
             is RecommendPlaceEvent.UpdateSpotList -> current.copy(spotList = event.spotList)
         }
+
+    fun updateListItem(writeContent: WriteContent) {
+        val currentList = state.value.spotList.map {
+            if (it.id == writeContent.spotId) {
+                it.copy(
+                    title = writeContent.title,
+                    thumbnailImageUrl = writeContent.imgUrls.getOrNull(0),
+                    address = writeContent.address,
+                )
+            } else {
+                it
+            }
+        }
+
+        postEvent(RecommendPlaceEvent.UpdateSpotList(currentList))
+    }
 }

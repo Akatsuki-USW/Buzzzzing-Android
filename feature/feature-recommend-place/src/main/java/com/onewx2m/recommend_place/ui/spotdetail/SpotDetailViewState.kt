@@ -1,8 +1,10 @@
 package com.onewx2m.recommend_place.ui.spotdetail
 
+import com.onewx2m.core_ui.model.WriteContent
 import com.onewx2m.design_system.components.recyclerview.spotcomment.SpotCommentType
 import com.onewx2m.design_system.components.recyclerview.spotcomment.children.SpotChildrenCommentItem
 import com.onewx2m.design_system.components.recyclerview.spotcomment.parent.SpotParentCommentItem
+import com.onewx2m.domain.model.BuzzzzingLocation
 import com.onewx2m.domain.model.SpotComment
 import com.onewx2m.domain.model.SpotDetail
 import com.onewx2m.mvi.ViewState
@@ -58,4 +60,15 @@ internal fun SpotDetail.toSpotDetailContentItem() = SpotDetailContentItem(
     commentCount = 0,
     locationId = locationId,
     spotCategoryId = spotCategoryId,
+)
+
+internal fun SpotDetailContentItem.toWriteContent() = WriteContent(
+    spotId = spotId,
+    title = title,
+    buzzzzingLocation = location,
+    buzzzzingLocationId = locationId,
+    address = address,
+    spotCategoryId = spotCategoryId,
+    imgUrls = imageUrls,
+    content = content
 )

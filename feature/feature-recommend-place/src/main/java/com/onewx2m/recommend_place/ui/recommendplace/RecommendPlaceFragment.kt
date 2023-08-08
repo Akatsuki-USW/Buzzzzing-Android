@@ -6,6 +6,8 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.onewx2m.core_ui.extensions.infiniteScrolls
 import com.onewx2m.core_ui.extensions.onThrottleClick
+import com.onewx2m.core_ui.model.WRITE_CONTENT_KEY
+import com.onewx2m.core_ui.model.WriteContent
 import com.onewx2m.core_ui.util.DeepLinkUtil
 import com.onewx2m.design_system.components.recyclerview.spot.SpotAdapter
 import com.onewx2m.design_system.components.recyclerview.spotcategoryselector.SpotCategorySelectorAdapter
@@ -58,6 +60,13 @@ class RecommendPlaceFragment :
                 viewModel.getSpotList()
             }
         }
+
+        findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<WriteContent>(
+            WRITE_CONTENT_KEY,
+        )
+            ?.observe(viewLifecycleOwner) { data ->
+                viewModel.updateListItem(data)
+            }
     }
 
     override fun render(current: RecommendPlaceViewState) {

@@ -30,8 +30,6 @@ import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.joinAll
 import kotlinx.coroutines.launch
-import kotlinx.serialization.encodeToString
-import kotlinx.serialization.json.Json
 import javax.inject.Inject
 
 @HiltViewModel
@@ -312,8 +310,8 @@ class SpotDetailViewModel @Inject constructor(
                     imageUrls = writeContent.imgUrls,
                     content = writeContent.content,
                     locationId = writeContent.buzzzzingLocationId ?: -1,
-                    spotCategoryId = writeContent.spotCategoryId
-                )
+                    spotCategoryId = writeContent.spotCategoryId,
+                ),
             ),
         )
     }
@@ -510,7 +508,12 @@ class SpotDetailViewModel @Inject constructor(
             ),
         )
 
-    fun goToPrevPage() = postSideEffect(SpotDetailSideEffect.GoToPrevPage)
+    fun goToPrevPage() = postSideEffect(
+        SpotDetailSideEffect.GoToPrevPage(
+            state.value.spotDetailContent.toWriteContent(),
+        ),
+    )
+
     fun goToWriteFragment(spotId: Int) {
         val state = state.value.spotDetailContent
         val writeContent = WriteContent(

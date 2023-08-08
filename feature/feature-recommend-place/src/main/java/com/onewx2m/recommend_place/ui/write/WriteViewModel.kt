@@ -217,11 +217,15 @@ class WriteViewModel @Inject constructor(
         }
     }
 
+    fun postPopBackStackSideEvent() {
+        postSideEffect(WriteSideEffect.PopBackStack(writeContent))
+    }
+
     private fun doPostOrEditSpotSuccess() {
         if (spotId == null) {
             postSideEffect(WriteSideEffect.GoToRecommendPlace)
         } else {
-            postSideEffect(WriteSideEffect.PopBackStack(writeContent))
+            postPopBackStackSideEvent()
         }
     }
 

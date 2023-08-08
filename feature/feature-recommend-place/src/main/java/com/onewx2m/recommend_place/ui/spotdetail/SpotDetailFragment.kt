@@ -2,6 +2,7 @@ package com.onewx2m.recommend_place.ui.spotdetail
 
 import android.os.Bundle
 import android.view.View
+import androidx.activity.OnBackPressedCallback
 import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.viewModels
@@ -63,6 +64,12 @@ class SpotDetailFragment :
         CommonDialog(requireContext())
     }
 
+    private val backPressedDispatcher = object : OnBackPressedCallback(true) {
+        override fun handleOnBackPressed() {
+            viewModel.goToPrevPage()
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -105,10 +112,13 @@ class SpotDetailFragment :
         }
 
         findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<WriteContent>(
-            WRITE_CONTENT_KEY)
+            WRITE_CONTENT_KEY,
+        )
             ?.observe(viewLifecycleOwner) { data ->
                 viewModel.updateSpotDetailContent(data)
             }
+
+        requireActivity().onBackPressedDispatcher.addCallback(this, backPressedDispatcher)
     }
 
     override fun render(current: SpotDetailViewState) {
@@ -152,7 +162,7 @@ class SpotDetailFragment :
             is SpotDetailSideEffect.ShowErrorToast -> ErrorToast.make(binding.root, sideEffect.msg)
                 .show()
 
-            SpotDetailSideEffect.GoToPrevPage -> findNavController().popBackStack()
+            is SpotDetailSideEffect.GoToPrevPage -> popBackStack(sideEffect.writeContent)
             is SpotDetailSideEffect.ShowChildCommentPowerMenu -> showChildCommentPowerMenu(
                 sideEffect.view,
                 sideEffect.item,
@@ -189,6 +199,17 @@ class SpotDetailFragment :
                 getString(R.string.report_success),
             ).show()
         }
+    }
+
+    private fun popBackStack(writeContent: WriteContent) {
+        if (writeContent != WriteContent()) {
+            findNavController().previousBackStackEntry?.savedStateHandle?.set(
+                WRITE_CONTENT_KEY,
+                writeContent,
+            )
+        }
+
+        findNavController().popBackStack()
     }
 
     private fun goToHomeFragment() {
@@ -246,7 +267,10 @@ class SpotDetailFragment :
     }
 
     private fun goToWriteFragment(writeContent: WriteContent) {
-        val (request, navOptions) = DeepLinkUtil.getWriteRequestAndOption(requireContext(), writeContent)
+        val (request, navOptions) = DeepLinkUtil.getWriteRequestAndOption(
+            requireContext(),
+            writeContent,
+        )
         findNavController().navigate(request, navOptions)
     }
 
