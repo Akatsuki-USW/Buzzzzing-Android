@@ -150,4 +150,8 @@ class SpotRepositoryImpl @Inject constructor(
             }
         }
     }
+
+    override suspend fun deleteSpot(spotId: Int): Flow<Outcome<Unit>> {
+        return remoteSpotDataSource.deleteSpot(spotId)
+    }
 }

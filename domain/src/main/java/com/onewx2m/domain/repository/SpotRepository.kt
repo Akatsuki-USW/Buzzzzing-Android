@@ -50,4 +50,8 @@ interface SpotRepository {
     suspend fun getSpotDetail(
         spotId: Int,
     ): Flow<Outcome<SpotDetail>>
+
+    suspend fun deleteSpot(
+        spotId: Int,
+    ): Flow<Outcome<Unit>>
 }

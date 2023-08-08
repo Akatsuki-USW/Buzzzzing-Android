@@ -14,6 +14,7 @@ import com.onewx2m.remote.model.response.SpotBookmarkResponse
 import com.onewx2m.remote.model.response.SpotDetailResponse
 import com.onewx2m.remote.model.response.SpotListResponse
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.PUT
@@ -67,4 +68,9 @@ interface SpotApi {
         @Path(SPOT_ID) spotId: Int,
         @Body request: EditSpotRequest,
     ): ApiResult<ApiResponse<SpotDetailResponse>>
+
+    @DELETE("$LOCATION/$SPOT/{$SPOT_ID}")
+    suspend fun deleteSpot(
+        @Path(SPOT_ID) spotId: Int,
+    ): ApiResult<ApiResponse<Unit>>
 }

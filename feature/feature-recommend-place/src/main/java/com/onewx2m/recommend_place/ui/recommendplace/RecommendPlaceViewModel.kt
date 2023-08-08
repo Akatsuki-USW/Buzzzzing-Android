@@ -182,7 +182,9 @@ class RecommendPlaceViewModel @Inject constructor(
         }
 
     fun updateListItem(writeContent: WriteContent) {
-        val currentList = state.value.spotList.map {
+        val currentList = state.value.spotList.filterNot {
+            writeContent.needDelete && writeContent.spotId == it.id
+        }.map {
             if (it.id == writeContent.spotId) {
                 it.copy(
                     title = writeContent.title,

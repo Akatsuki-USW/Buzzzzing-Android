@@ -17,4 +17,5 @@ data class WriteContent(
     val spotCategoryId: Int = -1,
     val imgUrls: List<String> = emptyList(),
     val content: String = "",
+    val needDelete: Boolean = false,
 ) : Parcelable

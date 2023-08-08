@@ -123,4 +123,12 @@ class RemoteSpotDataSourceImpl @Inject constructor(
             emit(Outcome.Failure(it))
         }
     }
+
+    override suspend fun deleteSpot(spotId: Int): Flow<Outcome<Unit>> = flow {
+        api.deleteSpot(spotId).onSuccess {
+            emit(Outcome.Success(it.data!!))
+        }.onFailure { exception ->
+            emit(Outcome.Failure(exception))
+        }
+    }
 }

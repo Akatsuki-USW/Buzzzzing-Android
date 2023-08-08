@@ -47,4 +47,8 @@ interface RemoteSpotDataSource {
         locationId: Int,
         spotCategoryId: Int,
     ): Flow<Outcome<SpotDetailEntity>>
+
+    suspend fun deleteSpot(
+        spotId: Int,
+    ): Flow<Outcome<Unit>>
 }
