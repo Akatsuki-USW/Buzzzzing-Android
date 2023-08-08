@@ -17,6 +17,7 @@ import com.onewx2m.domain.model.SpotCommentList
 import com.onewx2m.domain.usecase.BlockUserUseCase
 import com.onewx2m.domain.usecase.BookmarkSpotUseCase
 import com.onewx2m.domain.usecase.DeleteCommentUseCase
+import com.onewx2m.domain.usecase.DeleteSpotUseCase
 import com.onewx2m.domain.usecase.EditCommentUseCase
 import com.onewx2m.domain.usecase.GetSpotChildrenCommentsUseCase
 import com.onewx2m.domain.usecase.GetSpotDetailUseCase
@@ -44,6 +45,7 @@ class SpotDetailViewModel @Inject constructor(
     private val editCommentUseCase: EditCommentUseCase,
     private val blockUserUseCase: BlockUserUseCase,
     private val reportUseCase: ReportUseCase,
+    private val deleteSpotUseCase: DeleteSpotUseCase,
 ) : MviViewModel<SpotDetailViewState, SpotDetailEvent, SpotDetailSideEffect>(
     SpotDetailViewState(),
 ) {
@@ -60,6 +62,26 @@ class SpotDetailViewModel @Inject constructor(
 
     // key == parentCommentId
     private val childrenCommentQuery = mutableMapOf<Int, ChildrenCommentQuery>()
+
+    fun deleteSpot(spotId: Int) = viewModelScope.launch {
+        deleteSpotUseCase(spotId).onStart { postEvent(SpotDetailEvent.ShowSmallLoadingLottie) }
+            .onCompletion {
+                postEvent(SpotDetailEvent.HideSmallLoadingLottie)
+            }.collectOutcome(
+                handleSuccess = ::handleDeleteSpotSuccess,
+                handleFail = { handleError(it.error) },
+            )
+    }
+
+    private fun handleDeleteSpotSuccess(outcome: Outcome.Success<Unit>) {
+        postSideEffect(
+            SpotDetailSideEffect.GoToPrevPage(
+                state.value.spotDetailContent.toWriteContent().copy(
+                    needDelete = true,
+                ),
+            ),
+        )
+    }
 
     fun reportComment(targetId: Int, userId: Int, content: String) {
         report(ReportType.COMMENT, targetId, userId, content)

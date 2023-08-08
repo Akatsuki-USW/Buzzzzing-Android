@@ -240,7 +240,7 @@ class SpotDetailFragment :
                 commonDialog.dismiss()
             }
             .setPositiveButton {
-                // TODO 스팟 삭제 navArgs.spotId
+                viewModel.deleteSpot(navArgs.spotId)
                 commonDialog.dismiss()
             }.show()
     }
