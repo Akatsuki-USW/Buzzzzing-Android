@@ -12,6 +12,7 @@ import com.onewx2m.design_system.components.recyclerview.spotcategoryselector.Sp
 import com.onewx2m.domain.Outcome
 import com.onewx2m.domain.collectOutcome
 import com.onewx2m.domain.exception.common.CommonException
+import com.onewx2m.domain.model.SpotDetail
 import com.onewx2m.domain.usecase.EditSpotUseCase
 import com.onewx2m.domain.usecase.GetSpotCategoryUseCase
 import com.onewx2m.domain.usecase.PostSpotUseCase
@@ -37,6 +38,7 @@ class WriteViewModel @Inject constructor(
     ) {
     private var locationId: Int? = null
     private var spotId: Int? = null
+    private var writeContent = WriteContent()
 
     // TODO 스팟 수정할 때 사용할듯
     private val toDeleteUrls: MutableList<String> = mutableListOf()
@@ -209,9 +211,17 @@ class WriteViewModel @Inject constructor(
 
     fun onMainButtonClick() {
         if (state.value.isSuccessLottieVisible) {
-            postSideEffect(WriteSideEffect.GoToRecommendPlace)
+            doPostOrEditSpotSuccess()
         } else {
             postOrEditSpot()
+        }
+    }
+
+    private fun doPostOrEditSpotSuccess() {
+        if (spotId == null) {
+            postSideEffect(WriteSideEffect.GoToRecommendPlace)
+        } else {
+            postSideEffect(WriteSideEffect.PopBackStack(writeContent))
         }
     }
 
@@ -263,7 +273,20 @@ class WriteViewModel @Inject constructor(
         }
     }
 
-    private fun <T> handleSuccess(outcome: Outcome.Success<T>) {
+    private fun handleSuccess(outcome: Outcome.Success<SpotDetail>) {
+        with(outcome.data) {
+            writeContent = WriteContent(
+                spotId = spotId,
+                title = title,
+                buzzzzingLocation = locationName,
+                buzzzzingLocationId = locationId,
+                address = address,
+                spotCategoryId = spotCategoryId,
+                imgUrls = imageUrls,
+                content = content,
+            )
+        }
+
         postEvent(WriteEvent.SuccessState)
         postSideEffect(WriteSideEffect.StopLoadingLottie)
         postSideEffect(WriteSideEffect.PlaySuccessLottie)

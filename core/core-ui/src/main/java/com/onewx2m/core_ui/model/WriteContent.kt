@@ -1,7 +1,12 @@
 package com.onewx2m.core_ui.model
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
 import kotlinx.serialization.Serializable
 
+const val WRITE_CONTENT_KEY = "WriteContent"
+
+@Parcelize
 @Serializable
 data class WriteContent(
     val spotId: Int? = null,
@@ -12,4 +17,4 @@ data class WriteContent(
     val spotCategoryId: Int = -1,
     val imgUrls: List<String> = emptyList(),
     val content: String = "",
-)
+) : Parcelable

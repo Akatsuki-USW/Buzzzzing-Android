@@ -1,5 +1,6 @@
 package com.onewx2m.recommend_place.ui.write
 
+import com.onewx2m.core_ui.model.WriteContent
 import com.onewx2m.mvi.SideEffect
 
 sealed interface WriteSideEffect : SideEffect {
@@ -14,4 +15,5 @@ sealed interface WriteSideEffect : SideEffect {
     object HideKeyboard : WriteSideEffect
     data class ShowErrorToast(val msg: String) : WriteSideEffect
     object GoToRecommendPlace : WriteSideEffect
+    data class PopBackStack(val writeContent: WriteContent) : WriteSideEffect
 }

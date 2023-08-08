@@ -12,6 +12,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.onewx2m.core_ui.extensions.hideKeyboard
 import com.onewx2m.core_ui.extensions.onThrottleClick
 import com.onewx2m.core_ui.extensions.px
+import com.onewx2m.core_ui.model.WRITE_CONTENT_KEY
+import com.onewx2m.core_ui.model.WriteContent
 import com.onewx2m.core_ui.util.Constants.MAX_IMAGE_COUNT
 import com.onewx2m.core_ui.util.DeepLinkUtil
 import com.onewx2m.core_ui.util.PermissionManager
@@ -170,7 +172,16 @@ class WriteFragment :
             WriteSideEffect.StopSuccessLottie -> binding.lottieSuccess.cancelAnimation()
             WriteSideEffect.GoToRecommendPlace -> goToRecommendPlaceFragment()
             is WriteSideEffect.ShowErrorToast -> ErrorToast.make(binding.root, sideEffect.msg).show()
+            is WriteSideEffect.PopBackStack -> popBackStack(sideEffect.writeContent)
         }
+    }
+
+    private fun popBackStack(writeContent: WriteContent) {
+        findNavController().previousBackStackEntry?.savedStateHandle?.set(
+            WRITE_CONTENT_KEY,
+            writeContent,
+        )
+        findNavController().popBackStack()
     }
 
     private fun goToRecommendPlaceFragment() {

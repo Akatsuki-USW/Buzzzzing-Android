@@ -302,6 +302,22 @@ class SpotDetailViewModel @Inject constructor(
         )
     }
 
+    fun updateSpotDetailContent(writeContent: WriteContent) {
+        postEvent(
+            SpotDetailEvent.UpdateSpotDetailContent(
+                state.value.spotDetailContent.copy(
+                    title = writeContent.title,
+                    location = writeContent.buzzzzingLocation,
+                    address = writeContent.address,
+                    imageUrls = writeContent.imgUrls,
+                    content = writeContent.content,
+                    locationId = writeContent.buzzzzingLocationId ?: -1,
+                    spotCategoryId = writeContent.spotCategoryId
+                )
+            ),
+        )
+    }
+
     fun getSpotParentCommentList(spotId: Int) = viewModelScope.launch {
         if (parentCommentLast) return@launch
 

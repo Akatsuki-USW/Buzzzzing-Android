@@ -15,6 +15,7 @@ import com.onewx2m.core_ui.extensions.onThrottleClick
 import com.onewx2m.core_ui.extensions.setGoneWithAnimation
 import com.onewx2m.core_ui.extensions.setVisibleWithAnimation
 import com.onewx2m.core_ui.extensions.showKeyboard
+import com.onewx2m.core_ui.model.WRITE_CONTENT_KEY
 import com.onewx2m.core_ui.model.WriteContent
 import com.onewx2m.core_ui.util.DeepLinkUtil
 import com.onewx2m.design_system.components.dialog.CommonDialog
@@ -102,6 +103,12 @@ class SpotDetailFragment :
         binding.imageViewSend.onThrottleClick {
             viewModel.onClickCommentSend(navArgs.spotId)
         }
+
+        findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<WriteContent>(
+            WRITE_CONTENT_KEY)
+            ?.observe(viewLifecycleOwner) { data ->
+                viewModel.updateSpotDetailContent(data)
+            }
     }
 
     override fun render(current: SpotDetailViewState) {
