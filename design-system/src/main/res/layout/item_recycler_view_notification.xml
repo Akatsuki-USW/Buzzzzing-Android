@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/constraint_layout_item"
+    android:layout_width="match_parent"
+    android:layout_height="80dp"
+    android:background="@drawable/ripple_gray03_bg_solid_white01"
+    android:paddingHorizontal="20dp">
+
+
+    <ImageView
+        android:id="@+id/image_view_icon"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@drawable/ic_notification_comment" />
+
+    <com.onewx2m.design_system.components.textview.FigmaTextView
+        android:id="@+id/text_view_notification_title"
+        style="@style/Body.4"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="14dp"
+        android:ellipsize="end"
+        android:gravity="start"
+        android:maxLines="1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/image_view_icon"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="알림 제목" />
+
+    <com.onewx2m.design_system.components.textview.FigmaTextView
+        android:id="@+id/text_view_notification_content"
+        style="@style/Body.4"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/text_view_notification_title"
+        app:layout_constraintTop_toBottomOf="@id/text_view_notification_title"
+        tools:text="알림 내용" />
+
+    <com.onewx2m.design_system.components.textview.FigmaTextView
+        android:id="@+id/text_view_notification_date"
+        style="@style/Body.6"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="end"
+        android:textColor="@color/gray03"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/text_view_notification_title"
+        app:layout_constraintTop_toBottomOf="@id/text_view_notification_content"
+        tools:text="2020-01-01" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
