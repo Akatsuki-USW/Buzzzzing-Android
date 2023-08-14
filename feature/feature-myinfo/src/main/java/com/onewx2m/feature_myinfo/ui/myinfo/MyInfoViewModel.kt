@@ -18,4 +18,8 @@ class MyInfoViewModel @Inject constructor() :
     fun goToMyArticle() {
         postSideEffect(MyInfoSideEffect.GoToMyArticle)
     }
+
+    fun goToNotification() {
+        postSideEffect(MyInfoSideEffect.GoToNotification)
+    }
 }

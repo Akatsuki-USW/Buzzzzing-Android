@@ -21,6 +21,9 @@
             app:destination="@id/myArticleFragment"
             app:enterAnim="@anim/nav_default_enter_anim"
             app:popExitAnim="@anim/nav_default_exit_anim" />
+        <action
+            android:id="@+id/action_myInfo_to_notification"
+            app:destination="@id/notificationFragment" />
     </fragment>
 
     <fragment
@@ -33,4 +36,9 @@
         android:name="com.onewx2m.feature_myinfo.ui.myarticle.MyArticleFragment"
         android:label="fragment_my_article"
         tools:layout="@layout/fragment_my_article" />
+    <fragment
+        android:id="@+id/notificationFragment"
+        android:name="com.onewx2m.feature_myinfo.ui.notification.NotificationFragment"
+        android:label="fragment_notification"
+        tools:layout="@layout/fragment_notification" />
 </navigation>

@@ -35,6 +35,10 @@ class MyInfoFragment :
         binding.buttonEditMyInfo.onThrottleClick {
             viewModel.goToEdit()
         }
+
+        binding.imageViewAlarm.onThrottleClick {
+            viewModel.goToNotification()
+        }
     }
 
     private fun onMenuClick(item: MyInfoMenu) = when (item) {
@@ -102,6 +106,11 @@ class MyInfoFragment :
 
             MyInfoSideEffect.GoToMyArticle -> {
                 val action = MyInfoFragmentDirections.actionMyInfoToMyArticle()
+                findNavController().navigate(action)
+            }
+
+            MyInfoSideEffect.GoToNotification -> {
+                val action = MyInfoFragmentDirections.actionMyInfoToNotification()
                 findNavController().navigate(action)
             }
         }

@@ -4,8 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/constraint_layout_item"
     android:layout_width="match_parent"
-    android:layout_height="80dp"
+    android:layout_height="wrap_content"
     android:background="@drawable/ripple_gray03_bg_solid_white01"
+    android:paddingVertical="10dp"
     android:paddingHorizontal="20dp">
 
 
@@ -13,18 +14,17 @@
         android:id="@+id/image_view_icon"
         android:layout_width="32dp"
         android:layout_height="32dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:src="@drawable/ic_notification_comment"
+        app:layout_constraintBottom_toTopOf="@+id/text_view_notification_date"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:src="@drawable/ic_notification_comment" />
+        app:layout_constraintTop_toTopOf="@+id/text_view_notification_title" />
 
     <com.onewx2m.design_system.components.textview.FigmaTextView
         android:id="@+id/text_view_notification_title"
-        style="@style/Body.4"
+        style="@style/Header.6"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="14dp"
+        android:layout_marginStart="16dp"
         android:ellipsize="end"
         android:gravity="start"
         android:maxLines="1"

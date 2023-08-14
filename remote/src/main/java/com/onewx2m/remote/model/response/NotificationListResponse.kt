@@ -2,11 +2,14 @@ package com.onewx2m.remote.model.response
 
 import com.onewx2m.data.model.NotificationEntity
 import com.onewx2m.data.model.NotificationListEntity
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class NotificationListResponse(
     val notifications: List<NotificationResponse>,
 )
 
+@Serializable
 data class NotificationResponse(
     val notificationId: Int,
     val notificationType: String,

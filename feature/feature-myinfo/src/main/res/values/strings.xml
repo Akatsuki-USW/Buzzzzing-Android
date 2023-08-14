@@ -19,4 +19,5 @@
 
     <string name="fragment_tab_written">게시글</string>
     <string name="fragment_tab_commented">댓글</string>
+    <string name="fragment_notification_title">알림</string>
 </resources>

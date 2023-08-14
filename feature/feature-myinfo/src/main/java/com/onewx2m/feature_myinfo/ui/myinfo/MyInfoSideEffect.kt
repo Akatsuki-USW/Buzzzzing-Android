@@ -5,4 +5,5 @@ import com.onewx2m.mvi.SideEffect
 sealed interface MyInfoSideEffect : SideEffect {
     object GoToEdit : MyInfoSideEffect
     object GoToMyArticle : MyInfoSideEffect
+    object GoToNotification : MyInfoSideEffect
 }
