@@ -6,6 +6,7 @@ import com.onewx2m.data.datasource.RemoteAuthDataSource
 import com.onewx2m.data.datasource.RemoteBuzzzzingLocationDataSource
 import com.onewx2m.data.datasource.RemoteKakaoLocationDataSource
 import com.onewx2m.data.datasource.RemoteMediaDataSource
+import com.onewx2m.data.datasource.RemoteNotificationDataSource
 import com.onewx2m.data.datasource.RemoteOtherDataSource
 import com.onewx2m.data.datasource.RemoteSpotCommentDataSource
 import com.onewx2m.data.datasource.RemoteSpotDataSource
@@ -14,6 +15,7 @@ import com.onewx2m.remote.datasource.RemoteAuthDataSourceImpl
 import com.onewx2m.remote.datasource.RemoteBuzzzzingLocationDataSourceImpl
 import com.onewx2m.remote.datasource.RemoteKakaoLocationDataSourceImpl
 import com.onewx2m.remote.datasource.RemoteMediaDataSourceImpl
+import com.onewx2m.remote.datasource.RemoteNotificationDataSourceImpl
 import com.onewx2m.remote.datasource.RemoteOtherDataSourceImpl
 import com.onewx2m.remote.datasource.RemoteSpotCommentDataSourceImpl
 import com.onewx2m.remote.datasource.RemoteSpotDataSourceImpl
@@ -66,4 +68,9 @@ abstract class RemoteDataSourceModule {
     abstract fun bindRemoteSpotCommentDatasource(
         remoteSpotCommentDataSourceImpl: RemoteSpotCommentDataSourceImpl,
     ): RemoteSpotCommentDataSource
+
+    @Binds
+    abstract fun bindRemoteNotificationDatasource(
+        remoteNotificationDataSourceImpl: RemoteNotificationDataSourceImpl,
+    ): RemoteNotificationDataSource
 }

@@ -7,6 +7,7 @@ import com.onewx2m.remote.api.AuthApi
 import com.onewx2m.remote.api.BuzzzzingLocationApi
 import com.onewx2m.remote.api.KakaoLocationApi
 import com.onewx2m.remote.api.MediaApi
+import com.onewx2m.remote.api.NotificationApi
 import com.onewx2m.remote.api.OtherApi
 import com.onewx2m.remote.api.SpotApi
 import com.onewx2m.remote.api.SpotCommentApi
@@ -60,5 +61,10 @@ object ApiModule {
     @Provides
     fun provideSpotCommentLocationApi(@AuthRetrofit retrofit: Retrofit): SpotCommentApi {
         return retrofit.create(SpotCommentApi::class.java)
+    }
+
+    @Provides
+    fun provideNotificationApi(@AuthRetrofit retrofit: Retrofit) : NotificationApi {
+        return retrofit.create(NotificationApi::class.java)
     }
 }
