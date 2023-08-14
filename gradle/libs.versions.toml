@@ -42,6 +42,9 @@ lottie = "5.0.2"
 mpAndroidChart = "v3.1.0"
 powerMenu = "2.2.2"
 
+ossPlugin = "0.10.6"
+oss = "17.0.1"
+
 [plugins]
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
@@ -58,6 +61,7 @@ google-services = { id = "com.google.gms.google-services", version.ref = "google
 android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "androidGradlePlugin" }
 kotlin-gradlePlugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
 ksp-gradlePlugin = { group = "com.google.devtools.ksp", name = "com.google.devtools.ksp.gradle.plugin", version.ref = "ksp" }
+oss-gradlePlugin = { group = "com.google.android.gms", name = "oss-licenses-plugin", version.ref = "ossPlugin" }
 
 hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
 hilt-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "hilt" }
@@ -111,6 +115,8 @@ room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
 room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
 
 junit4 = { group = "junit", name = "junit", version.ref = "junit4" }
+
+oss = { group = "com.google.android.gms", name = "play-services-oss-licenses", version.ref = "oss" }
 
 [bundles]
 firebase = ["firebase-analytics", "firebase-cloud-messaging"]

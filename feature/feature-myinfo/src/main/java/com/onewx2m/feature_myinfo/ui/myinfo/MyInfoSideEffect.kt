@@ -6,4 +6,5 @@ sealed interface MyInfoSideEffect : SideEffect {
     object GoToEdit : MyInfoSideEffect
     object GoToMyArticle : MyInfoSideEffect
     object GoToNotification : MyInfoSideEffect
+    object ShowOpenLicenses : MyInfoSideEffect
 }

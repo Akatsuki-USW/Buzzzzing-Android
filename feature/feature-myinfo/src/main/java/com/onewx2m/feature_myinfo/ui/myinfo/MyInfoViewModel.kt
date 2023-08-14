@@ -22,4 +22,8 @@ class MyInfoViewModel @Inject constructor() :
     fun goToNotification() {
         postSideEffect(MyInfoSideEffect.GoToNotification)
     }
+
+    fun showOpenLicenses() {
+        postSideEffect(MyInfoSideEffect.ShowOpenLicenses)
+    }
 }

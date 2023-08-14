@@ -1,8 +1,10 @@
 package com.onewx2m.feature_myinfo.ui.myinfo
 
+import android.content.Intent
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
 import com.onewx2m.core_ui.extensions.loadUrl
 import com.onewx2m.core_ui.extensions.onThrottleClick
 import com.onewx2m.core_ui.util.BuzzzzingUser
@@ -52,10 +54,7 @@ class MyInfoFragment :
             requireContext().getString(item.StringRes),
         ).show()
 
-        MyInfoMenu.OPEN_SOURCE -> ErrorToast.make(
-            binding.root,
-            requireContext().getString(item.StringRes),
-        ).show()
+        MyInfoMenu.OPEN_SOURCE -> viewModel.showOpenLicenses()
 
         MyInfoMenu.TERMS -> ErrorToast.make(
             binding.root,
@@ -113,6 +112,8 @@ class MyInfoFragment :
                 val action = MyInfoFragmentDirections.actionMyInfoToNotification()
                 findNavController().navigate(action)
             }
+
+            MyInfoSideEffect.ShowOpenLicenses -> startActivity(Intent(requireActivity(), OssLicensesMenuActivity::class.java))
         }
     }
 }

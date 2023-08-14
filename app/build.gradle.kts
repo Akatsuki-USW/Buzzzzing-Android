@@ -6,6 +6,7 @@ plugins {
     id("buzzzzing.plugin.application")
     id("com.google.gms.google-services")
     id("buzzzzing.plugin.hilt")
+    id("com.google.android.gms.oss-licenses-plugin")
 }
 
 android {
