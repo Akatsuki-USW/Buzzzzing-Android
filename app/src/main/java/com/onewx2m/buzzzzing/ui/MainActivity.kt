@@ -1,6 +1,7 @@
 package com.onewx2m.buzzzzing.ui
 
 import android.content.Context
+import android.content.Intent
 import android.graphics.Rect
 import android.os.Bundle
 import android.view.MotionEvent
@@ -21,8 +22,11 @@ import androidx.navigation.ui.setupWithNavController
 import com.google.firebase.messaging.FirebaseMessaging
 import com.onewx2m.buzzzzing.R
 import com.onewx2m.buzzzzing.databinding.ActivityMainBinding
+import com.onewx2m.core_ui.model.NavigationParcel
+import com.onewx2m.core_ui.util.Constants.NAVIGATION_PARCEL
 import com.onewx2m.core_ui.util.DeepLinkUtil
 import com.onewx2m.core_ui.util.PermissionManager
+import com.onewx2m.core_ui.util.parcelable
 import com.onewx2m.design_system.components.toast.ErrorToast
 import com.onewx2m.mvi.MviActivity
 import dagger.hilt.android.AndroidEntryPoint
@@ -48,6 +52,14 @@ class MainActivity :
 
     private val inputMethodManager: InputMethodManager
         get() = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+
+
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+
+        val parcel = intent?.parcelable<NavigationParcel>(NAVIGATION_PARCEL) ?: return
+        viewModel.processIntent(navController.currentDestination?.id, parcel)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         splashScreen = installSplashScreen()
@@ -130,6 +142,12 @@ class MainActivity :
                 getString(R.string.on_back_pressed_msg),
                 Toast.LENGTH_SHORT,
             ).show()
+
+            is MainSideEffect.Navigate -> navController.navigate(
+                sideEffect.parcel.destination,
+                sideEffect.parcel.bundle
+            )
+            MainSideEffect.PopBackStack -> navController.popBackStack()
         }
     }
 

@@ -17,5 +17,7 @@ sealed interface SpotDetailEvent : Event {
 
     object Initialized : SpotDetailEvent
 
+    object Refresh : SpotDetailEvent
+
     data class UpdateComment(val content: String, val needRender: Boolean = false) : SpotDetailEvent
 }

@@ -10,7 +10,7 @@ import com.onewx2m.design_system.databinding.ToastErrorBinding
 class ErrorToast(view: View, private val message: String) {
 
     companion object {
-        private const val SNACK_BAR_DURATION = 5000
+        private const val SNACK_BAR_DURATION = 3000
 
         fun make(view: View, message: String) = ErrorToast(view, message)
     }

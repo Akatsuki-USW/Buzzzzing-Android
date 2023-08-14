@@ -2,6 +2,7 @@ package com.onewx2m.buzzzzing.ui
 
 import androidx.lifecycle.viewModelScope
 import com.onewx2m.buzzzzing.R
+import com.onewx2m.core_ui.model.NavigationParcel
 import com.onewx2m.core_ui.util.BuzzzzingUser
 import com.onewx2m.domain.Outcome
 import com.onewx2m.domain.exception.common.CommonException
@@ -114,5 +115,13 @@ class MainViewModel @Inject constructor(
         } else {
             postSideEffect(MainSideEffect.FinishActivity)
         }
+    }
+
+    fun processIntent(currentId: Int?, parcel: NavigationParcel) {
+        if(currentId == parcel.destination) {
+            postSideEffect(MainSideEffect.PopBackStack)
+        }
+
+        postSideEffect(MainSideEffect.Navigate(parcel))
     }
 }

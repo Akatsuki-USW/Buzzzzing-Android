@@ -28,6 +28,8 @@ class SpotChildrenCommentViewHolder(
         this.item = item
 
         binding.apply {
+            imageViewProfile.setImageResource(R.drawable.ic_profile)
+
             if (item.profileImageUrl.isNotBlank()) {
                 imageViewProfile.loadUrl(
                     item.profileImageUrl,

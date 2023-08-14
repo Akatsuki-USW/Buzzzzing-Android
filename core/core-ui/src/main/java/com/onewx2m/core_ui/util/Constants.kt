@@ -4,4 +4,6 @@ object Constants {
     const val NICKNAME_INPUT_DEBOUNCE = 500L
     const val EMAIL_INPUT_DEBOUNCE = 500L
     const val MAX_IMAGE_COUNT = 5
+
+    const val NAVIGATION_PARCEL = "navigation_parcel"
 }

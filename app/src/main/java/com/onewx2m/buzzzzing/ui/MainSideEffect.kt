@@ -1,5 +1,6 @@
 package com.onewx2m.buzzzzing.ui
 
+import com.onewx2m.core_ui.model.NavigationParcel
 import com.onewx2m.mvi.SideEffect
 
 sealed interface MainSideEffect : SideEffect {
@@ -8,4 +9,8 @@ sealed interface MainSideEffect : SideEffect {
     object FinishActivity : MainSideEffect
     object ShowBackPressedMsg : MainSideEffect
     data class ChangeBackPressedCallbackEnable(val isEnable: Boolean) : MainSideEffect
+
+    data class Navigate(val parcel: NavigationParcel) : MainSideEffect
+
+    object PopBackStack : MainSideEffect
 }

@@ -44,7 +44,7 @@ class SpotDetailFragment :
 
     private val spotDetailContentAdapter: SpotDetailContentAdapter by lazy {
         SpotDetailContentAdapter(
-            onBookmarkClick = viewModel::bookmark,
+            onBookmarkClick = { viewModel.bookmark() },
         ).apply {
             setHasStableIds(true)
         }
@@ -87,7 +87,7 @@ class SpotDetailFragment :
             layoutManager = LinearLayoutManager(requireContext())
             itemAnimator = null
             infiniteScrolls {
-                viewModel.getSpotParentCommentList(navArgs.spotId)
+                viewModel.getSpotParentCommentList()
             }
         }
 
@@ -108,7 +108,7 @@ class SpotDetailFragment :
         }
 
         binding.imageViewSend.onThrottleClick {
-            viewModel.onClickCommentSend(navArgs.spotId)
+            viewModel.onClickCommentSend()
         }
 
         findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<WriteContent>(
@@ -240,7 +240,7 @@ class SpotDetailFragment :
                 commonDialog.dismiss()
             }
             .setPositiveButton {
-                viewModel.deleteSpot(navArgs.spotId)
+                viewModel.deleteSpot()
                 commonDialog.dismiss()
             }.show()
     }
@@ -282,9 +282,9 @@ class SpotDetailFragment :
             viewModel.contentPowerMenuList,
         ) { _, item ->
             when (PowerMenuType.typeOf(item)) {
-                PowerMenuType.EDIT -> viewModel.goToWriteFragment(navArgs.spotId)
+                PowerMenuType.EDIT -> viewModel.goToWriteFragment()
                 PowerMenuType.DELETE -> viewModel.showDeleteSpotDialog()
-                PowerMenuType.REPORT -> viewModel.showSpotReportBottomSheet(navArgs.spotId)
+                PowerMenuType.REPORT -> viewModel.showSpotReportBottomSheet()
                 PowerMenuType.BLOCK -> viewModel.showBlockDialog(viewModel.authorId)
                 PowerMenuType.REPLY -> Unit
             }

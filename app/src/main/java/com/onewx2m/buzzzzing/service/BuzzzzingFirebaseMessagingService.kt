@@ -10,6 +10,7 @@ import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.onewx2m.buzzzzing.R
 import com.onewx2m.buzzzzing.ui.MainActivity
+import com.onewx2m.core_ui.util.Constants.NAVIGATION_PARCEL
 
 class BuzzzzingFirebaseMessagingService : FirebaseMessagingService() {
 
@@ -54,14 +55,7 @@ class BuzzzzingFirebaseMessagingService : FirebaseMessagingService() {
         val type = data[TYPE] ?: ""
         val redirectTargetId = data[REDIRECT_TARGET_ID]?.toIntOrNull() ?: 0
 
-        val intent = Intent(this, MainActivity::class.java)
-        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
-        val pendingIntent = PendingIntent.getActivity(
-            this,
-            System.currentTimeMillis().toInt(),
-            intent,
-            PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT,
-        )
+        val pendingIntent = getPendingIntent(type, redirectTargetId)
 
         val builder =
             NotificationCompat.Builder(this, CHANNEL_ID)
@@ -77,5 +71,23 @@ class BuzzzzingFirebaseMessagingService : FirebaseMessagingService() {
             .setAutoCancel(true)
 
         notificationManager.notify(System.currentTimeMillis().toInt(), builder.build())
+    }
+
+    private fun getPendingIntent(
+        type: String,
+        redirectTargetId: Int,
+    ): PendingIntent? {
+        val intent = Intent(this, MainActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
+        intent.putExtra(
+            NAVIGATION_PARCEL,
+            NotificationUtil.getNavigationParcel(type, redirectTargetId),
+        )
+        return PendingIntent.getActivity(
+            this,
+            System.currentTimeMillis().toInt(),
+            intent,
+            PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT,
+        )
     }
 }

@@ -58,12 +58,14 @@ class SpotDetailViewModel @Inject constructor(
     var authorId = -1
         private set
 
+    private var spotId: Int = -1
+
     private var replyCommentId: Int? = null
 
     // key == parentCommentId
     private val childrenCommentQuery = mutableMapOf<Int, ChildrenCommentQuery>()
 
-    fun deleteSpot(spotId: Int) = viewModelScope.launch {
+    fun deleteSpot() = viewModelScope.launch {
         deleteSpotUseCase(spotId).onStart { postEvent(SpotDetailEvent.ShowSmallLoadingLottie) }
             .onCompletion {
                 postEvent(SpotDetailEvent.HideSmallLoadingLottie)
@@ -187,7 +189,7 @@ class SpotDetailViewModel @Inject constructor(
         postEvent(SpotDetailEvent.UpdateSpotParentCommentList(commentList))
     }
 
-    fun onClickCommentSend(spotId: Int) {
+    fun onClickCommentSend() {
         if (state.value.commentContent.isEmpty()) return
 
         postEvent(SpotDetailEvent.ShowSmallLoadingLottie)
@@ -195,13 +197,13 @@ class SpotDetailViewModel @Inject constructor(
         postSideEffect(SpotDetailSideEffect.HideKeyboard)
 
         if (replyCommentId == null) {
-            createParentComment(spotId)
+            createParentComment()
         } else {
             createChildComment()
         }
     }
 
-    private fun createParentComment(spotId: Int) = viewModelScope.launch {
+    private fun createParentComment() = viewModelScope.launch {
         postSpotParentCommentUseCase(spotId, state.value.commentContent).onCompletion {
             postEvent(SpotDetailEvent.HideSmallLoadingLottie)
             updateContent("", true)
@@ -299,12 +301,19 @@ class SpotDetailViewModel @Inject constructor(
     fun getChildrenCommentPowerMenuList(isAuthor: Boolean) =
         getParentCommentPowerMenuList(isAuthor).filterNot { it == PowerMenuType.REPLY.kor }
 
-    fun initData(spotId: Int) = viewModelScope.launch {
-        joinAll(getSpotDetail(spotId), getSpotParentCommentList(spotId))
+    fun refreshData() = viewModelScope.launch {
+        postEvent(SpotDetailEvent.Refresh)
+        joinAll(getSpotDetail(), getSpotParentCommentList())
         postEvent(SpotDetailEvent.Initialized)
     }
 
-    private fun getSpotDetail(spotId: Int) = viewModelScope.launch {
+    fun initData(spotId: Int) = viewModelScope.launch {
+        this@SpotDetailViewModel.spotId = spotId
+        joinAll(getSpotDetail(), getSpotParentCommentList())
+        postEvent(SpotDetailEvent.Initialized)
+    }
+
+    private fun getSpotDetail() = viewModelScope.launch {
         getSpotDetailUseCase(spotId).collectOutcome(
             handleSuccess = {
                 authorId = it.data.userId
@@ -338,7 +347,7 @@ class SpotDetailViewModel @Inject constructor(
         )
     }
 
-    fun getSpotParentCommentList(spotId: Int) = viewModelScope.launch {
+    fun getSpotParentCommentList() = viewModelScope.launch {
         if (parentCommentLast) return@launch
 
         getSpotParentCommentsUseCase(spotId, parentCommentCursorId).collectOutcome(
@@ -373,7 +382,7 @@ class SpotDetailViewModel @Inject constructor(
         )
     }
 
-    fun bookmark(spotId: Int) = viewModelScope.launch {
+    fun bookmark() = viewModelScope.launch {
         bookmarkSpotUseCase(spotId).collectOutcome(
             handleSuccess = ::handleBookmarkSuccess,
             handleFail = { handleError(it.error) },
@@ -480,6 +489,8 @@ class SpotDetailViewModel @Inject constructor(
             commentContent = event.content,
             needCommentRender = event.needRender,
         )
+
+        SpotDetailEvent.Refresh -> SpotDetailViewState()
     }
 
     private fun handleError(error: Throwable?) {
@@ -514,7 +525,7 @@ class SpotDetailViewModel @Inject constructor(
     fun showCommentBottomSheet(content: String, commentId: Int) =
         postSideEffect(SpotDetailSideEffect.ShowEditCommentBottomSheet(content, commentId))
 
-    fun showSpotReportBottomSheet(spotId: Int) =
+    fun showSpotReportBottomSheet() =
         postSideEffect(
             SpotDetailSideEffect.ShowSpotReportBottomSheet(
                 userId = authorId,
@@ -536,7 +547,7 @@ class SpotDetailViewModel @Inject constructor(
         ),
     )
 
-    fun goToWriteFragment(spotId: Int) {
+    fun goToWriteFragment() {
         val state = state.value.spotDetailContent
         val writeContent = WriteContent(
             spotId = spotId,
