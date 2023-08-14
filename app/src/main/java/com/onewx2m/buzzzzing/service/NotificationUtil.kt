@@ -13,13 +13,9 @@ object NotificationUtil {
     fun getNavigationParcel(type: String, targetId: Int): NavigationParcel {
         return try {
             when (NotificationType.valueOf(type)) {
-                NotificationType.CREATE_SPOT_COMMENT -> NavigationParcel(
-                    SpotDetailFragmentArgs(spotId = targetId).toBundle(),
-                    com.onewx2m.recommend_place.R.id.spotDetailFragment,
-                )
-
-                NotificationType.CREATE_SPOT_COMMENT_COMMENT -> NavigationParcel(
-                    SpotDetailFragmentArgs(spotId = targetId).toBundle(),
+                NotificationType.CREATE_SPOT_COMMENT, NotificationType.CREATE_SPOT_COMMENT_COMMENT -> NavigationParcel(
+                    type,
+                    targetId,
                     com.onewx2m.recommend_place.R.id.spotDetailFragment,
                 )
             }

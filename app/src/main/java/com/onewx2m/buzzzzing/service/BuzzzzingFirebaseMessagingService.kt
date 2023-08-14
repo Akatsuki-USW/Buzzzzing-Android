@@ -11,6 +11,7 @@ import com.google.firebase.messaging.RemoteMessage
 import com.onewx2m.buzzzzing.R
 import com.onewx2m.buzzzzing.ui.MainActivity
 import com.onewx2m.core_ui.util.Constants.NAVIGATION_PARCEL
+import timber.log.Timber
 
 class BuzzzzingFirebaseMessagingService : FirebaseMessagingService() {
 
@@ -54,6 +55,8 @@ class BuzzzzingFirebaseMessagingService : FirebaseMessagingService() {
         val body = data[BODY] ?: ""
         val type = data[TYPE] ?: ""
         val redirectTargetId = data[REDIRECT_TARGET_ID]?.toIntOrNull() ?: 0
+
+        Timber.tag("FCM").d("$title $body $type $redirectTargetId")
 
         val pendingIntent = getPendingIntent(type, redirectTargetId)
 

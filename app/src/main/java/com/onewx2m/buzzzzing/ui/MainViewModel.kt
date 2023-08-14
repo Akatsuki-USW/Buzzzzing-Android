@@ -1,7 +1,7 @@
 package com.onewx2m.buzzzzing.ui
 
 import androidx.lifecycle.viewModelScope
-import com.onewx2m.buzzzzing.R
+import com.onewx2m.buzzzzing.service.NotificationType
 import com.onewx2m.core_ui.model.NavigationParcel
 import com.onewx2m.core_ui.util.BuzzzzingUser
 import com.onewx2m.domain.Outcome
@@ -12,7 +12,6 @@ import com.onewx2m.domain.usecase.SaveEntireCategoryUseCase
 import com.onewx2m.mvi.MviViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -79,6 +78,7 @@ class MainViewModel @Inject constructor(
         }
         delay(HIDE_SPLASH_DELAY)
         postEvent(MainEvent.HideSplashScreen)
+        postSideEffect(MainSideEffect.ProcessInitIntent)
     }
 
     fun isDestinationInBottomNavigationBarInitialFragment(
@@ -118,10 +118,14 @@ class MainViewModel @Inject constructor(
     }
 
     fun processIntent(currentId: Int?, parcel: NavigationParcel) {
-        if(currentId == parcel.destination) {
+        if (currentId == parcel.destination) {
             postSideEffect(MainSideEffect.PopBackStack)
         }
 
-        postSideEffect(MainSideEffect.Navigate(parcel))
+        when (NotificationType.valueOf(parcel.type)) {
+            NotificationType.CREATE_SPOT_COMMENT, NotificationType.CREATE_SPOT_COMMENT_COMMENT -> postSideEffect(
+                MainSideEffect.GoToSpotDetailFragment(parcel.targetId),
+            )
+        }
     }
 }

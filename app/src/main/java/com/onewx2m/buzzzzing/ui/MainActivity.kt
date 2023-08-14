@@ -19,7 +19,6 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
-import com.google.firebase.messaging.FirebaseMessaging
 import com.onewx2m.buzzzzing.R
 import com.onewx2m.buzzzzing.databinding.ActivityMainBinding
 import com.onewx2m.core_ui.model.NavigationParcel
@@ -53,10 +52,13 @@ class MainActivity :
     private val inputMethodManager: InputMethodManager
         get() = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
 
-
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
 
+        processIntent(intent)
+    }
+
+    private fun processIntent(intent: Intent?) {
         val parcel = intent?.parcelable<NavigationParcel>(NAVIGATION_PARCEL) ?: return
         viewModel.processIntent(navController.currentDestination?.id, parcel)
     }
@@ -76,6 +78,8 @@ class MainActivity :
         this.onBackPressedDispatcher.addCallback(this, onBackPressedCallback)
 
         PermissionManager.createNotificationPermission()
+
+        processIntent(intent)
     }
 
     private fun initNavBar() {
@@ -143,12 +147,21 @@ class MainActivity :
                 Toast.LENGTH_SHORT,
             ).show()
 
-            is MainSideEffect.Navigate -> navController.navigate(
-                sideEffect.parcel.destination,
-                sideEffect.parcel.bundle
+            is MainSideEffect.GoToSpotDetailFragment -> goToSpotDetailFragment(
+                sideEffect.spotId
             )
+
             MainSideEffect.PopBackStack -> navController.popBackStack()
+            MainSideEffect.ProcessInitIntent -> processIntent(intent)
         }
+    }
+
+    private fun goToSpotDetailFragment(spotId: Int) {
+        val (request, navOptions) = DeepLinkUtil.getSpotDetailRequestAndOption(
+            this,
+            spotId,
+        )
+        navController.navigate(request, navOptions)
     }
 
     private fun goToHomeFragment() {
