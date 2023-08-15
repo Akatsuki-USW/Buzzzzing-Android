@@ -48,7 +48,7 @@ interface UserApi {
     ): ApiResult<ApiResponse<SpotListResponse>>
 
     @POST("$USER/revoke")
-    suspend fun revoke(): ApiResult<ApiResponse<Unit>>
+    suspend fun revoke(): ApiResult<Unit>
 
     @GET("/bans/me")
     suspend fun getBanReasonList(): ApiResult<ApiResponse<BanListResponse>>

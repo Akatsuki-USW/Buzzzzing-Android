@@ -108,7 +108,7 @@ class RemoteUserDataSourceImpl @Inject constructor(
 
     override suspend fun revoke(): Flow<Outcome<Unit>> = flow {
         api.revoke().onSuccess {
-            emit(Outcome.Success(it.data!!))
+            emit(Outcome.Success(Unit))
         }.onFailure { exception ->
             emit(Outcome.Failure(exception))
         }
@@ -124,7 +124,7 @@ class RemoteUserDataSourceImpl @Inject constructor(
 
     override suspend fun logout(): Flow<Outcome<Unit>> = flow {
         api.logout().onSuccess {
-            emit(Outcome.Success(it.data!!))
+            emit(Outcome.Success(Unit))
         }.onFailure { exception ->
             emit(Outcome.Failure(exception))
         }
