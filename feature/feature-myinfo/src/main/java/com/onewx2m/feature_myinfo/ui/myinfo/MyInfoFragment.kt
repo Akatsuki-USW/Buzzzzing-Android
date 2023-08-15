@@ -1,6 +1,7 @@
 package com.onewx2m.feature_myinfo.ui.myinfo
 
 import android.content.Intent
+import android.net.Uri
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -61,20 +62,11 @@ class MyInfoFragment :
 
         MyInfoMenu.OPEN_SOURCE -> viewModel.showOpenLicenses()
 
-        MyInfoMenu.TERMS -> ErrorToast.make(
-            binding.root,
-            requireContext().getString(item.StringRes),
-        ).show()
+        MyInfoMenu.TERMS -> viewModel.goToTerms()
 
-        MyInfoMenu.PERSONAL_INFO_POLICY -> ErrorToast.make(
-            binding.root,
-            requireContext().getString(item.StringRes),
-        ).show()
+        MyInfoMenu.PERSONAL_INFO_POLICY -> viewModel.goToPersonalInfoHandling()
 
-        MyInfoMenu.COMMUNITY_RULE -> ErrorToast.make(
-            binding.root,
-            requireContext().getString(item.StringRes),
-        ).show()
+        MyInfoMenu.COMMUNITY_RULE -> viewModel.goToCommunityRule()
 
         MyInfoMenu.LOGOUT -> viewModel.showLogoutDialog()
 
@@ -137,6 +129,30 @@ class MyInfoFragment :
             ).show()
 
             MyInfoSideEffect.GoToLoginFragment -> goToLoginFragment()
+
+            MyInfoSideEffect.GoToCommunityRule -> {
+                val intent = Intent(
+                    Intent.ACTION_VIEW,
+                    Uri.parse(getString(com.onewx2m.core_ui.R.string.url_community_rule)),
+                )
+                startActivity(intent)
+            }
+
+            MyInfoSideEffect.GoToPersonalInfoHandling -> {
+                val intent = Intent(
+                    Intent.ACTION_VIEW,
+                    Uri.parse(getString(com.onewx2m.core_ui.R.string.url_personal_information_handling_policy)),
+                )
+                startActivity(intent)
+            }
+
+            MyInfoSideEffect.GoToTerms -> {
+                val intent = Intent(
+                    Intent.ACTION_VIEW,
+                    Uri.parse(getString(com.onewx2m.core_ui.R.string.url_terms_and_conditions)),
+                )
+                startActivity(intent)
+            }
         }
     }
 

@@ -52,6 +52,18 @@ class MyInfoViewModel @Inject constructor(
         postSideEffect(MyInfoSideEffect.Quit)
     }
 
+    fun goToCommunityRule() {
+        postSideEffect(MyInfoSideEffect.GoToCommunityRule)
+    }
+
+    fun goToTerms() {
+        postSideEffect(MyInfoSideEffect.GoToTerms)
+    }
+
+    fun goToPersonalInfoHandling() {
+        postSideEffect(MyInfoSideEffect.GoToPersonalInfoHandling)
+    }
+
     fun logout() = viewModelScope.launch {
         logoutUseCase().onStart {
             postEvent(MyInfoEvent.ShowSmallLoadingLottie)

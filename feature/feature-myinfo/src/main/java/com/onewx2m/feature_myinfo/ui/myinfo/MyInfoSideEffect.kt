@@ -12,4 +12,7 @@ sealed interface MyInfoSideEffect : SideEffect {
     object GoToBanList : MyInfoSideEffect
     data class ShowErrorToast(val msg: String) : MyInfoSideEffect
     object GoToLoginFragment : MyInfoSideEffect
+    object GoToCommunityRule : MyInfoSideEffect
+    object GoToTerms : MyInfoSideEffect
+    object GoToPersonalInfoHandling : MyInfoSideEffect
 }
