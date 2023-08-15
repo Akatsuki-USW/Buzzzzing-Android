@@ -8,7 +8,7 @@
     <string name="deeplink_spot_detail_fragment">android-app://com.onewx2m.feature_recommend_place.ui.spotdetail.SpotDetailFragment/{spotId}</string>
 
     <!-- url -->
-    <string name="url_personal_information_handling_policy">https://policy.naver.com/policy/privacy.html</string>
+    <string name="url_personal_information_handling_policy">https://sites.google.com/view/buzzzzing-personal-info/%ED%99%88</string>
     <string name="url_terms_and_conditions">https://sites.google.com/view/buzzzzing-terms/%ED%99%88</string>
     <string name="url_community_rule">https://sites.google.com/view/buzzzzing-community-rule/%ED%99%88</string>
 
