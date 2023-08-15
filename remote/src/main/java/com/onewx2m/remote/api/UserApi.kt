@@ -11,6 +11,7 @@ import com.onewx2m.remote.model.ApiResponse
 import com.onewx2m.remote.model.request.BlockUserRequest
 import com.onewx2m.remote.model.request.ReportRequest
 import com.onewx2m.remote.model.request.UserInfoRequest
+import com.onewx2m.remote.model.response.BanListResponse
 import com.onewx2m.remote.model.response.SpotListResponse
 import com.onewx2m.remote.model.response.UserInfoResponse
 import kotlinx.coroutines.flow.Flow
@@ -45,4 +46,10 @@ interface UserApi {
     suspend fun getSpotCommented(
         @Query(CURSOR_ID) cursorId: Int,
     ): ApiResult<ApiResponse<SpotListResponse>>
+
+    @POST("$USER/revoke")
+    suspend fun revoke(): ApiResult<ApiResponse<Unit>>
+
+    @GET("/bans/me")
+    suspend fun getBanReasonList(): ApiResult<ApiResponse<BanListResponse>>
 }

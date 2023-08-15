@@ -7,6 +7,7 @@ import com.onewx2m.data.model.toDomain
 import com.onewx2m.domain.Outcome
 import com.onewx2m.domain.enums.ReportType
 import com.onewx2m.domain.enums.S3Type
+import com.onewx2m.domain.model.Ban
 import com.onewx2m.domain.model.SpotList
 import com.onewx2m.domain.model.UserInfo
 import com.onewx2m.domain.repository.UserRepository
@@ -72,10 +73,13 @@ class UserRepositoryImpl @Inject constructor(
         reportType: ReportType,
         reportTargetId: Int,
         reportedUserId: Int,
-        content: String
+        content: String,
     ): Flow<Outcome<Unit>> {
         return remoteUserDataSource.report(
-            reportType, reportTargetId, reportedUserId, content
+            reportType,
+            reportTargetId,
+            reportedUserId,
+            content,
         )
     }
 
@@ -84,6 +88,16 @@ class UserRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getSpotCommented(cursorId: Int): Flow<Outcome<SpotList>> {
-        return remoteUserDataSource.getSpotCommented(cursorId).flatMapOutcomeSuccess { it.toDomain() }
+        return remoteUserDataSource.getSpotCommented(cursorId)
+            .flatMapOutcomeSuccess { it.toDomain() }
+    }
+
+    override suspend fun revoke(): Flow<Outcome<Unit>> {
+        return remoteUserDataSource.revoke()
+    }
+
+    override suspend fun getBanReasonList(): Flow<Outcome<List<Ban>>> {
+        return remoteUserDataSource.getBanReasonList()
+            .flatMapOutcomeSuccess { data -> data.map { it.toDomain() } }
     }
 }

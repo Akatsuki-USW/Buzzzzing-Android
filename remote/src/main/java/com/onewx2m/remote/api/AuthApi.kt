@@ -15,11 +15,14 @@ interface AuthApi {
 
     @POST("$AUTH/login")
     suspend fun login(
-        @Body request: LoginRequest
+        @Body request: LoginRequest,
     ): ApiResult<ApiResponse<JwtResponse>>
 
     @POST("$AUTH/reissue")
     suspend fun reIssueBuzzzzingJwt(
-        @Body request: JwtReIssueRequest
+        @Body request: JwtReIssueRequest,
     ): ApiResult<ApiResponse<JwtResponse>>
+
+    @POST("/$AUTH/logout")
+    suspend fun logout(): ApiResult<ApiResponse<Unit>>
 }

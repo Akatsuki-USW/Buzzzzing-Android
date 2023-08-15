@@ -13,4 +13,6 @@ interface RemoteAuthDataSource {
     suspend fun reIssueBuzzzzingJwt(
         refreshToken: String,
     ): Flow<Outcome<JwtEntity>>
+
+    suspend fun logout(): Flow<Outcome<Unit>>
 }

@@ -1,6 +1,7 @@
 package com.onewx2m.remote.datasource
 
 import com.onewx2m.data.datasource.RemoteUserDataSource
+import com.onewx2m.data.model.BanEntity
 import com.onewx2m.data.model.SpotListEntity
 import com.onewx2m.data.model.UserInfoEntity
 import com.onewx2m.domain.Outcome
@@ -102,6 +103,22 @@ class RemoteUserDataSourceImpl @Inject constructor(
             emit(Outcome.Success(it.data!!.toEntity()))
         }.onFailure {
             emit(Outcome.Failure(it))
+        }
+    }
+
+    override suspend fun revoke(): Flow<Outcome<Unit>> = flow {
+        api.revoke().onSuccess {
+            emit(Outcome.Success(it.data!!))
+        }.onFailure { exception ->
+            emit(Outcome.Failure(exception))
+        }
+    }
+
+    override suspend fun getBanReasonList(): Flow<Outcome<List<BanEntity>>> = flow {
+        api.getBanReasonList().onSuccess {
+            emit(Outcome.Success(it.data!!.banList.map { ban -> ban.toEntity() }))
+        }.onFailure { exception ->
+            emit(Outcome.Failure(exception))
         }
     }
 }
