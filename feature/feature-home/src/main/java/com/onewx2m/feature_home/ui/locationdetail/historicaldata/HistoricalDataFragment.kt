@@ -67,13 +67,17 @@ class HistoricalDataFragment :
         super.render(current)
 
         if (daySelectorAdapter == null && current.daysItems.isNotEmpty() && current.selectedDayItem != null) {
-            daySelectorAdapter = DaySelectorAdapter(Congestion.valueOf(congestion), current.daysItems, current.selectedDayItem) {
+            daySelectorAdapter = DaySelectorAdapter(
+                Congestion.valueOf(congestion),
+                current.daysItems,
+                current.selectedDayItem,
+            ) {
                 viewModel.updateSelectedDayItem(it)
                 viewModel.getBuzzzzingStatistic(locationId, it.query)
             }
         }
 
-        if(binding.recyclerView.adapter == null && daySelectorAdapter != null) {
+        if (binding.recyclerView.adapter == null && daySelectorAdapter != null) {
             binding.recyclerView.adapter = daySelectorAdapter
         }
 
@@ -84,7 +88,10 @@ class HistoricalDataFragment :
         super.handleSideEffect(sideEffect)
 
         when (sideEffect) {
-            is HistoricalDataSideEffect.ShowErrorToast -> ErrorToast.make(binding.root, sideEffect.msg).show()
+            is HistoricalDataSideEffect.ShowErrorToast -> ErrorToast.make(
+                binding.root,
+                sideEffect.msg,
+            ).show()
         }
     }
 }

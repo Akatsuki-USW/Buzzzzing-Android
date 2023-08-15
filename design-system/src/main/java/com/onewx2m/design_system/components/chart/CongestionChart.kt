@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.Color
 import android.util.AttributeSet
 import android.view.LayoutInflater
+import androidx.annotation.ColorInt
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import com.github.mikephil.charting.components.XAxis
@@ -16,6 +17,7 @@ import com.onewx2m.core_ui.extensions.px
 import com.onewx2m.design_system.R
 import com.onewx2m.design_system.databinding.ChartCongestionBinding
 import com.onewx2m.design_system.enum.Congestion
+import timber.log.Timber
 
 class CongestionChart @JvmOverloads constructor(
     context: Context,
@@ -51,9 +53,49 @@ class CongestionChart @JvmOverloads constructor(
     fun submitChartData(congestion: Congestion, entries: List<ChartItem>) {
         val mainColor = getMainColor(congestion)
 
-        val lineDataSet = ArrayList<ILineDataSet>() // 데이터 배열 → 데이터 셋
+        val lineDataSet = mutableListOf<ILineDataSet>() // 데이터 배열 → 데이터 셋
 
-        val set = LineDataSet(entries.map { Entry(it.x.toFloat(), it.y.toFloat()) }, "").apply {
+        val chartEntry = MutableList(X_LABEL_COUNT) { Entry(it + X_AXIS_MIN, 0f) }
+
+        entries.forEach { entry ->
+            val index = chartEntry.indexOfFirst { it.x == entry.x.toFloat() }
+            if (index != -1) {
+                chartEntry[index] = Entry(entry.x.toFloat(), entry.y.toFloat())
+            }
+        }
+
+        val drawLineDataList = mutableListOf<Entry>()
+        val notDrawLineDataList = mutableListOf<Entry>()
+
+        chartEntry.forEach {
+            val (lineDataListToAddEntry, lineDataListToDraw) = if (it.y == 0f) {
+                (notDrawLineDataList to drawLineDataList)
+            } else {
+                (drawLineDataList to notDrawLineDataList)
+            }
+
+            lineDataListToAddEntry.add(it)
+            addLineData(lineDataSet, lineDataListToDraw, mainColor)
+        }
+
+        addLineData(lineDataSet, drawLineDataList, mainColor)
+        addLineData(lineDataSet, notDrawLineDataList, mainColor)
+
+        binding.chart.apply {
+            data = LineData(lineDataSet)
+            notifyDataSetChanged()
+            invalidate()
+        }
+    }
+
+    private fun addLineData(
+        lineDataSet: MutableList<ILineDataSet>,
+        lineDataList: MutableList<Entry>,
+        @ColorInt mainColor: Int,
+    ) {
+        if (lineDataList.isEmpty()) return
+
+        val set = LineDataSet(lineDataList.toList(), "").apply {
             setDrawCircleHole(false)
             lineWidth = LINE_WIDTH.px
             setCircleColor(mainColor)
@@ -61,14 +103,8 @@ class CongestionChart @JvmOverloads constructor(
             setDrawValues(false)
             highLightColor = Color.TRANSPARENT
         }
-
+        lineDataList.clear()
         lineDataSet.add(set)
-
-        binding.chart.apply {
-            data = LineData(lineDataSet)
-            notifyDataSetChanged()
-            invalidate()
-        }
     }
 
     private fun getMainColor(congestion: Congestion) = when (congestion) {
