@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
 import com.onewx2m.core_ui.extensions.loadUrl
 import com.onewx2m.core_ui.extensions.onThrottleClick
 import com.onewx2m.design_system.R
@@ -46,14 +47,14 @@ class SpotParentCommentViewHolder(
         this.item = item
 
         binding.apply {
-            imageViewProfile.setImageResource(R.drawable.ic_profile)
-
             if (item.profileImageUrl.isNotBlank()) {
                 imageViewProfile.loadUrl(
                     item.profileImageUrl,
-                    R.drawable.bg_solid_gray07_rounded_5,
+                    R.drawable.ic_profile,
                     PROFILE_RADIUS,
                 )
+            } else {
+                imageViewProfile.load(R.drawable.ic_profile)
             }
 
             textViewNickname.text = item.nickname

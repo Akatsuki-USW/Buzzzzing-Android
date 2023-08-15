@@ -1,6 +1,7 @@
 package com.onewx2m.remote.model.response
 
 import com.onewx2m.data.model.SpotCommentEntity
+import com.onewx2m.remote.util.UNKNOWN_USER
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -14,7 +15,7 @@ data class SpotCommentResponse(
     val presence: Boolean = false,
     val updatedAt: String = "",
     val userId: Int = -1,
-    val userNickname: String = "",
+    val userNickname: String = UNKNOWN_USER,
     val userProfileImageUrl: String = "",
 )
 

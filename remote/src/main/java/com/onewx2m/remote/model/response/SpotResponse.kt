@@ -2,6 +2,7 @@ package com.onewx2m.remote.model.response
 
 import com.onewx2m.data.model.SpotEntity
 import com.onewx2m.data.model.SpotListEntity
+import com.onewx2m.remote.util.UNKNOWN_USER
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -19,8 +20,8 @@ data class SpotResponse(
     val thumbnailImageUrl: String? = null,
     val isBookmarked: Boolean,
     val userId: Int,
-    val userNickname: String,
-    val userProfileImageUrl: String,
+    val userNickname: String = UNKNOWN_USER,
+    val userProfileImageUrl: String = "",
 )
 
 fun SpotListResponse.toEntity() = SpotListEntity(

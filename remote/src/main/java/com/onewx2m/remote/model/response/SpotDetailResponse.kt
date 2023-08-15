@@ -1,6 +1,7 @@
 package com.onewx2m.remote.model.response
 
 import com.onewx2m.data.model.SpotDetailEntity
+import com.onewx2m.remote.util.UNKNOWN_USER
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -17,7 +18,7 @@ data class SpotDetailResponse(
     val spotCategoryId: Int = -1,
     val spotCategoryName: String = "",
     val userId: Int = -1,
-    val userNickname: String = "",
+    val userNickname: String = UNKNOWN_USER,
     val userProfileImageUrl: String? = "",
     val isBookmarked: Boolean = false,
     val isAuthor: Boolean = false,

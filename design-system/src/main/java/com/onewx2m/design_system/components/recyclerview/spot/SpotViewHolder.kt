@@ -3,11 +3,14 @@ package com.onewx2m.design_system.components.recyclerview.spot
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import coil.dispose
+import coil.load
 import com.onewx2m.core_ui.extensions.loadUrl
 import com.onewx2m.core_ui.extensions.onThrottleClick
 import com.onewx2m.design_system.R
 import com.onewx2m.design_system.databinding.ItemRecyclerViewSpotBinding
 import com.onewx2m.design_system.enum.Congestion
+import timber.log.Timber
 
 class SpotViewHolder(
     private val congestionSymbol: String,
@@ -70,9 +73,11 @@ class SpotViewHolder(
             if (data.userProfileImageUrl.isNotBlank()) {
                 imageViewProfile.loadUrl(
                     data.userProfileImageUrl,
-                    R.drawable.bg_solid_gray07_rounded_5,
+                    R.drawable.ic_profile,
                     PROFILE_RADIUS,
                 )
+            } else {
+                imageViewProfile.load(R.drawable.ic_profile)
             }
 
             textViewNickname.text = data.userNickname
