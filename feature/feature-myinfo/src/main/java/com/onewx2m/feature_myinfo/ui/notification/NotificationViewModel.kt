@@ -28,7 +28,7 @@ class NotificationViewModel @Inject constructor(
 
     private fun handleGetNotificationList(outcome: Outcome.Success<NotificationList>) {
         postEvent(
-            NotificationEvent.UpdateSpotList(
+            NotificationEvent.UpdateNotificationList(
                 outcome.data.toItem(),
             ),
         )
@@ -51,7 +51,7 @@ class NotificationViewModel @Inject constructor(
         }
 
         postEvent(
-            NotificationEvent.UpdateSpotList(
+            NotificationEvent.UpdateNotificationList(
                 newNotificationList,
             ),
         )
@@ -80,7 +80,7 @@ class NotificationViewModel @Inject constructor(
         current: NotificationViewState,
         event: NotificationEvent,
     ): NotificationViewState = when (event) {
-        is NotificationEvent.UpdateSpotList -> current.copy(
+        is NotificationEvent.UpdateNotificationList -> current.copy(
             notificationList = event.notificationList,
         )
     }

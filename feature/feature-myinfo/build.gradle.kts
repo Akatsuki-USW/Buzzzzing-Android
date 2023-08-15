@@ -1,5 +1,6 @@
 plugins {
     id("buzzzzing.plugin.feature")
+    alias(libs.plugins.kotlin.android)
 }
 
 android {

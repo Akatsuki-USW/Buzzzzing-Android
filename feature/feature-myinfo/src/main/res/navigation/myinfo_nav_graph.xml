@@ -24,6 +24,9 @@
         <action
             android:id="@+id/action_myInfo_to_notification"
             app:destination="@id/notificationFragment" />
+        <action
+            android:id="@+id/action_myInfo_to_ban"
+            app:destination="@id/banFragment" />
     </fragment>
 
     <fragment
@@ -41,4 +44,9 @@
         android:name="com.onewx2m.feature_myinfo.ui.notification.NotificationFragment"
         android:label="fragment_notification"
         tools:layout="@layout/fragment_notification" />
+    <fragment
+        android:id="@+id/banFragment"
+        android:name="com.onewx2m.feature_myinfo.ui.ban.BanFragment"
+        android:label="fragment_ban"
+        tools:layout="@layout/fragment_ban" />
 </navigation>

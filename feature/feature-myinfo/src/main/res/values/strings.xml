@@ -6,7 +6,7 @@
 
     <string name="my_info_menu_my_article">내가 쓴 게시글/댓글</string>
     <string name="my_info_menu_ask">문의하기</string>
-    <string name="my_info_menu_ban_history">제제 내역</string>
+    <string name="my_info_menu_ban_history">제재 내역</string>
     <string name="my_info_menu_open_source">오픈소스 라이브러리</string>
     <string name="my_info_menu_terms">이용 약관</string>
     <string name="my_info_menu_personal_info_policy">개인정보 처리 방침</string>
@@ -23,4 +23,5 @@
     <string name="fragment_tab_written">게시글</string>
     <string name="fragment_tab_commented">댓글</string>
     <string name="fragment_notification_title">알림</string>
+    <string name="fragment_ban_title">제재 내역</string>
 </resources>

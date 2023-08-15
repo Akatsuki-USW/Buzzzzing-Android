@@ -4,6 +4,6 @@ import com.onewx2m.design_system.components.recyclerview.notification.Notificati
 import com.onewx2m.mvi.Event
 
 sealed interface NotificationEvent : Event {
-    data class UpdateSpotList(val notificationList: List<NotificationItem>) :
+    data class UpdateNotificationList(val notificationList: List<NotificationItem>) :
         NotificationEvent
 }

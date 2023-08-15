@@ -7,6 +7,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
 import com.onewx2m.core_ui.extensions.loadUrl
+import com.onewx2m.core_ui.extensions.navigateActionWithDefaultAnim
 import com.onewx2m.core_ui.extensions.onThrottleClick
 import com.onewx2m.core_ui.util.BuzzzzingUser
 import com.onewx2m.core_ui.util.DeepLinkUtil
@@ -103,17 +104,17 @@ class MyInfoFragment :
         when (sideEffect) {
             MyInfoSideEffect.GoToEdit -> {
                 val action = MyInfoFragmentDirections.actionMyInfoToEditMyInfo()
-                findNavController().navigate(action)
+                findNavController().navigateActionWithDefaultAnim(action)
             }
 
             MyInfoSideEffect.GoToMyArticle -> {
                 val action = MyInfoFragmentDirections.actionMyInfoToMyArticle()
-                findNavController().navigate(action)
+                findNavController().navigateActionWithDefaultAnim(action)
             }
 
             MyInfoSideEffect.GoToNotification -> {
                 val action = MyInfoFragmentDirections.actionMyInfoToNotification()
-                findNavController().navigate(action)
+                findNavController().navigateActionWithDefaultAnim(action)
             }
 
             MyInfoSideEffect.ShowOpenLicenses -> startActivity(
@@ -123,7 +124,11 @@ class MyInfoFragment :
                 ),
             )
 
-            MyInfoSideEffect.GoToBanList -> TODO()
+            MyInfoSideEffect.GoToBanList -> {
+                val action = MyInfoFragmentDirections.actionMyInfoToBan()
+                findNavController().navigateActionWithDefaultAnim(action)
+            }
+
             MyInfoSideEffect.Logout -> showLogoutCommonDialog()
             MyInfoSideEffect.Quit -> showRevokeCommonDialog()
             is MyInfoSideEffect.ShowErrorToast -> ErrorToast.make(
