@@ -12,6 +12,4 @@ interface AuthRepository {
     suspend fun getAccessToken(): Flow<String>
 
     suspend fun getRefreshToken(): Flow<String>
-
-    suspend fun logout(): Flow<Outcome<Unit>>
 }

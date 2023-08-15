@@ -17,6 +17,9 @@
     <string name="fragment_my_info_edit_my_info">수정하기</string>
     <string name="fragment_my_info_setting">설정</string>
 
+    <string name="dialog_logout_description">로그 아웃 하시겠어요?</string>
+    <string name="dialog_revoke_description">회원 탈퇴시, 30일 동안 재가입할 수 없습니다.</string>
+
     <string name="fragment_tab_written">게시글</string>
     <string name="fragment_tab_commented">댓글</string>
     <string name="fragment_notification_title">알림</string>

@@ -7,4 +7,9 @@ sealed interface MyInfoSideEffect : SideEffect {
     object GoToMyArticle : MyInfoSideEffect
     object GoToNotification : MyInfoSideEffect
     object ShowOpenLicenses : MyInfoSideEffect
+    object Logout : MyInfoSideEffect
+    object Quit : MyInfoSideEffect
+    object GoToBanList : MyInfoSideEffect
+    data class ShowErrorToast(val msg: String) : MyInfoSideEffect
+    object GoToLoginFragment : MyInfoSideEffect
 }

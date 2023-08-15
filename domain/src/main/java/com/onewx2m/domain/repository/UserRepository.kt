@@ -38,4 +38,6 @@ interface UserRepository {
     suspend fun revoke(): Flow<Outcome<Unit>>
 
     suspend fun getBanReasonList(): Flow<Outcome<List<Ban>>>
+
+    suspend fun logout(): Flow<Outcome<Unit>>
 }

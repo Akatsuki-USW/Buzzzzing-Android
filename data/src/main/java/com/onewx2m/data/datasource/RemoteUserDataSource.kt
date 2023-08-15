@@ -38,4 +38,6 @@ interface RemoteUserDataSource {
     suspend fun revoke(): Flow<Outcome<Unit>>
 
     suspend fun getBanReasonList(): Flow<Outcome<List<BanEntity>>>
+
+    suspend fun logout(): Flow<Outcome<Unit>>
 }

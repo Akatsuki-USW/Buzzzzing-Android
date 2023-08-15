@@ -1,5 +1,6 @@
 package com.onewx2m.data.repository
 
+import com.onewx2m.data.datasource.LocalAuthDataSource
 import com.onewx2m.data.datasource.RemoteMediaDataSource
 import com.onewx2m.data.datasource.RemoteUserDataSource
 import com.onewx2m.data.extension.flatMapOutcomeSuccess
@@ -20,6 +21,7 @@ import javax.inject.Inject
 class UserRepositoryImpl @Inject constructor(
     private val remoteUserDataSource: RemoteUserDataSource,
     private val remoteMediaDataSource: RemoteMediaDataSource,
+    private val localAuthDataSource: LocalAuthDataSource,
 ) : UserRepository {
     override suspend fun getMyInfo(): Flow<Outcome<UserInfo>> {
         return remoteUserDataSource.getUserInfo().flatMapOutcomeSuccess { dataModel ->
@@ -99,5 +101,11 @@ class UserRepositoryImpl @Inject constructor(
     override suspend fun getBanReasonList(): Flow<Outcome<List<Ban>>> {
         return remoteUserDataSource.getBanReasonList()
             .flatMapOutcomeSuccess { data -> data.map { it.toDomain() } }
+    }
+
+    override suspend fun logout(): Flow<Outcome<Unit>> {
+        return remoteUserDataSource.logout().flatMapOutcomeSuccess {
+            localAuthDataSource.clearToken()
+        }
     }
 }

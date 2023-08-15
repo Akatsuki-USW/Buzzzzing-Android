@@ -35,10 +35,4 @@ class AuthRepositoryImpl @Inject constructor(
     override suspend fun getAccessToken() = localAuthDataSource.getAccessToken()
 
     override suspend fun getRefreshToken() = localAuthDataSource.getRefreshToken()
-
-    override suspend fun logout(): Flow<Outcome<Unit>> {
-        return remoteAuthDataSource.logout().flatMapOutcomeSuccess {
-            localAuthDataSource.clearToken()
-        }
-    }
 }

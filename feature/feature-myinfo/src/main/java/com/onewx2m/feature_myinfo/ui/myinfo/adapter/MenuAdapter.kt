@@ -12,7 +12,6 @@ import com.onewx2m.feature_myinfo.databinding.ItemListViewMyInfoBinding
 
 enum class MyInfoMenu(@StringRes val StringRes: Int) {
     MY_ARTICLE(R.string.my_info_menu_my_article),
-    ASK(R.string.my_info_menu_ask),
     BAN_HISTORY(R.string.my_info_menu_ban_history),
     OPEN_SOURCE(R.string.my_info_menu_open_source),
     TERMS(R.string.my_info_menu_terms),

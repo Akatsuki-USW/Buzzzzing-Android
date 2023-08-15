@@ -52,4 +52,7 @@ interface UserApi {
 
     @GET("/bans/me")
     suspend fun getBanReasonList(): ApiResult<ApiResponse<BanListResponse>>
+
+    @POST("/${AuthApi.AUTH}/logout")
+    suspend fun logout(): ApiResult<ApiResponse<Unit>>
 }

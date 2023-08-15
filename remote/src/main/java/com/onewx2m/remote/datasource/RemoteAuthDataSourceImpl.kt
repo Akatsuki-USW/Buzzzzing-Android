@@ -11,6 +11,7 @@ import com.onewx2m.domain.exception.RevokeUntilMonthUserException
 import com.onewx2m.domain.exception.common.CommonException
 import com.onewx2m.remote.KotlinSerializationUtil
 import com.onewx2m.remote.api.AuthApi
+import com.onewx2m.remote.api.UserApi
 import com.onewx2m.remote.model.ApiResponse
 import com.onewx2m.remote.model.request.JwtReIssueRequest
 import com.onewx2m.remote.model.request.LoginRequest
@@ -24,12 +25,12 @@ import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
 class RemoteAuthDataSourceImpl @Inject constructor(
-    private val api: AuthApi,
+    private val authApi: AuthApi,
 ) : RemoteAuthDataSource {
 
     override suspend fun loginByKakao(oauthAccessToken: String): Flow<Outcome<JwtEntity>> =
         flow {
-            api.login(
+            authApi.login(
                 LoginRequest(
                     oauthAccessToken = oauthAccessToken,
                     socialType = SnsType.KAKAO.name,
@@ -62,19 +63,11 @@ class RemoteAuthDataSourceImpl @Inject constructor(
 
     override suspend fun reIssueBuzzzzingJwt(refreshToken: String) =
         flow<Outcome<JwtEntity>> {
-            api.reIssueBuzzzzingJwt(JwtReIssueRequest(refreshToken))
+            authApi.reIssueBuzzzzingJwt(JwtReIssueRequest(refreshToken))
                 .onSuccess { body ->
                     emit(Outcome.Success(body.data!!.toEntity()))
                 }.onFailure { exception ->
                     emit(Outcome.Failure(exception))
                 }
         }
-
-    override suspend fun logout(): Flow<Outcome<Unit>> = flow {
-        api.logout().onSuccess {
-            emit(Outcome.Success(it.data!!))
-        }.onFailure { exception ->
-            emit(Outcome.Failure(exception))
-        }
-    }
 }

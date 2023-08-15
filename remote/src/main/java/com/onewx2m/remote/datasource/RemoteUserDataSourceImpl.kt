@@ -121,4 +121,12 @@ class RemoteUserDataSourceImpl @Inject constructor(
             emit(Outcome.Failure(exception))
         }
     }
+
+    override suspend fun logout(): Flow<Outcome<Unit>> = flow {
+        api.logout().onSuccess {
+            emit(Outcome.Success(it.data!!))
+        }.onFailure { exception ->
+            emit(Outcome.Failure(exception))
+        }
+    }
 }

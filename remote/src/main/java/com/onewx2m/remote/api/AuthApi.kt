@@ -22,7 +22,4 @@ interface AuthApi {
     suspend fun reIssueBuzzzzingJwt(
         @Body request: JwtReIssueRequest,
     ): ApiResult<ApiResponse<JwtResponse>>
-
-    @POST("/$AUTH/logout")
-    suspend fun logout(): ApiResult<ApiResponse<Unit>>
 }
