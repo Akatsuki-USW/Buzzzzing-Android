@@ -28,7 +28,7 @@ import java.util.concurrent.TimeUnit
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
 
-    private const val BASE_URL = "http://3.104.197.181:8080"
+    private const val BASE_URL = "https://api.bokjak.com"
     private const val KAKAO_LOCATION_BASE_URL = "https://dapi.kakao.com"
     private const val RETROFIT_TAG = "Retrofit2"
 
