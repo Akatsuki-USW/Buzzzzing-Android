@@ -28,7 +28,7 @@ class CongestionChart @JvmOverloads constructor(
     companion object {
         private const val LINE_WIDTH = 0.5f
         private const val X_LABEL_COUNT = 15
-        private const val X_AXIS_MAX = 24f
+        private const val X_AXIS_MAX = 23f
         private const val X_AXIS_MIN = 9f
         private const val GRANULARITY = 1f
 
