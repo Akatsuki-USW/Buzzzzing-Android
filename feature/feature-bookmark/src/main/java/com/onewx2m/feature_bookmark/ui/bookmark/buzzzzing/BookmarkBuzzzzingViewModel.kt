@@ -74,6 +74,12 @@ class BookmarkBuzzzzingViewModel @Inject constructor(
     }
 
     private fun getProcessedItem(content: List<BuzzzzingContent>): List<BuzzzzingMediumItem> {
+        if(cursorId == 0 && last) {
+            return listOf(
+                BuzzzzingMediumItem(type = ItemViewType.EMPTY),
+            )
+        }
+
         val itemMapped = content.map { data ->
             BuzzzzingMediumItem(
                 id = data.id,
@@ -94,6 +100,7 @@ class BookmarkBuzzzzingViewModel @Inject constructor(
 
         return state.value.buzzzzingMediumItem
             .minus(BuzzzzingMediumItem(type = ItemViewType.LOADING))
+            .minus(BuzzzzingMediumItem(type = ItemViewType.EMPTY))
             .plus(itemMapped)
             .plus(lastItem)
     }

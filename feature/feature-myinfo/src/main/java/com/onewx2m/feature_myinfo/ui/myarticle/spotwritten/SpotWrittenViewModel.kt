@@ -74,6 +74,12 @@ class SpotWrittenViewModel @Inject constructor(
     }
 
     private fun getProcessedItem(content: List<Spot>): List<SpotItem> {
+        if (cursorId == 0 && last) {
+            return listOf(
+                SpotItem(type = ItemViewType.EMPTY),
+            )
+        }
+
         val itemMapped = content.map { data ->
             SpotItem(
                 id = data.id,
@@ -96,6 +102,7 @@ class SpotWrittenViewModel @Inject constructor(
 
         return state.value.spotList
             .minus(SpotItem(type = ItemViewType.LOADING))
+            .minus(SpotItem(type = ItemViewType.EMPTY))
             .plus(itemMapped)
             .plus(lastItem)
     }

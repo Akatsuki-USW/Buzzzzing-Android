@@ -5,8 +5,10 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.onewx2m.design_system.components.recyclerview.empty.EmptyViewHolder
 import com.onewx2m.design_system.databinding.ItemRecyclerViewBuzzzzingShortBinding
 import com.onewx2m.design_system.databinding.ItemRecyclerViewBuzzzzingShortLoadingBinding
+import com.onewx2m.design_system.databinding.ItemRecyclerViewEmptyBinding
 import com.onewx2m.design_system.databinding.ItemRecyclerViewKakaoLocationBinding
 import com.onewx2m.design_system.databinding.ItemRecyclerViewKakaoLocationLoadingBinding
 import com.onewx2m.design_system.enum.ItemViewType
@@ -32,6 +34,15 @@ class BuzzzzingShortAdapter(
                     false,
                 )
                 LoadingViewHolder(binding)
+            }
+
+            ItemViewType.EMPTY -> {
+                val binding = ItemRecyclerViewEmptyBinding.inflate(
+                    LayoutInflater.from(parent.context),
+                    parent,
+                    false,
+                )
+                EmptyViewHolder(binding)
             }
         }
     }

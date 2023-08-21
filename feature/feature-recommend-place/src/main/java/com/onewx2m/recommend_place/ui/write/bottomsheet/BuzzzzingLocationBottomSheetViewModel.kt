@@ -3,7 +3,6 @@ package com.onewx2m.recommend_place.ui.write.bottomsheet
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.onewx2m.design_system.components.recyclerview.buzzzzingshort.BuzzzzingShortItem
-import com.onewx2m.design_system.components.recyclerview.kakaolocation.KakaoLocationItem
 import com.onewx2m.design_system.enum.Congestion
 import com.onewx2m.design_system.enum.ItemViewType
 import com.onewx2m.domain.Outcome
@@ -51,6 +50,7 @@ class BuzzzzingLocationBottomSheetViewModel @Inject constructor(
         response?.let {
             if (it is Outcome.Success<BuzzzzingLocation>) {
                 buzzzzingShortItems.remove(BuzzzzingShortItem(ItemViewType.LOADING))
+                buzzzzingShortItems.remove(BuzzzzingShortItem(ItemViewType.EMPTY))
 
                 buzzzzingShortItems.addAll(
                     it.data.content.map { document ->
@@ -63,9 +63,14 @@ class BuzzzzingLocationBottomSheetViewModel @Inject constructor(
                 )
 
                 last = it.data.last
-                val lastItem = it.data.content.last()
+                val lastItem = it.data.content.lastOrNull() ?: return
                 cursorId = lastItem.id
                 cursorCongestionLevel = lastItem.congestionLevel
+
+                if (cursorId == 0 && last && it.data.content.isEmpty()) {
+                    buzzzzingShortItems.clear()
+                    buzzzzingShortItems.add(BuzzzzingShortItem(ItemViewType.EMPTY))
+                }
 
                 if (it.data.last.not()) buzzzzingShortItems.add(BuzzzzingShortItem(ItemViewType.LOADING))
             }

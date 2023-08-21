@@ -25,4 +25,5 @@
     <string name="dialog_delete_title">삭제</string>
 
     <string name="ban_format">%s ~ %s까지</string>
+    <string name="item_recycler_view_empty_text">데이터가 없어요</string>
 </resources>

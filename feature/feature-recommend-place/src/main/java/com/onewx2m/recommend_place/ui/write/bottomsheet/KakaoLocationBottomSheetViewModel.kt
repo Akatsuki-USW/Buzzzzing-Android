@@ -2,6 +2,7 @@ package com.onewx2m.recommend_place.ui.write.bottomsheet
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.onewx2m.design_system.components.recyclerview.buzzzzingshort.BuzzzzingShortItem
 import com.onewx2m.design_system.components.recyclerview.kakaolocation.KakaoLocationItem
 import com.onewx2m.design_system.enum.ItemViewType
 import com.onewx2m.domain.Outcome
@@ -44,6 +45,7 @@ class KakaoLocationBottomSheetViewModel @Inject constructor(
         response?.let {
             if (it is Outcome.Success<KakaoLocationInfo>) {
                 kakaoLocationItems.remove(KakaoLocationItem(ItemViewType.LOADING))
+                kakaoLocationItems.remove(KakaoLocationItem(ItemViewType.EMPTY))
 
                 kakaoLocationItems.addAll(
                     it.data.documents.map { document ->
@@ -54,6 +56,11 @@ class KakaoLocationBottomSheetViewModel @Inject constructor(
                         )
                     },
                 )
+
+                if(page == 1 && it.data.meta.isEnd && it.data.documents.isEmpty()) {
+                    kakaoLocationItems.clear()
+                    kakaoLocationItems.add(KakaoLocationItem(ItemViewType.EMPTY))
+                }
 
                 if (it.data.meta.isEnd.not()) kakaoLocationItems.add(KakaoLocationItem(ItemViewType.LOADING))
 
