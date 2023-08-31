@@ -1,6 +1,8 @@
 package com.onewx2m.feature_myinfo.ui.ban
 
 import androidx.lifecycle.viewModelScope
+import com.onewx2m.design_system.components.recyclerview.ban.BanItem
+import com.onewx2m.design_system.enum.ItemViewType
 import com.onewx2m.domain.Outcome
 import com.onewx2m.domain.collectOutcome
 import com.onewx2m.domain.exception.common.CommonException
@@ -25,9 +27,12 @@ class BanViewModel @Inject constructor(
     }
 
     private fun handleGetBanList(outcome: Outcome.Success<List<Ban>>) {
+        val item =
+            if (outcome.data.isEmpty()) listOf(BanItem(type = ItemViewType.EMPTY)) else outcome.data.toItem()
+
         postEvent(
             BanEvent.UpdateBanList(
-                outcome.data.toItem(),
+                item,
             ),
         )
     }

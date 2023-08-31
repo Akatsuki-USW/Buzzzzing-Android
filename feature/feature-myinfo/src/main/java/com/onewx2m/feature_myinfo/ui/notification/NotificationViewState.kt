@@ -1,6 +1,7 @@
 package com.onewx2m.feature_myinfo.ui.notification
 
 import com.onewx2m.design_system.components.recyclerview.notification.NotificationItem
+import com.onewx2m.design_system.enum.ItemViewType
 import com.onewx2m.domain.model.NotificationList
 import com.onewx2m.mvi.ViewState
 

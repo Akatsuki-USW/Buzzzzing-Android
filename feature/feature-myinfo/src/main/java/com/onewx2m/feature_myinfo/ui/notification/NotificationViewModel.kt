@@ -1,12 +1,15 @@
 package com.onewx2m.feature_myinfo.ui.notification
 
 import androidx.lifecycle.viewModelScope
+import com.onewx2m.design_system.components.recyclerview.notification.NotificationItem
+import com.onewx2m.design_system.enum.ItemViewType
 import com.onewx2m.domain.Outcome
 import com.onewx2m.domain.collectOutcome
 import com.onewx2m.domain.exception.common.CommonException
 import com.onewx2m.domain.model.NotificationList
 import com.onewx2m.domain.usecase.GetNotificationUseCase
 import com.onewx2m.domain.usecase.ReadNotificationUseCase
+import com.onewx2m.feature_myinfo.ui.ban.toItem
 import com.onewx2m.mvi.MviViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -27,9 +30,12 @@ class NotificationViewModel @Inject constructor(
     }
 
     private fun handleGetNotificationList(outcome: Outcome.Success<NotificationList>) {
+        val item =
+            if (outcome.data.notifications.isEmpty()) listOf(NotificationItem(type = ItemViewType.EMPTY)) else outcome.data.toItem()
+
         postEvent(
             NotificationEvent.UpdateNotificationList(
-                outcome.data.toItem(),
+                item,
             ),
         )
     }
