@@ -56,7 +56,7 @@ object DeepLinkUtil {
         context: Context,
         writeContent: WriteContent = WriteContent(),
     ): Pair<NavDeepLinkRequest, NavOptions> {
-        val writeContentJsonString = Base64.getEncoder().encodeToString(Json.encodeToString(writeContent).toByteArray())
+        val writeContentJsonString = Base64.getUrlEncoder().encodeToString(Json.encodeToString(writeContent).toByteArray())
         val deepLinkString = context.getString(R.string.deeplink_write_fragment).replace("{writeContent}", writeContentJsonString)
         Timber.tag("테스트").d("$deepLinkString")
         return getNaviRequestAndOption(

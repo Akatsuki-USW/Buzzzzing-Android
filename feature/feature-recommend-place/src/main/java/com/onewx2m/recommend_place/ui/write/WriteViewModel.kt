@@ -98,7 +98,7 @@ class WriteViewModel @Inject constructor(
     }
 
     fun initData(writeContentArgsEncodedBase64: String) = viewModelScope.launch(Dispatchers.IO) {
-        val writeContentArgs = String(Base64.getDecoder().decode(writeContentArgsEncodedBase64))
+        val writeContentArgs = String(Base64.getUrlDecoder().decode(writeContentArgsEncodedBase64))
         val writeContent = Json.decodeFromString<WriteContent>(writeContentArgs)
         val categoryItems = getSpotCategoryUseCase().first()
             .map { SpotCategoryItem(id = it.id, name = it.name) }
