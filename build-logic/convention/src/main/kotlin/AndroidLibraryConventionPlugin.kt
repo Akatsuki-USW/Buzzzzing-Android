@@ -1,3 +1,4 @@
+@file:Suppress("unused")
 
 import com.android.build.gradle.LibraryExtension
 import com.onewx2m.convention.configureKotlinAndroid

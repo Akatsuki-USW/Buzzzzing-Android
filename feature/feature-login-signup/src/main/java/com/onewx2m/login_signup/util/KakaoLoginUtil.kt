@@ -4,9 +4,8 @@ import android.content.Context
 import com.kakao.sdk.common.model.ClientError
 import com.kakao.sdk.common.model.ClientErrorCause
 import com.kakao.sdk.user.UserApiClient
-import javax.inject.Inject
 
-class KakaoLoginUtil @Inject constructor() {
+class KakaoLoginUtil {
 
     fun kakaoLogin(context: Context, onSuccess: (token: String) -> Unit, onFail: (error: Throwable?) -> Unit) {
         // 카카오톡이 설치되어 있으면 카카오톡으로 로그인, 아니면 카카오계정으로 로그인

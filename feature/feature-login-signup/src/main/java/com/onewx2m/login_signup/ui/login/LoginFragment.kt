@@ -10,16 +10,17 @@ import com.onewx2m.feature_login_signup.databinding.FragmentLoginBinding
 import com.onewx2m.login_signup.util.KakaoLoginUtil
 import com.onewx2m.mvi.MviFragment
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 @AndroidEntryPoint
-class LoginFragment : MviFragment<FragmentLoginBinding, LoginViewState, LoginEvent, LoginSideEffect, LoginViewModel>(
-    FragmentLoginBinding::inflate,
-) {
+class LoginFragment :
+    MviFragment<FragmentLoginBinding, LoginViewState, LoginEvent, LoginSideEffect, LoginViewModel>(
+        FragmentLoginBinding::inflate,
+    ) {
     override val viewModel: LoginViewModel by viewModels()
 
-    @Inject
-    lateinit var kakaoLoginUtil: KakaoLoginUtil
+    private val kakaoLoginUtil: KakaoLoginUtil by lazy {
+        KakaoLoginUtil()
+    }
 
     override fun initView() {
         binding.buttonKakao.onThrottleClick {
@@ -35,7 +36,8 @@ class LoginFragment : MviFragment<FragmentLoginBinding, LoginViewState, LoginEve
         LoginSideEffect.TryLoginByKakao -> kakaoLogin()
         LoginSideEffect.GoToHomeFragment -> goToHomeFragment()
         is LoginSideEffect.GoToSignUpFragment -> goToSignUpFragment(sideEffect.signToken)
-        is LoginSideEffect.ShowErrorToast -> ErrorToast.make(binding.root, sideEffect.message).show()
+        is LoginSideEffect.ShowErrorToast -> ErrorToast.make(binding.root, sideEffect.message)
+            .show()
     }
 
     private fun kakaoLogin() {
@@ -47,7 +49,11 @@ class LoginFragment : MviFragment<FragmentLoginBinding, LoginViewState, LoginEve
     }
 
     private fun goToHomeFragment() {
-        val (request, navOptions) = DeepLinkUtil.getHomeRequestAndOption(requireContext(), R.id.loginFragment, true)
+        val (request, navOptions) = DeepLinkUtil.getHomeRequestAndOption(
+            requireContext(),
+            R.id.loginFragment,
+            true,
+        )
         findNavController().navigate(request, navOptions)
     }
 

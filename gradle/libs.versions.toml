@@ -5,9 +5,15 @@ appcompat = "1.5.1"
 material = "1.9.0"
 junit4 = "4.13.2"
 espresso = "3.4.0"
-ksp = "1.9.0-1.0.13"
+ksp = "1.9.10-1.0.13"
 googleService = "4.3.15"
 firebaseBom = "31.2.0"
+
+compose-compiler = "1.5.3"
+compose-bom = "2023.09.00"
+compose-material3 = "1.2.0-alpha07"
+activity-compose = "1.7.2"
+dagger-hilt-navigation-compose = "1.0.0"
 
 androidxAppCompat = "1.6.1"
 androidxCore = "1.10.1"
@@ -62,6 +68,21 @@ android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", ver
 kotlin-gradlePlugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
 ksp-gradlePlugin = { group = "com.google.devtools.ksp", name = "com.google.devtools.ksp.gradle.plugin", version.ref = "ksp" }
 oss-gradlePlugin = { group = "com.google.android.gms", name = "oss-licenses-plugin", version.ref = "ossPlugin" }
+
+# compose
+compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "compose-bom" }
+ui = { group = "androidx.compose.ui", name = "ui" }
+ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }
+ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
+ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
+ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
+ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
+ui-foundation = { group = "androidx.compose.foundation", name = "foundation" }
+material3-compose = { group = "androidx.compose.material3", name = "material3" }
+coil-compose = { group = "io.coil-kt", name = "coil-compose", version.ref = "coil" }
+activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "androidxActivityKtx" }
+lifecycle-compose = { group = "androidx.lifecycle", name = "lifecycle-runtime-compose", version.ref = "androidxLifecycle" }
+navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "androidxNavigation" }
 
 hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
 hilt-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "hilt" }
@@ -125,3 +146,5 @@ firebase = ["firebase-analytics", "firebase-cloud-messaging"]
 androidx-lifecycle = ["androidx-lifecycle-runtime-ktx", "androidx-lifecycle-viewmodel-ktx"]
 androidx-navigation = ["navigation-fragment-ktx", "navigation-ui-ktx"]
 coroutine = ["kotlinx-coroutines-android", "kotlinx-coroutines-core"]
+compose = ["ui", "ui-graphics", "ui-tooling-preview", "material3-compose", "coil-compose", "ui-foundation", "activity-compose", "lifecycle-compose", "navigation-compose"]
+compose-debug = ["ui-tooling", "ui-test-manifest" ]

@@ -4,6 +4,7 @@ import java.util.*
 
 plugins {
     id("buzzzzing.plugin.application")
+    id("buzzzzing.plugin.application.compose")
     id("com.google.gms.google-services")
     id("buzzzzing.plugin.hilt")
     id("com.google.android.gms.oss-licenses-plugin")

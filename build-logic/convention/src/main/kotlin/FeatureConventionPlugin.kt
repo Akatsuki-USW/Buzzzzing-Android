@@ -1,3 +1,5 @@
+@file:Suppress("unused")
+
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.artifacts.VersionCatalogsExtension
@@ -9,7 +11,7 @@ internal class FeatureConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
             with(pluginManager) {
-                apply("buzzzzing.plugin.android-library")
+                apply("buzzzzing.plugin.android.library")
                 apply("androidx.navigation.safeargs.kotlin")
                 apply("buzzzzing.plugin.hilt")
             }
