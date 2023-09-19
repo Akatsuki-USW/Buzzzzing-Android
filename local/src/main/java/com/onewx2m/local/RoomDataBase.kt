@@ -16,6 +16,7 @@ import com.onewx2m.local.model.SpotCategoryPref
         SpotCategoryPref::class,
     ],
     version = 1,
+    exportSchema = false,
 )
 abstract class RoomDataBase : RoomDatabase() {
     abstract fun categoryDao(): CategoryDao
