@@ -17,6 +17,14 @@ dependencies {
 
 gradlePlugin {
     plugins {
+        register("AndroidApplicationPlugin") {
+            id = "buzzzzing.plugin.application"
+            implementationClass = "AndroidApplicationConventionPlugin"
+        }
+        register("AndroidApplicationComposePlugin") {
+            id = "buzzzzing.plugin.application.compose"
+            implementationClass = "AndroidApplicationComposeConventionPlugin"
+        }
         register("JavaLibraryPlugin") {
             id = "buzzzzing.plugin.java.library"
             implementationClass = "JavaLibraryConventionPlugin"
@@ -26,12 +34,12 @@ gradlePlugin {
             implementationClass = "AndroidHiltConventionPlugin"
         }
         register("AndroidLibraryPlugin") {
-            id = "buzzzzing.plugin.android-library"
+            id = "buzzzzing.plugin.android.library"
             implementationClass = "AndroidLibraryConventionPlugin"
         }
-        register("AndroidApplicationPlugin") {
-            id = "buzzzzing.plugin.application"
-            implementationClass = "AndroidApplicationConventionPlugin"
+        register("AndroidLibraryComposePlugin") {
+            id = "buzzzzing.plugin.android.library.compose"
+            implementationClass = "AndroidLibraryComposeConventionPlugin"
         }
         register("FeaturePlugin") {
             id = "buzzzzing.plugin.feature"

@@ -1,3 +1,5 @@
+@file:Suppress("unused")
+
 import com.android.build.api.dsl.ApplicationExtension
 import com.onewx2m.convention.configureKotlinAndroid
 import org.gradle.api.Plugin

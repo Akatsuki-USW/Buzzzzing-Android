@@ -5,6 +5,10 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.FrameLayout
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import com.onewx2m.core_ui.extensions.onThrottleClick
 import com.onewx2m.design_system.R
 import com.onewx2m.design_system.databinding.ButtonMainBinding
