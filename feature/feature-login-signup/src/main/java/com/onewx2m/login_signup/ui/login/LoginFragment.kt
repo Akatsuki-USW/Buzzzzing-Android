@@ -1,10 +1,18 @@
 package com.onewx2m.login_signup.ui.login
 
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.compose.material3.Text
+import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.onewx2m.core_ui.extensions.navigateActionWithDefaultAnim
 import com.onewx2m.core_ui.util.DeepLinkUtil
 import com.onewx2m.design_system.components.toast.ErrorToast
+import com.onewx2m.design_system.theme.BuzzzzingTheme
 import com.onewx2m.feature_login_signup.R
 import com.onewx2m.feature_login_signup.databinding.FragmentLoginBinding
 import com.onewx2m.login_signup.util.KakaoLoginUtil
@@ -22,14 +30,31 @@ class LoginFragment :
         KakaoLoginUtil()
     }
 
-    override fun initView() {
-        binding.buttonKakao.onThrottleClick {
-            viewModel.onClickKakaoLoginButton()
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?,
+    ): View? {
+        return ComposeView(requireContext()).apply {
+            // Dispose of the Composition when the view's LifecycleOwner
+            // is destroyed
+            setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
+            setContent {
+                BuzzzzingTheme {
+                    // In Compose world
+                    Text("Hello Compose!")
+                }
+            }
         }
     }
 
+    override fun initView() {
+//        binding.buttonKakao.onThrottleClick {
+//            viewModel.onClickKakaoLoginButton()
+//        }
+    }
+
     override fun render(current: LoginViewState) {
-        binding.buttonKakao.state = current.kakaoLoginButtonState
     }
 
     override fun handleSideEffect(sideEffect: LoginSideEffect) = when (sideEffect) {

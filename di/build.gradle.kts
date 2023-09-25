@@ -21,8 +21,8 @@ dependencies {
     implementation(libs.retrofit.kotlin.serialization)
     implementation(libs.okhttp.logging)
 
-    implementation(libs.androidx.dataStore.core)
-    implementation(libs.androidx.dataStore.preferences)
+    implementation(libs.androidx.datastore.core)
+    implementation(libs.androidx.datastore.preferences)
 
     ksp(libs.encrypted.datastore.preference.ksp)
     implementation(libs.encrypted.datastore.preference.ksp.annotations)

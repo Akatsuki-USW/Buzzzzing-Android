@@ -21,9 +21,9 @@ buildscript {
     }
 
     dependencies {
-        classpath(libs.android.gradlePlugin)
-        classpath(libs.kotlin.gradlePlugin)
-        classpath(libs.oss.gradlePlugin)
+        classpath(libs.android.gradle.plugin)
+        classpath(libs.kotlin.gradle.plugin)
+        classpath(libs.oss.gradle.plugin)
     }
 }
 

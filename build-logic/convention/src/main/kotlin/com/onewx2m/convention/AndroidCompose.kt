@@ -21,7 +21,7 @@ internal fun Project.configureAndroidCompose(
 
     dependencies {
         // Disabling to work with Alpha
-        "api"(platform(libs.findLibrary("compose-bom").get()))
+        "api"(platform(libs.findLibrary("compose.bom").get()))
         "implementation"(libs.findBundle("compose").get())
         "debugImplementation"(libs.findBundle("compose.debug").get())
     }

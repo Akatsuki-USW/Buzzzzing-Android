@@ -1,5 +1,6 @@
 plugins {
     id("buzzzzing.plugin.feature")
+    id("buzzzzing.plugin.android.library.compose")
 }
 
 android {
@@ -13,6 +14,7 @@ dependencies {
     implementation(libs.simpleRatingBar)
     implementation(libs.ted.imagePicker)
     implementation(libs.ted.permission)
+    implementation(libs.hilt.navigation.compose)
     implementation(libs.coil)
     implementation(libs.lottie)
 }

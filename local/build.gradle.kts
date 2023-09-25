@@ -16,8 +16,8 @@ dependencies {
     implementation(libs.bundles.coroutine)
     implementation(libs.kotlinx.serialization.json)
 
-    implementation(libs.androidx.dataStore.core)
-    implementation(libs.androidx.dataStore.preferences)
+    implementation(libs.androidx.datastore.core)
+    implementation(libs.androidx.datastore.preferences)
 
     ksp(libs.encrypted.datastore.preference.ksp)
     implementation(libs.encrypted.datastore.preference.ksp.annotations)

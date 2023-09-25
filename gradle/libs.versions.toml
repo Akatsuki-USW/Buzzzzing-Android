@@ -1,54 +1,53 @@
 [versions]
-androidGradlePlugin = "8.1.1"
+android-gradle-plugin = "8.1.1"
 android-core = "1.7.0"
-appcompat = "1.5.1"
 material = "1.9.0"
 junit4 = "4.13.2"
 espresso = "3.4.0"
 ksp = "1.9.10-1.0.13"
-googleService = "4.3.15"
-firebaseBom = "31.2.0"
+google-service = "4.3.15"
+firebase-bom = "31.2.0"
 
 compose-compiler = "1.5.3"
 compose-bom = "2023.09.00"
 compose-material3 = "1.2.0-alpha07"
 activity-compose = "1.7.2"
-dagger-hilt-navigation-compose = "1.0.0"
+androidx-hilt-navigation-compose = "1.0.0"
 
-androidxAppCompat = "1.6.1"
-androidxCore = "1.10.1"
-androidxLifecycle = "2.6.1"
-androidxNavigation = "2.6.0"
-androidxConstraintLayout = "2.1.4"
-androidxActivityKtx = "1.7.2"
-androidxFragmentKtx = "1.6.0"
-androidxRecyclerView = "1.3.0"
-androidxSplashScreen = "1.0.1"
-androidxDataStore = "1.0.0"
+androidx-app-compat = "1.6.1"
+androidx-core = "1.10.1"
+androidx-lifecycle = "2.6.1"
+androidx-navigation = "2.6.0"
+androidx-constraint-layout = "2.1.4"
+androidx-activity-ktx = "1.7.2"
+androidx-fragment-ktx = "1.6.0"
+androidx-recycler-view = "1.3.0"
+androidx-splash-screen = "1.0.1"
+androidx-datastore = "1.0.0"
 
 kotlin = "1.9.10"
-kotlinxCoroutines = "1.7.1"
-kotlinxSerializationJson = "1.5.1"
+kotlinx-coroutines = "1.7.1"
+kotlinx-serialization-json = "1.5.1"
 
 retrofit = "2.9.0"
-retrofitKotlinxSerializationJson = "1.0.0"
+retrofit-kotlinx-serialization-json = "1.0.0"
 okhttp = "4.11.0"
 
 hilt = "2.48"
 room = "2.5.2"
 
 timber = "5.0.1"
-encryptedDataStore = "1.7.21-1.0.8-1.1.0-alpha01"
+encrypted-datastore = "1.7.21-1.0.8-1.1.0-alpha01"
 kakao = "2.14.0"
-simpleRatingBar = "1.5.1"
-tedImagePicker = "1.4.2"
-tedPermission = "3.3.0"
+simple-rating-bar = "1.5.1"
+ted-image-picker = "1.4.2"
+ted-permission = "3.3.0"
 coil = "2.4.0"
 lottie = "5.0.2"
-mpAndroidChart = "v3.1.0"
-powerMenu = "2.2.2"
+mp-android-chart = "v3.1.0"
+power-menu = "2.2.2"
 
-ossPlugin = "0.10.6"
+oss-plugin = "0.10.6"
 oss = "17.0.1"
 
 [plugins]
@@ -56,18 +55,18 @@ ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
-android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
-android-library = { id = "com.android.library", version.ref = "androidGradlePlugin" }
+android-application = { id = "com.android.application", version.ref = "android-gradle-plugin" }
+android-library = { id = "com.android.library", version.ref = "android-gradle-plugin" }
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
-navigation-safeargs = { id = "androidx.navigation.safeargs.kotlin", version.ref = "androidxNavigation" }
-google-services = { id = "com.google.gms.google-services", version.ref = "googleService" }
+navigation-safeargs = { id = "androidx.navigation.safeargs.kotlin", version.ref = "androidx-navigation" }
+google-services = { id = "com.google.gms.google-services", version.ref = "google-service" }
 
 [libraries]
 # Dependencies of the included build-logic
-android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "androidGradlePlugin" }
-kotlin-gradlePlugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
-ksp-gradlePlugin = { group = "com.google.devtools.ksp", name = "com.google.devtools.ksp.gradle.plugin", version.ref = "ksp" }
-oss-gradlePlugin = { group = "com.google.android.gms", name = "oss-licenses-plugin", version.ref = "ossPlugin" }
+android-gradle-plugin = { group = "com.android.tools.build", name = "gradle", version.ref = "android-gradle-plugin" }
+kotlin-gradle-plugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
+ksp-gradle-plugin = { group = "com.google.devtools.ksp", name = "com.google.devtools.ksp.gradle.plugin", version.ref = "ksp" }
+oss-gradle-plugin = { group = "com.google.android.gms", name = "oss-licenses-plugin", version.ref = "oss-plugin" }
 
 # compose
 compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "compose-bom" }
@@ -80,9 +79,10 @@ ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
 ui-foundation = { group = "androidx.compose.foundation", name = "foundation" }
 material3-compose = { group = "androidx.compose.material3", name = "material3" }
 coil-compose = { group = "io.coil-kt", name = "coil-compose", version.ref = "coil" }
-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "androidxActivityKtx" }
-lifecycle-compose = { group = "androidx.lifecycle", name = "lifecycle-runtime-compose", version.ref = "androidxLifecycle" }
-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "androidxNavigation" }
+activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "androidx-activity-ktx" }
+lifecycle-compose = { group = "androidx.lifecycle", name = "lifecycle-runtime-compose", version.ref = "androidx-lifecycle" }
+navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "androidx-navigation" }
+hilt-navigation-compose = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "androidx-hilt-navigation-compose" }
 
 hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
 hilt-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "hilt" }
@@ -90,48 +90,48 @@ hilt-core = { group = "com.google.dagger", name = "hilt-core", version.ref = "hi
 hilt-testing = { module = "com.google.dagger:hilt-android-testing", version.ref = "hilt" }
 hilt-testing-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hilt" }
 
-kotlinx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "kotlinxCoroutines" }
-kotlinx-coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "kotlinxCoroutines" }
-kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
+kotlinx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "kotlinx-coroutines" }
+kotlinx-coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "kotlinx-coroutines" }
+kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinx-serialization-json" }
 
 retrofit-core = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
-retrofit-kotlin-serialization = { group = "com.jakewharton.retrofit", name = "retrofit2-kotlinx-serialization-converter", version.ref = "retrofitKotlinxSerializationJson" }
+retrofit-kotlin-serialization = { group = "com.jakewharton.retrofit", name = "retrofit2-kotlinx-serialization-converter", version.ref = "retrofit-kotlinx-serialization-json" }
 okhttp-logging = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "okhttp" }
 
-navigation-fragment-ktx = { group = "androidx.navigation", name = "navigation-fragment-ktx", version.ref = "androidxNavigation" }
-navigation-ui-ktx = { group = "androidx.navigation", name = "navigation-ui-ktx", version.ref = "androidxNavigation" }
+navigation-fragment-ktx = { group = "androidx.navigation", name = "navigation-fragment-ktx", version.ref = "androidx-navigation" }
+navigation-ui-ktx = { group = "androidx.navigation", name = "navigation-ui-ktx", version.ref = "androidx-navigation" }
 
-androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "androidxAppCompat" }
-androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "androidxCore" }
-androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "androidxConstraintLayout" }
-androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "androidxLifecycle" }
-androidx-lifecycle-viewmodel-ktx = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-ktx", version.ref = "androidxLifecycle" }
-androidx-activity-ktx = { group = "androidx.activity", name = "activity-ktx", version.ref = "androidxActivityKtx" }
-androidx-fragment-ktx = { group = "androidx.fragment", name = "fragment-ktx", version.ref = "androidxFragmentKtx" }
-androidx-recyclerview = { group = "androidx.recyclerview", name = "recyclerview", version.ref = "androidxRecyclerView" }
-androidx-splashscreen = { group = "androidx.core", name = "core-splashscreen", version.ref = "androidxSplashScreen" }
+androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "androidx-app-compat" }
+androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "androidx-core" }
+androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "androidx-constraint-layout" }
+androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "androidx-lifecycle" }
+androidx-lifecycle-viewmodel-ktx = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-ktx", version.ref = "androidx-lifecycle" }
+androidx-activity-ktx = { group = "androidx.activity", name = "activity-ktx", version.ref = "androidx-activity-ktx" }
+androidx-fragment-ktx = { group = "androidx.fragment", name = "fragment-ktx", version.ref = "androidx-fragment-ktx" }
+androidx-recyclerview = { group = "androidx.recyclerview", name = "recyclerview", version.ref = "androidx-recycler-view" }
+androidx-splashscreen = { group = "androidx.core", name = "core-splashscreen", version.ref = "androidx-splash-screen" }
 
 google-material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 
 timber = { group = "com.jakewharton.timber", name = "timber", version.ref = "timber" }
-androidx-dataStore-core = { group = "androidx.datastore", name = "datastore", version.ref = "androidxDataStore" }
-androidx-dataStore-preferences = { group = "androidx.datastore", name = "datastore-preferences", version.ref = "androidxDataStore" }
-encrypted-datastore-preference-ksp = { group = "tech.thdev", name = "useful-encrypted-data-store-preferences-ksp", version.ref = "encryptedDataStore" }
-encrypted-datastore-preference-ksp-annotations = { group = "tech.thdev", name = "useful-encrypted-data-store-preferences-ksp-annotations", version.ref = "encryptedDataStore" }
-encrypted-datastore-preference-security = { group = "tech.thdev", name = "useful-encrypted-data-store-preferences-security", version.ref = "encryptedDataStore" }
+androidx-datastore-core = { group = "androidx.datastore", name = "datastore", version.ref = "androidx-datastore" }
+androidx-datastore-preferences = { group = "androidx.datastore", name = "datastore-preferences", version.ref = "androidx-datastore" }
+encrypted-datastore-preference-ksp = { group = "tech.thdev", name = "useful-encrypted-data-store-preferences-ksp", version.ref = "encrypted-datastore" }
+encrypted-datastore-preference-ksp-annotations = { group = "tech.thdev", name = "useful-encrypted-data-store-preferences-ksp-annotations", version.ref = "encrypted-datastore" }
+encrypted-datastore-preference-security = { group = "tech.thdev", name = "useful-encrypted-data-store-preferences-security", version.ref = "encrypted-datastore" }
 
-firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version.ref = "firebaseBom" }
+firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version.ref = "firebase-bom" }
 firebase-analytics = { group = "com.google.firebase", name = "firebase-analytics-ktx" }
 firebase-cloud-messaging = { group = "com.google.firebase", name = "firebase-messaging-ktx" }
 
 kakao-login = { group = "com.kakao.sdk", name = "v2-user", version.ref = "kakao" }
-simpleRatingBar = { group = "com.github.ome450901", name = "SimpleRatingBar", version.ref = "simpleRatingBar" }
-ted-imagePicker = { group = "io.github.ParkSangGwon", name = "tedimagepicker", version.ref = "tedImagePicker" }
-ted-permission = { group = "io.github.ParkSangGwon", name = "tedpermission-normal", version.ref = "tedPermission" }
+simpleRatingBar = { group = "com.github.ome450901", name = "SimpleRatingBar", version.ref = "simple-rating-bar" }
+ted-imagePicker = { group = "io.github.ParkSangGwon", name = "tedimagepicker", version.ref = "ted-image-picker" }
+ted-permission = { group = "io.github.ParkSangGwon", name = "tedpermission-normal", version.ref = "ted-permission" }
 coil = { group = "io.coil-kt", name = "coil", version.ref = "coil" }
 lottie = { group = "com.airbnb.android", name = "lottie", version.ref = "lottie" }
-mpAndroidChart = { group = "com.github.PhilJay", name = "MPAndroidChart", version.ref = "mpAndroidChart" }
-powerMenu = { group = "com.github.skydoves", name = "powermenu", version.ref = "powerMenu" }
+mpAndroidChart = { group = "com.github.PhilJay", name = "MPAndroidChart", version.ref = "mp-android-chart" }
+powerMenu = { group = "com.github.skydoves", name = "powermenu", version.ref = "power-menu" }
 
 room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
 room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
