@@ -21,12 +21,12 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -91,9 +91,11 @@ fun SnsLoginButton(
             verticalAlignment = Alignment.CenterVertically,
         ) {
             if (isLoading) {
-                ButtonCircularProgressbar(
+                CircularProgressIndicator(
                     modifier = Modifier.size(20.dp),
-                    progressBarColor = color.text,
+                    strokeWidth = 3.dp,
+                    color = color.text,
+                    trackColor = Color.Transparent,
                 )
             } else {
                 Image(
@@ -132,7 +134,6 @@ fun SnsLoginButton(
 fun SnsLoginButtonEnablePreview() {
     BuzzzzingTheme {
         SnsLoginButton(
-            state = state,
             text = "카카오 로그인",
         )
     }
@@ -146,57 +147,6 @@ fun SnsLoginButtonLoadingPreview() {
             state = SnsLoginButtonState.LOADING,
             text = "카카오 로그인",
         )
-    }
-}
-
-@Composable
-fun ButtonCircularProgressbar(
-    modifier: Modifier = Modifier,
-    progressBarWidth: Dp = 3.dp,
-    progressBarColor: Color = WHITE01,
-    progressDuration: Int = 750,
-) {
-    val infiniteTransition = rememberInfiniteTransition(label = "")
-    val angle by infiniteTransition.animateFloat(
-        initialValue = 0f,
-        targetValue = 360f,
-        animationSpec = infiniteRepeatable(
-            animation = keyframes {
-                durationMillis = progressDuration
-            },
-        ),
-        label = "",
-    )
-
-    Canvas(modifier = modifier.fillMaxSize()) {
-        val canvasSize = size.minDimension
-        val radius = canvasSize / 2 - progressBarWidth.toPx() / 2
-
-        // ProgressBar(Arc)
-        drawArc(
-            color = progressBarColor,
-            startAngle = angle,
-            sweepAngle = 240f,
-            useCenter = false,
-            topLeft = size.center - Offset(radius, radius),
-            size = Size(radius * 2, radius * 2),
-            style = Stroke(
-                width = progressBarWidth.toPx(),
-                cap = StrokeCap.Round,
-            ),
-        )
-    }
-}
-
-@Preview(backgroundColor = 0xFF6A36FF, showBackground = false)
-@Composable
-fun PrevButtonCircularProgressbar() {
-    BuzzzzingTheme {
-        Box {
-            ButtonCircularProgressbar(
-                modifier = Modifier.size(20.dp),
-            )
-        }
     }
 }
 
