@@ -8,7 +8,7 @@ android {
 }
 
 dependencies {
-    implementation(project(":core:core-ui"))
+    implementation(projects.core.coreUi)
 
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.core.ktx)

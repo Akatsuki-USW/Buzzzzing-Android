@@ -3,7 +3,7 @@ plugins {
 }
 
 dependencies {
-    implementation(project(":domain"))
+    implementation(projects.domain)
     implementation(libs.kotlinx.coroutines.core)
     implementation(libs.hilt.core)
 }

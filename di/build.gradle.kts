@@ -10,10 +10,10 @@ android {
 }
 
 dependencies {
-    implementation(project(":domain"))
-    implementation(project(":data"))
-    implementation(project(":remote"))
-    implementation(project(":local"))
+    implementation(projects.domain)
+    implementation(projects.data)
+    implementation(projects.remote)
+    implementation(projects.local)
 
     implementation(libs.bundles.coroutine)
     implementation(libs.kotlinx.serialization.json)
