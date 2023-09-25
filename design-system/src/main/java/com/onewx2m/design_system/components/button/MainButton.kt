@@ -5,16 +5,37 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.FrameLayout
-import androidx.compose.material3.Text
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.graphics.Shape
 import com.onewx2m.core_ui.extensions.onThrottleClick
 import com.onewx2m.design_system.R
 import com.onewx2m.design_system.databinding.ButtonMainBinding
+import com.onewx2m.design_system.theme.BLUE
+import com.onewx2m.design_system.theme.BLUE_LIGHT
+import com.onewx2m.design_system.theme.GRAY03
+import com.onewx2m.design_system.theme.GRAY06
+import com.onewx2m.design_system.theme.WHITE01
 
-enum class MainButtonState {
-    POSITIVE, NEGATIVE, LOADING, DISABLE
+enum class MainButtonState(val btnColor: Color, val textColor: Color = WHITE01) {
+    POSITIVE(
+        btnColor = BLUE,
+    ),
+    NEGATIVE(
+        btnColor = BLUE_LIGHT,
+    ),
+    LOADING(
+        btnColor = BLUE_LIGHT,
+    ),
+    DISABLE(
+        btnColor = GRAY06,
+        textColor = GRAY03,
+        ),
 }
 
 class MainButton @JvmOverloads constructor(

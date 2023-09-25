@@ -5,13 +5,199 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.FrameLayout
+import androidx.annotation.DrawableRes
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.keyframes
+import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.geometry.center
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.PaintingStyle.Companion.Stroke
+import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
 import com.onewx2m.core_ui.extensions.onThrottleClick
 import com.onewx2m.design_system.R
 import com.onewx2m.design_system.databinding.ButtonSnsLoginBinding
+import com.onewx2m.design_system.modifier.buzzzzingClickable
+import com.onewx2m.design_system.theme.BuzzzzingTheme
+import com.onewx2m.design_system.theme.WHITE01
+import com.onewx2m.design_system.util.runIf
 
 enum class SnsLoginButtonState {
     ENABLE, LOADING
+}
+
+@Composable
+fun SnsLoginButton(
+    modifier: Modifier = Modifier,
+    state: SnsLoginButtonState = SnsLoginButtonState.ENABLE,
+    colorScheme: ButtonColor = ButtonColor.KakaoLogin,
+    rippleColor: Color = Color.Unspecified,
+    @DrawableRes icon: Int = R.drawable.ic_kakao,
+    text: String,
+    onClick: () -> Unit = {},
+) {
+    val color = colorScheme.positiveColorScheme
+
+    val isLoading = state == SnsLoginButtonState.LOADING
+
+    Box(
+        modifier = modifier
+            .background(
+                color = color.background,
+                shape = RoundedCornerShape(5.dp),
+            )
+            .fillMaxWidth()
+            .height(50.dp)
+            .runIf(!isLoading) {
+                buzzzzingClickable(
+                    rippleEnabled = true,
+                    rippleColor = rippleColor,
+                    onClick = onClick,
+                )
+            },
+    ) {
+        Row(
+            modifier = Modifier.padding(horizontal = 24.dp),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            if (isLoading) {
+                ButtonCircularProgressbar(
+                    modifier = Modifier.size(20.dp),
+                    progressBarColor = color.text,
+                )
+            } else {
+                Image(
+                    painter = painterResource(
+                        id = icon,
+                    ),
+                    contentDescription = "",
+                )
+            }
+            Text(
+                modifier = Modifier.fillMaxWidth().padding(horizontal = 20.dp),
+                textAlign = TextAlign.Center,
+                text = text,
+                style = BuzzzzingTheme.typography.header3,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+            )
+        }
+
+        if (isLoading) {
+            Box(
+                modifier = modifier
+                    .background(
+                        color = colorScheme.loadingColorScheme.background,
+                        shape = RoundedCornerShape(5.dp),
+                    )
+                    .fillMaxWidth()
+                    .fillMaxHeight(),
+            )
+        }
+    }
+}
+
+@Preview
+@Composable
+fun SnsLoginButtonEnablePreview() {
+    BuzzzzingTheme {
+        SnsLoginButton(
+            state = state,
+            text = "카카오 로그인",
+        )
+    }
+}
+
+@Preview
+@Composable
+fun SnsLoginButtonLoadingPreview() {
+    BuzzzzingTheme {
+        SnsLoginButton(
+            state = SnsLoginButtonState.LOADING,
+            text = "카카오 로그인",
+        )
+    }
+}
+
+@Composable
+fun ButtonCircularProgressbar(
+    modifier: Modifier = Modifier,
+    progressBarWidth: Dp = 3.dp,
+    progressBarColor: Color = WHITE01,
+    progressDuration: Int = 750,
+) {
+    val infiniteTransition = rememberInfiniteTransition(label = "")
+    val angle by infiniteTransition.animateFloat(
+        initialValue = 0f,
+        targetValue = 360f,
+        animationSpec = infiniteRepeatable(
+            animation = keyframes {
+                durationMillis = progressDuration
+            },
+        ),
+        label = "",
+    )
+
+    Canvas(modifier = modifier.fillMaxSize()) {
+        val canvasSize = size.minDimension
+        val radius = canvasSize / 2 - progressBarWidth.toPx() / 2
+
+        // ProgressBar(Arc)
+        drawArc(
+            color = progressBarColor,
+            startAngle = angle,
+            sweepAngle = 240f,
+            useCenter = false,
+            topLeft = size.center - Offset(radius, radius),
+            size = Size(radius * 2, radius * 2),
+            style = Stroke(
+                width = progressBarWidth.toPx(),
+                cap = StrokeCap.Round,
+            ),
+        )
+    }
+}
+
+@Preview(backgroundColor = 0xFF6A36FF, showBackground = false)
+@Composable
+fun PrevButtonCircularProgressbar() {
+    BuzzzzingTheme {
+        Box {
+            ButtonCircularProgressbar(
+                modifier = Modifier.size(20.dp),
+            )
+        }
+    }
 }
 
 class SnsLoginButton @JvmOverloads constructor(

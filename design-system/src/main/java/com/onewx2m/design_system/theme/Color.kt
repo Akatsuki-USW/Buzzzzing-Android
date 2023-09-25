@@ -26,5 +26,6 @@ val GRAY06 = Color(0xFFEBEBEB)
 val GRAY07 = Color(0xFFF6F7F9)
 
 val KAKAO = Color(0xFFFEE500)
+val KAKAO_LOADING = Color(0xFFFFFACC)
 
 val Transparent = Color(0x00000000)
