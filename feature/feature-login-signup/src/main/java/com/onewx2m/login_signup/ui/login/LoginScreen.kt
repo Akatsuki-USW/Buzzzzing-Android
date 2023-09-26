@@ -88,7 +88,7 @@ fun LoginScreen(
         ) {
             SnsLoginButton(
                 text = "카카오 로그인",
-                type = uiState.kakaoLoginButtonState,
+                type = uiState.kakaoLoginButtonType,
             ) {
                 onClickKakaoLoginButton()
             }
