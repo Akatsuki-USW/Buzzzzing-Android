@@ -2,7 +2,7 @@ package com.onewx2m.login_signup.ui.login
 
 import androidx.lifecycle.viewModelScope
 import com.onewx2m.core_ui.util.BuzzzzingUser
-import com.onewx2m.design_system.components.button.SnsLoginButtonState
+import com.onewx2m.design_system.components.button.SnsLoginButtonType
 import com.onewx2m.domain.Outcome
 import com.onewx2m.domain.collectOutcome
 import com.onewx2m.domain.exception.NeedSignUpException
@@ -98,7 +98,7 @@ class LoginViewModel @Inject constructor(
 
     override fun reduceState(current: LoginViewState, event: LoginEvent): LoginViewState =
         when (event) {
-            LoginEvent.KakaoLoginButtonStateToEnable -> current.copy(kakaoLoginButtonState = SnsLoginButtonState.ENABLE)
-            LoginEvent.KakaoLoginButtonStateToLoading -> current.copy(kakaoLoginButtonState = SnsLoginButtonState.LOADING)
+            LoginEvent.KakaoLoginButtonStateToEnable -> current.copy(kakaoLoginButtonState = SnsLoginButtonType.ENABLE)
+            LoginEvent.KakaoLoginButtonStateToLoading -> current.copy(kakaoLoginButtonState = SnsLoginButtonType.LOADING)
         }
 }

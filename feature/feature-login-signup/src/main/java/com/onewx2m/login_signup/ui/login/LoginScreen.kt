@@ -25,7 +25,6 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.onewx2m.design_system.components.button.SnsLoginButton
 import com.onewx2m.design_system.theme.BuzzzzingTheme
 import com.onewx2m.feature_login_signup.R
-import kotlinx.coroutines.flow.collect
 
 @Composable
 fun LoginRoute(
@@ -89,7 +88,7 @@ fun LoginScreen(
         ) {
             SnsLoginButton(
                 text = "카카오 로그인",
-                state = uiState.kakaoLoginButtonState,
+                type = uiState.kakaoLoginButtonState,
             ) {
                 onClickKakaoLoginButton()
             }

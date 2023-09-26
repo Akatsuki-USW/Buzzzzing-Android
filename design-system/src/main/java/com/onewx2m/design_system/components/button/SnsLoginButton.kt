@@ -20,8 +20,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -38,14 +36,14 @@ import com.onewx2m.design_system.modifier.buzzzzingClickable
 import com.onewx2m.design_system.theme.BuzzzzingTheme
 import com.onewx2m.design_system.util.runIf
 
-enum class SnsLoginButtonState {
+enum class SnsLoginButtonType {
     ENABLE, LOADING
 }
 
 @Composable
 fun SnsLoginButton(
     modifier: Modifier = Modifier,
-    state: SnsLoginButtonState = SnsLoginButtonState.ENABLE,
+    type: SnsLoginButtonType = SnsLoginButtonType.ENABLE,
     colorScheme: ButtonColor = ButtonColor.KakaoLogin,
     rippleColor: Color = Color.Unspecified,
     @DrawableRes icon: Int = R.drawable.ic_kakao,
@@ -54,7 +52,7 @@ fun SnsLoginButton(
 ) {
     val color = colorScheme.positiveColorScheme
 
-    val isLoading = state == SnsLoginButtonState.LOADING
+    val isLoading = type == SnsLoginButtonType.LOADING
 
     Box(
         modifier = modifier
@@ -130,7 +128,7 @@ fun SnsLoginButtonEnablePreview() {
 fun SnsLoginButtonLoadingPreview() {
     BuzzzzingTheme {
         SnsLoginButton(
-            state = SnsLoginButtonState.LOADING,
+            type = SnsLoginButtonType.LOADING,
             text = "카카오 로그인",
         )
     }
@@ -150,15 +148,15 @@ class SnsLoginButton @JvmOverloads constructor(
 
     private val binding: ButtonSnsLoginBinding
 
-    var state: SnsLoginButtonState = SnsLoginButtonState.ENABLE
+    var state: SnsLoginButtonType = SnsLoginButtonType.ENABLE
         set(value) {
             field = value
             when (field) {
-                SnsLoginButtonState.ENABLE -> {
+                SnsLoginButtonType.ENABLE -> {
                     changeStateToEnable()
                 }
 
-                SnsLoginButtonState.LOADING -> {
+                SnsLoginButtonType.LOADING -> {
                     changeStateToLoading()
                 }
             }
