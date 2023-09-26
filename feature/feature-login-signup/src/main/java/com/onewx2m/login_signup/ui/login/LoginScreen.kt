@@ -87,11 +87,10 @@ fun LoginScreen(
                 .align(Alignment.BottomCenter),
         ) {
             SnsLoginButton(
-                text = "카카오 로그인",
+                text = stringResource(id = R.string.fragment_login_login_to_kakao),
                 type = uiState.kakaoLoginButtonType,
-            ) {
-                onClickKakaoLoginButton()
-            }
+                onClick = onClickKakaoLoginButton
+            )
             Spacer(modifier = Modifier.height(57.dp))
         }
     }
