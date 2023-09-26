@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.compose.material3.Text
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.fragment.app.viewModels
@@ -34,24 +33,22 @@ class LoginFragment :
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?,
-    ): View? {
-        return ComposeView(requireContext()).apply {
+    ): View {
+        return ComposeView(requireActivity()).apply {
             // Dispose of the Composition when the view's LifecycleOwner
             // is destroyed
             setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
             setContent {
                 BuzzzzingTheme {
-                    // In Compose world
-                    Text("Hello Compose!")
+                    LoginRoute(
+                        handleSideEffect = ::handleSideEffect,
+                    )
                 }
             }
         }
     }
 
     override fun initView() {
-//        binding.buttonKakao.onThrottleClick {
-//            viewModel.onClickKakaoLoginButton()
-//        }
     }
 
     override fun render(current: LoginViewState) {

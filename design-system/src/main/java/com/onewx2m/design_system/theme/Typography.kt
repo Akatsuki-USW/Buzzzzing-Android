@@ -2,6 +2,7 @@ package com.onewx2m.design_system.theme
 
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.staticCompositionLocalOf
+import androidx.compose.ui.text.PlatformTextStyle
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -19,6 +20,9 @@ private val notoSansStyle = TextStyle(
     fontFamily = notoSansFamily,
     fontWeight = FontWeight.Normal,
     letterSpacing = (-0.03).sp,
+    platformStyle = PlatformTextStyle(
+        includeFontPadding = false
+    ),
 )
 
 internal val Typography = BuzzzzingTypography(

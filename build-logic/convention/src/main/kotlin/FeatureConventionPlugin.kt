@@ -12,6 +12,7 @@ internal class FeatureConventionPlugin : Plugin<Project> {
         with(target) {
             with(pluginManager) {
                 apply("buzzzzing.plugin.android.library")
+                apply("buzzzzing.plugin.android.library.compose")
                 apply("androidx.navigation.safeargs.kotlin")
                 apply("buzzzzing.plugin.hilt")
             }

@@ -13,6 +13,7 @@ import com.onewx2m.domain.usecase.GetMyInfoUseCase
 import com.onewx2m.domain.usecase.LoginByKakaoUseCase
 import com.onewx2m.mvi.MviViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -29,6 +30,9 @@ class LoginViewModel @Inject constructor(
 
     fun handleKakaoLoginSuccess(kakaoAccessToken: String) = viewModelScope.launch {
         loginByKakaoUseCase(kakaoAccessToken)
+            .onCompletion {
+                postEvent(LoginEvent.KakaoLoginButtonStateToEnable)
+            }
             .collectOutcome(
                 handleSuccess = { getMyInfoAndSave() },
                 handleFail = { handleError(it.error, ::handleLoginByKakaoUsecaseFail) },
