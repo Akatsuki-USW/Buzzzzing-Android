@@ -2,7 +2,6 @@ plugins {
     id("buzzzzing.plugin.android.library")
     id("buzzzzing.plugin.hilt")
     id("org.jetbrains.kotlin.plugin.serialization")
-    id("com.google.devtools.ksp")
 }
 
 android {
