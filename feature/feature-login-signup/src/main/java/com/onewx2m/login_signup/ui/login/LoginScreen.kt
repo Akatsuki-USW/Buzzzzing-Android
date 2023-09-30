@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -22,6 +21,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.onewx2m.core_ui.extensions.observeWithLifecycle
 import com.onewx2m.design_system.components.button.SnsLoginButton
 import com.onewx2m.design_system.theme.BuzzzzingTheme
 import com.onewx2m.feature_login_signup.R
@@ -33,10 +33,8 @@ fun LoginRoute(
 ) {
     val uiState: LoginViewState by viewModel.state.collectAsStateWithLifecycle()
 
-    LaunchedEffect(viewModel) {
-        viewModel.sideEffects.collect { sideEffect ->
-            handleSideEffect(sideEffect)
-        }
+    viewModel.sideEffects.observeWithLifecycle { sideEffect ->
+        handleSideEffect(sideEffect)
     }
 
     LoginScreen(
@@ -89,7 +87,7 @@ fun LoginScreen(
             SnsLoginButton(
                 text = stringResource(id = R.string.fragment_login_login_to_kakao),
                 type = uiState.kakaoLoginButtonType,
-                onClick = onClickKakaoLoginButton
+                onClick = onClickKakaoLoginButton,
             )
             Spacer(modifier = Modifier.height(57.dp))
         }

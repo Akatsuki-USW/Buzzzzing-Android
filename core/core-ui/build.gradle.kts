@@ -1,5 +1,6 @@
 plugins {
     id("buzzzzing.plugin.android.library")
+    id("buzzzzing.plugin.android.library.compose")
     id("buzzzzing.plugin.hilt")
     id("org.jetbrains.kotlin.plugin.serialization")
 }
