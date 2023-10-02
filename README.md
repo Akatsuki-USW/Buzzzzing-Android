@@ -1,4 +1,7 @@
 # Buzzzzing-Android
+![image](https://github.com/Akatsuki-USW/Buzzzzing-Android/assets/81678959/964f2638-9f2e-4112-8544-edb0eb065360)
+
+
 |태그|설명|
 |--|--|
 |feat:|	새로운 기능을 추가할 경우   |
