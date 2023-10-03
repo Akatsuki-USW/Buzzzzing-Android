@@ -5,37 +5,125 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.FrameLayout
-import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.interaction.collectIsPressedAsState
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.RectangleShape
-import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import com.onewx2m.core_ui.extensions.onThrottleClick
 import com.onewx2m.design_system.R
 import com.onewx2m.design_system.databinding.ButtonMainBinding
+import com.onewx2m.design_system.modifier.buzzzzingClickable
 import com.onewx2m.design_system.theme.BLUE
 import com.onewx2m.design_system.theme.BLUE_LIGHT
+import com.onewx2m.design_system.theme.BuzzzzingTheme
 import com.onewx2m.design_system.theme.GRAY03
 import com.onewx2m.design_system.theme.GRAY06
 import com.onewx2m.design_system.theme.WHITE01
+import com.onewx2m.design_system.util.runIf
 
-enum class MainButtonState(val btnColor: Color, val textColor: Color = WHITE01) {
+enum class MainButtonState(val backgroundColor: Color, val textColor: Color = WHITE01) {
     POSITIVE(
-        btnColor = BLUE,
+        backgroundColor = BLUE,
     ),
     NEGATIVE(
-        btnColor = BLUE_LIGHT,
+        backgroundColor = BLUE_LIGHT,
     ),
     LOADING(
-        btnColor = BLUE_LIGHT,
+        backgroundColor = BLUE_LIGHT,
     ),
     DISABLE(
-        btnColor = GRAY06,
+        backgroundColor = GRAY06,
         textColor = GRAY03,
-        ),
+    ),
+}
+
+@Composable
+fun MainButton(
+    modifier: Modifier = Modifier,
+    type: MainButtonState = MainButtonState.POSITIVE,
+    rippleColor: Color = Color.Unspecified,
+    text: String,
+    onClick: () -> Unit = {},
+) {
+    val isLoading = type == MainButtonState.LOADING
+    val isClickable = type in listOf(MainButtonState.POSITIVE, MainButtonState.NEGATIVE)
+
+    Box(
+        modifier = modifier
+            .background(
+                color = type.backgroundColor,
+                shape = RoundedCornerShape(5.dp),
+            )
+            .fillMaxWidth()
+            .height(50.dp)
+            .runIf(isClickable) {
+                buzzzzingClickable(
+                    rippleEnabled = true,
+                    rippleColor = rippleColor,
+                    onClick = onClick,
+                )
+            },
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxHeight()
+                .padding(horizontal = 24.dp)
+                .align(Alignment.Center),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            if (isLoading) {
+                CircularProgressIndicator(
+                    modifier = Modifier.size(20.dp),
+                    strokeWidth = 3.dp,
+                    color = type.textColor,
+                    trackColor = Color.Transparent,
+                )
+                Spacer(modifier = Modifier.width(10.dp))
+            }
+            Text(
+                textAlign = TextAlign.Center,
+                text = text,
+                color = type.textColor,
+                style = BuzzzzingTheme.typography.header3,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+            )
+        }
+    }
+}
+
+@Preview
+@Composable
+fun MainButtonPreview() {
+    BuzzzzingTheme {
+        Column {
+            MainButton(text = "메인 버튼", type = MainButtonState.POSITIVE)
+            Spacer(modifier = Modifier.size(10.dp))
+            MainButton(text = "메인 버튼", type = MainButtonState.NEGATIVE)
+            Spacer(modifier = Modifier.size(10.dp))
+            MainButton(text = "메인 버튼", type = MainButtonState.DISABLE)
+            Spacer(modifier = Modifier.size(10.dp))
+            MainButton(text = "메인 버튼", type = MainButtonState.LOADING)
+        }
+    }
 }
 
 class MainButton @JvmOverloads constructor(
