@@ -33,31 +33,44 @@ import com.onewx2m.core_ui.extensions.onThrottleClick
 import com.onewx2m.design_system.R
 import com.onewx2m.design_system.databinding.ButtonSnsLoginBinding
 import com.onewx2m.design_system.modifier.buzzzzingClickable
+import com.onewx2m.design_system.theme.BLACK01
+import com.onewx2m.design_system.theme.BLACK02
 import com.onewx2m.design_system.theme.BuzzzzingTheme
+import com.onewx2m.design_system.theme.GRAY05
+import com.onewx2m.design_system.theme.KAKAO
+import com.onewx2m.design_system.theme.KAKAO_LOADING
+import com.onewx2m.design_system.theme.WHITE02
 import com.onewx2m.design_system.util.runIf
 
-enum class SnsLoginButtonType {
-    ENABLE, LOADING
+enum class SnsLoginButtonType(
+    val textColor: Color,
+    val backgroundColor: Color,
+) {
+    ENABLE(
+        textColor = BLACK01,
+        backgroundColor = KAKAO,
+    ),
+    LOADING(
+        textColor = GRAY05,
+        backgroundColor = KAKAO_LOADING,
+    ),
 }
 
 @Composable
 fun SnsLoginButton(
     modifier: Modifier = Modifier,
     type: SnsLoginButtonType = SnsLoginButtonType.ENABLE,
-    colorScheme: ButtonColor = ButtonColor.KakaoLogin,
     rippleColor: Color = Color.Unspecified,
     @DrawableRes icon: Int = R.drawable.ic_kakao,
     text: String,
     onClick: () -> Unit = {},
 ) {
-    val color = colorScheme.positiveColorScheme
-
     val isLoading = type == SnsLoginButtonType.LOADING
 
     Box(
         modifier = modifier
             .background(
-                color = color.background,
+                color = type.backgroundColor,
                 shape = RoundedCornerShape(5.dp),
             )
             .fillMaxWidth()
@@ -78,7 +91,7 @@ fun SnsLoginButton(
                 CircularProgressIndicator(
                     modifier = Modifier.size(20.dp),
                     strokeWidth = 3.dp,
-                    color = color.text,
+                    color = type.textColor,
                     trackColor = Color.Transparent,
                 )
             } else {
@@ -93,21 +106,10 @@ fun SnsLoginButton(
                 modifier = Modifier.fillMaxWidth().padding(horizontal = 20.dp),
                 textAlign = TextAlign.Center,
                 text = text,
+                color = type.textColor,
                 style = BuzzzzingTheme.typography.header3,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
-            )
-        }
-
-        if (isLoading) {
-            Box(
-                modifier = modifier
-                    .background(
-                        color = colorScheme.loadingColorScheme.background,
-                        shape = RoundedCornerShape(5.dp),
-                    )
-                    .fillMaxWidth()
-                    .fillMaxHeight(),
             )
         }
     }
