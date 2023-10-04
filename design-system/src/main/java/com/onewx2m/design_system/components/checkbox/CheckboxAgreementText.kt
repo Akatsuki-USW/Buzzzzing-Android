@@ -5,7 +5,6 @@ import android.graphics.drawable.Icon
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -23,6 +22,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import com.onewx2m.core_ui.extensions.onThrottleClick
 import com.onewx2m.design_system.R
 import com.onewx2m.design_system.databinding.CheckboxAgreementTextBinding
+import com.onewx2m.design_system.modifier.buzzzzingClickable
 import com.onewx2m.design_system.theme.BLUE
 import com.onewx2m.design_system.theme.BLUE_LIGHT
 import com.onewx2m.design_system.theme.BuzzzzingTheme
@@ -31,21 +31,21 @@ import com.onewx2m.design_system.theme.BuzzzzingTheme
 fun CheckboxAgreementText(
     text: String = "",
     checked: Boolean,
+    onTextClick: () -> Unit = {},
     onCheckedChange: (Boolean) -> Unit = {},
 ) {
     Box(
         modifier = Modifier.fillMaxWidth(),
     ) {
         Row(
-            modifier = Modifier.align(Alignment.CenterStart),
+            modifier = Modifier
+                .align(Alignment.CenterStart)
+                .buzzzzingClickable { onTextClick() },
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Text(text = text, style = BuzzzzingTheme.typography.body1)
             Spacer(modifier = Modifier.width(4.dp))
             Icon(
-                modifier = Modifier.clickable {
-                    onCheckedChange(!checked)
-                },
                 painter = painterResource(
                     id = R.drawable.ic_arrow_right,
                 ),
@@ -54,7 +54,9 @@ fun CheckboxAgreementText(
         }
 
         Icon(
-            modifier = Modifier.align(Alignment.CenterEnd),
+            modifier = Modifier.align(Alignment.CenterEnd).buzzzzingClickable {
+                onCheckedChange(!checked)
+            },
             painter = painterResource(
                 id = R.drawable.ic_check_active,
             ),
