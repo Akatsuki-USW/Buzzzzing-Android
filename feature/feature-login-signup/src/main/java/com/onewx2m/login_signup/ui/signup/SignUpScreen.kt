@@ -36,6 +36,8 @@ import com.onewx2m.design_system.theme.BLUE
 import com.onewx2m.design_system.theme.BLUE_LIGHT
 import com.onewx2m.design_system.theme.BuzzzzingTheme
 import com.onewx2m.login_signup.ui.signup.adapter.SignUpFragmentType
+import com.onewx2m.login_signup.ui.signup.termsandconditions.TermsAndConditionsRoute
+import timber.log.Timber
 
 @Composable
 fun SignUpRoute(
@@ -51,6 +53,7 @@ fun SignUpRoute(
     SignUpScreen(
         uiState = uiState,
         onBackPressed = viewModel::onBackPressed,
+        postChangeMainButtonStateEvent = viewModel::postChangeMainButtonStateEvent,
     )
 }
 
@@ -59,6 +62,7 @@ fun SignUpRoute(
 fun SignUpScreen(
     uiState: SignUpViewState,
     onBackPressed: () -> Unit = {},
+    postChangeMainButtonStateEvent: (MainButtonState) -> Unit = {},
 ) {
     val pageCount = SignUpFragmentType.values().size
     val pagerState = rememberPagerState { pageCount }
@@ -91,12 +95,16 @@ fun SignUpScreen(
             userScrollEnabled = false,
         ) { page ->
             when (page) {
-                else -> {}
+                0 -> {
+                    TermsAndConditionsRoute(
+                        postChangeMainButtonStateEvent = postChangeMainButtonStateEvent,
+                    )
+                }
             }
         }
         MainButton(
             text = stringResource(id = com.onewx2m.design_system.R.string.word_next),
-            type = MainButtonState.DISABLE,
+            type = uiState.mainButtonState,
         )
         Spacer(modifier = Modifier.height(32.dp))
     }
@@ -125,17 +133,16 @@ fun PagerIndicator(
         horizontalArrangement = Arrangement.Center,
     ) {
         repeat(pageCount) { iteration ->
-            val color = if (pagerState.currentPage <= iteration) BLUE else BLUE_LIGHT
             Icon(
                 modifier = Modifier.size(24.dp),
                 painter = painterResource(
                     id = com.onewx2m.design_system.R.drawable.ic_airplane_blue,
                 ),
                 contentDescription = "",
-                tint = color,
+                tint = if (pagerState.currentPage >= iteration) BLUE else BLUE_LIGHT,
             )
 
-            val isLastPage = iteration == pagerState.currentPage
+            val isLastPage = iteration == pageCount - 1
             if (!isLastPage) {
                 Spacer(modifier = Modifier.width(4.dp))
             }

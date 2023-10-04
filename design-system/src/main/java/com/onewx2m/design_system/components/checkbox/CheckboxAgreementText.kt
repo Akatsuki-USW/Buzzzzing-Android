@@ -41,7 +41,10 @@ fun CheckboxAgreementText(
         Row(
             modifier = Modifier
                 .align(Alignment.CenterStart)
-                .buzzzzingClickable { onTextClick() },
+                .buzzzzingClickable(
+                    rippleEnabled = false,
+                    onClick = onTextClick,
+                ),
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Text(text = text, style = BuzzzzingTheme.typography.body1)
@@ -57,7 +60,7 @@ fun CheckboxAgreementText(
         }
 
         Icon(
-            modifier = Modifier.align(Alignment.CenterEnd).buzzzzingClickable {
+            modifier = Modifier.align(Alignment.CenterEnd).buzzzzingClickable(rippleEnabled = false) {
                 onCheckedChange(!checked)
             },
             painter = painterResource(

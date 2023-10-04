@@ -1,5 +1,7 @@
 package com.onewx2m.login_signup.ui.signup.termsandconditions
 
+import android.content.Intent
+import android.net.Uri
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -12,8 +14,10 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -21,6 +25,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.onewx2m.core_ui.extensions.observeWithLifecycle
+import com.onewx2m.design_system.components.button.MainButtonState
 import com.onewx2m.design_system.components.checkbox.CheckboxAgreementText
 import com.onewx2m.design_system.modifier.buzzzzingClickable
 import com.onewx2m.design_system.theme.BLACK01
@@ -28,22 +33,50 @@ import com.onewx2m.design_system.theme.BLUE
 import com.onewx2m.design_system.theme.BLUE_LIGHT
 import com.onewx2m.design_system.theme.BuzzzzingTheme
 import com.onewx2m.feature_login_signup.R
-import com.onewx2m.login_signup.ui.signup.SignUpViewModel
 
 @Composable
 fun TermsAndConditionsRoute(
-    parentViewModel: SignUpViewModel,
     viewModel: TermsAndConditionsViewModel = hiltViewModel(),
-    handleSideEffect: (sideEffect: TermsAndConditionsSideEffect) -> Unit = {},
+    postChangeMainButtonStateEvent: (MainButtonState) -> Unit = {},
 ) {
     val uiState: TermsAndConditionsViewState by viewModel.state.collectAsStateWithLifecycle()
+    val context = LocalContext.current
 
     viewModel.sideEffects.observeWithLifecycle { sideEffect ->
-        handleSideEffect(sideEffect)
+        when (sideEffect) {
+            TermsAndConditionsSideEffect.GoToPersonalInformationHandlingPolicyWebSite -> {
+                val intent = Intent(
+                    Intent.ACTION_VIEW,
+                    Uri.parse(context.getString(com.onewx2m.core_ui.R.string.url_personal_information_handling_policy)),
+                )
+                context.startActivity(intent)
+            }
+
+            TermsAndConditionsSideEffect.GoToTermsAndConditionsWebSite -> {
+                val intent = Intent(
+                    Intent.ACTION_VIEW,
+                    Uri.parse(context.getString(com.onewx2m.core_ui.R.string.url_terms_and_conditions)),
+                )
+                context.startActivity(intent)
+            }
+
+            is TermsAndConditionsSideEffect.ChangeSignUpButtonState -> {
+                postChangeMainButtonStateEvent(sideEffect.signUpButtonState)
+            }
+
+            TermsAndConditionsSideEffect.DoReRender -> {}
+        }
     }
 
     TermsAndConditionsScreen(
         uiState = uiState,
+        changeAgreeAllCheckboxState = viewModel::changeAgreeAllCheckboxState,
+        changePersonalHandlingPolicyState = viewModel::changePersonalHandlingPolicyState,
+        changeTermsAndConditionsCheckboxState = viewModel::changeTermsAndConditionsCheckboxState,
+        changeOver14CheckboxState = viewModel::changeOver14CheckboxState,
+        postChangeMainButtonStateEvent = postChangeMainButtonStateEvent,
+        onClickPersonalHandling = viewModel::goToPersonalInformationHandlingPolicyWebSite,
+        onClickTermsAndConditions = viewModel::goToTermsAndConditionsWebSite,
     )
 }
 
@@ -51,7 +84,20 @@ fun TermsAndConditionsRoute(
 fun TermsAndConditionsScreen(
     uiState: TermsAndConditionsViewState,
     changeAgreeAllCheckboxState: (isChecked: Boolean) -> Unit = {},
+    changePersonalHandlingPolicyState: (isChecked: Boolean) -> Unit = {},
+    changeTermsAndConditionsCheckboxState: (isChecked: Boolean) -> Unit = {},
+    changeOver14CheckboxState: (isChecked: Boolean) -> Unit = {},
+    postChangeMainButtonStateEvent: (MainButtonState) -> Unit = {},
+    onClickPersonalHandling: () -> Unit = {},
+    onClickTermsAndConditions: () -> Unit = {},
 ) {
+    LaunchedEffect(key1 = uiState.isChildrenItemsAllChecked) {
+        val mainButtonState =
+            if (uiState.isChildrenItemsAllChecked) MainButtonState.POSITIVE else MainButtonState.DISABLE
+
+        postChangeMainButtonStateEvent(mainButtonState)
+    }
+
     Column(
         modifier = Modifier.fillMaxSize(),
     ) {
@@ -72,7 +118,7 @@ fun TermsAndConditionsScreen(
             Icon(
                 modifier = Modifier
                     .size(28.dp)
-                    .buzzzzingClickable {
+                    .buzzzzingClickable(rippleEnabled = false) {
                         changeAgreeAllCheckboxState(!uiState.isChildrenItemsAllChecked)
                     },
                 painter = painterResource(
@@ -93,17 +139,22 @@ fun TermsAndConditionsScreen(
         CheckboxAgreementText(
             text = stringResource(id = com.onewx2m.design_system.R.string.word_personal_information_handling_policy),
             checked = uiState.isPersonalHandlingPolicyChecked,
+            onCheckedChange = changePersonalHandlingPolicyState,
+            onTextClick = onClickPersonalHandling,
         )
         Spacer(modifier = Modifier.size(22.dp))
         CheckboxAgreementText(
             text = stringResource(id = com.onewx2m.design_system.R.string.word_terms_and_conditions),
-            checked = uiState.isPersonalHandlingPolicyChecked,
+            checked = uiState.isTermsAndConditionsChecked,
+            onCheckedChange = changeTermsAndConditionsCheckboxState,
+            onTextClick = onClickTermsAndConditions,
         )
         Spacer(modifier = Modifier.size(22.dp))
         CheckboxAgreementText(
             hideArrow = true,
             text = stringResource(id = R.string.terms_and_conditions_over_14),
-            checked = uiState.isPersonalHandlingPolicyChecked,
+            checked = uiState.isOver14Checked,
+            onCheckedChange = changeOver14CheckboxState,
         )
     }
 }

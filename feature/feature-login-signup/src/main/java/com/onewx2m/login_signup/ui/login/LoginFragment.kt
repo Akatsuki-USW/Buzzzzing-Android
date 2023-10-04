@@ -56,7 +56,7 @@ class LoginFragment :
 
     override fun handleSideEffect(sideEffect: LoginSideEffect) = when (sideEffect) {
         LoginSideEffect.TryLoginByKakao -> kakaoLogin()
-        LoginSideEffect.GoToHomeFragment -> goToHomeFragment()
+        LoginSideEffect.GoToHomeFragment -> goToSignUpFragment("")
         is LoginSideEffect.GoToSignUpFragment -> goToSignUpFragment(sideEffect.signToken)
         is LoginSideEffect.ShowErrorToast -> ErrorToast.make(binding.root, sideEffect.message)
             .show()
