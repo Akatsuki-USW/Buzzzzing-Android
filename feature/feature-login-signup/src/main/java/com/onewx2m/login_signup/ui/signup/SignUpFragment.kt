@@ -61,13 +61,13 @@ class SignUpFragment :
             text = getString(current.buttonTextRes)
         }
         binding.viewPagerSignUp.apply {
-            setCurrentItem(current.viewPagerPosition, true)
-            visibility = if (current.isViewPagerVisible) View.VISIBLE else View.INVISIBLE
+            setCurrentItem(current.pagerPosition, true)
+            visibility = if (current.isPagerVisible) View.VISIBLE else View.INVISIBLE
         }
         binding.lottieSigningUp.visibility =
             if (current.isLottieVisible) View.VISIBLE else View.INVISIBLE
 
-        binding.viewPagerIndicator.rating = current.viewPagerPosition.toFloat() + 1
+        binding.viewPagerIndicator.rating = current.pagerPosition.toFloat() + 1
     }
 
     override fun handleSideEffect(sideEffect: SignUpSideEffect) {

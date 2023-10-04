@@ -18,6 +18,7 @@ import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -49,6 +50,7 @@ fun SignUpRoute(
 
     SignUpScreen(
         uiState = uiState,
+        onBackPressed = viewModel::onBackPressed,
     )
 }
 
@@ -56,9 +58,14 @@ fun SignUpRoute(
 @Composable
 fun SignUpScreen(
     uiState: SignUpViewState,
+    onBackPressed: () -> Unit = {},
 ) {
     val pageCount = SignUpFragmentType.values().size
     val pagerState = rememberPagerState { pageCount }
+
+    LaunchedEffect(key1 = uiState.pagerPosition) {
+        pagerState.animateScrollToPage(uiState.pagerPosition)
+    }
 
     Column(
         modifier = Modifier
@@ -70,7 +77,7 @@ fun SignUpScreen(
         Box(
             modifier = Modifier.fillMaxWidth(),
         ) {
-            BackButton(modifier = Modifier.align(Alignment.CenterStart))
+            BackButton(modifier = Modifier.align(Alignment.CenterStart), onClick = onBackPressed)
             PagerIndicator(
                 modifier = Modifier.align(Alignment.CenterEnd),
                 pageCount = pageCount,
@@ -81,6 +88,7 @@ fun SignUpScreen(
         HorizontalPager(
             state = pagerState,
             modifier = Modifier.weight(1f),
+            userScrollEnabled = false,
         ) { page ->
             when (page) {
                 else -> {}

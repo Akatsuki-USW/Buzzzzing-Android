@@ -42,7 +42,7 @@ class SignUpViewModel @Inject constructor(
             is SignUpEvent.ChangeViewPagerPosition -> {
                 if (event.position in viewPagerFirstPosition..viewPagerLastPosition) {
                     current.copy(
-                        viewPagerPosition = event.position,
+                        pagerPosition = event.position,
                         buttonTextRes = if (event.position == viewPagerLastPosition) R.string.sign_up_button_finish else com.onewx2m.design_system.R.string.word_next,
                     )
                 } else {
@@ -51,12 +51,12 @@ class SignUpViewModel @Inject constructor(
             }
 
             SignUpEvent.HideViewPagerAndShowLottie -> current.copy(
-                isViewPagerVisible = false,
+                isPagerVisible = false,
                 isLottieVisible = true,
             )
 
             SignUpEvent.ShowViewPagerAndHideLottie -> current.copy(
-                isViewPagerVisible = true,
+                isPagerVisible = true,
                 isLottieVisible = false,
             )
         }
@@ -67,7 +67,7 @@ class SignUpViewModel @Inject constructor(
     }
 
     fun onClickMainButton() {
-        val currentPosition = state.value.viewPagerPosition
+        val currentPosition = state.value.pagerPosition
         if (currentPosition == viewPagerLastPosition) {
             trySignUp()
         } else {
@@ -139,7 +139,7 @@ class SignUpViewModel @Inject constructor(
 
     fun onBackPressed() {
         if (isSigningUp) return
-        val currentPosition = state.value.viewPagerPosition
+        val currentPosition = state.value.pagerPosition
         if (currentPosition == viewPagerFirstPosition) {
             postSideEffect(SignUpSideEffect.GoToPrevPage)
         } else {
