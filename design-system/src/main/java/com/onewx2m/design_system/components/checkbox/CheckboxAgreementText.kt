@@ -31,6 +31,7 @@ import com.onewx2m.design_system.theme.BuzzzzingTheme
 fun CheckboxAgreementText(
     text: String = "",
     checked: Boolean,
+    hideArrow: Boolean = false,
     onTextClick: () -> Unit = {},
     onCheckedChange: (Boolean) -> Unit = {},
 ) {
@@ -44,13 +45,15 @@ fun CheckboxAgreementText(
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Text(text = text, style = BuzzzzingTheme.typography.body1)
-            Spacer(modifier = Modifier.width(4.dp))
-            Icon(
-                painter = painterResource(
-                    id = R.drawable.ic_arrow_right,
-                ),
-                contentDescription = "",
-            )
+            if (!hideArrow) {
+                Spacer(modifier = Modifier.width(4.dp))
+                Icon(
+                    painter = painterResource(
+                        id = R.drawable.ic_arrow_right,
+                    ),
+                    contentDescription = "",
+                )
+            }
         }
 
         Icon(
