@@ -84,8 +84,12 @@ fun ApiResult.Failure.toBuzzzzingException(): Exception {
     Timber.e(this.exceptionOrNull())
     return when (this) {
         is ApiResult.Failure.HttpError -> {
-            val errorBody = KotlinSerializationUtil.json.decodeFromString<ErrorResponse>(body)
-            handleHttpError(this, errorBody)
+            try {
+                val errorBody = KotlinSerializationUtil.json.decodeFromString<ErrorResponse>(body)
+                handleHttpError(this, errorBody)
+            } catch (e: Exception) {
+                CommonException.UnknownException()
+            }
         }
 
         is ApiResult.Failure.NetworkError -> CommonException.NetworkException()
