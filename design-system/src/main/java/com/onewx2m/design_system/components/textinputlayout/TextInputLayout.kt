@@ -7,12 +7,209 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
 import androidx.annotation.ColorRes
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.collectIsFocusedAsState
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.onewx2m.design_system.R
 import com.onewx2m.design_system.databinding.TextInputLayoutBinding
+import com.onewx2m.design_system.theme.BLUE
+import com.onewx2m.design_system.theme.BuzzzzingTheme
+import com.onewx2m.design_system.theme.GRAY01
+import com.onewx2m.design_system.theme.GRAY05
+import com.onewx2m.design_system.theme.MINT
+import com.onewx2m.design_system.theme.PINK
 
-enum class TextInputLayoutState {
-    INACTIVE, FOCUSED, ERROR, LOADING, SUCCESS
+enum class TextInputLayoutState(val color: Color) {
+    INACTIVE(GRAY05), FOCUSED(GRAY01), ERROR(PINK), LOADING(MINT), SUCCESS(BLUE)
+}
+
+@Composable
+fun BuzzTextField(
+    modifier: Modifier = Modifier,
+    label: String = "",
+    text: String = "",
+    hint: String = "",
+    helperText: String = "",
+    initType: TextInputLayoutState = TextInputLayoutState.FOCUSED,
+    maxLines: Int = 1,
+    minLines: Int = 1,
+    onTextChange: (String) -> Unit = {},
+) {
+    val interactionSource = remember { MutableInteractionSource() }
+    val isFocused by interactionSource.collectIsFocusedAsState()
+
+    val type = when {
+        !isFocused && initType == TextInputLayoutState.FOCUSED -> {
+            TextInputLayoutState.INACTIVE
+        }
+
+        isFocused && initType == TextInputLayoutState.INACTIVE -> {
+            TextInputLayoutState.FOCUSED
+        }
+
+        else -> initType
+    }
+
+    BasicTextField(
+        modifier = modifier.fillMaxWidth(),
+        interactionSource = interactionSource,
+        value = text,
+        onValueChange = onTextChange,
+        decorationBox = {
+            Column {
+                if (label.isNotEmpty()) {
+                    Text(
+                        style = BuzzzzingTheme.typography.label2,
+                        text = label,
+                        color = type.color,
+                    )
+                }
+
+                Spacer(modifier = Modifier.size(6.dp))
+                Row(
+                    modifier = Modifier.padding(
+                        bottom = 6.dp,
+                    ).fillMaxWidth(),
+                    Arrangement.SpaceBetween,
+                ) {
+                    if (text.isNotEmpty()) {
+                        Text(
+                            style = BuzzzzingTheme.typography.body1,
+                            text = text,
+                            color = GRAY01,
+                            maxLines = if (minLines > maxLines) minLines else maxLines,
+                            minLines = minLines,
+                        )
+                    } else {
+                        Text(style = BuzzzzingTheme.typography.body1, text = hint, color = GRAY05)
+                    }
+
+                    when (type) {
+                        TextInputLayoutState.INACTIVE, TextInputLayoutState.FOCUSED -> Unit
+                        TextInputLayoutState.ERROR -> {
+                            Image(
+                                modifier = Modifier.padding(end = 4.dp),
+                                painter = painterResource(
+                                    id = R.drawable.ic_text_input_layor_error,
+                                ),
+                                contentDescription = "",
+                            )
+                        }
+
+                        TextInputLayoutState.LOADING -> {
+                            CircularProgressIndicator(
+                                modifier = Modifier.size(20.dp).padding(end = 4.dp),
+                                strokeWidth = 2.dp,
+                                color = MINT,
+                                trackColor = Color.Transparent,
+                            )
+                        }
+
+                        TextInputLayoutState.SUCCESS -> {
+                            Image(
+                                modifier = Modifier.padding(end = 4.dp),
+                                painter = painterResource(
+                                    id = R.drawable.ic_text_input_layor_success,
+                                ),
+                                contentDescription = "",
+                            )
+                        }
+                    }
+                }
+                Spacer(
+                    modifier = Modifier.fillMaxWidth().height(1.dp).background(color = type.color),
+                )
+                Spacer(modifier = Modifier.height(4.dp))
+
+                if (helperText.isNotEmpty()) {
+                    Text(
+                        style = BuzzzzingTheme.typography.label3,
+                        text = helperText,
+                        color = type.color,
+                    )
+                }
+            }
+        },
+    )
+}
+
+@Preview(showBackground = true)
+@Composable
+fun BuzzTextFieldPreview() {
+    BuzzzzingTheme {
+        Column {
+            BuzzTextField(
+                label = "라벨",
+                text = "text",
+                hint = "힌트",
+                helperText = "헬퍼 텍스트",
+                initType = TextInputLayoutState.FOCUSED,
+                onTextChange = { },
+            )
+            Spacer(modifier = Modifier.size(20.dp))
+
+            BuzzTextField(
+                label = "라벨",
+                text = "",
+                hint = "힌트",
+                helperText = "헬퍼 텍스트",
+                initType = TextInputLayoutState.INACTIVE,
+                onTextChange = { },
+            )
+            Spacer(modifier = Modifier.size(20.dp))
+
+            BuzzTextField(
+                label = "라벨",
+                text = "text",
+                hint = "힌트",
+                helperText = "헬퍼 텍스트",
+                initType = TextInputLayoutState.LOADING,
+                onTextChange = { },
+            )
+            Spacer(modifier = Modifier.size(20.dp))
+
+            BuzzTextField(
+                label = "라벨",
+                text = "text",
+                hint = "힌트",
+                helperText = "헬퍼 텍스트",
+                initType = TextInputLayoutState.ERROR,
+                onTextChange = { },
+            )
+            Spacer(modifier = Modifier.size(20.dp))
+
+            BuzzTextField(
+                label = "라벨",
+                text = "text",
+                hint = "힌트",
+                helperText = "헬퍼 텍스트",
+                initType = TextInputLayoutState.SUCCESS,
+                minLines = 5,
+                onTextChange = { },
+            )
+        }
+    }
 }
 
 class TextInputLayout @JvmOverloads constructor(
@@ -135,7 +332,7 @@ class TextInputLayout @JvmOverloads constructor(
         val maxLength = typedArray.getInteger(R.styleable.TextInputLayout_textInputMaxLength, 50)
 
         if (line > 0) binding.editText.setLines(line)
-        if(line == 1) binding.editText.inputType = InputType.TYPE_CLASS_TEXT
+        if (line == 1) binding.editText.inputType = InputType.TYPE_CLASS_TEXT
 
         binding.editText.filters = arrayOf(InputFilter.LengthFilter(maxLength))
 
