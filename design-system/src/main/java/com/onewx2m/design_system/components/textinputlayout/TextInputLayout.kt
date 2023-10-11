@@ -23,6 +23,7 @@ import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -54,9 +55,9 @@ fun BuzzTextField(
     initType: TextInputLayoutState = TextInputLayoutState.FOCUSED,
     maxLines: Int = 1,
     minLines: Int = 1,
+    interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     onTextChange: (String) -> Unit = {},
 ) {
-    val interactionSource = remember { MutableInteractionSource() }
     val isFocused by interactionSource.collectIsFocusedAsState()
 
     val type = when {
@@ -72,11 +73,17 @@ fun BuzzTextField(
     }
 
     BasicTextField(
-        modifier = modifier.fillMaxWidth(),
-        interactionSource = interactionSource,
         value = text,
         onValueChange = onTextChange,
-        decorationBox = {
+        modifier = modifier.fillMaxWidth(),
+        textStyle = BuzzzzingTheme.typography.body1.copy(
+            color = GRAY01,
+        ),
+        singleLine = maxLines == 1,
+        maxLines = if (minLines > maxLines) minLines else maxLines,
+        minLines = minLines,
+        interactionSource = interactionSource,
+        decorationBox = { innerText ->
             Column {
                 if (label.isNotEmpty()) {
                     Text(
@@ -94,13 +101,7 @@ fun BuzzTextField(
                     Arrangement.SpaceBetween,
                 ) {
                     if (text.isNotEmpty()) {
-                        Text(
-                            style = BuzzzzingTheme.typography.body1,
-                            text = text,
-                            color = GRAY01,
-                            maxLines = if (minLines > maxLines) minLines else maxLines,
-                            minLines = minLines,
-                        )
+                        innerText()
                     } else {
                         Text(style = BuzzzzingTheme.typography.body1, text = hint, color = GRAY05)
                     }

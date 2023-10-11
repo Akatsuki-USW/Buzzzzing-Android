@@ -185,19 +185,19 @@ class MainActivity :
         navController.removeOnDestinationChangedListener(destinationChangedListener)
     }
 
-    override fun dispatchTouchEvent(event: MotionEvent): Boolean {
-        if (event.action == MotionEvent.ACTION_DOWN) {
-            val currentFocusView = currentFocus
-            if (currentFocusView is EditText) {
-                val outRect = getGlobalVisibleRect(currentFocusView)
-                if (isTouchEventCoordinatesInOutRect(event, outRect).not()) {
-                    currentFocusView.clearFocus()
-                    inputMethodManager.hideSoftInputFromWindow(currentFocusView.getWindowToken(), 0)
-                }
-            }
-        }
-        return super.dispatchTouchEvent(event)
-    }
+//    override fun dispatchTouchEvent(event: MotionEvent): Boolean {
+//        if (event.action == MotionEvent.ACTION_DOWN) {
+//            val currentFocusView = currentFocus
+//            if (currentFocusView is EditText) {
+//                val outRect = getGlobalVisibleRect(currentFocusView)
+//                if (isTouchEventCoordinatesInOutRect(event, outRect).not()) {
+//                    currentFocusView.clearFocus()
+//                    inputMethodManager.hideSoftInputFromWindow(currentFocusView.getWindowToken(), 0)
+//                }
+//            }
+//        }
+//        return super.dispatchTouchEvent(event)
+//    }
 
     private fun getGlobalVisibleRect(view: View): Rect {
         val viewOutRect = Rect()

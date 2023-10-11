@@ -139,6 +139,7 @@ class SignUpViewModel @Inject constructor(
 
     fun onBackPressed() {
         if (isSigningUp) return
+        postChangeMainButtonStateEvent(MainButtonState.POSITIVE)
         val currentPosition = state.value.pagerPosition
         if (currentPosition == viewPagerFirstPosition) {
             postSideEffect(SignUpSideEffect.GoToPrevPage)

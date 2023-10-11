@@ -1,5 +1,7 @@
 package com.onewx2m.login_signup.ui.signup
 
+import android.net.Uri
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -28,7 +30,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.onewx2m.core_ui.extensions.observeWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.onewx2m.core_ui.util.LaunchedEffectWithLifecycle
 import com.onewx2m.design_system.components.button.BackButton
 import com.onewx2m.design_system.components.button.MainButton
 import com.onewx2m.design_system.components.button.MainButtonState
@@ -36,8 +39,9 @@ import com.onewx2m.design_system.theme.BLUE
 import com.onewx2m.design_system.theme.BLUE_LIGHT
 import com.onewx2m.design_system.theme.BuzzzzingTheme
 import com.onewx2m.login_signup.ui.signup.adapter.SignUpFragmentType
+import com.onewx2m.login_signup.ui.signup.profileandnickname.ProfileAndNicknameRoute
+import com.onewx2m.login_signup.ui.signup.profileandnickname.ProfileAndNicknameSideEffect
 import com.onewx2m.login_signup.ui.signup.termsandconditions.TermsAndConditionsRoute
-import timber.log.Timber
 
 @Composable
 fun SignUpRoute(
@@ -46,14 +50,19 @@ fun SignUpRoute(
 ) {
     val uiState: SignUpViewState by viewModel.state.collectAsStateWithLifecycle()
 
-    viewModel.sideEffects.observeWithLifecycle { sideEffect ->
-        handleSideEffect(sideEffect)
+    LaunchedEffectWithLifecycle {
+        viewModel.sideEffects.collect { sideEffect ->
+            handleSideEffect(sideEffect)
+        }
     }
 
     SignUpScreen(
         uiState = uiState,
         onBackPressed = viewModel::onBackPressed,
         postChangeMainButtonStateEvent = viewModel::postChangeMainButtonStateEvent,
+        updateSignUpNickname = { viewModel.availableNickname = it },
+        updateSignUpProfileUri = { viewModel.profileUri = it },
+        onClickMainButton = viewModel::onClickMainButton,
     )
 }
 
@@ -63,9 +72,16 @@ fun SignUpScreen(
     uiState: SignUpViewState,
     onBackPressed: () -> Unit = {},
     postChangeMainButtonStateEvent: (MainButtonState) -> Unit = {},
+    updateSignUpNickname: (String) -> Unit = {},
+    updateSignUpProfileUri: (Uri) -> Unit = {},
+    onClickMainButton: () -> Unit = {},
 ) {
     val pageCount = SignUpFragmentType.values().size
     val pagerState = rememberPagerState { pageCount }
+
+    BackHandler {
+        onBackPressed()
+    }
 
     LaunchedEffect(key1 = uiState.pagerPosition) {
         pagerState.animateScrollToPage(uiState.pagerPosition)
@@ -100,11 +116,20 @@ fun SignUpScreen(
                         postChangeMainButtonStateEvent = postChangeMainButtonStateEvent,
                     )
                 }
+
+                1 -> {
+                    ProfileAndNicknameRoute(
+                        postChangeMainButtonStateEvent = postChangeMainButtonStateEvent,
+                        updateSignUpNickname = updateSignUpNickname,
+                        updateSignUpProfileUri = updateSignUpProfileUri,
+                    )
+                }
             }
         }
         MainButton(
             text = stringResource(id = com.onewx2m.design_system.R.string.word_next),
             type = uiState.mainButtonState,
+            onClick = onClickMainButton,
         )
         Spacer(modifier = Modifier.height(32.dp))
     }

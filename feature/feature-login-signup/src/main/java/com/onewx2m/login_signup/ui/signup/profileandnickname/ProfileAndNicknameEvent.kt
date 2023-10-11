@@ -13,4 +13,5 @@ sealed interface ProfileAndNicknameEvent : Event {
     object ChangeNicknameLayoutStateOverlap : ProfileAndNicknameEvent
     object ChangeNicknameLayoutStateUnavailable : ProfileAndNicknameEvent
     data class UpdateProfileUri(val uri: Uri) : ProfileAndNicknameEvent
+    data class UpdateNickname(val nickname: String) : ProfileAndNicknameEvent
 }

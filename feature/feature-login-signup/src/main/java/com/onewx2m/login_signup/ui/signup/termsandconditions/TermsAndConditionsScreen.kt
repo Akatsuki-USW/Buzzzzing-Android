@@ -15,6 +15,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -24,7 +25,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.onewx2m.core_ui.extensions.observeWithLifecycle
+import com.onewx2m.core_ui.util.LaunchedEffectWithLifecycle
 import com.onewx2m.design_system.components.button.MainButtonState
 import com.onewx2m.design_system.components.checkbox.CheckboxAgreementText
 import com.onewx2m.design_system.modifier.buzzzzingClickable
@@ -33,6 +34,8 @@ import com.onewx2m.design_system.theme.BLUE
 import com.onewx2m.design_system.theme.BLUE_LIGHT
 import com.onewx2m.design_system.theme.BuzzzzingTheme
 import com.onewx2m.feature_login_signup.R
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 
 @Composable
 fun TermsAndConditionsRoute(
@@ -42,30 +45,34 @@ fun TermsAndConditionsRoute(
     val uiState: TermsAndConditionsViewState by viewModel.state.collectAsStateWithLifecycle()
     val context = LocalContext.current
 
-    viewModel.sideEffects.observeWithLifecycle { sideEffect ->
-        when (sideEffect) {
-            TermsAndConditionsSideEffect.GoToPersonalInformationHandlingPolicyWebSite -> {
-                val intent = Intent(
-                    Intent.ACTION_VIEW,
-                    Uri.parse(context.getString(com.onewx2m.core_ui.R.string.url_personal_information_handling_policy)),
-                )
-                context.startActivity(intent)
-            }
+    LaunchedEffectWithLifecycle {
+        viewModel.sideEffects
+            .onEach { sideEffect ->
+                when (sideEffect) {
+                    TermsAndConditionsSideEffect.GoToPersonalInformationHandlingPolicyWebSite -> {
+                        val intent = Intent(
+                            Intent.ACTION_VIEW,
+                            Uri.parse(context.getString(com.onewx2m.core_ui.R.string.url_personal_information_handling_policy)),
+                        )
+                        context.startActivity(intent)
+                    }
 
-            TermsAndConditionsSideEffect.GoToTermsAndConditionsWebSite -> {
-                val intent = Intent(
-                    Intent.ACTION_VIEW,
-                    Uri.parse(context.getString(com.onewx2m.core_ui.R.string.url_terms_and_conditions)),
-                )
-                context.startActivity(intent)
-            }
+                    TermsAndConditionsSideEffect.GoToTermsAndConditionsWebSite -> {
+                        val intent = Intent(
+                            Intent.ACTION_VIEW,
+                            Uri.parse(context.getString(com.onewx2m.core_ui.R.string.url_terms_and_conditions)),
+                        )
+                        context.startActivity(intent)
+                    }
 
-            is TermsAndConditionsSideEffect.ChangeSignUpButtonState -> {
-                postChangeMainButtonStateEvent(sideEffect.signUpButtonState)
-            }
+                    is TermsAndConditionsSideEffect.ChangeSignUpButtonState -> {
+                        postChangeMainButtonStateEvent(sideEffect.signUpButtonState)
+                    }
 
-            TermsAndConditionsSideEffect.DoReRender -> {}
-        }
+                    TermsAndConditionsSideEffect.DoReRender -> {}
+                }
+            }
+            .launchIn(this)
     }
 
     TermsAndConditionsScreen(

@@ -69,8 +69,6 @@ class MainViewModel @Inject constructor(
                                 ?: CommonException.UnknownException().snackBarMessage,
                         ),
                     )
-                    delay(SHOW_ERROR_BEFORE_FINISH_DELAY)
-                    postSideEffect(MainSideEffect.FinishActivity)
                 }
 
                 else -> {}

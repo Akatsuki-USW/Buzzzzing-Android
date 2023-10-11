@@ -77,6 +77,14 @@ class ProfileAndNicknameViewModel @Inject constructor(
         is ProfileAndNicknameEvent.UpdateProfileUri -> current.copy(
             profileUri = event.uri,
         )
+
+        is ProfileAndNicknameEvent.UpdateNickname -> current.copy(
+            nickname = event.nickname,
+        )
+    }
+
+    fun updateNickname(nickname: String) {
+        postEvent(ProfileAndNicknameEvent.UpdateNickname(nickname))
     }
 
     suspend fun checkNicknameRegexAndUpdateUi(nickname: CharSequence?, isFocused: Boolean) =

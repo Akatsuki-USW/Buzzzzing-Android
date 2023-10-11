@@ -24,8 +24,11 @@ class LoginViewModel @Inject constructor(
 ) : MviViewModel<LoginViewState, LoginEvent, LoginSideEffect>(LoginViewState()) {
 
     fun onClickKakaoLoginButton() {
-        postEvent(LoginEvent.KakaoLoginButtonStateToLoading)
-        postSideEffect(LoginSideEffect.TryLoginByKakao)
+        //TODO REMOVE
+        postSideEffect(LoginSideEffect.GoToSignUpFragment(""))
+
+//        postEvent(LoginEvent.KakaoLoginButtonStateToLoading)
+//        postSideEffect(LoginSideEffect.TryLoginByKakao)
     }
 
     fun handleKakaoLoginSuccess(kakaoAccessToken: String) = viewModelScope.launch {

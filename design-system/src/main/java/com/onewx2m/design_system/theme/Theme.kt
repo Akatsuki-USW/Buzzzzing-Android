@@ -3,14 +3,12 @@ package com.onewx2m.design_system.theme
 import android.app.Activity
 import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.runtime.SideEffect
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
 
@@ -34,7 +32,7 @@ fun BuzzzzingTheme(
     ) {
         MaterialTheme(
             colorScheme = lightColorScheme(
-                background = WHITE01
+                background = WHITE01,
             ),
             content = content,
         )
