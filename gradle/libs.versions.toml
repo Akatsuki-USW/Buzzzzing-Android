@@ -67,7 +67,8 @@ google-services = { id = "com.google.gms.google-services", version.ref = "google
 android-gradle-plugin = { group = "com.android.tools.build", name = "gradle", version.ref = "android-gradle-plugin" }
 kotlin-gradle-plugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
 ksp-gradle-plugin = { group = "com.google.devtools.ksp", name = "com.google.devtools.ksp.gradle.plugin", version.ref = "ksp" }
-oss-gradle-plugin = { group = "com.google.android.gms", name = "oss-licenses-plugin", version.ref = "oss-plugin" }
+
+oss-licenses-plugin = { group = "com.google.android.gms", name = "oss-licenses-plugin", version.ref = "oss-plugin" }
 
 # compose
 # compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "compose-bom" }
@@ -141,7 +142,7 @@ room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "
 
 junit4 = { group = "junit", name = "junit", version.ref = "junit4" }
 
-oss = { group = "com.google.android.gms", name = "play-services-oss-licenses", version.ref = "oss" }
+oss-licenses = { group = "com.google.android.gms", name = "play-services-oss-licenses", version.ref = "oss" }
 
 [bundles]
 firebase = ["firebase-analytics", "firebase-cloud-messaging"]

@@ -15,5 +15,5 @@ dependencies {
     implementation(libs.coil)
     implementation(libs.lottie)
 
-    implementation(libs.oss)
+    implementation(libs.oss.licenses)
 }
