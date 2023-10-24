@@ -1,6 +1,6 @@
 package com.onewx2m.recommend_place.ui.write
 
-import com.onewx2m.design_system.components.button.MainButtonState
+import com.onewx2m.design_system.components.button.MainButtonType
 import com.onewx2m.design_system.components.recyclerview.picture.PictureItem
 import com.onewx2m.design_system.components.recyclerview.spotcategoryselector.SpotCategoryItem
 import com.onewx2m.mvi.ViewState
@@ -19,11 +19,11 @@ data class WriteViewState(
     val isLoadingLottieVisible: Boolean = false,
     val isSuccessLottieVisible: Boolean = false,
 ) : ViewState {
-    val mainButtonState: MainButtonState =
+    val mainButtonType: MainButtonType =
         if (
             isLoadingLottieVisible
         ) {
-            MainButtonState.LOADING
+            MainButtonType.LOADING
         } else if (title.isNotEmpty() &&
             kakaoLocation.isNotEmpty() &&
             buzzzzingLocation.isNotEmpty() &&
@@ -31,9 +31,9 @@ data class WriteViewState(
             selectedSpotCategoryItem != null ||
             isSuccessLottieVisible
         ) {
-            MainButtonState.POSITIVE
+            MainButtonType.POSITIVE
         } else {
-            MainButtonState.DISABLE
+            MainButtonType.DISABLE
         }
 
     val pictureUrls

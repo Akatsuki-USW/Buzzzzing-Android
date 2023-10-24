@@ -1,9 +1,8 @@
 package com.onewx2m.login_signup.ui.signup.email
 
 import com.onewx2m.core_ui.util.Regex
-import com.onewx2m.design_system.components.button.MainButtonState
+import com.onewx2m.design_system.components.button.MainButtonType
 import com.onewx2m.design_system.components.textinputlayout.TextInputLayoutState
-import com.onewx2m.feature_login_signup.R
 import com.onewx2m.mvi.MviViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -52,7 +51,7 @@ class EmailViewModel @Inject constructor() :
 
         postEvent(EmailEvent.ChangeEmailLayoutStateSuccess)
         postSideEffect(EmailSideEffect.UpdateSignUpEmail(email.toString()))
-        postSideEffect(EmailSideEffect.ChangeSignUpButtonState(MainButtonState.POSITIVE))
+        postSideEffect(EmailSideEffect.ChangeSignUpButtonState(MainButtonType.POSITIVE))
         return
     }
 
@@ -65,6 +64,6 @@ class EmailViewModel @Inject constructor() :
     }
 
     fun postSignUpButtonStateDisableSideEffect() {
-        postSideEffect(EmailSideEffect.ChangeSignUpButtonState(MainButtonState.DISABLE))
+        postSideEffect(EmailSideEffect.ChangeSignUpButtonState(MainButtonType.DISABLE))
     }
 }

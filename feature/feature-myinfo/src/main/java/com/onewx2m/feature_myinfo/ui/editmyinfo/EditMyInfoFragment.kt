@@ -14,7 +14,7 @@ import com.onewx2m.core_ui.extensions.textChangesToFlow
 import com.onewx2m.core_ui.util.BuzzzzingUser
 import com.onewx2m.core_ui.util.Constants
 import com.onewx2m.core_ui.util.PermissionManager
-import com.onewx2m.design_system.components.button.MainButtonState
+import com.onewx2m.design_system.components.button.MainButtonType
 import com.onewx2m.design_system.components.toast.ErrorToast
 import com.onewx2m.feature_myinfo.databinding.FragmentEditMyInfoBinding
 import com.onewx2m.mvi.MviFragment
@@ -74,7 +74,7 @@ class EditMyInfoFragment :
         binding.textInputLayoutNickname.editText.textChangesToFlow()
             .map { nickname ->
                 viewModel.postNicknameStateNormalOrInactiveEvent(binding.textInputLayoutNickname.editText.isFocused)
-                viewModel.postChangeMainButtonStateEvent(MainButtonState.DISABLE)
+                viewModel.postChangeMainButtonStateEvent(MainButtonType.DISABLE)
                 nickname
             }
             .debounce(Constants.NICKNAME_INPUT_DEBOUNCE)
@@ -95,7 +95,7 @@ class EditMyInfoFragment :
         binding.textInputLayoutEmail.editText.textChangesToFlow()
             .map { email ->
                 viewModel.postEmailStateNormalOrInactiveEvent(binding.textInputLayoutEmail.editText.isFocused)
-                viewModel.postChangeMainButtonStateEvent(MainButtonState.DISABLE)
+                viewModel.postChangeMainButtonStateEvent(MainButtonType.DISABLE)
                 email
             }
             .debounce(Constants.EMAIL_INPUT_DEBOUNCE)
@@ -116,7 +116,7 @@ class EditMyInfoFragment :
                 if (current.isScrollViewVisible) View.VISIBLE else View.INVISIBLE
             lottieLoading.visibility = if (current.isLottieVisible) View.VISIBLE else View.INVISIBLE
 
-            buttonMain.state = current.mainButtonState
+            buttonMain.state = current.mainButtonType
 
             textInputLayoutNickname.apply {
                 state = current.nicknameLayoutState

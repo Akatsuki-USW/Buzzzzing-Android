@@ -15,7 +15,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -26,7 +25,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.onewx2m.core_ui.util.LaunchedEffectWithLifecycle
-import com.onewx2m.design_system.components.button.MainButtonState
+import com.onewx2m.design_system.components.button.MainButtonType
 import com.onewx2m.design_system.components.checkbox.CheckboxAgreementText
 import com.onewx2m.design_system.modifier.buzzzzingClickable
 import com.onewx2m.design_system.theme.BLACK01
@@ -40,7 +39,7 @@ import kotlinx.coroutines.flow.onEach
 @Composable
 fun TermsAndConditionsRoute(
     viewModel: TermsAndConditionsViewModel = hiltViewModel(),
-    postChangeMainButtonStateEvent: (MainButtonState) -> Unit = {},
+    postChangeMainButtonStateEvent: (MainButtonType) -> Unit = {},
 ) {
     val uiState: TermsAndConditionsViewState by viewModel.state.collectAsStateWithLifecycle()
     val context = LocalContext.current
@@ -94,15 +93,15 @@ fun TermsAndConditionsScreen(
     changePersonalHandlingPolicyState: (isChecked: Boolean) -> Unit = {},
     changeTermsAndConditionsCheckboxState: (isChecked: Boolean) -> Unit = {},
     changeOver14CheckboxState: (isChecked: Boolean) -> Unit = {},
-    postChangeMainButtonStateEvent: (MainButtonState) -> Unit = {},
+    postChangeMainButtonStateEvent: (MainButtonType) -> Unit = {},
     onClickPersonalHandling: () -> Unit = {},
     onClickTermsAndConditions: () -> Unit = {},
 ) {
     LaunchedEffect(key1 = uiState.isChildrenItemsAllChecked) {
-        val mainButtonState =
-            if (uiState.isChildrenItemsAllChecked) MainButtonState.POSITIVE else MainButtonState.DISABLE
+        val mainButtonType =
+            if (uiState.isChildrenItemsAllChecked) MainButtonType.POSITIVE else MainButtonType.DISABLE
 
-        postChangeMainButtonStateEvent(mainButtonState)
+        postChangeMainButtonStateEvent(mainButtonType)
     }
 
     Column(

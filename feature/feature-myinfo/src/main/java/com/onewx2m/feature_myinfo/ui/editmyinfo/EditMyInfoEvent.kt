@@ -1,7 +1,7 @@
 package com.onewx2m.feature_myinfo.ui.editmyinfo
 
 import android.net.Uri
-import com.onewx2m.design_system.components.button.MainButtonState
+import com.onewx2m.design_system.components.button.MainButtonType
 import com.onewx2m.mvi.Event
 
 sealed interface EditMyInfoEvent : Event {
@@ -23,5 +23,5 @@ sealed interface EditMyInfoEvent : Event {
     object ShowScrollViewAndHideLottie : EditMyInfoEvent
     object HideScrollViewAndShowLottie : EditMyInfoEvent
 
-    data class ChangeMainButtonState(val state: MainButtonState) : EditMyInfoEvent
+    data class ChangeMainButtonState(val state: MainButtonType) : EditMyInfoEvent
 }

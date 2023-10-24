@@ -1,6 +1,6 @@
 package com.onewx2m.login_signup.ui.signup.termsandconditions
 
-import com.onewx2m.design_system.components.button.MainButtonState
+import com.onewx2m.design_system.components.button.MainButtonType
 import com.onewx2m.mvi.MviViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -61,7 +61,7 @@ class TermsAndConditionsViewModel @Inject constructor() :
     }
 
     fun changeSignUpButtonState(viewState: TermsAndConditionsViewState) {
-        val buttonState = if (viewState.isChildrenItemsAllChecked) MainButtonState.POSITIVE else MainButtonState.DISABLE
+        val buttonState = if (viewState.isChildrenItemsAllChecked) MainButtonType.POSITIVE else MainButtonType.DISABLE
         postSideEffect(TermsAndConditionsSideEffect.ChangeSignUpButtonState(buttonState))
     }
 

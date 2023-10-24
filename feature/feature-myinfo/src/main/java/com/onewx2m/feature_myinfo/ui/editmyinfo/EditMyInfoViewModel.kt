@@ -6,7 +6,7 @@ import com.onewx2m.core_ui.R
 import com.onewx2m.core_ui.util.BuzzzzingUser
 import com.onewx2m.core_ui.util.ImageUtil
 import com.onewx2m.core_ui.util.Regex
-import com.onewx2m.design_system.components.button.MainButtonState
+import com.onewx2m.design_system.components.button.MainButtonType
 import com.onewx2m.design_system.components.textinputlayout.TextInputLayoutState
 import com.onewx2m.domain.Outcome
 import com.onewx2m.domain.collectOutcome
@@ -110,7 +110,7 @@ class EditMyInfoViewModel @Inject constructor(
         )
 
         is EditMyInfoEvent.ChangeMainButtonState -> current.copy(
-            mainButtonState = event.state,
+            mainButtonType = event.state,
         )
 
         EditMyInfoEvent.ShowScrollViewAndHideLottie -> current.copy(
@@ -188,7 +188,7 @@ class EditMyInfoViewModel @Inject constructor(
         this.nickname = nickname
         if (state.value.emailLayoutState == TextInputLayoutState.SUCCESS) {
             postChangeMainButtonStateEvent(
-                MainButtonState.POSITIVE,
+                MainButtonType.POSITIVE,
             )
         }
         postEvent(EditMyInfoEvent.ChangeNicknameLayoutStateSuccess)
@@ -249,7 +249,7 @@ class EditMyInfoViewModel @Inject constructor(
         this.email = email.toString()
         if (state.value.nicknameLayoutState == TextInputLayoutState.SUCCESS) {
             postChangeMainButtonStateEvent(
-                MainButtonState.POSITIVE,
+                MainButtonType.POSITIVE,
             )
         }
         postEvent(EditMyInfoEvent.ChangeEmailLayoutStateSuccess)
@@ -264,9 +264,9 @@ class EditMyInfoViewModel @Inject constructor(
         }
     }
 
-    fun postChangeMainButtonStateEvent(mainButtonState: MainButtonState) {
-        if (isApiCalling && mainButtonState != MainButtonState.LOADING) return
-        postEvent(EditMyInfoEvent.ChangeMainButtonState(mainButtonState))
+    fun postChangeMainButtonStateEvent(mainButtonType: MainButtonType) {
+        if (isApiCalling && mainButtonType != MainButtonType.LOADING) return
+        postEvent(EditMyInfoEvent.ChangeMainButtonState(mainButtonType))
     }
 
     fun goToPrev() {
@@ -284,7 +284,7 @@ class EditMyInfoViewModel @Inject constructor(
     }
 
     fun editMyInfo() = viewModelScope.launch {
-        postEvent(EditMyInfoEvent.ChangeMainButtonState(MainButtonState.LOADING))
+        postEvent(EditMyInfoEvent.ChangeMainButtonState(MainButtonType.LOADING))
         postEvent(EditMyInfoEvent.HideScrollViewAndShowLottie)
         postSideEffect(EditMyInfoSideEffect.PlayLottie)
         postSideEffect(EditMyInfoSideEffect.HideKeyboard)
@@ -321,7 +321,7 @@ class EditMyInfoViewModel @Inject constructor(
     }
 
     private fun handleEditMyInfoFail(outcome: Outcome.Failure<UserInfo>) {
-        postEvent(EditMyInfoEvent.ChangeMainButtonState(MainButtonState.POSITIVE))
+        postEvent(EditMyInfoEvent.ChangeMainButtonState(MainButtonType.POSITIVE))
         postEvent(EditMyInfoEvent.ShowScrollViewAndHideLottie)
         postSideEffect(EditMyInfoSideEffect.StopLottie)
         postSideEffect(

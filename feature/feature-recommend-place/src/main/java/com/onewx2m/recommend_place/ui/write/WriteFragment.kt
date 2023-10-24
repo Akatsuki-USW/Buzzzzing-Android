@@ -149,7 +149,7 @@ class WriteFragment :
             binding.textInputLayoutContent.editText.setSelection(current.content.length)
         }
 
-        binding.buttonMain.state = current.mainButtonState
+        binding.buttonMain.state = current.mainButtonType
 
         pictureAdapter.submitList(current.pictures)
 

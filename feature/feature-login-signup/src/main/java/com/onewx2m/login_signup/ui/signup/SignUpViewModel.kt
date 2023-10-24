@@ -4,7 +4,7 @@ import android.net.Uri
 import androidx.lifecycle.viewModelScope
 import com.onewx2m.core_ui.util.BuzzzzingUser
 import com.onewx2m.core_ui.util.ImageUtil
-import com.onewx2m.design_system.components.button.MainButtonState
+import com.onewx2m.design_system.components.button.MainButtonType
 import com.onewx2m.domain.Outcome
 import com.onewx2m.domain.collectOutcome
 import com.onewx2m.domain.exception.common.CommonException
@@ -38,7 +38,7 @@ class SignUpViewModel @Inject constructor(
 
     override fun reduceState(current: SignUpViewState, event: SignUpEvent): SignUpViewState =
         when (event) {
-            is SignUpEvent.ChangeMainButtonState -> current.copy(mainButtonState = event.mainButtonState)
+            is SignUpEvent.ChangeMainButtonState -> current.copy(mainButtonType = event.mainButtonType)
             is SignUpEvent.ChangeViewPagerPosition -> {
                 if (event.position in viewPagerFirstPosition..viewPagerLastPosition) {
                     current.copy(
@@ -61,9 +61,9 @@ class SignUpViewModel @Inject constructor(
             )
         }
 
-    fun postChangeMainButtonStateEvent(mainButtonState: MainButtonState) {
-        if (isSigningUp && mainButtonState != MainButtonState.LOADING) return
-        postEvent(SignUpEvent.ChangeMainButtonState(mainButtonState))
+    fun postChangeMainButtonStateEvent(mainButtonType: MainButtonType) {
+        if (isSigningUp && mainButtonType != MainButtonType.LOADING) return
+        postEvent(SignUpEvent.ChangeMainButtonState(mainButtonType))
     }
 
     fun onClickMainButton() {
@@ -80,7 +80,7 @@ class SignUpViewModel @Inject constructor(
         postEvent(SignUpEvent.HideViewPagerAndShowLottie)
         postSideEffect(SignUpSideEffect.PlayLottie)
         postSideEffect(SignUpSideEffect.HideKeyboard)
-        postChangeMainButtonStateEvent(MainButtonState.LOADING)
+        postChangeMainButtonStateEvent(MainButtonType.LOADING)
         signUp()
     }
 
@@ -122,7 +122,7 @@ class SignUpViewModel @Inject constructor(
     }
 
     private fun <T> handleSignUpFail(outcome: Outcome.Failure<T>) {
-        postEvent(SignUpEvent.ChangeMainButtonState(MainButtonState.POSITIVE))
+        postEvent(SignUpEvent.ChangeMainButtonState(MainButtonType.POSITIVE))
         postEvent(SignUpEvent.ShowViewPagerAndHideLottie)
         postSideEffect(
             SignUpSideEffect.ShowErrorToast(
@@ -133,13 +133,13 @@ class SignUpViewModel @Inject constructor(
     }
 
     private fun goToNextPage(currentPosition: Int) {
-        postChangeMainButtonStateEvent(MainButtonState.DISABLE)
+        postChangeMainButtonStateEvent(MainButtonType.DISABLE)
         postEvent(SignUpEvent.ChangeViewPagerPosition(currentPosition + 1))
     }
 
     fun onBackPressed() {
         if (isSigningUp) return
-        postChangeMainButtonStateEvent(MainButtonState.POSITIVE)
+        postChangeMainButtonStateEvent(MainButtonType.POSITIVE)
         val currentPosition = state.value.pagerPosition
         if (currentPosition == viewPagerFirstPosition) {
             postSideEffect(SignUpSideEffect.GoToPrevPage)

@@ -41,7 +41,7 @@ import com.onewx2m.core_ui.extensions.addFocusCleaner
 import com.onewx2m.core_ui.util.Constants
 import com.onewx2m.core_ui.util.LaunchedEffectWithLifecycle
 import com.onewx2m.core_ui.util.PermissionManager
-import com.onewx2m.design_system.components.button.MainButtonState
+import com.onewx2m.design_system.components.button.MainButtonType
 import com.onewx2m.design_system.components.snackbar.BuzzErrorToast
 import com.onewx2m.design_system.components.textinputlayout.BuzzTextField
 import com.onewx2m.design_system.modifier.buzzzzingClickable
@@ -60,7 +60,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun ProfileAndNicknameRoute(
     viewModel: ProfileAndNicknameViewModel = hiltViewModel(),
-    postChangeMainButtonStateEvent: (MainButtonState) -> Unit = {},
+    postChangeMainButtonStateEvent: (MainButtonType) -> Unit = {},
     updateSignUpNickname: (String) -> Unit = {},
     updateSignUpProfileUri: (Uri) -> Unit = {},
 ) {

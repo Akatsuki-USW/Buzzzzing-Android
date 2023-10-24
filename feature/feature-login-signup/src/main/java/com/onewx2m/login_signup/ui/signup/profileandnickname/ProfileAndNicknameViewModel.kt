@@ -4,7 +4,7 @@ import android.net.Uri
 import androidx.lifecycle.viewModelScope
 import com.onewx2m.core_ui.R
 import com.onewx2m.core_ui.util.Regex
-import com.onewx2m.design_system.components.button.MainButtonState
+import com.onewx2m.design_system.components.button.MainButtonType
 import com.onewx2m.design_system.components.textinputlayout.TextInputLayoutState
 import com.onewx2m.domain.Outcome
 import com.onewx2m.domain.collectOutcome
@@ -17,7 +17,6 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.async
 import kotlinx.coroutines.cancelAndJoin
 import kotlinx.coroutines.flow.onStart
-import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -154,7 +153,7 @@ class ProfileAndNicknameViewModel @Inject constructor(
         postEvent(ProfileAndNicknameEvent.ChangeNicknameLayoutStateSuccess)
         postSideEffect(
             ProfileAndNicknameSideEffect.ChangeSignUpButtonState(
-                MainButtonState.POSITIVE,
+                MainButtonType.POSITIVE,
             ),
         )
         postSideEffect(ProfileAndNicknameSideEffect.UpdateSignUpNickname(nickname))
@@ -193,7 +192,7 @@ class ProfileAndNicknameViewModel @Inject constructor(
     }
 
     fun postSignUpButtonStateDisableSideEffect() {
-        postSideEffect(ProfileAndNicknameSideEffect.ChangeSignUpButtonState(MainButtonState.DISABLE))
+        postSideEffect(ProfileAndNicknameSideEffect.ChangeSignUpButtonState(MainButtonType.DISABLE))
     }
 
     fun postGetPermissionAndShowImagePickerSideEffect() {

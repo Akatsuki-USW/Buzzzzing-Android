@@ -39,7 +39,7 @@ import com.onewx2m.design_system.theme.GRAY06
 import com.onewx2m.design_system.theme.WHITE01
 import com.onewx2m.design_system.util.runIf
 
-enum class MainButtonState(val backgroundColor: Color, val textColor: Color = WHITE01) {
+enum class MainButtonType(val backgroundColor: Color, val textColor: Color = WHITE01) {
     POSITIVE(
         backgroundColor = BLUE,
     ),
@@ -58,13 +58,13 @@ enum class MainButtonState(val backgroundColor: Color, val textColor: Color = WH
 @Composable
 fun MainButton(
     modifier: Modifier = Modifier,
-    type: MainButtonState = MainButtonState.POSITIVE,
+    type: MainButtonType = MainButtonType.POSITIVE,
     rippleColor: Color = Color.Unspecified,
     text: String,
     onClick: () -> Unit = {},
 ) {
-    val isLoading = type == MainButtonState.LOADING
-    val isClickable = type in listOf(MainButtonState.POSITIVE, MainButtonState.NEGATIVE)
+    val isLoading = type == MainButtonType.LOADING
+    val isClickable = type in listOf(MainButtonType.POSITIVE, MainButtonType.NEGATIVE)
 
     Box(
         modifier = modifier
@@ -115,13 +115,13 @@ fun MainButton(
 fun MainButtonPreview() {
     BuzzzzingTheme {
         Column {
-            MainButton(text = "메인 버튼", type = MainButtonState.POSITIVE)
+            MainButton(text = "메인 버튼", type = MainButtonType.POSITIVE)
             Spacer(modifier = Modifier.size(10.dp))
-            MainButton(text = "메인 버튼", type = MainButtonState.NEGATIVE)
+            MainButton(text = "메인 버튼", type = MainButtonType.NEGATIVE)
             Spacer(modifier = Modifier.size(10.dp))
-            MainButton(text = "메인 버튼", type = MainButtonState.DISABLE)
+            MainButton(text = "메인 버튼", type = MainButtonType.DISABLE)
             Spacer(modifier = Modifier.size(10.dp))
-            MainButton(text = "메인 버튼", type = MainButtonState.LOADING)
+            MainButton(text = "메인 버튼", type = MainButtonType.LOADING)
         }
     }
 }
@@ -146,14 +146,14 @@ class MainButton @JvmOverloads constructor(
             binding.textViewContent.text = field
         }
 
-    var state: MainButtonState = MainButtonState.POSITIVE
+    var state: MainButtonType = MainButtonType.POSITIVE
         set(value) {
             field = value
             when (field) {
-                MainButtonState.POSITIVE -> changeStateToPositive()
-                MainButtonState.NEGATIVE -> changeStateToNegative()
-                MainButtonState.LOADING -> changeStateToLoading()
-                MainButtonState.DISABLE -> changeStateToDisable()
+                MainButtonType.POSITIVE -> changeStateToPositive()
+                MainButtonType.NEGATIVE -> changeStateToNegative()
+                MainButtonType.LOADING -> changeStateToLoading()
+                MainButtonType.DISABLE -> changeStateToDisable()
             }
         }
 
