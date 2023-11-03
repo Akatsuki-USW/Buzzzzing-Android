@@ -13,7 +13,7 @@
 
     <style name="Theme.Buzzzzing.Splash" parent="Theme.SplashScreen">
         <item name="windowSplashScreenBackground">@color/blue</item>
-        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_splash</item>
+        <item name="windowSplashScreenAnimatedIcon">@mipmap/ic_launcher_round</item>
 
         <item name="postSplashScreenTheme">@style/Theme.Buzzzzing</item>
     </style>
