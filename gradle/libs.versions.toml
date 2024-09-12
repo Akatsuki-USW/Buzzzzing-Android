@@ -39,7 +39,7 @@ room = "2.5.2"
 
 timber = "5.0.1"
 encryptedDataStore = "1.7.21-1.0.8-1.1.0-alpha01"
-kakao = "2.14.0"
+kakao = "2.20.6"
 simpleRatingBar = "1.5.1"
 tedImagePicker = "1.4.2"
 tedPermission = "3.3.0"
