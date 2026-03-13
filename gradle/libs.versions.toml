@@ -46,7 +46,7 @@ tedPermission = "3.3.0"
 coil = "2.4.0"
 lottie = "5.0.2"
 mpAndroidChart = "v3.1.0"
-powerMenu = "2.2.2"
+powerMenu = "2.2.4"
 
 ossPlugin = "0.10.6"
 oss = "17.0.1"
